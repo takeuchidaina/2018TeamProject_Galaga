@@ -1,0 +1,24 @@
+#pragma once
+
+#ifndef INCLUDE_STRUCT_
+#define INCLUDE_STRUCT_
+
+typedef struct {
+	double x, y;
+}sPos;
+/*
+typedef struct
+{
+	double ang;
+	double deg;
+	double r;
+	sPos pos;
+	int ActiveFlg;
+	int* Graph;
+	int width;
+	int hight;
+
+}sUtility;*/
+
+
+#endif // INCLUDE_STRUCT_
