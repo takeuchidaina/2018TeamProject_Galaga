@@ -1,4 +1,6 @@
 #include <iostream>
+#include "DxLib.h"
+#include "Interface.h"
 #include "SceneMgr.h"
 
 
@@ -92,6 +94,11 @@ void cSceneMgr::Update() {
 
 		break;
 	}
+
+	if (Interface.Get_Input(InRIGHT) != 0) {
+		DrawFormatString(0, 0, GetColor(255, 255, 255), "→キーが%dフレーム押されています", Interface.Get_Input(InRIGHT));
+	}
+
 }
 
 //描画処理
