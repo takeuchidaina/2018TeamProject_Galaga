@@ -26,8 +26,8 @@ typedef enum {
 
 class cInterface {
 private:
-	int buff[InNONE];
-	eInputType inputType;
+	static int buff[InNONE];
+	static eInputType inputType;
 	cKeyboard tmpKey;
 public:
 	cInterface();

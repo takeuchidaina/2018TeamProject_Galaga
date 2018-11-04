@@ -9,10 +9,15 @@
 class cInGameMgr {
 private:
 	typedef enum {
-		eBefore,//実際ゲームが始まる前のあれ
-		eInGame,
-		//eResult,
-		//ePause,
+		eBefore,	//実際ゲームが始まる前のあれ
+		eInGame,	//ゲーム画面
+		eRevival,	//プレイヤー復活
+		ePause,		//ポーズ画面
+		eTractor,	//きゃとられ中
+		ePReturn,	//プレイヤー帰還
+		eResult,	//リザルト画面
+		eNextStage,	//次のステージへ
+
 		//考え中
 		eInGameNone,
 	}eInGameScene;

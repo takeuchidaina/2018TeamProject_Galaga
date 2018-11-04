@@ -1,6 +1,7 @@
 #include <iostream>
+#include "DxLib.h"
 #include "SceneMgr.h"
-
+#include "Interface.h"
 
 #include "Template.h"
 //改良予定
@@ -23,7 +24,7 @@ void cSceneMgr::Init_Module(eScene scene) {
 	switch (scene) {
 	case eStartMenu:
 		//スタートメニュー
-		test = new cTemplate;
+//		test = new cTemplate;
 		break;
 	case eInGame:
 		//ゲーム画面
@@ -45,7 +46,7 @@ void cSceneMgr::End_Module(eScene scene) {
 	switch (scene) {
 	case eStartMenu:
 		//スタートメニュー
-		delete test;
+//		delete test;
 		break;
 	case eInGame:
 		//ゲーム画面
@@ -77,7 +78,10 @@ void cSceneMgr::Update() {
 	switch (sceneflag) {
 	case eStartMenu:
 		//スタートメニュー
-		test->Update();
+		if (Interfase.Get_Input(InDECISION) != 0) {
+			ChangeScene(eInGame);
+		}
+//		test->Update();
 		break;
 	case eInGame:
 		//ゲーム画面
@@ -99,11 +103,14 @@ void cSceneMgr::Draw() {
 	switch (sceneflag) {
 	case eStartMenu:
 		//スタートメニュー
-		test->Draw();
+		DrawFormatString(0, 0, GetColor(255, 255, 255), "SceneMgr StartMenu");
+		DrawFormatString(200, 400, GetColor(255, 255, 255), "Please press Space key");
+//		test->Draw();
 		break;
 	case eInGame:
 		//ゲーム画面
 		InGameMgr->Draw();
+		DrawFormatString(0, 0, GetColor(255, 255, 255), "SceneMgr InGame");
 		break;
 	case eGameMenu:
 		//ゲームメニュー
