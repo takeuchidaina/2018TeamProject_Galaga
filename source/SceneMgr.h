@@ -2,6 +2,7 @@
 #ifndef _SCENE_MGR_INCLUDE_
 #define _SCENE_MGR_INCLUDE_
 
+#include "Template.h"
 #include "InGameMgr.h"
 #include "Template.h"
 #include "Interface.h"
