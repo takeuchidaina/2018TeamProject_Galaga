@@ -30,14 +30,14 @@ private:
 
 	sEnemy enemy[16];  //構造体変数だっけの宣言
 	int movetype;         //敵の動作タイプ
-
+	void Move(sEnemy&);
+	void Shifted(sEnemy&,sEnemy&);
 
 public:
 	cEnemyMgr();
 	~cEnemyMgr();
 
-	void Move(sEnemy&);
-	void Shifted(sEnemy&,sEnemy);
+
 
 	void Update();
 	void Draw();
