@@ -25,19 +25,30 @@ typedef struct {
 	int count;
 	int onActive;
 	int moveflg;
+	int attackflg;
 	double moveang[10];
 	double countflg[10];
 }sEnemy;
 
 class cBaseEnemy {
-	public:
+public:
         cBaseEnemy();//コンストラクタ
 		 cBaseEnemy(double,double,double,int,double,double,int );	
 		 ~cBaseEnemy();//デストラクタ
 		virtual	int Update();//更新処理
 		virtual int Draw();//描画処理
 		virtual void Move(cBaseEnemy &);
+
+		int GetAttackflg() {
+			return enemy.attackflg;
+		}
+
+		void SetAttackflg() {
+			enemy.attackflg = true;
+		}
+protected:
 		sEnemy enemy;
+
 };
 
 #endif // !_cBaseEnemy_INCLUDE_
