@@ -10,7 +10,7 @@ class cPlayer {
 private:
 
 	int isLRflg;
-	int image[9];
+	//int image[9];
 
 
 protected:
@@ -26,6 +26,7 @@ public:
 	cInterface Interface;
 	sPos player[2];
 	sOBJPos OBJPlayer[2];
+	//”z—ñ‚È‚Ì‚Íˆê‹@‚©“ñ‹@‚©‚Å•Ï‚í‚éˆ×
 
 };
 
