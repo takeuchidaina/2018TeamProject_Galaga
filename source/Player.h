@@ -19,7 +19,8 @@ public:
 	~cPlayer();	//デストラクタ
 	int Update();	//計算処理
 	int Draw();		//描写処理
-	int Double();
+	int Double();   //二機の処理
+	int Break();    //死亡処理
 
 	cInterface Interface;
 
