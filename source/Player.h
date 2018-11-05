@@ -4,12 +4,13 @@
 #define _PLAYER_INCLUDE_
 
 #include "Interface.h"
+#include "Struct.h"
 
 class cPlayer {
 private:
-	int x;
-	int y;
+
 	int isLRflg;
+	int image[9];
 
 
 protected:
@@ -20,11 +21,22 @@ public:
 	int Update();	//ŒvZˆ—
 	int Draw();		//•`Êˆ—
 	int Double();   //“ñ‹@‚Ìˆ—
-	int Break();    //€–Sˆ—
+	int Break(int);    //€–Sˆ—
 
 	cInterface Interface;
+	sPos player[2];
+	sOBJPos OBJPlayer[2];
 
 };
+
+
+//€–S‚©ƒgƒ‰ƒNƒ^[ƒr[ƒ€‚©”»’f
+typedef enum
+{
+	eDeath,
+	eTractorBeam,
+
+}ePlayerBreak;
 
 /*
 struct tPlayer
