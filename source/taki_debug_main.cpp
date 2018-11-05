@@ -5,6 +5,7 @@ using namespace std;
 #include "cBaseEnemy.h"
 #include "cBlueEnemy.h"
 #include "cRedEnemy.h"
+#include "cGreenEnemy.h"
 #include "DxLib.h"
 #include "Struct.h"
 
@@ -18,15 +19,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	
 	cBlueEnemy zako(300, 64, 5, 0, 3, 180, false);
 	cRedEnemy  goei(400,64,5,0,3,180,false);
+	cGreenEnemy boss(500,64,5,0,3,180,false);
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {//画面更新 & メッセージ処理 & 画面消去
 		zako.Update(); 
 		goei.Update();
+		boss.Update();
 	if (zako.enemy.onActive != true) continue;
 	if (goei.enemy.onActive != true) continue;
+	if (boss.enemy.onActive != true) continue;
 	
 		
 		zako.Move(zako);
 		goei.Move(goei);
+		boss.Move(boss);
+
 		DrawFormatString(100, 0, GetColor(255, 255, 255), "%.1lf", zako.enemy.pos.x);
 		DrawFormatString(150, 0, GetColor(255, 255, 255), "%.1lf", zako.enemy.pos.y);
 		DrawFormatString(100, 15, GetColor(255, 255, 255), "%.1lf", zako.enemy.vct.x);
@@ -51,6 +57,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		zako.Draw();
 		goei.Draw();
+		boss.Draw();
 	}
 
 	WaitKey();
