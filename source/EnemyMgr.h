@@ -1,8 +1,7 @@
 #pragma once
-#pragma once
-#ifndef _INGAME_MGR_INCLUDE_
-#define _INGAME_MGR_INCLUDE_
 
+#ifndef INGAME_MGR_INCLUDE_
+#define INGAME_MGR_INCLUDE_
 
 class cEnemyMgr {
 private:
@@ -23,7 +22,7 @@ private:
 	int countflag[3];     //特定のフレーム数をあれする配列
 	int RLflag;           //左右を判定するフラグ
 	sPos target;          //目標位置の座標
-	double targetr;       //目標位置の半径(当たり判定に利用)
+	int targetr;       //目標位置の半径(当たり判定に利用)
 	int onactive;         //表示・非表示の判定
 	//int enemytype[3];     //敵の種類(3種分)
 	}sEnemy;
@@ -37,11 +36,8 @@ public:
 	cEnemyMgr();
 	~cEnemyMgr();
 
-
-
 	void Update();
 	void Draw();
 
 };
-
-#endif
+#endif // !_INGAME_MGR_INCLUDE_

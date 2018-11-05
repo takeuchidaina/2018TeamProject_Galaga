@@ -1,6 +1,6 @@
 #include "EnemyMgr.h"
-#include <DXlib.h>
-#include "math.h"
+#include <Dxlib.h>
+#include <math.h>
 
 //コンストラクタ
 cEnemyMgr::cEnemyMgr() {
@@ -14,15 +14,17 @@ cEnemyMgr::cEnemyMgr() {
 		enemy[i].speed = 3;
 		enemy[i].moveflag = 0;
 		enemy[i].maxmove = 3;
+		memset(enemy[i].moveangle, 0, sizeof(enemy[i].moveangle));
 		enemy[i].moveangle[0] = 0.5;
 		enemy[i].moveangle[1] = 0;
 		enemy[i].moveangle[2] = -2.5;
+		memset(enemy[i].countflag, 0, sizeof(enemy[i].countflag));
 		enemy[i].countflag[0] = 100;
 		enemy[i].countflag[1] = 20;
 		enemy[i].countflag[2] = 90;
 		enemy[i].RLflag = 1;
-		enemy[i].target.x = 320.0;
-		enemy[i].target.y = 64.0;
+		enemy[i].target.x = 320 + i / 2 * 32;
+		enemy[i].target.y = 64 + (i % 2) * 32;
 		enemy[i].targetr = 1;
 		enemy[i].onactive = 0;
 	}
@@ -32,6 +34,7 @@ cEnemyMgr::cEnemyMgr() {
 	if (movetype == 1) {
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 			if (i < 8) {
+				enemy[i].count = 0 - (i % 8 / 2) * 20;
 				enemy[i].target.x = 160 + 32 + (i + 8) / 2 * 32;
 				continue;
 			}
@@ -78,7 +81,7 @@ void cEnemyMgr::Update() {
 			if (i % 2 == 1) Shifted(enemy[i], enemy[i - 1]);
 
 			//一定のフレーム数になったら次の動作へ移行する
-			if (enemy[i].countflag[enemy[i].moveflag] <= enemy[i].count) {
+			if (enemy[i].countflag[enemy[i].moveflag] == enemy[i].count) {
 				enemy[i].moveflag++;
 				//フレームカウントをリセットする
 				enemy[i].count = 0;
@@ -87,10 +90,12 @@ void cEnemyMgr::Update() {
 					enemy[i].moveflag = 10;
 				}
 			}
+		} //敵一体ごとの入場動作終了
 		//moveflagが10になった場合、目標位置まで移動
 			if (enemy[i].moveflag == 10) {
-				enemy[i].angle=atan2(enemy[i].target.y - enemy[i].pos.y, enemy[i].target.x - enemy[i].pos.x); Move(enemy[i]);
-				if ((enemy[i].target.x - enemy[i].pos.x)*(enemy[i].target.x - enemy[i].pos.x)*
+				enemy[i].angle = atan2(enemy[i].target.y - enemy[i].pos.y, enemy[i].target.x - enemy[i].pos.x); 
+				Move(enemy[i]);
+				if ((enemy[i].target.x - enemy[i].pos.x)*(enemy[i].target.x - enemy[i].pos.x) +
 					(enemy[i].target.y - enemy[i].pos.y)*(enemy[i].target.y - enemy[i].pos.y) <=
 					(enemy[i].r - 3 + enemy[i].targetr)*(enemy[i].r - 3 + enemy[i].targetr)) {
 					enemy[i].pos.x = enemy[i].target.x;
@@ -98,16 +103,23 @@ void cEnemyMgr::Update() {
 					enemy[i].moveflag++;
 					enemy[i].count = 0;
 				}
+				/*else {
+					enemy[i].pos.x = enemy[i].target.x;
+					enemy[i].pos.y = enemy[i].target.y;
+				}*/
 		    } //例外処理終了
-		} //敵一体ごとの入場動作終了
 	} //配列数分の敵動作終了
-
 
 }
 
-	void cEnemyMgr:: Move(sEnemy& enemy) {
-		//角度から敵の動く方向を算出する
+	void cEnemyMgr::Move(sEnemy& enemy) {
+		//角度から動く方向の座標を計算する
 		enemy.v.x = cos(enemy.angle);
+		enemy.v.y = sin(enemy.angle);
+
+		//座標に移動方向と速度を加算させる
+		enemy.pos.x += enemy.v.x * enemy.speed;
+		enemy.pos.y += enemy.v.y * enemy.speed;
 	}
 
 	//二列目の敵を横にずらす
@@ -124,11 +136,13 @@ void cEnemyMgr::Update() {
 
 //描写処理
 void cEnemyMgr::Draw() {
-	DrawFormatString(0, 0, GetColor(255, 255, 255), "x=%.1lf y=%.1lf",enemy[0].pos.x,enemy[0].pos.y);
+	DrawFormatString(0, 20, GetColor(255, 255, 255), "[0]:x=%.1lf y=%.1lf",enemy[0].pos.x,enemy[0].pos.y);
+	DrawFormatString(0, 40, GetColor(255, 255, 255), "[7]:x=%.1lf y=%.1lf", enemy[7].pos.x, enemy[7].pos.y);
+	DrawFormatString(0, 60, GetColor(255, 255, 255), "atan2=%.3lf", atan2(enemy[0].target.y - enemy[0].pos.y, enemy[0].target.x - enemy[0].pos.x));
 	
 	for (int i = 0; i < sizeof(enemy) / sizeof(*enemy); i++) {
 		//敵配列の描画
-		if (i < 8) {
+		if (i % 2 == 0) {
 			DrawCircle(enemy[i].pos.x, enemy[i].pos.y, enemy[i].r, GetColor(255, 255, 255), TRUE);
 		}
 		else {
@@ -137,23 +151,3 @@ void cEnemyMgr::Draw() {
 
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
