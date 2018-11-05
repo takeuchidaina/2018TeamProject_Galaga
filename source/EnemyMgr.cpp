@@ -102,18 +102,40 @@ void cEnemyMgr::Update() {
 		} //敵一体ごとの入場動作終了
 	} //配列数分の敵動作終了
 
-	void Move(sEnemy& enemy) {
+
+}
+
+	void cEnemyMgr:: Move(sEnemy& enemy) {
 		//角度から敵の動く方向を算出する
 		enemy.v.x = cos(enemy.angle);
 	}
-}
+
+	//二列目の敵を横にずらす
+	void cEnemyMgr::Shifted(sEnemy& ene1, sEnemy& ene2) {
+		//一列目の座標に二列目の敵の座標をコピーする
+		ene1.pos.x = ene2.pos.x;
+		ene1.pos.y = ene2.pos.y;
+
+		//進行方向(angle)に対して90度の角度(RLflag)で30ドットずらす(*30)
+		ene1.pos.x += cos(ene1.angle + 90 * 3.1415 / 180 * ene1.RLflag) * 30;
+		ene1.pos.y += sin(ene1.angle + 90 * 3.1415 / 180 * ene1.RLflag) * 30;
+	}
+
 
 //描写処理
 void cEnemyMgr::Draw() {
 	DrawFormatString(0, 0, GetColor(255, 255, 255), "x=%.1lf y=%.1lf",enemy[0].pos.x,enemy[0].pos.y);
-	//敵配列の描画
-	DrawCircle(enemy[0].pos.x, enemy[0].pos.y, enemy[0].r, GetColor(255, 255, 255), TRUE);
 	
+	for (int i = 0; i < sizeof(enemy) / sizeof(*enemy); i++) {
+		//敵配列の描画
+		if (i < 8) {
+			DrawCircle(enemy[i].pos.x, enemy[i].pos.y, enemy[i].r, GetColor(255, 255, 255), TRUE);
+		}
+		else {
+			DrawCircle(enemy[i].pos.x, enemy[i].pos.y, enemy[i].r, GetColor(255, 0, 0), TRUE);
+		}
+
+	}
 }
 
 
