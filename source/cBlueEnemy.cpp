@@ -199,7 +199,7 @@ int cBlueEnemy::Update() {
 int cBlueEnemy::Draw() {
 
 	DrawFormatString(0, 100, GetColor(255, 255, 255), "%d", enemy.count);
-	DrawCircle(enemy.pos.x, enemy.pos.y, 5, GetColor(0, 0, 255), true);
+	DrawCircle((int)enemy.pos.x, (int)enemy.pos.y, 5, GetColor(0, 0, 255), true);
 	DrawCircle(enemy.target.x, enemy.target.y, enemy.targetr, GetColor(0, 0, 255), true);
 	return 0;
 }
