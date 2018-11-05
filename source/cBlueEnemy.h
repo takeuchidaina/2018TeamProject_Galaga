@@ -5,7 +5,7 @@
 #include "cBaseEnemy.h"
 
 class cBlueEnemy : public cBaseEnemy {
-public:
+	public :
 	cBlueEnemy(double, double, double, int, double, double, int);
 	virtual void Move(cBlueEnemy &);
 	virtual int Update();
