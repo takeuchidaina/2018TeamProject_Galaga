@@ -4,12 +4,13 @@
 #define _PLAYER_INCLUDE_
 
 #include "Interface.h"
+#include "Struct.h"
 
 class cPlayer {
 private:
-	int x;
-	int y;
+
 	int isLRflg;
+	//int image[9];
 
 
 protected:
@@ -20,11 +21,23 @@ public:
 	int Update();	//計算処理
 	int Draw();		//描写処理
 	int Double();   //二機の処理
-	int Break();    //死亡処理
+	int Break(int);    //死亡処理
 
 	cInterface Interface;
+	sPos player[2];
+	sOBJPos OBJPlayer[2];
+	//配列なのは一機か二機かで変わる為
 
 };
+
+
+//死亡かトラクタービームか判断
+typedef enum
+{
+	eDeath,
+	eTractorBeam,
+
+}ePlayerBreak;
 
 /*
 struct tPlayer

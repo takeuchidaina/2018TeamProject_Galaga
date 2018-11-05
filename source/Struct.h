@@ -4,8 +4,21 @@
 #define INCLUDE_STRUCT_
 
 typedef struct {
+
 	double x, y;
+
 }sPos;
+
+typedef struct
+{
+	sPos pos;
+	double r, cx, cy;
+	int onActive;
+
+
+}sOBJPos;
+
+
 /*
 typedef struct
 {
