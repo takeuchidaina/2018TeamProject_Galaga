@@ -30,8 +30,8 @@ class cBaseEnemy {
 		 cBaseEnemy(double,double,double,int,double,double,int );
 		 ~cBaseEnemy();//デストラクタ
 		virtual	int Update();//更新処理
-		 int Draw();//描画処理
-		 void Move(cBaseEnemy &);
+		virtual int Draw();//描画処理
+		virtual void Move(cBaseEnemy &);
 		sEnemy enemy;
 };
 
