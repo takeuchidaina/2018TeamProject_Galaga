@@ -23,7 +23,15 @@ int cShotMgr::Update() {
 	for (int i = 0; i < sizeof(playerShot) / sizeof*(playerShot); i++) {
 		playerShot[i].Update();
 	}
-
+	if (CheckHitKey(KEY_INPUT_SPACE) == 1) {
+		for (int i = 0; i < sizeof*(playerShot); i++) {
+			if( playerShot[i].Get_OnActive() == false) {
+				playerShot[i].Set_OnActive(1);//0=false,1=true
+				//プレイヤーの座標を受け取って座標をセット
+				break;
+			}
+		}
+	}
 	return 0;
 }
 
@@ -34,7 +42,6 @@ int cShotMgr::Draw() {
 	for (int i = 0; i < sizeof(playerShot) / sizeof*(playerShot); i++) {
 		playerShot[i].Draw();
 	}
-
 	return 0;
 }
 

@@ -17,7 +17,7 @@ void Swap(TYPE& a, TYPE& b) {
 
 class cShot {
 private:
-	double x, y, r, w ,h,c,rad;
+	double x, y, vx,vy,cx,cy,s,r, w ,h,rad;
 	int OnActive;
 	
 protected:
@@ -27,7 +27,10 @@ public:
 	~cShot();	//デストラクタ
 	int Update();	//計算処理
 	int Draw();		//描写処理
-	inline int Get_OnActive();
+	inline int Get_OnActive() { return OnActive; }//OnActiveの獲得
+	void Set_OnActive(int tmp) { OnActive = tmp; }
+	void Set_Width(int tmp) { w = tmp; }
+	void Set_Height(int tmp) { h = tmp; }
 /*
 //宣言例
 private:

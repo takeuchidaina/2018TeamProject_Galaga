@@ -1,13 +1,11 @@
 #include "Shot.h"
-#include "DXlib.h"
+#include "DxLib.h"
 
 //Templateクラスの実装
 
 //コンストラクタ(初期化)
 cShot::cShot(){
-	x=y=r=w=h=c=0;
 	OnActive=0;
-
 }
 
 //デストラクタ
@@ -16,15 +14,13 @@ cShot::~cShot() {
 }
 
 int cShot::Update() {
-	y++;
+	//xとyの移動(ラジアンでベクトルを計算)
 	return 0;
 }
 
 int cShot::Draw() {
 	return 0;
 }
-
-
 
 /*
 //実装例
