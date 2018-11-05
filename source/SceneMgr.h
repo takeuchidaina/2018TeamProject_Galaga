@@ -7,6 +7,7 @@
 #include "Template.h"
 #include "Interface.h"
 
+
 //‚±‚ê‚Í•Ê‚Éƒwƒbƒ_[‚ğì‚Á‚Ä‚à‚¢‚¢
 typedef enum {
 	eStartMenu,
