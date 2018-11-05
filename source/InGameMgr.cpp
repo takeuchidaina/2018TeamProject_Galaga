@@ -16,9 +16,57 @@ cInGameMgr::~cInGameMgr() {
 //指定モジュールの初期化処理
 void cInGameMgr::Init_Module(eInGameScene scene) {
 	switch (scene) {
-	case eBefore:
+	case eBefore://実際ゲームが始まる前のあれ
+		//
+		break;						
+	case eInGame://ゲーム画面
 		//
 		break;
+	case eRevival://プレイヤー復活
+		//
+		break;
+	case ePause://ポーズ画面
+		//
+		break;
+	case eTractor://きゃとられ中
+		//
+		break;
+	case ePReturn://プレイヤー帰還
+		//
+		break;
+	case eResult://リザルト画面
+		//
+		break;
+	case eNextStage://次のステージへ
+		//
+		break;
+		/*
+	case eBefore://実際ゲームが始まる前のあれ
+		//
+		break;						
+	case eInGame://ゲーム画面
+		//
+		break;
+	case eRevival://プレイヤー復活
+		//
+		break;
+	case ePause://ポーズ画面
+		//
+		break;
+	case eTractor://きゃとられ中
+		//
+		break;
+	case ePReturn://プレイヤー帰還
+		//
+		break;
+	case eResult://リザルト画面
+		//
+		break;
+	case eNextStage://次のステージへ
+		//
+		break;
+
+		*/
 		/*
 		//コピペテンプレート
 	case :
@@ -31,7 +79,28 @@ void cInGameMgr::Init_Module(eInGameScene scene) {
 //指定モジュールの終了処理
 void cInGameMgr::End_Module(eInGameScene scene) {
 	switch (scene) {
-	case eBefore:
+	case eBefore://実際ゲームが始まる前のあれ
+		//
+		break;
+	case eInGame://ゲーム画面
+		//
+		break;
+	case eRevival://プレイヤー復活
+		//
+		break;
+	case ePause://ポーズ画面
+		//
+		break;
+	case eTractor://きゃとられ中
+		//
+		break;
+	case ePReturn://プレイヤー帰還
+		//
+		break;
+	case eResult://リザルト画面
+		//
+		break;
+	case eNextStage://次のステージへ
 		//
 		break;
 	}
@@ -46,16 +115,58 @@ void cInGameMgr::Update() {
 		Init_Module(sceneflag);
 	}
 	switch (sceneflag) {
-	case eBefore:
-			//
-			break;
+	case eBefore://実際ゲームが始まる前のあれ
+		//
+		break;
+	case eInGame://ゲーム画面
+		//
+		break;
+	case eRevival://プレイヤー復活
+		//
+		break;
+	case ePause://ポーズ画面
+		//
+		break;
+	case eTractor://きゃとられ中
+		//
+		break;
+	case ePReturn://プレイヤー帰還
+		//
+		break;
+	case eResult://リザルト画面
+		//
+		break;
+	case eNextStage://次のステージへ
+		//
+		break;
 	}
 }
 
 //描写処理
 void cInGameMgr::Draw() {
 	switch (sceneflag) {
-	case eBefore:
+	case eBefore://実際ゲームが始まる前のあれ
+		//
+		break;
+	case eInGame://ゲーム画面
+		//
+		break;
+	case eRevival://プレイヤー復活
+		//
+		break;
+	case ePause://ポーズ画面
+		//
+		break;
+	case eTractor://きゃとられ中
+		//
+		break;
+	case ePReturn://プレイヤー帰還
+		//
+		break;
+	case eResult://リザルト画面
+		 //
+		break;
+	case eNextStage://次のステージへ
 		//
 		break;
 	}
@@ -64,22 +175,5 @@ void cInGameMgr::Draw() {
 void cInGameMgr::ChangeScene(eInGameScene nextScene) {
 	next_Sceneflag = nextScene;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

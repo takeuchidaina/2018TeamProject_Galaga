@@ -20,9 +20,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		SceneMgr.Update();
 		SceneMgr.Draw();
 
-		if (Interfase.Get_Input(InRIGHT) != 0) {
-			DrawFormatString(0, 0, GetColor(255,255,255),"→キーが%dフレーム押されています", Interfase.Get_Input(InRIGHT));
-		}
+		//if (Interfase.Get_Input(InRIGHT) != 0) {
+		//	DrawFormatString(0, 0, GetColor(255,255,255),"→キーが%dフレーム押されています", Interfase.Get_Input(InRIGHT));
+		//}
 
 	}
 

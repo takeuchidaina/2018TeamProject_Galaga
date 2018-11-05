@@ -2,7 +2,10 @@
 #ifndef _SCENE_MGR_INCLUDE_
 #define _SCENE_MGR_INCLUDE_
 
+#include "Template.h"
 #include "InGameMgr.h"
+#include "Template.h"
+#include "Interface.h"
 
 //‚±‚ê‚Í•Ê‚Éƒwƒbƒ_[‚ğì‚Á‚Ä‚à‚¢‚¢
 typedef enum {
@@ -11,7 +14,7 @@ typedef enum {
 	eGameMenu,
 	eResult,
 
-	eSceneNone,
+	eSceneNone
 }eScene;
 //‚±‚±‚Ü‚Å
 
@@ -26,6 +29,7 @@ private:
 
 	cTemplate* test;
 	cInGameMgr* InGameMgr;
+	cInterface Interfase;
 
 public:
 	cSceneMgr();

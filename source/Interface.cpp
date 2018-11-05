@@ -3,11 +3,13 @@
 #include "Keyboard.h"
 
 
+int cInterface::buff[InNONE];
+eInputType cInterface::inputType;
+
 
 cInterface::cInterface() {
 	inputType = InKeyboard;
 }
-
 
 //ì config‚Å‘Î‰‚³‚¹‚é
 void cInterface::Update() {

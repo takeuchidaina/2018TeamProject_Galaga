@@ -7,6 +7,10 @@
 #include "DxLib.h"
 
 typedef struct {
+	enum eRF {
+		RIGHT = 1,
+		LEFT = -1,
+	};
 	sPos vct;
 	sPos pos;
 	sPos target;
@@ -15,6 +19,7 @@ typedef struct {
 	double ang;
 	int* graph;
 	int r;
+	int dir = 1;//1　右　-1　左
 	int width;
 	int hight;
 	int count;
@@ -27,7 +32,7 @@ typedef struct {
 class cBaseEnemy {
 	public:
         cBaseEnemy();//コンストラクタ
-		 cBaseEnemy(double,double,double,int,double,double,int );
+		 cBaseEnemy(double,double,double,int,double,double,int );	
 		 ~cBaseEnemy();//デストラクタ
 		virtual	int Update();//更新処理
 		virtual int Draw();//描画処理
