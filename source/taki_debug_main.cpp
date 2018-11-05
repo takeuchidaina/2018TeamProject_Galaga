@@ -32,7 +32,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		zako.Move(zako);
 		goei.Move(goei);
 		boss.Move(boss);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c435cc0f7a627fd228fb34e7fb13a0f3203c279
 		DrawFormatString(100, 0, GetColor(255, 255, 255), "%.1lf", zako.enemy.pos.x);
 		DrawFormatString(150, 0, GetColor(255, 255, 255), "%.1lf", zako.enemy.pos.y);
 		DrawFormatString(100, 15, GetColor(255, 255, 255), "%.1lf", zako.enemy.vct.x);
