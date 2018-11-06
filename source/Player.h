@@ -6,11 +6,15 @@
 #include "Interface.h"
 #include "Struct.h"
 
+#define SPEED 3
+#define IMAGEMAG 32 //‰æ‘œ”{—¦
+
 class cPlayer {
 private:
 
 	int isLRflg;
-	//int image[9];
+	int isDoubleFlg;
+	int image[2];
 
 
 protected:
@@ -25,7 +29,7 @@ public:
 
 	cInterface Interface;
 	sPos player[2];
-	sOBJPos OBJPlayer[2];
+	//sOBJPos OBJPlayer[2];
 	//”z—ñ‚È‚Ì‚Íˆê‹@‚©“ñ‹@‚©‚Å•Ï‚í‚éˆ×
 
 };
