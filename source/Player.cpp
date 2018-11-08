@@ -83,11 +83,6 @@ int cPlayer::Update()
 		cPlayer::Break(eDoubleDeath);	// O を押したら二機目が死ぬ
 	}
 
-
-	
-	//フラグの値が1か-1なので向きが変わる
-	//OBJPlayer[0].pos.x += (SPEED * isLRflg);
-	
 	//二機目がアクティブなら座標更新
 	if(OBJPlayer[1].onActive == true)
 	{
@@ -96,19 +91,18 @@ int cPlayer::Update()
 		OBJPlayer[1].cy = OBJPlayer[1].pos.y + (IMAGEMAG / 2);
 	}
 	
-
-	for (int i = 0; i < 2; i++)
+	//移動の計算
+	for (int i = 0; i < MAXMACHINE; i++)
 	{
+		//アクティブ状態ではないなら次へ
 		if (OBJPlayer[i].onActive == false)
 		{
 			continue;
 		}
 
+		//フラグの値が1か-1なので向きが変わる
 		OBJPlayer[i].pos.x += (SPEED * isLRflg);
 	}
-
-	//右側が生きてるのに左側が死んだら誰も居なくなってしまうので改良が必要
-	//JSみたいにonActiveでコンティニューする感じでできそう(?)
 	
 
 	return 0;
@@ -122,23 +116,8 @@ int cPlayer::Update()
 *************************************************************************/
 int cPlayer::Draw()
 {
-	/*
-	//一機
-	if (isDoubleFlg == false)
-	{
-		DrawExtendGraph(OBJPlayer[0].pos.x, OBJPlayer[0].pos.y, OBJPlayer[0].pos.x + IMAGEMAG, OBJPlayer[0].pos.y +IMAGEMAG, image[0], TRUE);
-	}
-	//二機
-	else
-	{
-		DrawExtendGraph(OBJPlayer[0].pos.x, OBJPlayer[0].pos.y, OBJPlayer[0].pos.x + IMAGEMAG, OBJPlayer[0].pos.y + IMAGEMAG, image[0], TRUE);
-		DrawExtendGraph(OBJPlayer[1].pos.x, OBJPlayer[1].pos.y, OBJPlayer[1].pos.x + IMAGEMAG, OBJPlayer[1].pos.y + IMAGEMAG, image[1], TRUE);
-	}
-	
-	}
-	*/
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < MAXMACHINE; i++)
 	{
 
 		if (OBJPlayer[i].onActive == false)
@@ -158,7 +137,6 @@ int cPlayer::Draw()
 
 #ifndef _DEBUG
 
-	//DrawFormatString(200, 420, GetColor(255, 0, 0), "flg:%d", isLRflg);
 	DrawFormatString(200, 440, GetColor(255, 0, 0), "x:%4.2lf", player[0].x);
 	DrawFormatString(200, 460, GetColor(255, 0, 0), "y:%4.2lf", player[0].y);
 
@@ -198,7 +176,6 @@ int cPlayer::Break(int judgeBreak)
 	if (judgeBreak == eDoubleDeath)
 	{
 		//画像の表示の変化
-		//isDoubleFlg = false;
 		//どっちが死んだかの判断とonActive
 	}
 	else if (judgeBreak == eDeath)

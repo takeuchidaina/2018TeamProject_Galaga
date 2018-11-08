@@ -6,14 +6,14 @@
 #include "Interface.h"
 #include "Struct.h"
 
-#define SPEED 3     //プレイヤーのスピード
-#define IMAGEMAG 48 //画像倍率
+#define SPEED 3			//プレイヤーのスピード
+#define IMAGEMAG 48		//画像倍率
+#define MAXMACHINE 2	//プレイヤーは二機まで(三機にならない)
 
 class cPlayer {
 private:
 
 	int isLRflg;
-	//int isDoubleFlg;
 	int image[2];
 
 
@@ -29,7 +29,6 @@ public:
 	int Break(int);    //死亡処理
 
 	cInterface Interface;
-	//sPos player[2];
 	sOBJPos OBJPlayer[2];
 	//配列なのは一機か二機かで変わる為
 
