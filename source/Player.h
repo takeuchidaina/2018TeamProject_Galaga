@@ -13,9 +13,9 @@
 class cPlayer {
 private:
 
-	int isLRflg;
+	int isLRflg;   // 0:ˆÚ“®‚È‚µ -1:¶ 1:‰E
 	int image[2];
-
+	int UIsize;
 
 protected:
 

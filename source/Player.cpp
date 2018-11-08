@@ -24,7 +24,9 @@ cPlayer::cPlayer()
 
 	//フラグ
 	isLRflg = false;      // 0:移動なし  1:右  -1:左
-	//isDoubleFlg = false;  // 0:一機  1:二機
+
+	//UIの白い線
+	UIsize = (1280 / 4 * 3) - 50;
 	
 	//画像の読み込みと分割
 	LoadDivGraph("../resource/Image/Galaga_OBJ_dualFighter.png", 2, 2, 1, 16, 16, image);
@@ -84,6 +86,21 @@ int cPlayer::Update()
 		OBJPlayer[i].pos.x += (SPEED * isLRflg);
 		OBJPlayer[i].cx = OBJPlayer[0].pos.x + (IMAGEMAG / 2);
 
+		//壁の設定
+		if (OBJPlayer[i].pos.x <= 0)
+		{
+			OBJPlayer[i].pos.x = 0;
+		}
+		if (OBJPlayer[i].pos.x + IMAGEMAG >= UIsize)
+		{
+			//二機ともアクティブ状態なら
+			if (OBJPlayer[0].onActive == true && OBJPlayer[1].onActive == true)
+			{
+				OBJPlayer[0].pos.x = UIsize - IMAGEMAG*2;
+				OBJPlayer[1].pos.x = UIsize - IMAGEMAG;
+			}
+			OBJPlayer[i].pos.x = UIsize - IMAGEMAG;
+		}
 	}
 
 
@@ -138,12 +155,11 @@ int cPlayer::Draw()
 
 	}
 
+//DEBUG
 	//UIの枠組みの白線
-	int size ;
-	size = (1280 / 4 * 3)-50;
-	DrawLine(size,0,size,960,GetColor(255,255,255));
+	DrawLine(UIsize,0,UIsize,960,GetColor(255,255,255));
 
-
+	//座標の表示
 	DrawFormatString(920, 200, GetColor(255, 0, 0), "一機目x:%4.2lf", OBJPlayer[0].pos.x);
 	DrawFormatString(920, 220, GetColor(255, 0, 0), "一機目cx:%4.2lf", OBJPlayer[0].cx);
 	DrawFormatString(920, 240, GetColor(255, 0, 0), "一機目onActive:%d", OBJPlayer[0].onActive);
