@@ -71,26 +71,6 @@ int cPlayer::Update()
 		isLRflg = 0;
 	}
 
-
-	//DEBUG
-	if (Interface.Get_Input(InDEBUG1) != 0)
-	{
-		cPlayer::Double();		// I を押したら二機になる
-	}
-
-	if (Interface.Get_Input(InDEBUG2) != 0)
-	{
-		cPlayer::Break(eDoubleDeath);	// O を押したら二機目が死ぬ
-	}
-
-	//二機目がアクティブなら座標更新
-	if(OBJPlayer[1].onActive == true)
-	{
-		OBJPlayer[1].pos.x = OBJPlayer[0].pos.x + IMAGEMAG;
-		OBJPlayer[1].cx = OBJPlayer[1].pos.x + (IMAGEMAG / 2);
-		OBJPlayer[1].cy = OBJPlayer[1].pos.y + (IMAGEMAG / 2);
-	}
-	
 	//移動の計算
 	for (int i = 0; i < MAXMACHINE; i++)
 	{
@@ -102,7 +82,35 @@ int cPlayer::Update()
 
 		//フラグの値が1か-1なので向きが変わる
 		OBJPlayer[i].pos.x += (SPEED * isLRflg);
+		OBJPlayer[i].cx = OBJPlayer[0].pos.x + (IMAGEMAG / 2);
+
 	}
+
+
+//DEBUG
+	//キー
+	if (Interface.Get_Input(InDEBUG1) != 0)
+	{
+		cPlayer::Double();		// I を押したら二機になる
+	}
+
+	else if (Interface.Get_Input(InDEBUG2) != 0)
+	{
+		cPlayer::Break(eDoubleDeath,eLeftMachine);	// O を押したら一機目が死ぬ
+	}
+	else if (Interface.Get_Input(InDEBUG3) != 0)
+	{
+		cPlayer::Break(eDoubleDeath,eRightMachine);	// P を押したら二機目が死ぬ
+	}
+
+	//両方撃破されたら
+	if (OBJPlayer[0].onActive == false && OBJPlayer[1].onActive == false)
+	{
+		cPlayer::Break(eDeath, eDouble);
+	}
+
+	
+
 	
 
 	return 0;
@@ -135,12 +143,18 @@ int cPlayer::Draw()
 	size = (1280 / 4 * 3)-50;
 	DrawLine(size,0,size,960,GetColor(255,255,255));
 
-#ifndef _DEBUG
 
-	DrawFormatString(200, 440, GetColor(255, 0, 0), "x:%4.2lf", player[0].x);
-	DrawFormatString(200, 460, GetColor(255, 0, 0), "y:%4.2lf", player[0].y);
+	DrawFormatString(920, 200, GetColor(255, 0, 0), "一機目x:%4.2lf", OBJPlayer[0].pos.x);
+	DrawFormatString(920, 220, GetColor(255, 0, 0), "一機目cx:%4.2lf", OBJPlayer[0].cx);
+	DrawFormatString(920, 240, GetColor(255, 0, 0), "一機目onActive:%d", OBJPlayer[0].onActive);
+	
 
-#endif 
+	DrawFormatString(920, 260, GetColor(255, 0, 0), "二機目x:%4.2lf", OBJPlayer[1].pos.x);
+	DrawFormatString(920, 280, GetColor(255, 0, 0), "二機目cx:%4.2lf", OBJPlayer[1].cx);
+	DrawFormatString(920, 300, GetColor(255, 0, 0), "二機目onActive:%d", OBJPlayer[1].onActive);
+
+
+
 
 
 
@@ -155,12 +169,15 @@ int cPlayer::Draw()
 *************************************************************************/
 int cPlayer::Double()
 {
-	//画像の表示が二機になる
-	//isDoubleFlg = true;
+	//二機目の座標を更新し状態をアクティブへ
+	OBJPlayer[1].pos.x = OBJPlayer[0].pos.x + IMAGEMAG;
+	OBJPlayer[1].cx = OBJPlayer[1].pos.x + (IMAGEMAG / 2);
+	OBJPlayer[1].cy = OBJPlayer[1].pos.y + (IMAGEMAG / 2);
 	OBJPlayer[1].onActive = true;
 
-	//cx,cy等の更新
-
+	//問題点:二回目の二機の時に座標が初期座標になるので配列を増やして三機目の情報を入れないといけないかもしれない。
+	//ややこしくなるから他の方法を探す
+	//他の関数を作ってプレイヤーの一機目を生成するやつを作ってもいいかも？
 
 	return 0;
 }
@@ -171,21 +188,34 @@ int cPlayer::Double()
   引数: int
 戻り値: 無し
 *************************************************************************/
-int cPlayer::Break(int judgeBreak)
+int cPlayer::Break(int judgeBreak ,int machineNum)
 {
+	//二機の状態で片方が死んだら
 	if (judgeBreak == eDoubleDeath)
 	{
-		//画像の表示の変化
-		//どっちが死んだかの判断とonActive
+		//撃破された方を非アクティブに
+		if (machineNum == eLeftMachine)
+		{
+			OBJPlayer[0].onActive = false;
+		}
+		else
+		{
+			OBJPlayer[1].onActive = false;
+		}
+
 	}
+	//一機の状態で死んだら
 	else if (judgeBreak == eDeath)
 	{
-		//死亡処理
-		//onActiveの処理
+		//残機によって、マシーンの生成又は終了処理
+
+		//DEBUG
+		DrawFormatString(600, 500, GetColor(255, 0, 0), "GAME OVER");
 	}
+	//トラクタービームに攫われたら
 	else if(judgeBreak == eTractorBeam)
 	{
-		//トラクタービームに攫われる処理
+		////////////////////////////////
 	}
 
 	return 0;

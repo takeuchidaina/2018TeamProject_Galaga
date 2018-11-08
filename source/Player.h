@@ -26,7 +26,7 @@ public:
 	int Update();	//計算処理
 	int Draw();		//描写処理
 	int Double();   //二機の処理
-	int Break(int);    //死亡処理
+	int Break(int,int);    //死亡処理
 
 	cInterface Interface;
 	sOBJPos OBJPlayer[2];
@@ -38,10 +38,19 @@ public:
 //死亡かトラクタービームか判断
 typedef enum
 {
-	eDoubleDeath,
-	eDeath,
-	eTractorBeam,
+	eDoubleDeath,		//二機の状態で片方が撃破
+	eDeath,				//一機の状態で撃破
+	eTractorBeam,		//トラクタービーム
 
 }ePlayerBreak;
+
+//左の機体か右の機体か、また両方を指定しているのか
+typedef enum
+{
+	eLeftMachine,		//左の機体
+	eRightMachine,		//右の機体
+	eDouble,			//両方の機体
+
+}eMachineNum;
 
 #endif
