@@ -14,7 +14,6 @@ class cPlayer {
 private:
 
 	int isLRflg;	  // 0:移動なし -1:左 1:右
-	int canMoveFlg;   // 0:移動不可能 1:移動可能
 	int image[2];	  //画像
 	int UIsize;		  //UIとゲーム画面の境界
 

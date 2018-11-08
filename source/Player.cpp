@@ -129,7 +129,7 @@ void cPlayer::Update()
 
 
 //DEBUG
-
+	/*
 	//キー
 	if (Interface.Get_Input(InDEBUG1) != 0)
 	{
@@ -149,6 +149,11 @@ void cPlayer::Update()
 	{
 		cPlayer::Break(eDeath, eDoubleMachine);
 	}
+
+	//DEBUGに使用する場合はInterface.hのenumにInDEBUG1,2,3と
+	//Interface.cppのUpdateにenumを配列の要素数に使用し、IとOとPを対応させてください。
+
+	*/
 
 }
 
