@@ -13,9 +13,10 @@
 class cPlayer {
 private:
 
-	int isLRflg;   // 0:移動なし -1:左 1:右
-	int image[2];
-	int UIsize;
+	int isLRflg;	  // 0:移動なし -1:左 1:右
+	int canMoveFlg;   // 0:移動不可能 1:移動可能
+	int image[2];	  //画像
+	int UIsize;		  //UIとゲーム画面の境界
 
 protected:
 
@@ -23,17 +24,16 @@ public:
 	cPlayer();	//コンストラクタ
 	~cPlayer();	//デストラクタ
 
-	int Update();	//計算処理
-	int Draw();		//描写処理
-	int Double();   //二機の処理
-	int Break(int,int);    //死亡処理
+	void Update();	//計算処理
+	void Draw();		//描写処理
+	void Double();   //二機の処理
+	void Break(int,int);    //死亡処理
 
 	cInterface Interface;
 	sOBJPos OBJPlayer[2];
 	//配列なのは一機か二機かで変わる為
 
 };
-
 
 //死亡かトラクタービームか判断
 typedef enum
@@ -49,7 +49,7 @@ typedef enum
 {
 	eLeftMachine,		//左の機体
 	eRightMachine,		//右の機体
-	eDouble,			//両方の機体
+	eDoubleMachine,			//両方の機体
 
 }eMachineNum;
 

@@ -52,7 +52,7 @@ cPlayer::~cPlayer()
   引数: 無し
 戻り値: 無し
 *************************************************************************/
-int cPlayer::Update()
+void cPlayer::Update()
 {
 
 	Interface.Update();
@@ -88,35 +88,40 @@ int cPlayer::Update()
 
 	//壁の設定
 
-		//左壁
-		if (OBJPlayer[i].pos.x <= 0)
+		for (int j = 0; j < MAXMACHINE; j++)
 		{
-			//二機ともアクティブ状態なら
-			if (OBJPlayer[eLeftMachine].onActive == true && OBJPlayer[eRightMachine].onActive == true)
-			{
-				OBJPlayer[eLeftMachine].pos.x = 0;
-				OBJPlayer[eRightMachine].pos.x = 0 + IMAGEMAG;
-			}
-			//一機のみなら
-			else
-			{
-				OBJPlayer[i].pos.x = 0;
-			}
 
-		}
-		//右壁
-		if (OBJPlayer[i].pos.x + IMAGEMAG >= UIsize)
-		{
-			//二機ともアクティブ状態なら
-			if (OBJPlayer[eLeftMachine].onActive == true && OBJPlayer[eRightMachine].onActive == true)
+			//左壁
+			if (OBJPlayer[j].pos.x <= 0)
 			{
-				OBJPlayer[eLeftMachine].pos.x = UIsize - IMAGEMAG*2;
-				OBJPlayer[eRightMachine].pos.x = UIsize - IMAGEMAG;
+				//二機ともアクティブ状態なら
+				if (OBJPlayer[eLeftMachine].onActive == true && OBJPlayer[eRightMachine].onActive == true)
+				{
+					OBJPlayer[eLeftMachine].pos.x = 0;
+					OBJPlayer[eRightMachine].pos.x = 0 + IMAGEMAG;
+				}
+				//一機のみアクティブ状態なら
+				else
+				{
+					OBJPlayer[i].pos.x = 0;
+				}
+
 			}
-			//一機のみなら
-			else
+			//右壁
+			if (OBJPlayer[j].pos.x + IMAGEMAG >= UIsize)
 			{
-				OBJPlayer[i].pos.x = UIsize - IMAGEMAG;
+				//二機ともアクティブ状態なら
+				if (OBJPlayer[eLeftMachine].onActive == true && OBJPlayer[eRightMachine].onActive == true)
+				{
+					OBJPlayer[eLeftMachine].pos.x = UIsize - IMAGEMAG * 2;
+					OBJPlayer[eRightMachine].pos.x = UIsize - IMAGEMAG;
+				}
+				//一機のみアクティブ状態なら
+				else
+				{
+					OBJPlayer[i].pos.x = UIsize - IMAGEMAG;
+				}
+
 			}
 
 		}
@@ -142,14 +147,9 @@ int cPlayer::Update()
 	//両方撃破されたら
 	if (OBJPlayer[eLeftMachine].onActive == false && OBJPlayer[1].onActive == false)
 	{
-		cPlayer::Break(eDeath, eDouble);
+		cPlayer::Break(eDeath, eDoubleMachine);
 	}
 
-	
-
-	
-
-	return 0;
 }
 
 /*************************************************************************
@@ -158,7 +158,7 @@ int cPlayer::Update()
   引数: 無し
 戻り値: 無し
 *************************************************************************/
-int cPlayer::Draw()
+void cPlayer::Draw()
 {
 
 	for (int i = 0; i < MAXMACHINE; i++)
@@ -188,42 +188,42 @@ int cPlayer::Draw()
 	DrawFormatString(920, 280, GetColor(255, 0, 0), "二機目cx:%4.2lf", OBJPlayer[eRightMachine].cx);
 	DrawFormatString(920, 300, GetColor(255, 0, 0), "二機目onActive:%d", OBJPlayer[eRightMachine].onActive);
 
-
-
-
-
-
-	return 0;
 }
 
 /*************************************************************************
   関数: int cPlayer::Double()
-  説明: 二機の処理
+  説明: 呼ばれた場合のみ処理される
+		二機目の機体のxとcxが更新されアクティブ状態になる
   引数: 無し
 戻り値: 無し
 *************************************************************************/
-int cPlayer::Double()
+void cPlayer::Double()
 {
 	//二機目の座標を更新し状態をアクティブへ
 	OBJPlayer[eRightMachine].pos.x = OBJPlayer[0].pos.x + IMAGEMAG;
 	OBJPlayer[eRightMachine].cx = OBJPlayer[eRightMachine].pos.x + (IMAGEMAG / 2);
-	OBJPlayer[eRightMachine].cy = OBJPlayer[eRightMachine].pos.y + (IMAGEMAG / 2);
 	OBJPlayer[eRightMachine].onActive = true;
 
 	//問題点:二回目の二機の時に座標が初期座標になるので配列を増やして三機目の情報を入れないといけないかもしれない。
 	//ややこしくなるから他の方法を探す
 	//他の関数を作ってプレイヤーの一機目を生成するやつを作ってもいいかも？
 
-	return 0;
 }
 
 /*************************************************************************
   関数: int cPlayer::Break()
   説明: 死亡処理 (引数で死亡かトラクタービームかを判断)
-  引数: int
+  引数: int judgeBreak 　eDoubleDeath : 二機居る状態で片方が撃破された時
+					　　 eDeath       : 一機しかない状態でで撃破された時
+					　 　eTractorBeam : トラクタービームで攫われた時
+
+		int machineNum　 eLeftMachine   : 左の機体
+						 eRightMachine  : 右の機体
+						 eDoubleMachine : 両方の機体
+			
 戻り値: 無し
 *************************************************************************/
-int cPlayer::Break(int judgeBreak ,int machineNum)
+void cPlayer::Break(int judgeBreak ,int machineNum)
 {
 	//二機の状態で片方が死んだら
 	if (judgeBreak == eDoubleDeath)
@@ -240,7 +240,7 @@ int cPlayer::Break(int judgeBreak ,int machineNum)
 
 	}
 	//一機の状態で死んだら
-	else if (judgeBreak == eDeath)
+	else if (judgeBreak == eDeath && machineNum == eDoubleMachine)
 	{
 		//残機によって、マシーンの生成又は終了処理
 
@@ -253,6 +253,5 @@ int cPlayer::Break(int judgeBreak ,int machineNum)
 		////////////////////////////////
 	}
 
-	return 0;
 }
 
