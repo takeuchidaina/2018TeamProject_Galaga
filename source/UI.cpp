@@ -7,7 +7,7 @@ int iconImg[12];	//ステージアイコンの画像
 
 sTextPos textPos[] = 
 {
-	{ DISP_SIZE + 50,100,"text01" },
+	{ DISP_SIZE + 50,100,"HIGH SCORE" },
 	{ DISP_SIZE + 50,140,"text02" },
 	{ DISP_SIZE + 50,180,"text03" },
 
@@ -24,9 +24,8 @@ int UI_Init()
 	UIsize = 0;
 
 	//画像の読み込み
-	LoadDivGraph("../resource/Image/UI_Text.png",48,8,6,28,28,textImg);
+	//LoadDivGraph("../resource/Image/UI_Text.png",48,8,6,28,28,textImg);
 	LoadDivGraph("../resource/Image/Galaga_UI_icon.png", 12, 6, 2, 18, 19, iconImg);
-
 
 	return 0;
 }
@@ -40,6 +39,9 @@ int UI_Init()
 int UI_Update()
 {
 	//文字を割り出すやつ
+	//他のcppで作るようにする
+	//文字を投げたら文字が返ってくるような
+	//シングルトン?で作れとのこと
 
 	return 0;
 }
@@ -61,7 +63,7 @@ int UI_Draw()
 	}
 
 	//DEBUG
-	DrawGraph(100, 100, textImg[3],TRUE);
+	//DrawGraph(100, 100, textImg[3],TRUE);
 	DrawExtendGraph(200, 100,200+IMAGEMAG,100+IMAGEMAG, iconImg[3], TRUE);
 
 	return 0;

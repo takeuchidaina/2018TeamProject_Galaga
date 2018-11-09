@@ -2,12 +2,13 @@
 #ifndef _UI_INCLUDE_
 #define _UI_INCLUDE_
 
+#include "Struct.h"
+
 #define DISP_SIZE ((1280 / 4 * 3) - 50)
 #define UI_SIZE (1280 - DISP_SIZE)
 #define IMAGEMAG 48		//‰æ‘œ”{—¦
 
-#include "Struct.h"
-
+//À•W‚Æ•\¦‚·‚é•¶š—ñ‚Ì\‘¢‘Ì
 typedef struct
 {
 	int x, y;
