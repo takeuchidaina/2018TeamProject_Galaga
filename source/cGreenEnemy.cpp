@@ -31,10 +31,10 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 
 	memset(enemy.countflg, 0, sizeof(enemy.countflg));
 	enemy.countflg[0] = 25;
-	enemy.countflg[1] = 40;
+	enemy.countflg[1] = 30;
 	enemy.countflg[2] = 35;
 	enemy.countflg[3] = 20;
-	enemy.countflg[4] = 38;
+	enemy.countflg[4] = 70;
 
 	enemy.target.x = x;
 	enemy.target.y = y;
@@ -110,14 +110,14 @@ int cGreenEnemy::Update() {
 		case 4:
 			enemy.ang = 0;
 			enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
-			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
-				enemy.moveflg++;
-				enemy.count = 0;
-			}
 			if (enemy.pos.y >= 350) {
 				enemy.pos.y = -20;
 				enemy.pos.x = enemy.target.x;
 				//enemy.moveflg++;
+				//enemy.count = 0;
+			}
+			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+				enemy.moveflg++;
 				enemy.count = 0;
 			}
 			break;
@@ -178,14 +178,14 @@ int cGreenEnemy::Update() {
 		case 4:
 			enemy.ang = 0;
 			enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
-			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
-				enemy.moveflg++;
-				enemy.count = 0;
-			}
-			 if (enemy.pos.y >= 350) {
+			if (enemy.pos.y >= 350) {
 				enemy.pos.y = -20;
 				enemy.pos.x = enemy.target.x;
 				//enemy.moveflg++;
+				//*enemy.count = 0;
+			}
+			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+				enemy.moveflg++;
 				enemy.count = 0;
 			}
 			break;
@@ -218,7 +218,7 @@ int cGreenEnemy::Draw() {
 
 	DrawCircle(enemy.pos.x, enemy.pos.y, 5, GetColor(0, 255, 0), true);
 	DrawCircle(enemy.target.x, enemy.target.y, enemy.targetr, GetColor(0, 255, 0), true);
-	DrawFormatString(100, 55, GetColor(255, 255, 255), "%d", enemy.dir);
+	DrawFormatString(100, 55, GetColor(255, 255, 255), "%d", enemy.count);
 	DrawFormatString(100, 65, GetColor(255, 255, 255), "%d", enemy.attackflg);
 	DrawFormatString(100, 75, GetColor(255, 255, 255), "%d", enemy.moveflg);
 	DrawFormatString(100, 85, GetColor(255, 255, 255), "%.2lf", enemy.pos.x);

@@ -12,13 +12,13 @@ using namespace std;
 
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-	SetGraphMode(1024, 768, 32);
+	SetGraphMode(1280, 960, 32);
 	ChangeWindowMode(TRUE), DxLib_Init(), SetDrawScreen(DX_SCREEN_BACK); //ウィンドウモード変更と初期化と裏画面設定
 	//x y r cnt spd ang flg
 
 	
-	cBlueEnemy zako(300, 64, 5, 0, 3, 180, false);
-	cRedEnemy  goei(400,64,5,0,3,180,false);
+	cBlueEnemy zako(300, 270, 5, 0, 3, 180, false);
+	cRedEnemy  goei(400,230,5,0,3,180,false);
 	cGreenEnemy boss(500,64,5,0,3,180,false);
 
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {//画面更新 & メッセージ処理 & 画面消去
