@@ -103,7 +103,7 @@ void cPlayer::Update()
 
 			}
 			//右壁
-			if (OBJPlayer[j].pos.x + IMAGEMAG+1 >= DISP_SIZE)
+			if (OBJPlayer[j].pos.x + IMAGEMAG >= DISP_SIZE)
 			{
 				//二機ともアクティブ状態なら
 				if (OBJPlayer[eLeftMachine].onActive == true && OBJPlayer[eRightMachine].onActive == true)

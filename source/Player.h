@@ -7,7 +7,6 @@
 #include "UI.h"
 
 #define SPEED 3			//プレイヤーのスピード
-#define IMAGEMAG 48		//画像倍率
 #define MAXMACHINE 2	//プレイヤーは二機まで(三機にならない)
 
 class cPlayer {
