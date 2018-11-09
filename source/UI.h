@@ -8,6 +8,13 @@
 
 #include "Struct.h"
 
+typedef struct
+{
+	int x, y;
+	char text[20];
+
+}sTextPos;
+
 extern int UI_Init();
 extern int UI_Update();
 extern int UI_Draw();
