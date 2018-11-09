@@ -14,5 +14,6 @@ public:
 	cTextChange();
 
 	int Update();
+	void Draw();
 };
 #endif
