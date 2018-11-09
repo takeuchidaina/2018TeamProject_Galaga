@@ -9,7 +9,7 @@ cEnemyMgr::cEnemyMgr() {
 	fileEndFlag = 0;
 	n = 0;
 	num = 0;
-	strcpy(StageFilePath, "Stage_1.csv");
+	strcpy(StageFilePath, "../resource/MAP/Stage_1.csv");
 
 	//Stage_1.csv
 	StageHandle = FileRead_open(StageFilePath);
@@ -22,7 +22,7 @@ cEnemyMgr::cEnemyMgr() {
 
 	while (1) {
 
-		for (int i = 0; i < 64; i++) {
+		/*for (int i = 0; i < 64; i++) {
 			inputc[i] = input[i] = FileRead_getc(StageHandle);
 			if (inputc[i] == '/') {
 				while (FileRead_getc(StageHandle) != '\n');//改行までループ
@@ -37,7 +37,26 @@ cEnemyMgr::cEnemyMgr() {
 				fileEndFlag = 1;
 				break;
 			}
+		}*/
+
+
+		for (int i = 0; i < 64; i++) {
+			inputc[i] = input[i] = FileRead_getc(StageHandle);//1文字取得する
+			if (inputc[i] == '/') {//スラッシュがあれば
+				while (FileRead_getc(StageHandle) != '\n');//改行までループ
+				i = -1;//カウンタを最初に戻して
+				continue;
+			}
+			if (input[i] == ',' || input[i] == '\n') {//カンマか改行なら
+				inputc[i] = '\0';//そこまでを文字列とし
+				break;
+			}
+			if (input[i] == EOF) {//ファイルの終わりなら
+				fileEndFlag = 1;//終了
+				break;
+			}
 		}
+
 		//ファイル終了処理フラグが立っている場合は以下の処理を行わない
 		if (fileEndFlag == 1)break;
 		switch (num) {
@@ -71,7 +90,7 @@ cEnemyMgr::cEnemyMgr() {
 		enemy[n].moveflag = 0;
 		enemy[n].onactive = 0;
 		num++;
-		if (num = 18) {
+		if (num == 18) {
 			num = 0;
 			n++;
 		}
@@ -142,6 +161,9 @@ cEnemyMgr::~cEnemyMgr() {
 
 //計算処理
 void cEnemyMgr::Update() {
+	Phaseflag = 0;
+	wavecount = 0;
+
 	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 		if (enemy[i].wave == wave) {
 			//毎フレームカウントを増やす
@@ -196,11 +218,11 @@ void cEnemyMgr::Update() {
 		} //activeなエネミーの動作処理終了
 		if (enemy[i].moveflag == 11) {
 			Phaseflag++;
+			//ウェーブ内で入場行動が終了している敵の数をカウントする
+			if (enemy[i].wave == wave) {
+				wavecount++;
+			}
 		}
-		  //ウェーブ内で入場行動が終了している敵の数をカウントする
-		  if (enemy[i].wave == wave) {
-		  	wavecount++;
-		  }
 		  //ウェーブごとに動く敵の数と入場行動が終了している敵の数が一致している場合、次ウェーブに移行,敵のカウントが初期化
 			if (waveflag[wave] == wavecount) {
 				wave++;

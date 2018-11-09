@@ -47,7 +47,7 @@ private:
 	//関数のプロトタイプ宣言
 	void Move(sEnemy&);
 	void Shifted(sEnemy&,sEnemy&);
-	//cBaseEnemy*
+	cBaseEnemy* enemies[40];
 
 public:
 	cEnemyMgr();
