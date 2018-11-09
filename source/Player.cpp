@@ -173,7 +173,7 @@ void cPlayer::Draw()
 		}
 
 		//•\Ž¦
-		DrawExtendGraph(OBJPlayer[i].pos.x, OBJPlayer[i].pos.y, OBJPlayer[i].pos.x + IMAGEMAG, OBJPlayer[i].pos.y + IMAGEMAG, image[i], TRUE);
+		DrawExtendGraph((int)OBJPlayer[i].pos.x, (int)OBJPlayer[i].pos.y, (int)OBJPlayer[i].pos.x + IMAGEMAG, (int)OBJPlayer[i].pos.y + IMAGEMAG, image[i], TRUE);
 
 	}
 
