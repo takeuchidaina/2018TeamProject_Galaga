@@ -2,6 +2,9 @@
 #ifndef _UI_INCLUDE_
 #define _UI_INCLUDE_
 
+#define DISP_SIZE ((1280 / 4 * 3) - 50)
+#define UI_SIZE (1280 - DISP_SIZE)
+
 #include "Struct.h"
 
 extern int UI_Init();

@@ -4,6 +4,7 @@
 #define _PLAYER_INCLUDE_
 
 #include "Struct.h"
+#include "UI.h"
 
 #define SPEED 3			//プレイヤーのスピード
 #define IMAGEMAG 48		//画像倍率
@@ -14,7 +15,6 @@ private:
 
 	int isLRflg;	  // 0:移動なし -1:左 1:右
 	int image[2];	  //画像
-	int UIsize;		  //UIとゲーム画面の境界
 
 protected:
 
