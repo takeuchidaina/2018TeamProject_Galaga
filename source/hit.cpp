@@ -1,41 +1,70 @@
-#include "hit.h"
+#include <DxLib.h>
+#include"Hit.h"
+#include"InGameMgr.h"
+#include"player.h"
 
-//hitクラスの実装
+int bulletHit(int *player, int *eBullet, int *pBullet, int*enemy) {
 
-//コンストラクタ
-cHit::cHit(){
-	
-}
+	/* ポインタアドレス割当 */
+	int pcx = player._cx;
+	int pcy = player._cy;
+	int pr = player._r;
 
-//デストラクタ
-cHit::~cHit() {
+	int ecx = enemy._cx;
+	int ecy = enemy._cy;
+	int er = enemy._r;
 
-}
+	int eBcx = eBullet._cx;
+	int eBcy = eBullet._cy;
+	int ebr = eBullet._r;
 
-int cHit::Update() {
-	
-	return 0;
-}
-
-int cHit::Draw() {
+	int pBcx = pBullet._cx;
+	int pBcy = pBullet._cy;
+	int pbr = pBullet._r;
 
 	/* プレイヤーと敵弾 */
-	for (int i = 0; i < pNum; i++) {
+	for (int i = 0; i < MAXMACHINE; i++) {
 
-		if (pActive == false) continue;
+		if (*(player.onActive + i) == false) continue;
 
-		for (int j = 0; j < bNum; j++) {
+		for (int j = 0; j < numB; j++) {
 
-			if (bActive == false) continue;
+			if (*(eBullet.onActive + j) == false) continue;
 
-			len = (bcx - pcx)*(bcx - pcx) + (bcy - pcy)*(bcy - pcy);
+			int len = ((*(eBcx + j) - *(pcx + i)) * (*(eBcx + j) - *(pcx + i))) + ((*(eBcy + j) - *(pcy + i))*(*(eBcy + j) - *(pcy + i)));
 
-			if (len <= ((br + pr)*(br + pr)) ) {
-				bulletHit(enemy, j);
-				playerDown(i);
+			if (len <= ((*(ebr + j) + *(pr + i)) * (*(ebr + j) + *(pr + i)))) {
+				if (*player.onActive == true && *(player.onActive + 1) == true) {
+					bulletHit(enemy, j);
+					playerDown(i);
+				}
+				else inGameMgr();
 			}
 		}
 	}
+
+	/* 自弾と敵機　*/
+	for (int i = 0; i < eNum; i++) {
+
+		if (eActive == false) continue;
+
+		for (int j = 0; j < pbNum; j++) {
+
+			if (pbActive == false) continue;
+
+			len = (pbcx - ecx)*(pbcx - ecx) + (pbcy - ecy)*(pbcy - ecy);
+
+			if (len <= ((er + pbr)*(er + pbr))) {
+				enemyDown(i);
+			}
+		}
+	}
+
+
+	return 0;
+}
+
+int clashHit() {
 
 	/* プレイヤーと敵機　*/
 	for (int i = 0; i < pNum; i++) {
@@ -49,69 +78,28 @@ int cHit::Draw() {
 			len = (ecx - pcx)*(ecx - pcx) + (ecy - pcy)*(ecy - pcy);
 
 			if (len <= ((er + pr)*(er + pr))) {
-				playerDown(player, i);
-				enemyDown(enemy, j)
+				if (maxPlayer >= 2) {
+					playerDown(player, i);
+					enemyDown(enemy, j);
+				}
+				else InGameMgr();
 			}
 		}
 	}
+}
 
-	/* 自弾と敵機　*/
-	for (int i = 0; i < eNum; i++) {
+int beemHit() {
 
-		if (eActive == false) continue;
-
-		for (int j = 0; j < ebNum; j++) {
-
-			if (ebActive == false) continue;
-
-			len = (ebcx - ecx)*(ebcx - ecx) + (ebcy - ecy)*(ebcy - ecy);
-
-			if (len <= ((er + ebr)*(er + ebr))) {
-				playerDown();
-			}
-		}
+	if (((ecx - beemR) <= pcx && (ecx + beemR) >= pcx)) {
+		InGameMgr();
 	}
-
-	
 	return 0;
 }
 
-//beemHitクラスの実装
+void hit_Update() {
 
-//コンストラクタ
-cBeemHit::cBeemHit() {
-
-}
-
-//デストラクタ
-cBeemHit::~cBeemHit() {
+	bulletHit();
+	clashHit();
+	beemHit();
 
 }
-
-int cBeemHit::Update() {
-
-	return 0;
-}
-
-int cBeemHit::Draw() {
-
-	if (((ecx - beemR) <= pcx) && ((ecx + beemR) >= pcx)) {
-		inGameMgr(numEnemy);
-	}
-
-	return 0;
-}
-
-
-/*
-//実装例
-//mTestへの代入
-void cTemplate::Set_Test(int Test) {
-	mTest = Test;
-}
-
-//mTestの獲得
-int cTemplate::Get_Test() {
-	return mTest;
-}
-*/
