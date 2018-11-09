@@ -9,9 +9,9 @@ using namespace std;
 
 
 cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double ang, int flg) : cBaseEnemy(x, y, r, cnt, spd, ang, flg) {
-	enemy.pos.x = x;
-	enemy.pos.y = y;
-	enemy.r = r;
+	enemy.mainpos.pos.x = x;
+	enemy.mainpos.pos.y = y;
+	enemy.mainpos.r = r;
 	enemy.count = cnt;
 	enemy.spd = spd;
 	enemy.ang = ang * 3.14159265 / 180;
@@ -52,21 +52,21 @@ void cRedEnemy::Move(cRedEnemy &unit) {
 		if (unit.enemy.dir == unit.enemy.RIGHT) {
 			unit.enemy.vct.x = cos(enemy.ang);
 			unit.enemy.vct.y = sin(enemy.ang);
-			unit.enemy.pos.x += unit.enemy.vct.x*unit.enemy.spd;
-			unit.enemy.pos.y += unit.enemy.vct.y*unit.enemy.spd;
+			unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
+			unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
 		}
 		else {
 			if (unit.enemy.moveflg != 6) {
 				unit.enemy.vct.x = -cos(enemy.ang);
 				unit.enemy.vct.y = sin(enemy.ang);
-				unit.enemy.pos.x += unit.enemy.vct.x*unit.enemy.spd;
-				unit.enemy.pos.y += unit.enemy.vct.y*unit.enemy.spd;
+				unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
+				unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
 			}
 			else {
 				unit.enemy.vct.x = cos(enemy.ang);
 				unit.enemy.vct.y = sin(enemy.ang);
-				unit.enemy.pos.x += unit.enemy.vct.x*unit.enemy.spd;
-				unit.enemy.pos.y += unit.enemy.vct.y*unit.enemy.spd;
+				unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
+				unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
 			}
 		}
 	}
@@ -120,20 +120,20 @@ int cRedEnemy::Update() {
 		case 5:
 			enemy.ang = 0;
 			enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
-			if (enemy.pos.y >= 960) {
-				enemy.pos.y = -20;
-				enemy.pos.x = enemy.target.x;
-				enemy.moveflg++;
+			if (enemy.mainpos.pos.y >= 960) {
+				enemy.mainpos.pos.y = -20;
+				enemy.mainpos.pos.x = enemy.target.x;
+				/*if (enemy.mainpos.pos.y < 0)*/enemy.moveflg++;
 			}
 			break;
 		case 6:
-			enemy.ang = atan2(enemy.target.y - enemy.pos.y, enemy.target.x - enemy.pos.x);
-			if ((enemy.target.x - enemy.pos.x)*(enemy.target.x - enemy.pos.x) *
-				(enemy.target.y - enemy.pos.y)*(enemy.target.y - enemy.pos.y) <=
-				(enemy.r + enemy.targetr)*(enemy.r + enemy.targetr)) {
+			enemy.ang = atan2(enemy.target.y - enemy.mainpos.pos.y, enemy.target.x - enemy.mainpos.pos.x);
+			if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
+				(enemy.target.y - enemy.mainpos.pos.y)*(enemy.target.y - enemy.mainpos.pos.y) <=
+				(enemy.mainpos.r + enemy.targetr)*(enemy.mainpos.r + enemy.targetr)) {
 				//“GÀ•W‚ð–Ú“I’n‚ÉŒÅ’è
-				enemy.pos.x = enemy.target.x;
-				enemy.pos.y = enemy.target.y;
+				enemy.mainpos.pos.x = enemy.target.x;
+				enemy.mainpos.pos.y = enemy.target.y;
 				enemy.moveflg++;
 				enemy.count = 0;
 			}
@@ -157,13 +157,13 @@ int cRedEnemy::Update() {
 
 int cRedEnemy::Draw() {
 
-	DrawCircle((int)enemy.pos.x, (int)enemy.pos.y, 5, GetColor(255, 0,0), true);
+	DrawCircle((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 5, GetColor(255, 0,0), true);
 	DrawCircle((int)enemy.target.x, (int)enemy.target.y, enemy.targetr, GetColor(255, 0, 0), true);
 	DrawFormatString(50, 55, GetColor(255, 255, 255), "%d", enemy.count);
 	DrawFormatString(50, 65, GetColor(255, 255, 255), "%d", enemy.attackflg);
 	DrawFormatString(50, 75, GetColor(255, 255, 255), "%d", enemy.moveflg);
-	DrawFormatString(50, 85, GetColor(255, 255, 255), "%.2lf", enemy.pos.x);
-	DrawFormatString(50, 95, GetColor(255, 255, 255), "%.2lf", enemy.pos.y);
+	DrawFormatString(50, 85, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.x);
+	DrawFormatString(50, 95, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.y);
 	DrawFormatString(50, 105, GetColor(255, 255, 255), "%d", enemy.dir);
 	return 0;
 }
