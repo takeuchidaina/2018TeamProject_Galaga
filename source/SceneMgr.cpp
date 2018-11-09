@@ -78,7 +78,7 @@ void cSceneMgr::Update() {
 	switch (sceneflag) {
 	case eStartMenu:
 		//スタートメニュー
-		if (Interfase.Get_Input(InDECISION) != 0) {
+		if (cInterface::Instance()->Get_Input(InDECISION) != 0) {
 			ChangeScene(eInGame);
 		}
 //		test->Update();

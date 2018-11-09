@@ -5,7 +5,6 @@
 #include "Template.h"
 #include "InGameMgr.h"
 #include "Template.h"
-#include "Interface.h"
 #include "EnemyMgr.h"
 
 //‚±‚ê‚Í•Ê‚Éƒwƒbƒ_[‚ğì‚Á‚Ä‚à‚¢‚¢
@@ -30,7 +29,6 @@ private:
 
 	cTemplate* test;
 	cInGameMgr* InGameMgr;
-	cInterface Interfase;
 	
 
 public:
