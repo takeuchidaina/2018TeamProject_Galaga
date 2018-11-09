@@ -29,8 +29,14 @@ private:
 	static int buff[InNONE];
 	static eInputType inputType;
 	cKeyboard tmpKey;
-public:
+
 	cInterface();
+
+public:
+	static cInterface* Instance() {
+		static cInterface inst;
+		return &inst;
+	}
 	void Update();
 	int Get_Input(eInput);
 };
