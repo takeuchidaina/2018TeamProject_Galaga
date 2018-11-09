@@ -3,7 +3,6 @@
 #ifndef _PLAYER_INCLUDE_
 #define _PLAYER_INCLUDE_
 
-#include "Interface.h"
 #include "Struct.h"
 
 #define SPEED 3			//プレイヤーのスピード
@@ -27,8 +26,8 @@ public:
 	void Draw();		//描写処理
 	void Double();   //二機の処理
 	void Break(int,int);    //死亡処理
+	sOBJPos*  GetStruct() { return OBJPlayer; }	//構造体の受け渡し
 
-	cInterface Interface;
 	sOBJPos OBJPlayer[2];
 	//配列なのは一機か二機かで変わる為
 

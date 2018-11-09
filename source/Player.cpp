@@ -55,15 +55,13 @@ cPlayer::~cPlayer()
 void cPlayer::Update()
 {
 
-	Interface.Update();
-
 	// 右
-	if (Interface.Get_Input(InRIGHT) != 0)
+	if (cInterface::Instance()->Get_Input(InRIGHT) != 0)
 	{
 		isLRflg = 1;
 	}
 	// 左
-	else if (Interface.Get_Input(InLEFT) != 0)
+	else if (cInterface::Instance()->Get_Input(InLEFT) != 0)
 	{
 		isLRflg = -1;
 	}
@@ -131,15 +129,15 @@ void cPlayer::Update()
 //DEBUG
 	/*
 	//キー
-	if (Interface.Get_Input(InDEBUG1) != 0)
+	if (cInterface::Instance()->Get_Input(InDEBUG1) != 0)
 	{
 		cPlayer::Double();		// I を押したら二機になる
 	}
-	else if (Interface.Get_Input(InDEBUG2) != 0)
+	else if (cInterface::Instance()->Get_Input(InDEBUG2) != 0)
 	{
 		cPlayer::Break(eDoubleDeath,eLeftMachine);	// O を押したら一機目が死ぬ
 	}
-	else if (Interface.Get_Input(InDEBUG3) != 0)
+	else if (cInterface::Instance()->Get_Input(InDEBUG3) != 0)
 	{
 		cPlayer::Break(eDoubleDeath,eRightMachine);	// P を押したら二機目が死ぬ
 	}
