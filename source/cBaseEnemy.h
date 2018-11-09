@@ -46,6 +46,14 @@ public:
 		void SetAttackflg() {
 			enemy.attackflg = true;
 		}
+
+		int GetEnemyAngle() {
+			return enemy.ang;
+		}
+
+		void SetEnemyAngleg(double ang) {
+			enemy.ang = ang;
+		}
 protected:
 		sEnemy enemy;
 

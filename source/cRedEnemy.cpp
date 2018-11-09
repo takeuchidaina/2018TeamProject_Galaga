@@ -23,20 +23,21 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 	enemy.vct.y = 0;
 
 	memset(enemy.moveang, 0, sizeof(enemy.moveang));
-	enemy.moveang[0] = -5;
+
+	enemy.moveang[0] = -4;
 	enemy.moveang[1] = -0.2;
-	enemy.moveang[2] = 5;
-	enemy.moveang[3] = 5;
-	enemy.moveang[4] = -0.2;
+	enemy.moveang[2] = 1;
+	enemy.moveang[3] = -0.1;
+	enemy.moveang[4] = -1;
 	enemy.moveang[5] = 90;
 
 	memset(enemy.countflg, 0, sizeof(enemy.countflg));
-	enemy.countflg[0] = 30;
-	enemy.countflg[1] = 30;
-	enemy.countflg[2] = 15;
-	enemy.countflg[3] = 10;
-	enemy.countflg[4] = 25;
-	enemy.countflg[5] = 30;
+	enemy.countflg[0] = 40;
+	enemy.countflg[1] = 50;
+	enemy.countflg[2] = 150;
+	enemy.countflg[3] = 70;
+	enemy.countflg[4] = 40;
+	enemy.countflg[5] = 100;
 
 	enemy.target.x = x;
 	enemy.target.y = y;
@@ -55,10 +56,18 @@ void cRedEnemy::Move(cRedEnemy &unit) {
 			unit.enemy.pos.y += unit.enemy.vct.y*unit.enemy.spd;
 		}
 		else {
-			unit.enemy.vct.x = cos(enemy.ang);
-			unit.enemy.vct.y = sin(enemy.ang);
-			unit.enemy.pos.x += unit.enemy.vct.x*unit.enemy.spd;
-			unit.enemy.pos.y += unit.enemy.vct.y*unit.enemy.spd;
+			if (unit.enemy.moveflg != 6) {
+				unit.enemy.vct.x = -cos(enemy.ang);
+				unit.enemy.vct.y = sin(enemy.ang);
+				unit.enemy.pos.x += unit.enemy.vct.x*unit.enemy.spd;
+				unit.enemy.pos.y += unit.enemy.vct.y*unit.enemy.spd;
+			}
+			else {
+				unit.enemy.vct.x = cos(enemy.ang);
+				unit.enemy.vct.y = sin(enemy.ang);
+				unit.enemy.pos.x += unit.enemy.vct.x*unit.enemy.spd;
+				unit.enemy.pos.y += unit.enemy.vct.y*unit.enemy.spd;
+			}
 		}
 	}
 }
@@ -70,7 +79,6 @@ int cRedEnemy::Update() {
 	if (enemy.count > 0) {
 		enemy.onActive = true;
 	}
-	if (enemy.RIGHT == enemy.dir) {
 		switch (enemy.moveflg)
 		{
 		case 0:
@@ -112,11 +120,11 @@ int cRedEnemy::Update() {
 		case 5:
 			enemy.ang = 0;
 			enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
-			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+			if (enemy.pos.y >= 960) {
+				enemy.pos.y = -20;
+				enemy.pos.x = enemy.target.x;
 				enemy.moveflg++;
-				enemy.count = 0;
 			}
-			if (enemy.pos.y >= 350 ) enemy.pos.y = -20;
 			break;
 		case 6:
 			enemy.ang = atan2(enemy.target.y - enemy.pos.y, enemy.target.x - enemy.pos.x);
@@ -139,79 +147,13 @@ int cRedEnemy::Update() {
 			break;
 
 		}
-	}
-	else {
-		switch (enemy.moveflg)
-		{
-		case 0:
-			enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
-			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
-				enemy.moveflg++;
-				enemy.count = 0;
-			}
-			break;
-		case 1:
-			enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
-			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
-				enemy.moveflg++;
-				enemy.count = 0;
-			}
-			break;
-		case 2:
-			enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
-			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
-				enemy.moveflg++;
-				enemy.count = 0;
-			}
-			break;
-		case 3:
-			//enemy.ang = 0;
-			enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
-			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
-				enemy.moveflg++;
-				enemy.count = 0;
-			}
-			break;
-		case 4:
-			enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
-			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
-				enemy.moveflg++;
-				enemy.count = 0;
-			}
-			break;
-		case 5:
-			enemy.ang = 0;
-			enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
-			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
-				enemy.moveflg++;
-				enemy.count = 0;
-			}
-			if (enemy.pos.y >= 350) enemy.pos.y = -20;
-			break;
-		case 6:
-			enemy.ang = atan2(enemy.target.y - enemy.pos.y, enemy.target.x - enemy.pos.x);
-			if ((enemy.target.x - enemy.pos.x)*(enemy.target.x - enemy.pos.x) *
-				(enemy.target.y - enemy.pos.y)*(enemy.target.y - enemy.pos.y) <=
-				(enemy.r + enemy.targetr)*(enemy.r + enemy.targetr)) {
-				//“GÀ•W‚ð–Ú“I’n‚ÉŒÅ’è
-				enemy.pos.x = enemy.target.x;
-				enemy.pos.y = enemy.target.y;
-				enemy.moveflg++;
-				enemy.count = 0;
-			}
-			break;
-		case 7:
-			enemy.count = 0;
-			enemy.moveflg = 0;
-			enemy.ang = 180 * 3.14159265 / 180;
-			enemy.dir *= -1;
-			enemy.attackflg = false;
-			break;
-
-		}
-	}
+	
 	return 0;
 }
+
+
+
+
 
 int cRedEnemy::Draw() {
 
@@ -222,5 +164,6 @@ int cRedEnemy::Draw() {
 	DrawFormatString(50, 75, GetColor(255, 255, 255), "%d", enemy.moveflg);
 	DrawFormatString(50, 85, GetColor(255, 255, 255), "%.2lf", enemy.pos.x);
 	DrawFormatString(50, 95, GetColor(255, 255, 255), "%.2lf", enemy.pos.y);
+	DrawFormatString(50, 105, GetColor(255, 255, 255), "%d", enemy.dir);
 	return 0;
 }
