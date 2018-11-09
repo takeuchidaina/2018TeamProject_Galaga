@@ -179,17 +179,17 @@ void cPlayer::Draw()
 
 //DEBUG
 	//UIの枠組みの白線
-	DrawLine(UIsize,0,UIsize,960,GetColor(255,255,255));
+	//DrawLine(UIsize,0,UIsize,960,GetColor(255,255,255));
 
 	//座標の表示
-	DrawFormatString(920, 200, GetColor(255, 0, 0), "一機目x:%4.2lf", OBJPlayer[eLeftMachine].pos.x);
-	DrawFormatString(920, 220, GetColor(255, 0, 0), "一機目cx:%4.2lf", OBJPlayer[eLeftMachine].cx);
-	DrawFormatString(920, 240, GetColor(255, 0, 0), "一機目onActive:%d", OBJPlayer[eLeftMachine].onActive);
+	DrawFormatString(420, 200, GetColor(255, 0, 0), "一機目x:%4.2lf", OBJPlayer[eLeftMachine].pos.x);
+	DrawFormatString(420, 220, GetColor(255, 0, 0), "一機目cx:%4.2lf", OBJPlayer[eLeftMachine].cx);
+	DrawFormatString(420, 240, GetColor(255, 0, 0), "一機目onActive:%d", OBJPlayer[eLeftMachine].onActive);
 	
 
-	DrawFormatString(920, 260, GetColor(255, 0, 0), "二機目x:%4.2lf", OBJPlayer[eRightMachine].pos.x);
-	DrawFormatString(920, 280, GetColor(255, 0, 0), "二機目cx:%4.2lf", OBJPlayer[eRightMachine].cx);
-	DrawFormatString(920, 300, GetColor(255, 0, 0), "二機目onActive:%d", OBJPlayer[eRightMachine].onActive);
+	DrawFormatString(420, 260, GetColor(255, 0, 0), "二機目x:%4.2lf", OBJPlayer[eRightMachine].pos.x);
+	DrawFormatString(420, 280, GetColor(255, 0, 0), "二機目cx:%4.2lf", OBJPlayer[eRightMachine].cx);
+	DrawFormatString(420, 300, GetColor(255, 0, 0), "二機目onActive:%d", OBJPlayer[eRightMachine].onActive);
 
 }
 
