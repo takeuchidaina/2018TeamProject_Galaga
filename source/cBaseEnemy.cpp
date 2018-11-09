@@ -36,7 +36,7 @@ int cBaseEnemy::Draw() {
 	DrawFormatString(0, 50, GetColor(255, 255, 255), "%d", enemy.count);
 	DrawFormatString(0, 60, GetColor(255, 255, 255), "%d", enemy.attackflg);
 	DrawFormatString(0, 70, GetColor(255, 255, 255), "%d", enemy.moveflg);
-	DrawFormatString(0, 80, GetColor(255, 255, 255), "%d", enemy.pos.x);
-	DrawFormatString(0, 90, GetColor(255, 255, 255), "%d", enemy.pos.y);
+	DrawFormatString(0, 80, GetColor(255, 255, 255), "%d", enemy.mainpos.pos.x);
+	DrawFormatString(0, 90, GetColor(255, 255, 255), "%d", enemy.mainpos.pos.y);
 	return 0;
 }

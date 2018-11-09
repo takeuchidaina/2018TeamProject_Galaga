@@ -12,13 +12,12 @@ typedef struct {
 		LEFT = -1,
 	};
 	sPos vct;
-	sPos pos;
+	sOBJPos mainpos ;
 	sPos target;
 	int targetr;
 	double spd;
 	double ang;
 	int* graph;
-	int r;
 	int dir = 1;//1　右　-1　左
 	int width;
 	int hight;
@@ -32,9 +31,9 @@ typedef struct {
 
 class cBaseEnemy {
 public:
-        cBaseEnemy();//コンストラクタ
+	     cBaseEnemy();//コンストラクタ
 		 cBaseEnemy(double,double,double,int,double,double,int );	
-		 ~cBaseEnemy();//デストラクタ
+		virtual ~cBaseEnemy();//デストラクタ
 		virtual	int Update();//更新処理
 		virtual int Draw();//描画処理
 		virtual void Move(cBaseEnemy &);
@@ -54,6 +53,7 @@ public:
 		void SetEnemyAngleg(double ang) {
 			enemy.ang = ang;
 		}
+
 protected:
 		sEnemy enemy;
 
