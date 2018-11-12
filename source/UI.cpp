@@ -38,10 +38,8 @@ int UI_Init()
 *************************************************************************/
 int UI_Update()
 {
-	//文字を割り出すやつ
-	//他のcppで作るようにする
-	//文字を投げたら文字が返ってくるような
-	//シングルトン?で作れとのこと
+	//ステージ情報を計算
+	//どのアイコンにするか
 
 	return 0;
 }
@@ -63,8 +61,12 @@ int UI_Draw()
 	}
 
 	//DEBUG
-	//DrawGraph(100, 100, textImg[3],TRUE);
 	DrawExtendGraph(200, 100,200+IMAGEMAG,100+IMAGEMAG, iconImg[3], TRUE);
+
+	for (int j = 0; j < 2; j++)  //3はプレイヤーの残機
+	{
+		DrawExtendGraph(DISP_SIZE + 50 +(IMAGEMAG*j),900, DISP_SIZE + 50 + (IMAGEMAG*j+1)+IMAGEMAG, 900+IMAGEMAG,iconImg[6],TRUE);
+	}
 
 	return 0;
 }
