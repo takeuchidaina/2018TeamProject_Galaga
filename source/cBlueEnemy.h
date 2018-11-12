@@ -11,6 +11,7 @@ class cBlueEnemy : public cBaseEnemy {
 	virtual int Update();
 	virtual int Draw();
 
+
 };
 
 #endif // !REDENEMY_INCLUDE

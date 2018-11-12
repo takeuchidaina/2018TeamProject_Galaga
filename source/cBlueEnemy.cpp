@@ -50,15 +50,9 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 
 void cBlueEnemy:: Move(cBlueEnemy &unit) {
 	if (unit.enemy.attackflg == true) {
-		if (unit.enemy.dir == unit.enemy.RIGHT) {
-			unit.enemy.vct.x = cos(enemy.ang);
-			unit.enemy.vct.y = sin(enemy.ang);
-			unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
-			unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
-		}
-		else {
+
 			if (unit.enemy.moveflg != 7) {
-				unit.enemy.vct.x = -cos(enemy.ang);
+				unit.enemy.vct.x = -cos(enemy.ang)* unit.enemy.dir;
 				unit.enemy.vct.y = sin(enemy.ang);
 				unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
 				unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
@@ -69,7 +63,6 @@ void cBlueEnemy:: Move(cBlueEnemy &unit) {
 				unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
 				unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
 			}
-		}
 	}
 }
 

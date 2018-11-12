@@ -49,25 +49,17 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 
 void cRedEnemy::Move(cRedEnemy &unit) {
 	if (unit.enemy.attackflg == true) {
-		if (unit.enemy.dir == unit.enemy.RIGHT) {
-			unit.enemy.vct.x = cos(enemy.ang);
+		if (unit.enemy.moveflg != 6) {
+			unit.enemy.vct.x = -cos(enemy.ang)* unit.enemy.dir;
 			unit.enemy.vct.y = sin(enemy.ang);
 			unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
 			unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
 		}
 		else {
-			if (unit.enemy.moveflg != 6) {
-				unit.enemy.vct.x = -cos(enemy.ang);
-				unit.enemy.vct.y = sin(enemy.ang);
-				unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
-				unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
-			}
-			else {
-				unit.enemy.vct.x = cos(enemy.ang);
-				unit.enemy.vct.y = sin(enemy.ang);
-				unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
-				unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
-			}
+			unit.enemy.vct.x = cos(enemy.ang);
+			unit.enemy.vct.y = sin(enemy.ang);
+			unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
+			unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
 		}
 	}
 }
@@ -131,9 +123,7 @@ int cRedEnemy::Update() {
 			if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
 				(enemy.target.y - enemy.mainpos.pos.y)*(enemy.target.y - enemy.mainpos.pos.y) <=
 				(enemy.mainpos.r + enemy.targetr)*(enemy.mainpos.r + enemy.targetr)) {
-				//敵座標を目的地に固定
-				enemy.mainpos.pos.x = enemy.target.x;
-				enemy.mainpos.pos.y = enemy.target.y;
+				
 				enemy.moveflg++;
 				enemy.count = 0;
 			}
@@ -143,6 +133,9 @@ int cRedEnemy::Update() {
 			enemy.moveflg = 0;
 			enemy.ang = 180 * 3.14159265 / 180;
 			enemy.dir *= -1;
+			//敵座標を目的地に固定
+			enemy.mainpos.pos.x = enemy.target.x;
+			enemy.mainpos.pos.y = enemy.target.y;
 			enemy.attackflg = false;
 			break;
 
