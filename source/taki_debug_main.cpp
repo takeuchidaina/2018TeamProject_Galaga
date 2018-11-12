@@ -9,7 +9,7 @@ using namespace std;
 #include "DxLib.h"
 #include "Struct.h"
 
-
+ static int i = 0;
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	SetGraphMode(1280, 960, 32);
@@ -25,10 +25,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	cGreenEnemy boss(500,330,5,0,3,180,false);
 
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {//画面更新 & メッセージ処理 & 画面消去
-		zako.SetAttackflg();
-		goei.SetAttackflg();
-		boss.SetAttackflg();
-
+		//if (i <= 3) {
+			zako.SetAttackflg();
+			goei.SetAttackflg();
+			boss.SetAttackflg();
+		//	i++;
+		//}
 		zako.Update(); 
 		goei.Update();
 		boss.Update();
