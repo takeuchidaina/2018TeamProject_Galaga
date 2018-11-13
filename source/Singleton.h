@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef _SINGLETON_INCLUDE_
+#define _SINGLETON_INCLUDE_
+
 template <typename _T>
 class Singleton {
 
@@ -15,3 +18,5 @@ public:
 		return &inst;
 	};
 };
+
+#endif

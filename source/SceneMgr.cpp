@@ -28,7 +28,7 @@ void cSceneMgr::Init_Module(eScene scene) {
 		break;
 	case eInGame:
 		//ƒQ[ƒ€‰æ–Ê
-		InGameMgr = new cInGameMgr;
+//		InGameMgr = new cInGameMgr;
 		break;
 	case eGameMenu:
 		//ƒQ[ƒ€ƒƒjƒ…[
@@ -50,7 +50,7 @@ void cSceneMgr::End_Module(eScene scene) {
 		break;
 	case eInGame:
 		//ƒQ[ƒ€‰æ–Ê
-		delete InGameMgr;
+//		delete InGameMgr;
 		break;
 	case eGameMenu:
 		//ƒQ[ƒ€ƒƒjƒ…[
@@ -85,7 +85,8 @@ void cSceneMgr::Update() {
 		break;
 	case eInGame:
 		//ƒQ[ƒ€‰æ–Ê
-		InGameMgr->Update();
+//		InGameMgr->Update();
+		cInGameMgr::Instance()->Update();
 		break;
 	case eGameMenu:
 		//ƒQ[ƒ€ƒƒjƒ…[
@@ -109,7 +110,8 @@ void cSceneMgr::Draw() {
 		break;
 	case eInGame:
 		//ƒQ[ƒ€‰æ–Ê
-		InGameMgr->Draw();
+//		InGameMgr->Draw();
+		cInGameMgr::Instance()->Draw();
 		DrawFormatString(0, 0, GetColor(255, 255, 255), "SceneMgr InGame");
 		break;
 	case eGameMenu:

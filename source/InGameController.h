@@ -6,16 +6,17 @@
 #include "Singleton.h"
 #include "InGameMgr.h"
 
-class cInGameController :public cInGameMgr , public Singleton <cInGameController> {
+class cInGameController : public Singleton <cInGameController> {
 	cInGameController();
-	friend cInGameMgr;
 	friend Singleton < cInGameController>;
 private:
-	static int nowStageNum;
+	int nowStageNum = 1;
+	int count = 0;
 
 public:
-
-
+	int BeforeSceneUpdate();
+	int BeforeSceneDraw();
+	int GetNowStageNum() { return nowStageNum; }
 };
 
 

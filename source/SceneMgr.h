@@ -3,6 +3,7 @@
 #define _SCENE_MGR_INCLUDE_
 
 #include "Template.h"
+#include "Singleton.h"
 #include "InGameMgr.h"
 #include "Template.h"
 #include "EnemyMgr.h"
@@ -19,7 +20,9 @@ typedef enum {
 //Ç±Ç±Ç‹Ç≈
 
 //åpè≥ÇégÇ§Ç∆Ç‡Ç¡Ç∆ó«Ç≠Ç»ÇÈÅ@Ç∆ÇËÇ†Ç¶Ç∏CÅÀC++Ç÷
-class cSceneMgr {
+class cSceneMgr : public Singleton <cSceneMgr> {
+	cSceneMgr();
+	friend Singleton <cSceneMgr>;
 private:
 	eScene sceneflag;
 	eScene next_Sceneflag;
@@ -28,12 +31,13 @@ private:
 	void End_Module(eScene scene);
 
 	cTemplate* test;
-	cInGameMgr* InGameMgr;
+	//cInGameMgr* InGameMgr;
+
+	~cSceneMgr();
+
 	
 
 public:
-	cSceneMgr();
-	~cSceneMgr();
 
 	void Update();
 	void Draw();
