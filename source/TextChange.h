@@ -9,11 +9,28 @@ private:
 
 	int textImg[48];
 
-public:
+	cTextChange();  //privateなのでnewが使えない
 
-	cTextChange();
+public:
+	static cTextChange* Instance()
+	{
+		static cTextChange inst;
+		return &inst;
+	}
+	
 
 	int Update();
 	void Draw();
 };
 #endif
+
+
+/* _MEMO
+
+コンストラクタをprivateに指定して、シングルトンクラス以外から
+コンストラクタの呼出し（newが使えなくなる）ができないようにします。
+そして、（外部よりnewが使えないため）取得するメソッドを用意してあげる必要があります。 
+このメソッドは、どこからでも参照できるようにpublic static宣言をする必要があります。
+
+
+*/
