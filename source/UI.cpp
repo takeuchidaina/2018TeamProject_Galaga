@@ -35,7 +35,7 @@ int UI_Init()
 	iconY = 700;
 
 	//DEBUG
-	stageNo = GetNowStageNum();
+	stageNo = cInGameController::Instance()->GetNowStageNum();
 	playerHP = 2;
 
 	//‰æ‘œ‚Ì“Ç‚İ‚İ

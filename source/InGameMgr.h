@@ -31,7 +31,7 @@ public:
 private:
 
 
-	static cPlayer Player;
+	//static cPlayer Player;
 	static cEnemyMgr EnemyMgr;
 	static cShotMgr ShotMgr;
 
