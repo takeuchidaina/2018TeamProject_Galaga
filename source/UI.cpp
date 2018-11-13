@@ -35,7 +35,7 @@ int UI_Init()
 	iconY = 700;
 
 	//DEBUG
-	stageNo = 18;
+	stageNo = GetNowStageNum();
 	playerHP = 2;
 
 	//画像の読み込み
@@ -174,32 +174,34 @@ int UI_StgSelectIcon(int stageNo)
 		for (int i = 0; i < tmp; i++)
 		{
 			DrawExtendGraph(iconX - (ICONMAG * i),
-				iconY,
-				iconX + IMAGEMAG + (ICONMAG / 2) - (ICONMAG * i),
-				iconY + IMAGEMAG + ICONMAG,
-				iconImg[0], TRUE);
+							iconY,
+							iconX + IMAGEMAG + (ICONMAG / 2) - (ICONMAG * i),
+							iconY + IMAGEMAG + ICONMAG,
+							iconImg[0], TRUE);
 		}
 	}
 	//ステージ5・15・25・・・
 	if (tmp2 % 2 != 0)		//10や20だったらtmp2が偶数なので%2で割ると0になる為処理がされない
 	{
-		if (stageNo % 5 != 0)	//1～4のアイコンがあるなら
+		//1～4のアイコンがあるなら(tmpが1～4)
+		if (stageNo % 5 != 0)	
 		{
-			// X座標から1～4のアイコンの数に応じてずれる
+			// X座標からアイコンの数に応じてずれる
 			DrawExtendGraph(iconX - (ICONMAG * tmp + 1),
-				iconY,
-				(iconX + 64) - (ICONMAG * tmp + 1),
-				iconY + IMAGEMAG + ICONMAG,
-				iconImg[1], TRUE);
+							iconY,
+							(iconX + 64) - (ICONMAG * tmp + 1),
+							iconY + IMAGEMAG + ICONMAG,
+							iconImg[1], TRUE);
 		}
+		//1～4のアイコンがないなら(tmpが0)
 		else
 		{
 			// X座標に表示
 			DrawExtendGraph(iconX,
-				iconY,
-				iconX + IMAGEMAG + (ICONMAG / 2),
-				iconY + IMAGEMAG + ICONMAG,
-				iconImg[1], TRUE);
+							iconY,
+							iconX + IMAGEMAG + (ICONMAG / 2),
+							iconY + IMAGEMAG + ICONMAG,
+							iconImg[1], TRUE);
 		}
 
 		fiveFlg = TRUE;  // 5のアイコンを表示している
@@ -211,20 +213,21 @@ int UI_StgSelectIcon(int stageNo)
 		if (fiveFlg == TRUE)
 		{
 			DrawExtendGraph(iconX - (ICONMAG * (tmp + 1)),
-				iconY,
-				iconX + IMAGEMAG + (ICONMAG / 2) - (ICONMAG * (tmp + 1)),
-				iconY + IMAGEMAG + ICONMAG,
-				iconImg[tmp3 + 1], TRUE);
+							iconY,
+							iconX + IMAGEMAG + (ICONMAG / 2) - (ICONMAG * (tmp + 1)),
+							iconY + IMAGEMAG + ICONMAG,
+							iconImg[tmp3 + 1], TRUE);
 		}
 		// 5のアイコンがないなら
 		else
 		{
 			DrawExtendGraph(iconX - (ICONMAG * tmp),
-				iconY,
-				iconX + IMAGEMAG + (ICONMAG / 2) - (ICONMAG * tmp),
-				iconY + IMAGEMAG + ICONMAG,
-				iconImg[tmp3 + 1], TRUE);
+							iconY,
+							iconX + IMAGEMAG + (ICONMAG / 2) - (ICONMAG * tmp),
+							iconY + IMAGEMAG + ICONMAG,
+							iconImg[tmp3 + 1], TRUE);
 		}
 	}
+
 	return 0;
 }

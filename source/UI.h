@@ -3,6 +3,7 @@
 #define _UI_INCLUDE_
 
 #include "Struct.h"
+#include "InGameController.h"
 
 #define DISP_SIZE ((1280 / 4 * 3) - 50)
 #define UI_SIZE (1280 - DISP_SIZE)
