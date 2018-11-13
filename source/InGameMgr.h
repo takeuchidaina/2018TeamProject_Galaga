@@ -28,6 +28,9 @@ private:
 	void Init_Module(eInGameScene scene);
 	void End_Module(eInGameScene scene);
 
+protected:
+
+
 
 public:
 	cInGameMgr();
