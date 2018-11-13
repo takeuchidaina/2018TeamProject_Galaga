@@ -9,7 +9,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ChangeWindowMode(TRUE), DxLib_Init(), SetDrawScreen(DX_SCREEN_BACK); //ウィンドウモード変更と初期化と裏画面設定
 
 	//初期化
-	cSceneMgr SceneMgr;
+	//cSceneMgr SceneMgr;
 	//cInterface Interfase;
 
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {
@@ -19,8 +19,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		cInterface::Instance()->Update();
 
-		SceneMgr.Update();
-		SceneMgr.Draw();
+		cSceneMgr::Instance()->Update();
+		cSceneMgr::Instance()->Draw();
+
+		//SceneMgr.Update();
+		//SceneMgr.Draw();
 
 		if (cInterface::Instance()->Get_Input(InRIGHT) != 0) {
 			DrawFormatString(0, 0, GetColor(255,255,255),"→キーが%dフレーム押されています", cInterface::Instance()->Get_Input(InRIGHT));

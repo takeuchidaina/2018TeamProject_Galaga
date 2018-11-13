@@ -3,17 +3,29 @@
 #ifndef _INCLUDE_INTERFACE_
 #define _INCLUDE_INTERFACE_
 
+#include "Singleton.h"
 #include "Keyboard.h"
+/*
+Interfaseの呼び方（使い方）
+１、使いたいソースの先頭で"Interface.h"をインクルードする
+２、押されているか調べたいキーを下のenum一覧から探す
+３、実際に調べる時は
+	if(cInterface::Instance()->Get_Input(InRIGHT) != 0){	//右の入力がされている場合ifの中へ
+		//ここに処理
+	}
+	のように書く
+	こんな感じでキーの受け取り、デバッグなどをしてください。
+*/
 
 //Interfase.Get_Input(ココ)
 typedef enum {
-	InUP,
-	InRIGHT,
-	InDOWN,
-	InLEFT,
-	InDECISION,
-	InCANCEL,
-	InSTRAT,
+	InUP,		//上	上矢印
+	InRIGHT,	//右	右矢印
+	InDOWN,		//下	下矢印
+	InLEFT,		//左	左矢印
+	InDECISION,	//決定	スペースキー
+	InCANCEL,	//キャンセル	バックスペースキー
+	InSTRAT,	//スタートポーズ	Ｐキー
 
 	InNONE
 }eInput;
@@ -24,19 +36,16 @@ typedef enum {
 	InGamepad
 }eInputType;
 
-class cInterface {
+class cInterface: public Singleton<cInterface> {
+	cInterface();
+	friend Singleton< cInterface >;
 private:
 	static int buff[InNONE];
 	static eInputType inputType;
 	cKeyboard tmpKey;
 
-	cInterface();
 
 public:
-	static cInterface* Instance() {
-		static cInterface inst;
-		return &inst;
-	}
 	void Update();
 	int Get_Input(eInput);
 };

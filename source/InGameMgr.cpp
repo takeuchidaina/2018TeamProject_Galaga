@@ -1,5 +1,6 @@
 #include <iostream>
 #include "InGameMgr.h"
+#include "InGameController.h"
 
 //コンストラクタ
 cInGameMgr::cInGameMgr() {
@@ -116,6 +117,8 @@ void cInGameMgr::Update() {
 	}
 	switch (sceneflag) {
 	case eBefore://実際ゲームが始まる前のあれ
+				
+		cInGameController::Instance()->BeforeSceneUpdate();
 		//
 		break;
 	case eInGame://ゲーム画面
@@ -146,9 +149,12 @@ void cInGameMgr::Update() {
 void cInGameMgr::Draw() {
 	switch (sceneflag) {
 	case eBefore://実際ゲームが始まる前のあれ
+		cInGameController::Instance()->BeforeSceneDraw();
+		DrawFormatString(0, 20, GetColor(255, 255, 255), "eBefore");
 		//
 		break;
 	case eInGame://ゲーム画面
+		DrawFormatString(0, 20, GetColor(255, 255, 255), "eInGame");
 		//
 		break;
 	case eRevival://プレイヤー復活
