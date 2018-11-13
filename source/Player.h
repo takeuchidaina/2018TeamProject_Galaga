@@ -12,7 +12,6 @@
 class cPlayer {
 private:
 
-	int isLRflg;	  // 0:移動なし -1:左 1:右
 	int image[2];	  //画像
 
 protected:
@@ -25,9 +24,9 @@ public:
 	void Draw();		//描写処理
 	void Double();   //二機の処理
 	void Break(int,int);    //死亡処理
-	sOBJPos*  GetStruct() { return OBJPlayer; }	//構造体の受け渡し
+	sOBJPos*  GetStruct() { return player; }	//構造体の受け渡し
 
-	sOBJPos OBJPlayer[2];
+	sOBJPos player[2];
 	//配列なのは一機か二機かで変わる為
 
 };

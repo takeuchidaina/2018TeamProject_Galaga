@@ -10,21 +10,18 @@ cPlayer::cPlayer()
 {
 
 	//左側の機体
-	OBJPlayer[eLeftMachine].pos.x = 640.0;
-	OBJPlayer[eLeftMachine].pos.y = 850.0;
-	OBJPlayer[eLeftMachine].cx = OBJPlayer[eLeftMachine].pos.x + (IMAGEMAG / 2);
-	OBJPlayer[eLeftMachine].cy = OBJPlayer[eLeftMachine].pos.y + (IMAGEMAG / 2);
-	OBJPlayer[eLeftMachine].onActive = true;
+	player[eLeftMachine].pos.x = 640.0;
+	player[eLeftMachine].pos.y = 850.0;
+	player[eLeftMachine].cx = player[eLeftMachine].pos.x + (IMAGEMAG / 2);
+	player[eLeftMachine].cy = player[eLeftMachine].pos.y + (IMAGEMAG / 2);
+	player[eLeftMachine].onActive = TRUE;
 	//右側の機体
-	OBJPlayer[eRightMachine].pos.x = OBJPlayer[eLeftMachine].pos.x + IMAGEMAG;
-	OBJPlayer[eRightMachine].pos.y = 850.0;
-	OBJPlayer[eRightMachine].cx = OBJPlayer[eRightMachine].pos.x + (IMAGEMAG / 2);
-	OBJPlayer[eRightMachine].cy = OBJPlayer[eRightMachine].pos.y + (IMAGEMAG / 2);
-	OBJPlayer[eRightMachine].onActive = false;
+	player[eRightMachine].pos.x = player[eLeftMachine].pos.x + IMAGEMAG;
+	player[eRightMachine].pos.y = 850.0;
+	player[eRightMachine].cx = player[eRightMachine].pos.x + (IMAGEMAG / 2);
+	player[eRightMachine].cy = player[eRightMachine].pos.y + (IMAGEMAG / 2);
+	player[eRightMachine].onActive = FALSE;
 
-	//フラグ
-	isLRflg = false;      // 0:移動なし  1:右  -1:左
-	
 	//画像の読み込みと分割
 	LoadDivGraph("../resource/Image/Galaga_OBJ_dualFighter.png", 2, 2, 1, 16, 16, image);
 	if (image == NULL)
@@ -51,105 +48,100 @@ cPlayer::~cPlayer()
 *************************************************************************/
 void cPlayer::Update()
 {
-
-	// 右
-	if (cInterface::Instance()->Get_Input(InRIGHT) != 0)
-	{
-		isLRflg = 1;
-	}
-	// 左
-	else if (cInterface::Instance()->Get_Input(InLEFT) != 0)
-	{
-		isLRflg = -1;
-	}
-	// 移動なし
-	else
-	{
-		isLRflg = 0;
-	}
-
 	//移動の計算
 	for (int i = 0; i < MAXMACHINE; i++)
 	{
 		//アクティブ状態ではないなら次へ
-		if (OBJPlayer[i].onActive == false)
+		if (player[i].onActive == FALSE)
 		{
 			continue;
 		}
 
-		//フラグの値が1か-1なので向きが変わりcxの更新
-		OBJPlayer[i].pos.x += (SPEED * isLRflg);
-		OBJPlayer[i].cx = OBJPlayer[eLeftMachine].pos.x + (IMAGEMAG / 2);
-
-	//壁の設定
-
-		for (int j = 0; j < MAXMACHINE; j++)
+		// 右
+		if (cInterface::Instance()->Get_Input(InRIGHT) != 0)
 		{
-
-			//左壁
-			if (OBJPlayer[j].pos.x <= 0)
-			{
-				//二機ともアクティブ状態なら
-				if (OBJPlayer[eLeftMachine].onActive == true && OBJPlayer[eRightMachine].onActive == true)
-				{
-					OBJPlayer[eLeftMachine].pos.x = 0;
-					OBJPlayer[eRightMachine].pos.x = 0 + IMAGEMAG;
-				}
-				//一機のみアクティブ状態なら
-				else
-				{
-					OBJPlayer[i].pos.x = 0;
-				}
-
-			}
-			//右壁
-			if (OBJPlayer[j].pos.x + IMAGEMAG >= DISP_SIZE)
-			{
-				//二機ともアクティブ状態なら
-				if (OBJPlayer[eLeftMachine].onActive == true && OBJPlayer[eRightMachine].onActive == true)
-				{
-					OBJPlayer[eLeftMachine].pos.x = DISP_SIZE - IMAGEMAG * 2;
-					OBJPlayer[eRightMachine].pos.x = DISP_SIZE - IMAGEMAG;
-				}
-				//一機のみアクティブ状態なら
-				else
-				{
-					OBJPlayer[i].pos.x = DISP_SIZE - IMAGEMAG;
-				}
-
-			}
-
+			//フラグの値が1か-1なので向きが変わりcxの更新
+			player[i].pos.x += SPEED;
 		}
+
+		// 左
+		if (cInterface::Instance()->Get_Input(InLEFT) != 0)
+		{
+			//フラグの値が1か-1なので向きが変わりcxの更新
+			player[i].pos.x -= SPEED;
+			
+		}
+
+		//cxの更新
+		player[i].cx = player[eLeftMachine].pos.x + (IMAGEMAG / 2);
+
+			//壁との当たり判定
+
+			for (int j = 0; j < MAXMACHINE; j++)
+			{
+
+				//左壁
+				if (player[j].pos.x <= 0)
+				{
+					//二機ともアクティブ状態なら
+					if (player[eLeftMachine].onActive == TRUE && player[eRightMachine].onActive == TRUE)
+					{
+						player[eLeftMachine].pos.x = 0;
+						player[eRightMachine].pos.x = 0 + IMAGEMAG;
+					}
+					//一機のみアクティブ状態なら
+					else
+					{
+						player[i].pos.x = 0;
+					}
+
+				}
+				//右壁
+				if (player[j].pos.x + IMAGEMAG >= DISP_SIZE)
+				{
+					//二機ともアクティブ状態なら
+					if (player[eLeftMachine].onActive == TRUE && player[eRightMachine].onActive == TRUE)
+					{
+						player[eLeftMachine].pos.x = DISP_SIZE - IMAGEMAG * 2;
+						player[eRightMachine].pos.x = DISP_SIZE - IMAGEMAG;
+					}
+					//一機のみアクティブ状態なら
+					else
+					{
+						player[i].pos.x = DISP_SIZE - IMAGEMAG;
+					}
+
+				}
+
+			}
 	}
 
+		//DEBUG
+			/*
+			//キー
+			if (cInterface::Instance()->Get_Input(DEBUG1) != 0)
+			{
+				cPlayer::Double();		// 二機になる
+			}
+			else if (cInterface::Instance()->Get_Input(DEBUG2) != 0)
+			{
+				cPlayer::Break(eDoubleDeath,eLeftMachine);	// 一機目が死ぬ
+			}
+			else if (cInterface::Instance()->Get_Input(DEBUG3) != 0)
+			{
+				cPlayer::Break(eDoubleDeath,eRightMachine);	// 二機目が死ぬ
+			}
 
-//DEBUG
-	/*
-	//キー
-	if (cInterface::Instance()->Get_Input(InDEBUG1) != 0)
-	{
-		cPlayer::Double();		// I を押したら二機になる
-	}
-	else if (cInterface::Instance()->Get_Input(InDEBUG2) != 0)
-	{
-		cPlayer::Break(eDoubleDeath,eLeftMachine);	// O を押したら一機目が死ぬ
-	}
-	else if (cInterface::Instance()->Get_Input(InDEBUG3) != 0)
-	{
-		cPlayer::Break(eDoubleDeath,eRightMachine);	// P を押したら二機目が死ぬ
-	}
+			//両方撃破されたら
+			if (player[eLeftMachine].onActive == FALSE && player[1].onActive == FALSE)
+			{
+				cPlayer::Break(eDeath, eDoubleMachine);  //GAMEOVER
+			}
 
-	//両方撃破されたら
-	if (OBJPlayer[eLeftMachine].onActive == false && OBJPlayer[1].onActive == false)
-	{
-		cPlayer::Break(eDeath, eDoubleMachine);
-	}
-
-	//DEBUGに使用する場合はInterface.hのenumにInDEBUG1,2,3と
-	//Interface.cppのUpdateにenumを配列の要素数に使用し、IとOとPを対応させてください。
-
-	*/
-
+			//DEBUGに使用する場合はInterface.hのenumにDEBUG1,2,3と
+			//Interface.cppのUpdateにenumを配列の要素数に使用し、三種類のキーボードを対応させてください。
+			*/
+			
 }
 
 /*************************************************************************
@@ -164,27 +156,25 @@ void cPlayer::Draw()
 	for (int i = 0; i < MAXMACHINE; i++)
 	{
 
-		if (OBJPlayer[i].onActive == false)
+		if (player[i].onActive == FALSE)
 		{
 			continue;
 		}
 
 		//表示
-		DrawExtendGraph((int)OBJPlayer[i].pos.x, (int)OBJPlayer[i].pos.y, (int)OBJPlayer[i].pos.x + IMAGEMAG, (int)OBJPlayer[i].pos.y + IMAGEMAG, image[i], TRUE);
+		DrawExtendGraph((int)player[i].pos.x, (int)player[i].pos.y, (int)player[i].pos.x + IMAGEMAG, (int)player[i].pos.y + IMAGEMAG, image[i], TRUE);
 
 	}
 
 //DEBUG
 
 	//座標の表示
-	DrawFormatString(420, 200, GetColor(255, 0, 0), "一機目x:%4.2lf", OBJPlayer[eLeftMachine].pos.x);
-	DrawFormatString(420, 220, GetColor(255, 0, 0), "一機目cx:%4.2lf", OBJPlayer[eLeftMachine].cx);
-	DrawFormatString(420, 240, GetColor(255, 0, 0), "一機目onActive:%d", OBJPlayer[eLeftMachine].onActive);
-	
-
-	DrawFormatString(420, 260, GetColor(255, 0, 0), "二機目x:%4.2lf", OBJPlayer[eRightMachine].pos.x);
-	DrawFormatString(420, 280, GetColor(255, 0, 0), "二機目cx:%4.2lf", OBJPlayer[eRightMachine].cx);
-	DrawFormatString(420, 300, GetColor(255, 0, 0), "二機目onActive:%d", OBJPlayer[eRightMachine].onActive);
+	DrawFormatString(420, 200, GetColor(255, 0, 0), "一機目x:%4.2lf", player[eLeftMachine].pos.x);
+	DrawFormatString(420, 220, GetColor(255, 0, 0), "一機目cx:%4.2lf", player[eLeftMachine].cx);
+	DrawFormatString(420, 240, GetColor(255, 0, 0), "一機目onActive:%d", player[eLeftMachine].onActive);
+	DrawFormatString(420, 260, GetColor(255, 0, 0), "二機目x:%4.2lf", player[eRightMachine].pos.x);
+	DrawFormatString(420, 280, GetColor(255, 0, 0), "二機目cx:%4.2lf", player[eRightMachine].cx);
+	DrawFormatString(420, 300, GetColor(255, 0, 0), "二機目onActive:%d", player[eRightMachine].onActive);
 
 }
 
@@ -198,9 +188,9 @@ void cPlayer::Draw()
 void cPlayer::Double()
 {
 	//二機目の座標を更新し状態をアクティブへ
-	OBJPlayer[eRightMachine].pos.x = OBJPlayer[0].pos.x + IMAGEMAG;
-	OBJPlayer[eRightMachine].cx = OBJPlayer[eRightMachine].pos.x + (IMAGEMAG / 2);
-	OBJPlayer[eRightMachine].onActive = true;
+	player[eRightMachine].pos.x = player[0].pos.x + IMAGEMAG;
+	player[eRightMachine].cx = player[eRightMachine].pos.x + (IMAGEMAG / 2);
+	player[eRightMachine].onActive = TRUE;
 
 	//問題点:二回目の二機の時に座標が初期座標になるので配列を増やして三機目の情報を入れないといけないかもしれない。
 	//ややこしくなるから他の方法を探す
@@ -229,11 +219,11 @@ void cPlayer::Break(int judgeBreak ,int machineNum)
 		//撃破された方を非アクティブに
 		if (machineNum == eLeftMachine)
 		{
-			OBJPlayer[eLeftMachine].onActive = false;
+			player[eLeftMachine].onActive = FALSE;
 		}
 		else
 		{
-			OBJPlayer[eRightMachine].onActive = false;
+			player[eRightMachine].onActive = FALSE;
 		}
 
 	}
