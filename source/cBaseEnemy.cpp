@@ -6,13 +6,24 @@ using namespace std;
 #include "cBaseEnemy.h"
 #include "DxLib.h"
 #include "Struct.h"
+#include "UI.h"
 
 
  cBaseEnemy::cBaseEnemy(){
-	 ;
+	 /*memset(enemy.graph, 0x00, sizeof(enemy.graph));
+	 LoadDivGraph("../resorce/Image/Galaga_OBJ_enemy.png", 20, 5, 4, 22, 16, enemy.graph);*/
+	// LoadGraphScreen(100,100,"../Image/Galaga_OBJ_enemy.png",false);
+	 
 }
  cBaseEnemy::cBaseEnemy(double x,double y,double r,int cnt ,double spd ,double ang,int flg) {
-	 ;
+	 enemy.mainpos.pos.x = x;
+	 enemy.mainpos.pos.y = y;
+	 enemy.width =18 + IMAGEMAG;
+	 enemy.hight = 18 + IMAGEMAG;
+	 enemy.mainpos.cx = enemy.mainpos.pos.x + (double)(enemy.width / 2);
+	 enemy.mainpos.cy = enemy.mainpos.pos.y + (double)(enemy.hight / 2);
+	 memset(enemy.graph, 0x00, sizeof(enemy.graph));
+	 LoadDivGraph("../resorce/Image/Galaga_OBJ_enemy.png", 20, 5, 4, 18, 18, enemy.graph);
  }
 
 cBaseEnemy::~cBaseEnemy() {

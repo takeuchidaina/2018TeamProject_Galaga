@@ -6,6 +6,7 @@ using namespace std;
 #include "cBlueEnemy.h"
 #include "DxLib.h"
 #include "Struct.h"
+#include "UI.h"
 
 
 cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double ang, int flg) : cBaseEnemy(x,y,r,cnt,spd,ang,flg) {
@@ -16,7 +17,7 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 	enemy.count = cnt;
 	enemy.spd = spd;
 	enemy.ang = ang * 3.14159265 / 180;
-	enemy.onActive = flg;
+	enemy.mainpos.onActive = flg;
 
 	enemy.moveflg = 0;
 
@@ -35,7 +36,7 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 	memset(enemy.countflg, 0, sizeof(enemy.countflg));
 	enemy.countflg[0] = 40;
 	enemy.countflg[1] = 70;
-	enemy.countflg[2] = 20;
+	enemy.countflg[2] = 25;
 	enemy.countflg[3] = 130;
 	enemy.countflg[4] = 30;
 	enemy.countflg[5] = 20;
@@ -49,6 +50,8 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 
 
 void cBlueEnemy:: Move(cBlueEnemy &unit) {
+	enemy.mainpos.cx = enemy.mainpos.pos.x + (enemy.width / 2);
+	enemy.mainpos.cy = enemy.mainpos.pos.y + (enemy.hight / 2);
 	if (unit.enemy.attackflg == true) {
 
 			if (unit.enemy.moveflg != 7) {
@@ -71,25 +74,16 @@ int cBlueEnemy::Update() {
 	enemy.count++;
 
 	if (enemy.count > 0) {
-		enemy.onActive = true;
+		enemy.mainpos.onActive = true;
 	}
 			switch (enemy.moveflg)
 			{
 			case 0:
-				enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
-				if (enemy.countflg[enemy.moveflg] <= enemy.count) {
-					enemy.moveflg++;
-					enemy.count = 0;
-				}
-				break;
 			case 1:
-				enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
-				if (enemy.countflg[enemy.moveflg] <= enemy.count) {
-					enemy.moveflg++;
-					enemy.count = 0;
-				}
-				break;
 			case 2:
+			case 4:
+			case 5:
+			case 6:
 				enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
 				if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 					enemy.moveflg++;
@@ -104,28 +98,6 @@ int cBlueEnemy::Update() {
 					enemy.count = 0;
 				}
 				break;
-			case 4:
-				enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
-				if (enemy.countflg[enemy.moveflg] <= enemy.count) {
-					enemy.moveflg++;
-					enemy.count = 0;
-				}
-				break;
-			case 5:
-				enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
-				if (enemy.countflg[enemy.moveflg] <= enemy.count) {
-					enemy.moveflg++;
-					enemy.count = 0;
-				}
-				break;
-			case 6:
-				enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
-				if (enemy.countflg[enemy.moveflg] <= enemy.count) {
-					enemy.moveflg++;
-					enemy.count = 0;
-				}
-				break;
-
 			case 7:
 				enemy.ang = atan2(enemy.target.y - enemy.mainpos.pos.y, enemy.target.x - enemy.mainpos.pos.x);
 				if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
@@ -152,13 +124,25 @@ int cBlueEnemy::Update() {
 }
  
 int cBlueEnemy::Draw() {
+	static int a = 0;
+	static int b = 0;
+//	DrawCircle((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 5, GetColor(0, 0, 255), true);
+	//DrawCircle(enemy.target.x, enemy.target.y, enemy.targetr, GetColor(0, 0, 255), true);
+	//DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y,enemy.ang* 3.14159265 / 180,enemy.graph[b],false,false);
+	//DrawCircle(enemy.target.x, enemy.target.y, enemy.targetr, GetColor(0, 255, 0), true);0
+	DrawExtendGraph((int)enemy.mainpos.pos.x - (int)enemy.width / 2, (int)enemy.mainpos.pos.y - (int)enemy.hight / 2, (int)enemy.mainpos.pos.x + IMAGEMAG - (int)enemy.width / 2, (int)enemy.mainpos.pos.y + IMAGEMAG - (int)enemy.hight / 2, enemy.graph[b], TRUE);
+	//DrawCircle(enemy.target.x, enemy.target.y, enemy.targetr, GetColor(0, 255, 0), true);
 
-	DrawCircle((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 5, GetColor(0, 0, 255), true);
-	DrawCircle(enemy.target.x, enemy.target.y, enemy.targetr, GetColor(0, 0, 255), true);
-	DrawFormatString(0, 55, GetColor(255, 255, 255), "%d", enemy.count);
-	DrawFormatString(0, 65, GetColor(255, 255, 255), "%d", enemy.attackflg);
-	DrawFormatString(0, 75, GetColor(255, 255, 255), "%d", enemy.moveflg);
-	DrawFormatString(0, 85, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.x);
-	DrawFormatString(0, 95, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.y);
+	DrawFormatString(0, 855, GetColor(255, 255, 255), "%d", enemy.count);
+	DrawFormatString(0, 870, GetColor(255, 255, 255), "%d", enemy.attackflg);
+	DrawFormatString(0, 885, GetColor(255, 255, 255), "%d", enemy.moveflg);
+	DrawFormatString(0, 900, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.x);
+	DrawFormatString(0, 915, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.y);
+	a++;
+	if (a > 60) {
+		a = 0;
+		b++;
+		if (b > 1)b = 0;
+	}
 	return 0;
 }

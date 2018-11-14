@@ -10,7 +10,6 @@ using namespace std;
 #include "Struct.h"
 
  static int i = 0;
-
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	SetGraphMode(1280, 960, 32);
 	ChangeWindowMode(TRUE), DxLib_Init(), SetDrawScreen(DX_SCREEN_BACK); //ウィンドウモード変更と初期化と裏画面設定
@@ -23,14 +22,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	cBlueEnemy zako(300, 330, 5, 0, 3, 180, false);
 	cRedEnemy  goei(400,330,5,0,3,180,false);
 	cGreenEnemy boss(500,330,5,0,3,180,false);
-
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {//画面更新 & メッセージ処理 & 画面消去
-		//if (i <= 3) {
-			zako.SetAttackflg();
-			goei.SetAttackflg();
-			boss.SetAttackflg();
-		//	i++;
-		//}
+			zako.SetEnemyAttackflg();
+			goei.SetEnemyAttackflg();
+			boss.SetEnemyAttackflg();
+
 		zako.Update(); 
 		goei.Update();
 		boss.Update();
