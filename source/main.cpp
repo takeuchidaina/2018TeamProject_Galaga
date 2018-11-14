@@ -24,11 +24,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//SceneMgr.Update();
 		//SceneMgr.Draw();
-
+		/*
 		if (cInterface::Instance()->Get_Input(InRIGHT) != 0) {
 			DrawFormatString(0, 0, GetColor(255,255,255),"→キーが%dフレーム押されています", cInterface::Instance()->Get_Input(InRIGHT));
 		}
-
+		*/
 	}
 
 	DxLib_End(); // DXライブラリ終了処理

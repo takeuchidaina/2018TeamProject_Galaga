@@ -3,12 +3,15 @@
 #ifndef _INGAME_MGR_INCLUDE_
 #define _INGAME_MGR_INCLUDE_
 
+
 #include "Singleton.h"
 #include "Player.h"
 #include "EnemyMgr.h"
 #include "ShotMgr.h"
 #include "hit.h"
+#include "Struct.h"
 
+class cPlayer;
 
 class cInGameMgr : public Singleton <cInGameMgr> {
 	cInGameMgr();
@@ -31,9 +34,10 @@ public:
 private:
 
 
-	//static cPlayer Player;
-	static cEnemyMgr EnemyMgr;
-	static cShotMgr ShotMgr;
+	cPlayer *Player;
+
+	cEnemyMgr EnemyMgr;
+	cShotMgr ShotMgr;
 
 
 

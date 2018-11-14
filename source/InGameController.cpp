@@ -12,7 +12,7 @@ int cInGameController::BeforeSceneUpdate() {
 
 int cInGameController::BeforeSceneDraw() {
 	DrawFormatString(0, 40, GetColor(255,255,255),"%d",count);
-	DrawFormatString(200, 400, GetColor(255, 255, 255), "Stage %d", nowStageNum);
+	DrawFormatString(400, 400, GetColor(255, 255, 255), "Stage %d", nowStageNum);
 	return 0;
 }
 
