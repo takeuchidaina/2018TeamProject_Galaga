@@ -17,19 +17,21 @@ typedef struct {
 	int targetr;
 	double spd;
 	double ang;
-	int* graph;
+	int graph[20];
 	int dir = 1;//1　右　-1　左
 	int width;
 	int hight;
 	int count;
-	int onActive;
 	int moveflg;
 	int attackflg;
+	int flg;
 	double moveang[10];
 	double countflg[10];
 }sEnemy;
 
 class cBaseEnemy {
+protected:
+	sEnemy enemy;
 public:
 	     cBaseEnemy();//コンストラクタ
 		 cBaseEnemy(double,double,double,int,double,double,int );	
@@ -38,11 +40,11 @@ public:
 		virtual int Draw();//描画処理
 		virtual void Move(cBaseEnemy &);
 
-		int GetAttackflg() {
+		int GetEnemyAttackflg() {
 			return enemy.attackflg;
 		}
 
-		void SetAttackflg() {
+		void SetEnemyAttackflg() {
 			enemy.attackflg = true;
 		}
 
@@ -54,8 +56,15 @@ public:
 			enemy.ang = ang;
 		}
 
-protected:
-		sEnemy enemy;
+		int GetEnemyOnActive() {
+			return enemy.mainpos.onActive;
+		}
+		void SetEnemyOnActive() {
+			
+			if (enemy.mainpos.onActive == true)enemy.mainpos.onActive = false;
+			else enemy.mainpos.onActive = true;
+		}
+
 
 };
 
