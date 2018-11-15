@@ -30,7 +30,22 @@ private:
 	int onactive;         //表示・非表示の判定
 	}sEnemy;
 
-	sEnemy enemy[32];          //構造体変数だっけの宣言
+	//EnemyMgr内のみで使用するデータの構造体
+	typedef struct {
+		sPos v;               //ベクトル座標  
+		int moveflag;         //動作フラグ
+		int maxmove;          //動作フラグの最大数
+		int RLflag;           //左右を判定するフラグ
+		sPos target;          //目標位置の座標
+		int targetr;          //目標位置の半径(当たり判定に利用)
+		int wave;             //ウェーブ番号  
+		int etype;         //敵の種類(3種分)
+		double moveangle[3];  //角度設定の配列
+		int countflag[3];     //特定のフレーム数をあれする配列
+
+	}sEnemyMgrData;
+
+	sEnemy enemy[32];          //構造体変数
 	sEnemy tmpEnemy;           //一時的に敵データを格納する場所
 	//int movetype;            //敵の動作タイプ
 	int waveflag[10];          //該当ウェーブに敵が何体いるかを管理する
