@@ -1,70 +1,32 @@
 #include <DxLib.h>
-#include"Hit.h"
+#include"hit.h"
 #include"InGameMgr.h"
-#include"player.h"
+#include"Player.h"
+#include"ShotMgr.h"
+#include"Shot.h"
+#include"Player.cpp"
 
-int bulletHit(int *player, int *eBullet, int *pBullet, int*enemy) {
-
-	/* ポインタアドレス割当 */
-	int pcx = player._cx;
-	int pcy = player._cy;
-	int pr = player._r;
-
-	int ecx = enemy._cx;
-	int ecy = enemy._cy;
-	int er = enemy._r;
-
-	int eBcx = eBullet._cx;
-	int eBcy = eBullet._cy;
-	int ebr = eBullet._r;
-
-	int pBcx = pBullet._cx;
-	int pBcy = pBullet._cy;
-	int pbr = pBullet._r;
+void  cHitFunc::Hit(sOBJPos *Player, cShot *enemyShot) {
 
 	/* プレイヤーと敵弾 */
 	for (int i = 0; i < MAXMACHINE; i++) {
 
-		if (*(player.onActive + i) == false) continue;
+		if (Player[i].onActive == false) continue;
 
-		for (int j = 0; j < numB; j++) {
+		for (int j = 0; j < sizeof(enemyShot); j++) {
 
-			if (*(eBullet.onActive + j) == false) continue;
+			if (enemyShot[j].Get_OnActive == false) continue;
 
-			int len = ((*(eBcx + j) - *(pcx + i)) * (*(eBcx + j) - *(pcx + i))) + ((*(eBcy + j) - *(pcy + i))*(*(eBcy + j) - *(pcy + i)));
+			int len = ( (enemyShot[j].cx - Player[i].cx) * (enemyShot[j].cx - Player[i].cx) ) + ( (enemyShot[j].cy - Player[i].cy)*(enemyShot[j].cy - Player[i].cy) );
 
-			if (len <= ((*(ebr + j) + *(pr + i)) * (*(ebr + j) + *(pr + i)))) {
-				if (*player.onActive == true && *(player.onActive + 1) == true) {
-					bulletHit(enemy, j);
-					playerDown(i);
+			if ( len <= ((enemyShot[j].r + Player[i].r) * (enemyShot[j].r + Player[i].r))) {
+				if (Player[eLeftMachine].onActive == true && Player[eRightMachine].onActive == true) {
+					cPlayer::Break(eDoubleDeath, i);
 				}
-				else inGameMgr();
+				else cInGameMgr();
 			}
 		}
 	}
-
-	/* 自弾と敵機　*/
-	for (int i = 0; i < eNum; i++) {
-
-		if (eActive == false) continue;
-
-		for (int j = 0; j < pbNum; j++) {
-
-			if (pbActive == false) continue;
-
-			len = (pbcx - ecx)*(pbcx - ecx) + (pbcy - ecy)*(pbcy - ecy);
-
-			if (len <= ((er + pbr)*(er + pbr))) {
-				enemyDown(i);
-			}
-		}
-	}
-
-
-	return 0;
-}
-
-int clashHit() {
 
 	/* プレイヤーと敵機　*/
 	for (int i = 0; i < pNum; i++) {
@@ -86,14 +48,31 @@ int clashHit() {
 			}
 		}
 	}
+
+	/* 自弾と敵機　*/
+	for (int i = 0; i < eNum; i++) {
+
+		if (eActive == false) continue;
+
+		for (int j = 0; j < pbNum; j++) {
+
+			if (pbActive == false) continue;
+
+			len = (pbcx - ecx)*(pbcx - ecx) + (pbcy - ecy)*(pbcy - ecy);
+
+			if (len <= ((er + pbr)*(er + pbr))) {
+				enemyDown(i);
+			}
+		}
+	}
 }
 
-int beemHit() {
+void beemHit() {
 
 	if (((ecx - beemR) <= pcx && (ecx + beemR) >= pcx)) {
 		InGameMgr();
 	}
-	return 0;
+
 }
 
 void hit_Update() {

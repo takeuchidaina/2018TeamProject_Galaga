@@ -5,8 +5,8 @@
 #define PLAYER 0
 #define ENEMY 1
 
-#ifndef _TEMPLATE_INCLUDE_
-#define _TEMPLATE_INCLUDE_
+#ifndef _HITFUNC_INCLUDE_
+#define _HITFUNC_INCLUDE_
 
 /*
 //テンプレート例 クラスもテンプレート化可能
@@ -19,8 +19,21 @@ b = tmp;
 }
 */
 
-/* 関数宣言 */
-void hit_Update();
+class cHitFunc {
+private:
+
+protected:
+
+public:
+	cHitFunc();	//コンストラクタ
+	~cHitFunc();	//デストラクタ
+
+	void Update();	//計算処理
+	void Draw();		//描写処理
+	void Hit();   //当たり判定
+	void BeemHit();    //トラクタービーム当たり判定
+
+};
 
 
 #endif
