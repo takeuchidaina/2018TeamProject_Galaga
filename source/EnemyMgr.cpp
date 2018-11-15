@@ -1,6 +1,9 @@
 #include "EnemyMgr.h"
-#include <Dxlib.h>
 #include <math.h>
+#include <Dxlib.h>
+#include "cBlueEnemy.h"
+#include "cRedEnemy.h"
+#include "cGreenEnemy.h"
 
 //コンストラクタ
 cEnemyMgr::cEnemyMgr() {
@@ -13,7 +16,7 @@ cEnemyMgr::cEnemyMgr() {
 
 	//Stage_1.csv
 	StageHandle = FileRead_open(StageFilePath);
-	if (StageHandle == 0);  //エラー処理の記入途中
+	if(StageHandle == 0);  //エラー処理の記入途中
 
 	//最初の二行　読み飛ばす　処理　
 	for (int i = 0; i < 2; i++)while (FileRead_getc(StageHandle) != '\n');
@@ -33,12 +36,11 @@ cEnemyMgr::cEnemyMgr() {
 				inputc[i] = '\0';
 				break;
 			}
-			if (input[i] == EOF) {
+			if (input[i] == EOF) {g
 				fileEndFlag = 1;
 				break;
 			}
 		}*/
-
 
 		for (int i = 0; i < 64; i++) {
 			inputc[i] = input[i] = FileRead_getc(StageHandle);//1文字取得する
@@ -60,35 +62,85 @@ cEnemyMgr::cEnemyMgr() {
 		//ファイル終了処理フラグが立っている場合は以下の処理を行わない
 		if (fileEndFlag == 1)break;
 		switch (num) {
+		case 0: tmpEnemy.pos.x = atof(inputc); break;
+		case 1: tmpEnemy.pos.y = atof(inputc); break;
+		//case 2: tmpEnemy.v.x = atof(inputc); break;	        //ここ
+		//case 3: tmpEnemy.v.y = atof(inputc); break;	        //ここ
+		case 2: tmpEnemy.r = atoi(inputc); break;
+		case 3: tmpEnemy.count = atoi(inputc); break;
+		case 4: tmpEnemy.angle = atof(inputc); break;
+		case 5: tmpEnemy.speed = atoi(inputc); break;
+		//case 8: tmpEnemy.moveflag = atoi(inputc); break;   	//ここ
+		case 6: tmpEnemy.maxmove = atoi(inputc); break;
+		case 7:tmpEnemy.RLflag = atoi(inputc); break;
+		case 8:tmpEnemy.target.x = atof(inputc); break;
+		case 9:tmpEnemy.target.y = atof(inputc); break;
+		case 10:tmpEnemy.targetr = atoi(inputc); break;
+		case 11:tmpEnemy.wave = atoi(inputc); break;	        //追加
+		case 12:tmpEnemy.etype = atoi(inputc); break;           //etypeついか     
+		case 13:tmpEnemy.moveangle[0] = atof(inputc); break;	//ここ
+		case 14:tmpEnemy.countflag[0] = atoi(inputc); break;	//ここ
+		case 15:tmpEnemy.moveangle[1] = atof(inputc); break;	//ここ
+		case 16:tmpEnemy.countflag[1] = atoi(inputc); break;	//ここ
+		case 17:tmpEnemy.moveangle[2] = atof(inputc); break;	//ここ
+		case 18:tmpEnemy.countflag[2] = atoi(inputc); break;	//ここ
+		//case 16:tmpEnemy.onactive = atoi(inputc); break;	    //ここ
+		//case 17:tmpEnemy.item_n[5] = atoi(inputc); break;
+		}
+
+		switch (num) {
 		case 0: enemy[n].pos.x = atof(inputc); break;
 		case 1: enemy[n].pos.y = atof(inputc); break;
-			//case 2: enemy[n].v.x = atof(inputc); break;	        //ここ
-			//case 3: enemy[n].v.y = atof(inputc); break;	        //ここ
+		//case 2: enemy[n].v.x = atof(inputc); break;            //ここ
+		//case 3: enemy[n].v.y = atof(inputc); break;            //ここ
 		case 2: enemy[n].r = atoi(inputc); break;
 		case 3: enemy[n].count = atoi(inputc); break;
 		case 4: enemy[n].angle = atof(inputc); break;
 		case 5: enemy[n].speed = atoi(inputc); break;
-			//case 8: enemy[n].moveflag = atoi(inputc); break;   	//ここ
+		//case 8: enemy[n].moveflag = atoi(inputc); break;       //ここ
 		case 6: enemy[n].maxmove = atoi(inputc); break;
 		case 7:enemy[n].RLflag = atoi(inputc); break;
 		case 8:enemy[n].target.x = atof(inputc); break;
 		case 9:enemy[n].target.y = atof(inputc); break;
 		case 10:enemy[n].targetr = atoi(inputc); break;
-		case 11:enemy[n].wave = atoi(inputc); break;	        //追加
-		case 12:enemy[n].moveangle[0] = atof(inputc); break;	//ここ
-		case 13:enemy[n].countflag[0] = atoi(inputc); break;	//ここ
-		case 14:enemy[n].moveangle[1] = atof(inputc); break;	//ここ
-		case 15:enemy[n].countflag[1] = atoi(inputc); break;	//ここ
-		case 16:enemy[n].moveangle[2] = atof(inputc); break;	//ここ
-		case 17:enemy[n].countflag[2] = atoi(inputc); break;	//ここ
-
-		//case 16:enemy[n].onactive = atoi(inputc); break;	    //ここ
+		case 11:enemy[n].wave = atoi(inputc); break;            //追加
+		case 12:enemy[n].etype = atoi(inputc); break;           //etype追加
+		case 13:enemy[n].moveangle[0] = atof(inputc); break;    //ここ
+		case 14:enemy[n].countflag[0] = atoi(inputc); break;    //ここ
+		case 15:enemy[n].moveangle[1] = atof(inputc); break;    //ここ
+		case 16:enemy[n].countflag[1] = atoi(inputc); break;    //ここ
+		case 17:enemy[n].moveangle[2] = atof(inputc); break;    //ここ
+		case 18:enemy[n].countflag[2] = atoi(inputc); break;    //ここ
+		//case 16:enemy[n].onactive = atoi(inputc); break;        //ここ
 		//case 17:enemy[n].item_n[5] = atoi(inputc); break;
 		}
+
 		enemy[n].v.x = 0;
 		enemy[n].v.y = 0;
 		enemy[n].moveflag = 0;
 		enemy[n].onactive = 0;
+
+
+		/*switch文でtypeをみて,結果に合わせてtmpEnemyのデータをそれぞれのcbaseEnemyにいれる
+			//enemies[n] = new(*cBaseEnemy)cBlueEnemy(tmpEnemy.pos.x,tmpEnemy.pos.y,etc...);*/
+		switch (tmpEnemy.etype) {
+		case 0:
+			enemies[n] = (cBaseEnemy*) new cBlueEnemy(tmpEnemy.pos.x, tmpEnemy.pos.y, tmpEnemy.r, tmpEnemy.count, tmpEnemy.speed, tmpEnemy.angle, tmpEnemy.onactive);
+
+		case 1:
+			enemies[n] = (cBaseEnemy*) new cBlueEnemy(tmpEnemy.pos.x, tmpEnemy.pos.y, tmpEnemy.r, tmpEnemy.count, tmpEnemy.speed, tmpEnemy.angle, tmpEnemy.onactive);
+
+		case 2:
+			enemies[n] = (cBaseEnemy*) new cBlueEnemy(tmpEnemy.pos.x, tmpEnemy.pos.y, tmpEnemy.r, tmpEnemy.count, tmpEnemy.speed, tmpEnemy.angle, tmpEnemy.onactive);
+
+
+		}
+
+		enemy[n].v.x = 0;
+		enemy[n].v.y = 0;
+		enemy[n].moveflag = 0;
+		enemy[n].onactive = 0;
+
 		num++;
 		if (num == 18) {
 			num = 0;
@@ -131,6 +183,9 @@ cEnemyMgr::cEnemyMgr() {
 		enemy[i].onactive = 0;
 	}
 	
+
+
+
 	//movetype = 1;  //敵の動作タイプ(ぐるーってなるやつかぎゅいーんってなるやつか)
 
 	if (movetype == 1) {
