@@ -57,7 +57,7 @@ typedef enum
 {
 	eLeftMachine,		//左の機体
 	eRightMachine,		//右の機体
-	eDoubleMachine,			//両方の機体
+	eNoneMachine,		//機体無し
 
 }eMachineNum;
 

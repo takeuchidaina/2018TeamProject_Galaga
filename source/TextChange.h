@@ -3,21 +3,18 @@
 #ifndef _TEXTCONVERSION_INCLUDE_
 #define _TEXTCONVERSION_INCLUDE_
 
-class cTextChange 
+#include "Singleton.h"
+
+class cTextChange : public cSingleton<cTextChange>
 {
 private:
 
 	int textImg[48];
 
 	cTextChange();  //private‚È‚Ì‚Ånew‚ªŽg‚¦‚È‚¢
+	friend cSingleton< cTextChange >;
 
 public:
-	static cTextChange* Instance()
-	{
-		static cTextChange inst;
-		return &inst;
-	}
-	
 
 	int Update();
 	void Draw();
