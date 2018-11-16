@@ -88,6 +88,8 @@ cEnemyMgr::cEnemyMgr() {
 		//case 17:tmpEnemy.item_n[5] = atoi(inputc); break;
 		}
 
+		//ファイル終了処理フラグが立っている場合は以下の処理を行わない
+		if (fileEndFlag == 1)break;
 		switch (num) {
 		case 0: enemy[n].pos.x = atof(inputc); break;
 		case 1: enemy[n].pos.y = atof(inputc); break;
@@ -124,13 +126,13 @@ cEnemyMgr::cEnemyMgr() {
 		/*switch文でtypeをみて,結果に合わせてtmpEnemyのデータをそれぞれのcbaseEnemyにいれる
 			//enemies[n] = new(*cBaseEnemy)cBlueEnemy(tmpEnemy.pos.x,tmpEnemy.pos.y,etc...);*/
 		switch (tmpEnemy.etype) {
-		case 0:
+		case 0:  //青(ざこ)
 			enemies[n] = (cBaseEnemy*) new cBlueEnemy(tmpEnemy.pos.x, tmpEnemy.pos.y, tmpEnemy.r, tmpEnemy.count, tmpEnemy.speed, tmpEnemy.angle, tmpEnemy.onactive);
 
-		case 1:
+		case 1:  //赤(護衛)
 			enemies[n] = (cBaseEnemy*) new cRedEnemy(tmpEnemy.pos.x, tmpEnemy.pos.y, tmpEnemy.r, tmpEnemy.count, tmpEnemy.speed, tmpEnemy.angle, tmpEnemy.onactive);
 
-		case 2:
+		case 2:  //緑(ボスギャラガ)
 			enemies[n] = (cBaseEnemy*) new cGreenEnemy(tmpEnemy.pos.x, tmpEnemy.pos.y, tmpEnemy.r, tmpEnemy.count, tmpEnemy.speed, tmpEnemy.angle, tmpEnemy.onactive);
 
 
@@ -142,7 +144,7 @@ cEnemyMgr::cEnemyMgr() {
 		enemy[n].onactive = 0;
 
 		num++;
-		if (num == 18) {
+		if (num == 19) {
 			num = 0;
 			n++;
 		}
@@ -314,17 +316,22 @@ void cEnemyMgr::Update() {
 
 //描写処理
 void cEnemyMgr::Draw() {
+	/*
 	DrawFormatString(0, 20, GetColor(255, 255, 255), "[0]:x=%.1lf y=%.1lf",enemy[0].pos.x,enemy[0].pos.y);
 	DrawFormatString(0, 40, GetColor(255, 255, 255), "[7]:x=%.1lf y=%.1lf", enemy[7].pos.x, enemy[7].pos.y);
 	DrawFormatString(0, 60, GetColor(255, 255, 255), "atan2=%.3lf", atan2(enemy[0].target.y - enemy[0].pos.y, enemy[0].target.x - enemy[0].pos.x));
-	
+	*/
 	for (int i = 0; i < sizeof(enemy) / sizeof(*enemy); i++) {
 		//敵配列の描画
-		if (i % 2 == 0) {
-			DrawCircle(enemy[i].pos.x, enemy[i].pos.y, enemy[i].r, GetColor(255, 255, 255), TRUE);
+		if (enemy[i].etype == 0) {
+			DrawCircle(enemy[i].pos.x, enemy[i].pos.y, enemy[i].r, GetColor(0, 0, 255), TRUE);
 		}
-		else {
+		else if(enemy[i].etype==1)
+		{
 			DrawCircle(enemy[i].pos.x, enemy[i].pos.y, enemy[i].r, GetColor(255, 0, 0), TRUE);
+		}
+		else if (enemy[i].etype == 2){
+			DrawCircle(enemy[i].pos.x, enemy[i].pos.y, enemy[i].r, GetColor(0, 255, 0), TRUE);
 		}
 
 	}
