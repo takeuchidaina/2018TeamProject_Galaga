@@ -169,12 +169,12 @@ void cPlayer::Draw()
 //DEBUG
 
 	//座標の表示
-	DrawFormatString(420, 200, GetColor(255, 0, 0), "一機目x:%4.2lf", player[eLeftMachine].pos.x);
-	DrawFormatString(420, 220, GetColor(255, 0, 0), "一機目cx:%4.2lf", player[eLeftMachine].cx);
-	DrawFormatString(420, 240, GetColor(255, 0, 0), "一機目onActive:%d", player[eLeftMachine].onActive);
-	DrawFormatString(420, 260, GetColor(255, 0, 0), "二機目x:%4.2lf", player[eRightMachine].pos.x);
-	DrawFormatString(420, 280, GetColor(255, 0, 0), "二機目cx:%4.2lf", player[eRightMachine].cx);
-	DrawFormatString(420, 300, GetColor(255, 0, 0), "二機目onActive:%d", player[eRightMachine].onActive);
+	DrawFormatString(DISP_SIZE - 300, 500, GetColor(255, 0, 0), "一機目x:%4.2lf", player[eLeftMachine].pos.x);
+	DrawFormatString(DISP_SIZE - 300, 520, GetColor(255, 0, 0), "一機目cx:%4.2lf", player[eLeftMachine].cx);
+	DrawFormatString(DISP_SIZE - 300, 540, GetColor(255, 0, 0), "一機目onActive:%d", player[eLeftMachine].onActive);
+	DrawFormatString(DISP_SIZE - 300, 560, GetColor(255, 0, 0), "二機目x:%4.2lf", player[eRightMachine].pos.x);
+	DrawFormatString(DISP_SIZE - 300, 580, GetColor(255, 0, 0), "二機目cx:%4.2lf", player[eRightMachine].cx);
+	DrawFormatString(DISP_SIZE - 300, 600, GetColor(255, 0, 0), "二機目onActive:%d", player[eRightMachine].onActive);
 
 }
 
@@ -207,7 +207,7 @@ void cPlayer::Double()
 
 		int machineNum　 eLeftMachine   : 左の機体
 						 eRightMachine  : 右の機体
-						 eDoubleMachine : 両方の機体
+						 eNoneMachine   : 機体無し
 			
 戻り値: 無し
 *************************************************************************/
@@ -228,7 +228,7 @@ void cPlayer::Break(int judgeBreak ,int machineNum)
 
 	}
 	//一機の状態で死んだら
-	else if (judgeBreak == eDeath && machineNum == eDoubleMachine)
+	else if (judgeBreak == eDeath && machineNum == eNoneMachine)
 	{
 		//残機によって、マシーンの生成又は終了処理
 
