@@ -48,7 +48,7 @@ public:
 			enemy.attackflg = true;
 		}
 
-		int GetEnemyAngle() {
+		double GetEnemyAngle() {
 			return enemy.ang;
 		}
 
