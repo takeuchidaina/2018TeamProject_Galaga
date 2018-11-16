@@ -31,8 +31,8 @@ class cHit: public cSingleton<cHit>
 	friend cSingleton< cHit >;
 private:
 
-//	sOBJPos Player;
-//	void Hit(sOBJPos, cShot , cShot , sEnemy );		//“–‚½‚è”»’è
+	sOBJPos Player;
+	void Hit();		//“–‚½‚è”»’è
 
 protected:
 
