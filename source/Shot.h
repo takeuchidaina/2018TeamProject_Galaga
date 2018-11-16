@@ -33,6 +33,9 @@ public:
 	void Set_ShotX(int tmp) { x = tmp; }
 	inline double Get_ShotY() { return y; }
 	void Set_ShotY(int tmp) { y = tmp; }
+	inline double Get_ShotCX() { return cx; }
+	inline double Get_ShotCY() { return cy; }
+	inline double Get_ShotR() { return r; }
 
 	//void Set_Width(int tmp) { w = tmp; }
 	//void Set_Height(int tmp) { h = tmp; }
