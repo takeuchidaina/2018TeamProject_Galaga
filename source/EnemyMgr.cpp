@@ -1,4 +1,5 @@
 #include "EnemyMgr.h"
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include <Dxlib.h>
 #include "cBlueEnemy.h"
@@ -68,7 +69,7 @@ cEnemyMgr::cEnemyMgr() {
 			//case 3: tmpEnemy.v.y = atof(inputc); break;	        //‚±‚±
 		case 2: tmpEnemy.r = atoi(inputc); break;
 		case 3: tmpEnemy.count = atoi(inputc); break;
-		case 4: tmpEnemy.angle = atof(inputc); break;
+		case 4: tmpEnemy.angle = atof(inputc)* M_PI/180; break;
 		case 5: tmpEnemy.speed = atoi(inputc); break;
 			//case 8: tmpEnemy.moveflag = atoi(inputc); break;   	//‚±‚±
 		case 6: tmpEnemy.maxmove = atoi(inputc); break;
@@ -95,7 +96,7 @@ cEnemyMgr::cEnemyMgr() {
 			//case 3: enemy[n].v.y = atof(inputc); break;            //‚±‚±
 		case 2: enemy[n].r = atoi(inputc); break;
 		case 3: enemy[n].count = atoi(inputc); break;
-		case 4: enemy[n].angle = atof(inputc); break;
+		case 4: enemy[n].angle = atof(inputc) *M_PI / 180; break;
 		case 5: enemy[n].speed = atoi(inputc); break;
 			//case 8: enemy[n].moveflag = atoi(inputc); break;       //‚±‚±
 		case 6: enemy[n].maxmove = atoi(inputc); break;
