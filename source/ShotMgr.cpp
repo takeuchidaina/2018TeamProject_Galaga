@@ -1,6 +1,5 @@
-#include "ShotMgr.h"
+ #include "ShotMgr.h"
 #include "DXlib.h"
-#include "Player.h"
 
 //Templateクラスの実装
 
@@ -24,9 +23,10 @@ int cShotMgr::Update() {
 			if( playerShot[i].Get_OnActive() == false) {
 				playerShot[i].Set_OnActive(TRUE);//0=false,1=true
 				//プレイヤーの座標を受け取って座標をセット
-				//tmp = GetPlayerStruct();
-				playerShot[i].Set_ShotX(200);
-				playerShot[i].Set_ShotY(480);
+				sOBJPos tmp;
+				tmp = cPlayer::Instance()->GetPlayer(0);
+				playerShot[i].Set_ShotX(tmp.pos.x);
+				playerShot[i].Set_ShotY(tmp.pos.y);
 				totalShot++;
 				break;
 			}
@@ -37,12 +37,23 @@ int cShotMgr::Update() {
 
 int cShotMgr::Draw() {
 	for (int i = 0; i < sizeof(enemyShot) / sizeof*(enemyShot); i++) {
-		enemyShot[i].Draw(1,ShotGrHandle);
+		enemyShot[i].Draw(ENEMY,ShotGrHandle);
 	}
 	for (int i = 0; i < sizeof(playerShot) / sizeof*(playerShot); i++) {
-		playerShot[i].Draw(0,ShotGrHandle);
+		playerShot[i].Draw(PLAYER,ShotGrHandle);
 	}
 	DrawFormatString(420,500,GetColor(255,0,255),"totalShot:%d",totalShot);
+	return 0;
+}
+
+//弾を消す処理
+int cShotMgr::Break(int type,int num) {
+	if (type == PLAYER) {
+		playerShot[num].Set_OnActive(FALSE);
+	}
+	else if (type == ENEMY) {
+		enemyShot[num].Set_OnActive(FALSE);
+	}
 	return 0;
 }
 

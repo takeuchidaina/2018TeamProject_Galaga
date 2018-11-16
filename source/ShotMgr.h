@@ -4,6 +4,10 @@
 #define _SHOTMGR_INCLUDE_
 #include "Shot.h"
 #include "Singleton.h"
+#include "Player.h"
+#include "Struct.h"
+#define PLAYER 0
+#define ENEMY 1
 /*
 //テンプレート例 クラスもテンプレート化可能
 template <typename TYPE>
@@ -29,6 +33,7 @@ protected:
 public:
 	int Update();	//計算処理
 	int Draw();		//描写処理
+	int Break(int,int);    //弾を消す関数
 	/*
 	//宣言例
 	private:
