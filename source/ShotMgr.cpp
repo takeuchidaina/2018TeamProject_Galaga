@@ -11,11 +11,6 @@ cShotMgr::cShotMgr() {
 	LoadDivGraph("../resource/Image/Galaga_OBJ_bullet.png",4,4,0,10,12,ShotGrHandle);
 }
 
-//デストラクタ
-cShotMgr::~cShotMgr() {
-
-}
-
 int cShotMgr::Update() {
 	for (int i = 0; i < sizeof(enemyShot) / sizeof*(enemyShot); i++) {
 		enemyShot[i].Update();
