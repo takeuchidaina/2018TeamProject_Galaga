@@ -8,6 +8,7 @@
 cShotMgr::cShotMgr() {
 	enemyShot = new cShot[20];
 	playerShot = new cShot[2];
+	totalShot = 0;
 	LoadDivGraph("../resource/Image/Galaga_OBJ_bullet.png",4,4,0,10,12,ShotGrHandle);
 }
 
@@ -24,7 +25,9 @@ int cShotMgr::Update() {
 				playerShot[i].Set_OnActive(TRUE);//0=false,1=true
 				//プレイヤーの座標を受け取って座標をセット
 				//tmp = GetPlayerStruct();
-				
+				playerShot[i].Set_ShotX(200);
+				playerShot[i].Set_ShotY(480);
+				totalShot++;
 				break;
 			}
 		}
@@ -39,6 +42,7 @@ int cShotMgr::Draw() {
 	for (int i = 0; i < sizeof(playerShot) / sizeof*(playerShot); i++) {
 		playerShot[i].Draw(0,ShotGrHandle);
 	}
+	DrawFormatString(420,500,GetColor(255,0,255),"totalShot:%d",totalShot);
 	return 0;
 }
 

@@ -29,8 +29,13 @@ public:
 	int Draw(int,int *);		//•`Êˆ—
 	inline int Get_OnActive() { return OnActive; }//OnActive‚ÌŠl“¾
 	void Set_OnActive(int tmp) { OnActive = tmp; }
-	void Set_Width(int tmp) { w = tmp; }
-	void Set_Height(int tmp) { h = tmp; }
+	inline double Get_ShotX() { return x; }
+	void Set_ShotX(int tmp) { x = tmp; }
+	inline double Get_ShotY() { return y; }
+	void Set_ShotY(int tmp) { y = tmp; }
+
+	//void Set_Width(int tmp) { w = tmp; }
+	//void Set_Height(int tmp) { h = tmp; }
 /*
 //éŒ¾—á
 private:

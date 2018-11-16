@@ -16,7 +16,14 @@ cShot::~cShot() {
 }
 
 int cShot::Update() {
+	cx = x + w / 2;//cx,cyのセット
+	cy = y + h / 2;
 	//xとyの移動(ラジアンでベクトルを計算)
+	y+=10;
+	//画面外に行ったらFALSEにする
+	if (x-w < 0 || x> 910|| y-h < 0 || y>960) {
+		OnActive = FALSE;
+	}
 	return 0;
 }
 
