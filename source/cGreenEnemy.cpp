@@ -61,7 +61,7 @@ void cGreenEnemy::Move(cGreenEnemy &unit) {
 	}
 	else if(enemy.mainpos.onActive == YesActive){
 		if (unit.enemy.attackflg == TRUE) {
-			if (unit.enemy.dir == unit.enemy.RIGHT) {
+			if (unit.enemy.dir == RIGHT) {
 				unit.enemy.vct.x = cos(enemy.ang);
 				unit.enemy.vct.y = sin(enemy.ang);
 				unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
@@ -152,23 +152,25 @@ int cGreenEnemy::Update() {
 int cGreenEnemy::Draw() {
 	static int a = 0;
 	static int b = 10;
-	
-	DrawExtendGraph((int)enemy.mainpos.pos.x-(int)enemy.width/2, (int)enemy.mainpos.pos.y-(int)enemy.hight/2, (int)enemy.mainpos.pos.x + IMAGEMAG-(int)enemy.width/2, (int)enemy.mainpos.pos.y + IMAGEMAG-(int)enemy.hight/2 ,enemy.graph[b], TRUE);
-	//DrawCircle(enemy.target.x, enemy.target.y, enemy.targetr, GetColor(0, 255, 0), true);
-	DrawFormatString(120, 855, GetColor(255, 255, 255), "%d", enemy.count);
-	DrawFormatString(120, 870, GetColor(255, 255, 255), "%d", enemy.attackflg);
-	DrawFormatString(120, 885, GetColor(255, 255, 255), "%d", enemy.moveflg);
-	DrawFormatString(120, 900, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.x);
-	DrawFormatString(120, 915, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.y);
-/*	DrawLine((int)enemy.mainpos.pos.x - (int)enemy.width / 2, (int)enemy.mainpos.pos.y - (int)enemy.hight / 2, (int)enemy.mainpos.pos.x+ IMAGEMAG, (int)enemy.mainpos.pos.y - (int)enemy.hight / 2,GetColor(255, 255, 255));
-	DrawLine((int)enemy.mainpos.pos.x - (int)enemy.width / 2, (int)enemy.mainpos.pos.y - (int)enemy.hight / 2+ IMAGEMAG, (int)enemy.mainpos.pos.x - (int)enemy.width / 2 + IMAGEMAG/2, (int)enemy.mainpos.pos.y - (int)enemy.hight / 2+IMAGEMAG, GetColor(255, 255, 255));
-	DrawCircle(enemy.mainpos.pos.x, enemy.mainpos.pos.y, 3, GetColor(0, 255, 0), true);
-	DrawCircle((int)enemy.mainpos.cx - enemy.width / 2, (int)enemy.mainpos.cy-enemy.hight/2, 3, GetColor(0, 255, 255), TRUE);*/
 	a++;
 	if (a > 60) {
 		a = 0;
 		b++;
 		if (b > 11)b = 10;
 	}
+	if(enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * 3.14159265) / 180), enemy.graph[b], TRUE, TRUE);
+	else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * 3.14159265 / 180), enemy.graph[b], TRUE, TRUE);
+	//DrawCircle(enemy.target.x, enemy.target.y, enemy.targetr, GetColor(0, 255, 0), true);
+	DrawFormatString(120, 855, GetColor(255, 255, 255), "%d", enemy.count);
+	DrawFormatString(120, 870, GetColor(255, 255, 255), "%d", enemy.attackflg);
+	DrawFormatString(120, 885, GetColor(255, 255, 255), "%d", enemy.moveflg);
+	DrawFormatString(120, 900, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.x);
+	DrawFormatString(120, 915, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.y);
+	DrawFormatString(120, 935, GetColor(255, 255, 255), "%d", enemy.dir);
+/*	DrawLine((int)enemy.mainpos.pos.x - (int)enemy.width / 2, (int)enemy.mainpos.pos.y - (int)enemy.hight / 2, (int)enemy.mainpos.pos.x+ IMAGEMAG, (int)enemy.mainpos.pos.y - (int)enemy.hight / 2,GetColor(255, 255, 255));
+	DrawLine((int)enemy.mainpos.pos.x - (int)enemy.width / 2, (int)enemy.mainpos.pos.y - (int)enemy.hight / 2+ IMAGEMAG, (int)enemy.mainpos.pos.x - (int)enemy.width / 2 + IMAGEMAG/2, (int)enemy.mainpos.pos.y - (int)enemy.hight / 2+IMAGEMAG, GetColor(255, 255, 255));
+	DrawCircle(enemy.mainpos.pos.x, enemy.mainpos.pos.y, 3, GetColor(0, 255, 0), true);
+	DrawCircle((int)enemy.mainpos.cx - enemy.width / 2, (int)enemy.mainpos.cy-enemy.hight/2, 3, GetColor(0, 255, 255), TRUE);*/
+	
 	return 0;
 }

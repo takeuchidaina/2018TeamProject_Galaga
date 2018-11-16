@@ -18,12 +18,12 @@ using namespace std;
  cBaseEnemy::cBaseEnemy(double x,double y,double r,int cnt ,double spd ,double ang,int flg) {
 	 enemy.mainpos.pos.x = x;
 	 enemy.mainpos.pos.y = y;
-	 enemy.width =18*3;
-	 enemy.hight = 18*3;
+	 enemy.width =16*3;
+	 enemy.hight = 16*3;
 	 enemy.mainpos.cx = enemy.mainpos.pos.x + (double)(enemy.width / 2);
 	 enemy.mainpos.cy = enemy.mainpos.pos.y + (double)(enemy.hight / 2);
 	 memset(enemy.graph, 0x00, sizeof(enemy.graph));
-	 LoadDivGraph("../resorce/Image/Galaga_OBJ_enemy.png", 20, 5, 4, 18, 18, enemy.graph);
+	 LoadDivGraph("../resorce/Image/Galaga_OBJ_enemy1616.png", 20, 5, 4, 16, 16, enemy.graph);
  }
 
 cBaseEnemy::~cBaseEnemy() {

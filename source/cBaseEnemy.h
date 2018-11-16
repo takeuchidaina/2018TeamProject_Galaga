@@ -7,10 +7,7 @@
 #include "DxLib.h"
 
 typedef struct {
-	enum eRF {
-		RIGHT = 1,
-		LEFT = -1,
-	};
+	
 
 	
 
@@ -49,7 +46,10 @@ public:
 			YesActive,
 			NoMove,
 		};
-
+		enum eRF {
+		RIGHT = 1,
+		LEFT= -1,
+	};
 
 
 

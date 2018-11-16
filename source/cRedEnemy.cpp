@@ -49,6 +49,8 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 
 
 void cRedEnemy::Move(cRedEnemy &unit) {
+	enemy.mainpos.cx = enemy.mainpos.pos.x + enemy.width / 2;
+	enemy.mainpos.cy = enemy.mainpos.pos.y + enemy.hight / 2;
 	if (unit.enemy.attackflg == TRUE) {
 		if (enemy.mainpos.onActive == StartMove) {
 			unit.enemy.vct.x = cos(enemy.ang);
@@ -78,7 +80,7 @@ int cRedEnemy::Update() {
 	enemy.count++;
 
 	if (enemy.count > 0) {
-		enemy.mainpos.onActive = YesActive;
+		enemy.mainpos.onActive = YesActive;	
 	}
 		switch (enemy.moveflg)
 		{
@@ -136,7 +138,8 @@ int cRedEnemy::Draw() {
 	static int a = 0;
 	static int b = 5;
 //	DrawCircle((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 5, GetColor(255, 0,0), true);
-	DrawExtendGraph((int)enemy.mainpos.pos.x - (int)enemy.width / 2, (int)enemy.mainpos.pos.y - (int)enemy.hight / 2, (int)enemy.mainpos.pos.x + IMAGEMAG - (int)enemy.width / 2, (int)enemy.mainpos.pos.y + IMAGEMAG - (int)enemy.hight / 2, enemy.graph[b], TRUE);
+	if(enemy.dir ==LEFT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * 3.14159265) / 180), enemy.graph[b], TRUE, TRUE);
+	else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * 3.14159265 / 180), enemy.graph[b], TRUE, TRUE);
 	//DrawCircle(enemy.target.x, enemy.target.y, enemy.targetr, GetColor(0, 255, 0), true);
 	//DrawCircle((int)enemy.target.x, (int)enemy.target.y, enemy.targetr, GetColor(255, 0, 0), true);
 	DrawFormatString(60, 855, GetColor(255, 255, 255), "%d", enemy.count);
@@ -144,6 +147,7 @@ int cRedEnemy::Draw() {
 	DrawFormatString(60, 885, GetColor(255, 255, 255), "%d", enemy.moveflg);
 	DrawFormatString(60, 900, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.x);
 	DrawFormatString(60, 915, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.y);
+	DrawFormatString(60, 935, GetColor(255, 255, 255), "%d", enemy.dir);
 	a++;
 	if (a > 60) {
 		a = 0;
