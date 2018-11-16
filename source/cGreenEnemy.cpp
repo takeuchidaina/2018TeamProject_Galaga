@@ -53,25 +53,33 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 void cGreenEnemy::Move(cGreenEnemy &unit) {
 	enemy.mainpos.cx = enemy.mainpos.pos.x +enemy.width/2;
 	enemy.mainpos.cy = enemy.mainpos.pos.y+enemy.hight/2;
-	if (unit.enemy.attackflg == true) {
-		if (unit.enemy.dir == unit.enemy.RIGHT) {
-			unit.enemy.vct.x = cos(enemy.ang);
-			unit.enemy.vct.y = sin(enemy.ang);
-			unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
-			unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
-		}
-		else {
-			if (unit.enemy.moveflg != 7) {
-				unit.enemy.vct.x = -cos(enemy.ang);
-				unit.enemy.vct.y = sin(enemy.ang);
-				unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
-				unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
-			}
-			else {
+	if (enemy.mainpos.onActive == StartMove) {
+		unit.enemy.vct.x = cos(enemy.ang);
+		unit.enemy.vct.y = sin(enemy.ang);
+		unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
+		unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
+	}
+	else if(enemy.mainpos.onActive == YesActive){
+		if (unit.enemy.attackflg == TRUE) {
+			if (unit.enemy.dir == unit.enemy.RIGHT) {
 				unit.enemy.vct.x = cos(enemy.ang);
 				unit.enemy.vct.y = sin(enemy.ang);
 				unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
 				unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
+			}
+			else  {
+				if (unit.enemy.moveflg != 7) {
+					unit.enemy.vct.x = -cos(enemy.ang);
+					unit.enemy.vct.y = sin(enemy.ang);
+					unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
+					unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
+				}
+				else {
+					unit.enemy.vct.x = cos(enemy.ang);
+					unit.enemy.vct.y = sin(enemy.ang);
+					unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
+					unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
+				}
 			}
 		}
 	}
@@ -82,7 +90,7 @@ int cGreenEnemy::Update() {
 	enemy.count++;
 
 	if (enemy.count > 0) {
-		enemy.mainpos.onActive = true;
+		enemy.mainpos.onActive = YesActive;
 	}
 
 		switch (enemy.moveflg)

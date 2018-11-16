@@ -22,6 +22,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	cBlueEnemy zako(300, 330, 5, 0, 3, 180, false);
 	cRedEnemy  goei(400,330,5,0,3,180,false);
 	cGreenEnemy boss(500,330,5,0,3,180,false);
+
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {//画面更新 & メッセージ処理 & 画面消去
 			zako.SetEnemyAttackflg();
 			goei.SetEnemyAttackflg();
@@ -31,10 +32,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		goei.Update();
 		boss.Update();
 
-	/*if (zako.enemy.onActive != true) continue;
-	if (goei.enemy.onActive != true) continue;
-	if (boss.enemy.onActive != true) continue;*/
-	
+	/*if (zako.enemy.mainpos.onActive != true) continue;
+	if (goei.enemy.mainpos.onActive != true) continue;
+	if (boss.enemy.mainpos.onActive != true) continue;
+	*/
 		
 		zako.Move(zako);
 		goei.Move(goei);

@@ -11,6 +11,9 @@ typedef struct {
 		RIGHT = 1,
 		LEFT = -1,
 	};
+
+	
+
 	sPos vct;
 	sOBJPos mainpos ;
 	sPos target;
@@ -24,9 +27,10 @@ typedef struct {
 	int count;
 	int moveflg;
 	int attackflg;
-	int flg;
+	//int flg;
 	double moveang[10];
 	double countflg[10];
+	
 }sEnemy;
 
 class cBaseEnemy {
@@ -39,32 +43,62 @@ public:
 		virtual	int Update();//çXêVèàóù
 		virtual int Draw();//ï`âÊèàóù
 		virtual void Move(cBaseEnemy &);
+		enum eActiveType {
+			StartMove,
+			NoActive,
+			YesActive,
+			NoMove,
+		};
 
-		int GetEnemyAttackflg() {
+
+
+
+		// x
+		virtual	double GetEnemyX(){
+			return enemy.mainpos.pos.x;
+		}
+		virtual	void SetEnemyX(double x) {
+			enemy.mainpos.pos.x = x;
+		}
+		//y
+		virtual	double GetEnemyY() {
+			return enemy.mainpos.pos.y;
+		}
+		virtual	void SetEnemyY(double y) {
+			enemy.mainpos.pos.y = y;
+		}
+		//attackflg
+		virtual	int GetEnemyAttackflg() {
 			return enemy.attackflg;
 		}
-
-		void SetEnemyAttackflg() {
+		virtual	void SetEnemyAttackflg() {
 			enemy.attackflg = true;
 		}
-
-		int GetEnemyAngle() {
+		//ang
+		virtual	double GetEnemyAngle() {
 			return enemy.ang;
 		}
-
-		void SetEnemyAngleg(double ang) {
+		virtual	void SetEnemyAngle(double ang) {
 			enemy.ang = ang;
 		}
-
-		int GetEnemyOnActive() {
+		virtual	void SetEnemyAddAngle(double ang) {
+			enemy.ang += ang;
+		}
+		//activeflg
+		virtual	int GetEnemyOnActive() {
 			return enemy.mainpos.onActive;
 		}
-		void SetEnemyOnActive() {
-			
-			if (enemy.mainpos.onActive == true)enemy.mainpos.onActive = false;
-			else enemy.mainpos.onActive = true;
+		virtual	void SetEnemyOnActive() {
+			if (enemy.mainpos.onActive == YesActive)enemy.mainpos.onActive = NoActive;
+			else enemy.mainpos.onActive = YesActive;
 		}
-
+		//r
+		virtual	double GetEnemyR(){
+			return enemy.mainpos.r;
+		}
+		virtual	void SetEnemyR(double r) {
+			enemy.mainpos.r = r;
+		}
 
 };
 

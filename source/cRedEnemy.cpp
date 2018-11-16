@@ -49,18 +49,26 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 
 
 void cRedEnemy::Move(cRedEnemy &unit) {
-	if (unit.enemy.attackflg == true) {
-		if (unit.enemy.moveflg != 6) {
-			unit.enemy.vct.x = -cos(enemy.ang)* unit.enemy.dir;
-			unit.enemy.vct.y = sin(enemy.ang);
-			unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
-			unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
-		}
-		else {
+	if (unit.enemy.attackflg == TRUE) {
+		if (enemy.mainpos.onActive == StartMove) {
 			unit.enemy.vct.x = cos(enemy.ang);
 			unit.enemy.vct.y = sin(enemy.ang);
 			unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
 			unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
+		}
+		else if (enemy.mainpos.onActive == YesActive) {
+			if (unit.enemy.moveflg != 6) {
+				unit.enemy.vct.x = -cos(enemy.ang)* unit.enemy.dir;
+				unit.enemy.vct.y = sin(enemy.ang);
+				unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
+				unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
+			}
+			else {
+				unit.enemy.vct.x = cos(enemy.ang);
+				unit.enemy.vct.y = sin(enemy.ang);
+				unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
+				unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
+			}
 		}
 	}
 }
@@ -70,7 +78,7 @@ int cRedEnemy::Update() {
 	enemy.count++;
 
 	if (enemy.count > 0) {
-		enemy.mainpos.onActive = true;
+		enemy.mainpos.onActive = YesActive;
 	}
 		switch (enemy.moveflg)
 		{
