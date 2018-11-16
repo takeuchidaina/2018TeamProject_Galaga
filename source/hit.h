@@ -1,14 +1,18 @@
 #pragma once
 
-#include "Singleton.h"
+
+
+#ifndef _HITFUNC_INCLUDE_
+#define _HITFUNC_INCLUDE_
 
 #define MAXMACHINE 2
 
 #define PLAYER 0
 #define ENEMY 1
 
-#ifndef _HITFUNC_INCLUDE_
-#define _HITFUNC_INCLUDE_
+#include "Singleton.h"
+#include "Struct.h"
+
 
 /*
 //テンプレート例 クラスもテンプレート化可能
@@ -21,14 +25,14 @@ b = tmp;
 }
 */
 
-class cHitFunc: public Singleton<cHitFunc>
+class cHit: public cSingleton<cHit>
 {
-	cHitFunc();
-	friend Singleton< cHitFunc >;
+	cHit();
+	friend cSingleton< cHit >;
 private:
 
-	sOBJPos Player;
-	void Hit(sOBJPos, cShot *, cShot *, sEnemy *);		//当たり判定
+//	sOBJPos Player;
+//	void Hit(sOBJPos, cShot , cShot , sEnemy );		//当たり判定
 
 protected:
 
@@ -37,7 +41,7 @@ public:
 	void Update();	//計算処理
 	void Draw();	//描写処理
 	
-	void BeemHit(sOBJPos); //トラクタービーム当たり判定
+//	void BeemHit(sOBJPos); //トラクタービーム当たり判定
 
 };
 

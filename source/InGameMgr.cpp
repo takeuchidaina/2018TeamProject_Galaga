@@ -2,6 +2,7 @@
 #include "InGameMgr.h"
 #include "InGameController.h"
 #include "Player.h"
+//#include "hit.h"
 #include "EnemyMgr.h"
 #include "UI.h"
 
@@ -11,13 +12,11 @@ cInGameMgr::cInGameMgr() {
 	next_Sceneflag = eInGameNone;
 	Init_Module(sceneflag);
 	UI_Init();
-	Player = new cPlayer;
 }
 
 //デコンストラクタ
 cInGameMgr::~cInGameMgr() {
 	UI_End();
-	delete Player;
 }
 
 //指定モジュールの初期化処理
@@ -128,8 +127,11 @@ void cInGameMgr::Update() {
 		//
 		break;
 	case eInGame://ゲーム画面
-		Player->Update();
+		cPlayer::Instance()->Update();
+		//cEnemyMgr::Instance()->Update();
 		EnemyMgr.Update();
+		//cHit::Instance()->Update();
+
 		//
 		break;
 	case eRevival://プレイヤー復活
@@ -164,7 +166,9 @@ void cInGameMgr::Draw() {
 		//
 		break;
 	case eInGame://ゲーム画面
-		Player->Draw();
+		cPlayer::Instance()->Draw();
+		//cEnemyMgr::Instance()->Draw();
+
 		EnemyMgr.Draw();
 		DrawFormatString(0, 20, GetColor(255, 255, 255), "eInGame");
 		//

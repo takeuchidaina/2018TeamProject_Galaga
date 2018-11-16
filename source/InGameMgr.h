@@ -32,15 +32,7 @@ public:
 	}eInGameScene;
 
 private:
-
-
-	cPlayer *Player;
-
 	cEnemyMgr EnemyMgr;
-	cShotMgr ShotMgr;
-
-
-
 
 	eInGameScene sceneflag;
 	eInGameScene next_Sceneflag;
