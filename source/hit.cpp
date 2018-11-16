@@ -7,28 +7,29 @@
 #include"Player.cpp"
 #include"EnemyMgr.h"
 
+
 /* コンストラクタ */
-cHitFunc::cHitFunc() {
+cHit::cHit() {
 
 
 }
 
-/* デストラクタ */
+/* デストラクタ *
 cHitFunc::~cHitFunc() {
 
+}*/
+
+void cHit::Update() {
+
+	cHit::Hit();	//Hit関数呼び出し
+
 }
 
-void cHitFunc::Update() {
-
-	cHitFunc::Hit(sOBJPos Player, cShot *enemyShot, cShot *playerShot, sEnemy *enemy);	//Hit関数呼び出し
-
-}
-
-void cHitFunc::Draw() {
+void cHit::Draw() {
 
 }
 /************************************************************
-	関数：void cHitFunc::Hit
+	関数：void cHit::Hit
 	説明：(自機と敵弾) (自機と敵機) (自弾と敵機) の当たり判定
 	引数：sOBJPos *Player
 		：cShot *enemyShot
@@ -36,24 +37,40 @@ void cHitFunc::Draw() {
 		：sEnemy *enemy
 	戻値：なし
 ************************************************************/
-void cHitFunc::Hit(sOBJPos Player, cShot enemyShot, cShot playerShot, sEnemy enemy) {
+void cHit::Hit() {
+
+	sOBJPos tmpPlayer[2];
+	cShot tmpEShot[20];
+	cShot tmpPShot[2];
+	sEnemy tmpEnemy[20];
+
 
 	/* プレイヤーと敵弾 */
 	for (int i = 0; i < MAXMACHINE; i++) {
 
-		if (Player[i].onActive == false) continue;
+		if (tmpPlayer[i].onActive == false) continue;
 
-		for (int j = 0; j < sizeof(enemyShot); j++) {
+		for (int j = 0; j < sizeof(tmpEShot); j++) {
 
-			if (enemyShot[j].Get_OnActive == false) continue;
+			if (tmpEShot[j].Get_OnActive == false) continue;
 
-			int len = ( (enemyShot[j].cx - Player[i].cx) * (enemyShot[j].cx - Player[i].cx) ) + ( (enemyShot[j].cy - Player[i].cy)*(enemyShot[j].cy - Player[i].cy) );
+			int len = ( (tmpEShot[j].cx - tmpPlayer[i].cx) * (tmpEShot[j].cx - tmpPlayer[i].cx) ) + ( (tmpEShot[j].cy - tmpPlayer[i].cy)*(tmpEShot[j].cy - tmpPlayer[i].cy) );
 
-			if ( len <= ((enemyShot[j].r + Player[i].r) * (enemyShot[j].r + Player[i].r))) {
-				if (Player[eLeftMachine].onActive == true && Player[eRightMachine].onActive == true) {
-					cPlayer::Break(eDoubleDeath, i);
+			if ( len <= ((tmpEShot[j].r + tmpPlayer[i].r) * (tmpEShot[j].r + tmpPlayer[i].r))) {
+
+				/* プレイヤーが2機いるときに片方がダウン
+				   呼び出し関数：cPlayer::Braik("プレイヤーの状態", "どっちのプレイヤーか") */
+				if (tmpPlayer[eLeftMachine].onActive == true && tmpPlayer[eRightMachine].onActive == true) {
+					cPlayer::Instance()->Break(eDoubleDeath, i);
+					cShot::Instance()->Break(ENEMY, j);
 				}
-				else cInGameMgr();
+
+				/* プレイヤーが1機のときにダウン
+				   呼び出し関数：cPlayer::Braik("プレイヤーの状態", "どっちのプレイヤーか") */
+				else {
+					cPlayer::Instance()->Break(eDeath, i);
+					cShot::Instance()->Break(ENEMY, j);
+				}
 			}
 		}
 	}
@@ -61,19 +78,29 @@ void cHitFunc::Hit(sOBJPos Player, cShot enemyShot, cShot playerShot, sEnemy ene
 	/* プレイヤーと敵機　*/
 	for (int i = 0; i < MAXMACHINE; i++) {
 
-		if (Player[i].onActive == false) continue;
+		if (tmpPlayer[i].onActive == false) continue;
 
-		for (int j = 0; j < sizeof(enemy); j++) {
+		for (int j = 0; j < sizeof(tmpEnemy); j++) {
 
-			if (enemy[j].onActive == false) continue;
+			if (tmpEnemy[j].onActive == false) continue;
 
-			int len = (enemy[j].cx - Player[i].cx)*(enemy[j].cx - Player[i].cx) + (enemy[j].cy - Player[i].cy)*(enemy[j].cy - Player[i].cy);
+			int len = (tmpEnemy[j].cx - tmpPlayer[i].cx)*(tmpEnemy[j].cx - tmpPlayer[i].cx) + (tmpEnemy[j].cy - tmpPlayer[i].cy)*(tmpEnemy[j].cy - tmpPlayer[i].cy);
 
-			if (len <= ((enemy[j].r + Player[i].r)*(enemy[j].r + Player[i].r))) {
-				if (Player[eLeftMachine].onActive == true && Player[eRightMachine].onActive == true) {
-					cPlayer::Break(eDoubleDeath, i);
+			if (len <= ((tmpEnemy[j].r + tmpPlayer[i].r)*(tmpEnemy[j].r + tmpPlayer[i].r))) {
+				
+				/* プレイヤーが2機いるときに片方がダウン
+				呼び出し関数：cPlayer::Braik("プレイヤーの状態", "どっちのプレイヤーか") */
+				if (tmpPlayer[eLeftMachine].onActive == true && tmpPlayer[eRightMachine].onActive == true) {
+					cPlayer::Instance()->Break(eDoubleDeath, i);
+					sEnemy::Instance()->Break(j);
 				}
-				else cInGameMgr();
+
+				/* プレイヤーが1機のときにダウン
+				呼び出し関数：cPlayer::Braik("プレイヤーの状態", "どっちのプレイヤーか") */
+				else {
+					cPlayer::Instance()->Break(eDeath, i);
+					sEnemy::Instance()->Break(j);
+				}
 			}
 		}
 	}
@@ -83,30 +110,31 @@ void cHitFunc::Hit(sOBJPos Player, cShot enemyShot, cShot playerShot, sEnemy ene
 
 		if (enemy[i].OnActive == false) continue;
 
-		for (int j = 0; j < sizeof(playerShot); j++) {
+		for (int j = 0; j < sizeof(tmpPShot); j++) {
 
-			if (playerShot[j].Get_OnActive == false) continue;
+			if (tmpPShot[j].Get_OnActive == false) continue;
 
-			int len = (playerShot[j].cx - enemy[i].cx)*(playerShot[j].cx - enemy[i].cx) + (playerShot[j].cy - enemy[i].cy)*(playerShot[j].cy - enemy[i].cy);
+			int len = (tmpPShot[j].cx - enemy[i].cx)*(tmpPShot[j].cx - enemy[i].cx) + (tmpPShot[j].cy - enemy[i].cy)*(tmpPShot[j].cy - enemy[i].cy);
 
-			if (len <= ((enemy[i].r + playerShot[j].r)*(enemy[i].r + playerShot[j].r)) ) {
-				enemyDown(i);
+			if (len <= ((enemy[i].r + tmpPShot[j].r)*(enemy[i].r + tmpPShot[j].r)) ) {
+				cShot::Instance()->Break(PLAYER, j);
+				sEnemy::Instance()->Break(i);
 			}
 		}
 	}
 }
 
 /************************************************************
-関数：void cHitFunc::BeemHit
+関数：void cHit::BeemHit 
 説明：トラクタービームの当たり判定
 引数：sOBJPos *Player
 	：cShot *enemyShot
 戻値：なし
-************************************************************/
-void cHitFunc::BeemHit(sOBJPs Plsyer) {
+************************************************************
+void cHit::BeemHit(sOBJPos Player ,sEnemy enemy) {
 
-	if (((ecx - beemR) <= pcx && (ecx + beemR) >= pcx)) {
-		InGameMgr();
+	if (((enemy.cx - beemR) <= Player.cx && (enemy.cx + beemR) >= Player.cx)) {
+		cInGameMgr(eTractor);
 	}
 
-}
+}*/
