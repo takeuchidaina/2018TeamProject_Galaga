@@ -6,9 +6,9 @@
 #include "Singleton.h"
 #include "InGameMgr.h"
 
-class cInGameController : public Singleton <cInGameController> {
+class cInGameController : public cSingleton <cInGameController> {
 	cInGameController();
-	friend Singleton < cInGameController>;
+	friend cSingleton < cInGameController>;
 private:
 	int nowStageNum = 1;
 	int count = 0;

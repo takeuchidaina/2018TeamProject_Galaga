@@ -4,13 +4,13 @@
 #define _SINGLETON_INCLUDE_
 
 template <typename _T>
-class Singleton {
+class cSingleton {
 
 protected:
-	Singleton() {}
-	virtual ~Singleton() {}
-	Singleton(const Singleton& r) {}
-	Singleton& operator=(const Singleton& r) {}
+	cSingleton() {}
+	virtual ~cSingleton() {}
+	cSingleton(const cSingleton& r) {}
+	cSingleton& operator=(const cSingleton& r) {}
 
 public:
 	static _T* Instance() {

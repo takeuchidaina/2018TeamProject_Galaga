@@ -13,9 +13,9 @@
 
 class cPlayer;
 
-class cInGameMgr : public Singleton <cInGameMgr> {
+class cInGameMgr : public cSingleton <cInGameMgr> {
 	cInGameMgr();
-	friend Singleton <cInGameMgr>;
+	friend cSingleton <cInGameMgr>;
 public:
 	typedef enum {
 		eBefore,	//é¿ç€ÉQÅ[ÉÄÇ™énÇ‹ÇÈëOÇÃÇ†ÇÍ
@@ -32,15 +32,7 @@ public:
 	}eInGameScene;
 
 private:
-
-
-	cPlayer *Player;
-
 	cEnemyMgr EnemyMgr;
-	cShotMgr ShotMgr;
-
-
-
 
 	eInGameScene sceneflag;
 	eInGameScene next_Sceneflag;

@@ -5,11 +5,17 @@
 
 #include "Struct.h"
 #include "UI.h"
+#include "Singleton.h"
 
 #define SPEED 3			//プレイヤーのスピード
 #define MAXMACHINE 2	//プレイヤーは二機まで(三機にならない)
 
-class cPlayer {
+class cPlayer : public cSingleton<cPlayer>
+{
+	cPlayer();	//コンストラクタ
+	~cPlayer();	//デストラクタ
+	friend cSingleton< cPlayer >;
+
 private:
 
 	int image[2];	  //画像
@@ -17,14 +23,13 @@ private:
 protected:
 
 public:
-	cPlayer();	//コンストラクタ
-	~cPlayer();	//デストラクタ
+
 
 	void Update();	//計算処理
 	void Draw();		//描写処理
 	void Double();   //二機の処理
 	void Break(int,int);    //死亡処理
-	sOBJPos*  GetStruct() { return player; }	//構造体の受け渡し
+	//sOBJPos GetStruct(int num) { num == 0 || num == 1 ? return  player[num]; : return -1; }	//構造体の受け渡し
 
 	sOBJPos player[2];
 	//配列なのは一機か二機かで変わる為

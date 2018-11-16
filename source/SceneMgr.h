@@ -20,9 +20,9 @@ typedef enum {
 //Ç±Ç±Ç‹Ç≈
 
 //åpè≥ÇégÇ§Ç∆Ç‡Ç¡Ç∆ó«Ç≠Ç»ÇÈÅ@Ç∆ÇËÇ†Ç¶Ç∏CÅÀC++Ç÷
-class cSceneMgr : public Singleton <cSceneMgr> {
+class cSceneMgr : public cSingleton <cSceneMgr> {
 	cSceneMgr();
-	friend Singleton <cSceneMgr>;
+	friend cSingleton <cSceneMgr>;
 private:
 	eScene sceneflag;
 	eScene next_Sceneflag;

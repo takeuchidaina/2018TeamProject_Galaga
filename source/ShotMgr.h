@@ -3,6 +3,7 @@
 #ifndef _SHOTMGR_INCLUDE_
 #define _SHOTMGR_INCLUDE_
 #include "Shot.h"
+#include "Singleton.h"
 /*
 //テンプレート例 クラスもテンプレート化可能
 template <typename TYPE>
@@ -15,16 +16,16 @@ b = tmp;
 */
 
 
-class cShotMgr {
+class cShotMgr:public cSingleton<cShotMgr> {
+	cShotMgr();
+	friend cSingleton<cShotMgr>;
 private:
 	cShot *enemyShot, *playerShot;
-	int playerShotGrHandle, enemyShotGrHandle;
+	int ShotGrHandle[4];
 
 protected:
 
 public:
-	cShotMgr();	//コンストラクタ
-	~cShotMgr();	//デストラクタ
 	int Update();	//計算処理
 	int Draw();		//描写処理
 	/*
