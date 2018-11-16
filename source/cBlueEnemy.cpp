@@ -52,8 +52,14 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 void cBlueEnemy:: Move(cBlueEnemy &unit) {
 	enemy.mainpos.cx = enemy.mainpos.pos.x + (enemy.width / 2);
 	enemy.mainpos.cy = enemy.mainpos.pos.y + (enemy.hight / 2);
-	if (unit.enemy.attackflg == true) {
-
+	if (unit.enemy.attackflg == TRUE) {
+		if (enemy.mainpos.onActive == StartMove) {
+			unit.enemy.vct.x = cos(enemy.ang);
+			unit.enemy.vct.y = sin(enemy.ang);
+			unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
+			unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
+		}
+		else if (enemy.mainpos.onActive == YesActive) {
 			if (unit.enemy.moveflg != 7) {
 				unit.enemy.vct.x = -cos(enemy.ang)* unit.enemy.dir;
 				unit.enemy.vct.y = sin(enemy.ang);
@@ -66,6 +72,7 @@ void cBlueEnemy:: Move(cBlueEnemy &unit) {
 				unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
 				unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
 			}
+		}
 	}
 }
 
@@ -74,7 +81,7 @@ int cBlueEnemy::Update() {
 	enemy.count++;
 
 	if (enemy.count > 0) {
-		enemy.mainpos.onActive = true;
+		enemy.mainpos.onActive = YesActive;
 	}
 			switch (enemy.moveflg)
 			{
@@ -130,8 +137,8 @@ int cBlueEnemy::Draw() {
 	//DrawCircle(enemy.target.x, enemy.target.y, enemy.targetr, GetColor(0, 0, 255), true);
 	//DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y,enemy.ang* 3.14159265 / 180,enemy.graph[b],false,false);
 	//DrawCircle(enemy.target.x, enemy.target.y, enemy.targetr, GetColor(0, 255, 0), true);0
-	DrawExtendGraph((int)enemy.mainpos.pos.x - (int)enemy.width / 2, (int)enemy.mainpos.pos.y - (int)enemy.hight / 2, (int)enemy.mainpos.pos.x + IMAGEMAG - (int)enemy.width / 2, (int)enemy.mainpos.pos.y + IMAGEMAG - (int)enemy.hight / 2, enemy.graph[b], TRUE);
-	//DrawCircle(enemy.target.x, enemy.target.y, enemy.targetr, GetColor(0, 255, 0), true);
+	DrawRotaGraph((int)enemy.mainpos.cx , (int)enemy.mainpos.cy , 3.0,(enemy.ang + 90*3.1419/180),enemy.graph[b],TRUE,TRUE);
+	//DrawCircle(enemy.target.x, enemy.target.y, enemy.targetr, GetColor(0, 255, 0), true8;
 
 	DrawFormatString(0, 855, GetColor(255, 255, 255), "%d", enemy.count);
 	DrawFormatString(0, 870, GetColor(255, 255, 255), "%d", enemy.attackflg);
