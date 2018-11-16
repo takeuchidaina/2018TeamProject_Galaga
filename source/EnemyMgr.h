@@ -30,7 +30,7 @@ private:
 		int onactive;         //表示・非表示の判定
 	}sEnemy;
 
-	sEnemy enemy[32];          //構造体変数だっけの宣言
+	sEnemy enemy[40];          //構造体変数だっけの宣言
 	sEnemy tmpEnemy;           //一時的に敵データを格納する場所
 							   //int movetype;            //敵の動作タイプ
 	int waveflag[10];          //該当ウェーブに敵が何体いるかを管理する
