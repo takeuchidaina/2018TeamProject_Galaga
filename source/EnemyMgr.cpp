@@ -86,7 +86,7 @@ cEnemyMgr::cEnemyMgr() {
 		case 17:tmpEnemy.moveangle[2] = atof(inputc); break;	//ここ
 		case 18:tmpEnemy.countflag[2] = atoi(inputc); break;	//ここ
 																//case 16:tmpEnemy.onactive = atoi(inputc); break;	    //ここ
-																//case 17:tmpEnemy.item_n[5] = atoi(inputc); break;
+															//case 17:tmpEnemy.item_n[5] = atoi(inputc); break;
 		}
 
 		switch (num) {
@@ -119,23 +119,23 @@ cEnemyMgr::cEnemyMgr() {
 		enemy[n].v.x = 0;
 		enemy[n].v.y = 0;
 		enemy[n].moveflag = 0;
-		enemy[n].onactive = 0;
+		enemy[n].onactive = false;
 
 
 		/*switch文でtypeをみて,結果に合わせてtmpEnemyのデータをそれぞれのcbaseEnemyにいれる
 		//enemies[n] = new(*cBaseEnemy)cBlueEnemy(tmpEnemy.pos.x,tmpEnemy.pos.y,etc...);*/
-		switch (tmpEnemy.etype) {
+		/*switch (tmpEnemy.etype) {
 		case 0:
 			enemies[n] = (cBaseEnemy*) new cBlueEnemy(tmpEnemy.pos.x, tmpEnemy.pos.y, tmpEnemy.r, tmpEnemy.count, tmpEnemy.speed, tmpEnemy.angle, tmpEnemy.onactive);
 
 		case 1:
-			enemies[n] = (cBaseEnemy*) new cBlueEnemy(tmpEnemy.pos.x, tmpEnemy.pos.y, tmpEnemy.r, tmpEnemy.count, tmpEnemy.speed, tmpEnemy.angle, tmpEnemy.onactive);
+			enemies[n] = (cBaseEnemy*) new cRedEnemy(tmpEnemy.pos.x, tmpEnemy.pos.y, tmpEnemy.r, tmpEnemy.count, tmpEnemy.speed, tmpEnemy.angle, tmpEnemy.onactive);
 
 		case 2:
-			enemies[n] = (cBaseEnemy*) new cBlueEnemy(tmpEnemy.pos.x, tmpEnemy.pos.y, tmpEnemy.r, tmpEnemy.count, tmpEnemy.speed, tmpEnemy.angle, tmpEnemy.onactive);
+			enemies[n] = (cBaseEnemy*) new cGreenEnemy(tmpEnemy.pos.x, tmpEnemy.pos.y, tmpEnemy.r, tmpEnemy.count, tmpEnemy.speed, tmpEnemy.angle, tmpEnemy.onactive);
 
 
-		}
+		}*/
 		enemy[n].v.x = 0;
 
 		enemy[n].v.y = 0;
@@ -145,6 +145,20 @@ cEnemyMgr::cEnemyMgr() {
 		num++;
 		if (num == 19) {
 			num = 0;
+
+			switch (tmpEnemy.etype) {
+			case 0:
+				enemies[n] = (cBaseEnemy*) new cBlueEnemy(tmpEnemy.pos.x, tmpEnemy.pos.y, tmpEnemy.r, tmpEnemy.count, tmpEnemy.speed, tmpEnemy.angle, tmpEnemy.onactive);
+				break;
+			case 1:
+				enemies[n] = (cBaseEnemy*) new cRedEnemy(tmpEnemy.pos.x, tmpEnemy.pos.y, tmpEnemy.r, tmpEnemy.count, tmpEnemy.speed, tmpEnemy.angle, tmpEnemy.onactive);
+				break;
+			case 2:
+				enemies[n] = (cBaseEnemy*) new cGreenEnemy(tmpEnemy.pos.x, tmpEnemy.pos.y, tmpEnemy.r, tmpEnemy.count, tmpEnemy.speed, tmpEnemy.angle, tmpEnemy.onactive);
+				break;
+
+			}
+
 			n++;
 		}
 	}
@@ -182,29 +196,6 @@ cEnemyMgr::cEnemyMgr() {
 	enemy[i].target.y = 64 + (i % 2) * 32;
 	enemy[i].targetr = 1;
 	enemy[i].onactive = 0;
-	}
-
-
-
-
-	//movetype = 1;  //敵の動作タイプ(ぐるーってなるやつかぎゅいーんってなるやつか)
-
-	if (movetype == 1) {
-	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-	if (i < 8) {
-	enemy[i].count = 0 - (i % 8 / 2) * 20;
-	enemy[i].target.x = 160 + 32 + (i + 8) / 2 * 32;
-	continue;
-	}
-	enemy[i].pos.x = 240;
-	enemy[i].angle = 80 * 3.1415 / 180;
-	enemy[i].count = 0 - (i % 8 / 2) * 20;
-	enemy[i].moveangle[0] = -0.5;
-	enemy[i].moveangle[1] = 0;
-	enemy[i].moveangle[2] = 2.5;
-	enemy[i].RLflag = -1;
-	enemy[i].target.x = 320 - 32 - (i - 8) / 2 * 32;
-	}
 	}
 	*/
 }
@@ -265,6 +256,7 @@ void cEnemyMgr::Update() {
 					enemy[i].pos.y = enemy[i].target.y;
 					enemy[i].moveflag++;
 					enemy[i].count = 0;
+					enemy[i].angle = -90 * M_PI / 180;
 				}
 				/*else {
 				enemy[i].pos.x = enemy[i].target.x;
@@ -284,6 +276,10 @@ void cEnemyMgr::Update() {
 			wave++;
 			wavecount = 0;
 		}
+		//くらすのえねみーはいれつのi番目にくらすじゃないほうのえねみー(sEnemyMgrData)を代入する
+		enemies[i]->SetEnemyX(enemy[i].pos.x);
+		enemies[i]->SetEnemyY(enemy[i].pos.y);
+		enemies[i]->SetEnemyAngle(enemy[i].angle);
 
 	}//配列数分の敵動作終了
 
@@ -320,8 +316,7 @@ void cEnemyMgr::Draw() {
 	DrawFormatString(0, 40, GetColor(255, 255, 255), "[7]:x=%.1lf y=%.1lf", enemy[7].pos.x, enemy[7].pos.y);
 	DrawFormatString(0, 60, GetColor(255, 255, 255), "atan2=%.3lf", atan2(enemy[0].target.y - enemy[0].pos.y, enemy[0].target.x - enemy[0].pos.x));
 	*/
-	//DrawCircle(500,200,5,GetColor(255,255,255),TRUE);
-	for (int i = 0; i < sizeof(enemy) / sizeof(*enemy); i++) {
+	/*for (int i = 0; i < sizeof(enemy) / sizeof(*enemy); i++) {
 		//敵配列の描画
 		if (enemy[i].etype == 0) {
 			DrawCircle(enemy[i].pos.x, enemy[i].pos.y, enemy[i].r, GetColor(0, 0, 255), TRUE);
@@ -333,5 +328,13 @@ void cEnemyMgr::Draw() {
 			DrawCircle(enemy[i].pos.x, enemy[i].pos.y, enemy[i].r, GetColor(0, 255, 0), TRUE);
 		}
 
+	}*/
+	
+	for (int i = 0; i < sizeof(enemy) / sizeof(*enemy); i++) {
+		//enemies[i]->Update2();
+		enemies[i]->Draw();
 	}
+
+	DrawFormatString(0,100,GetColor(255,255,255),"x:%4.1lf y:%4.1lf",enemies[0]->GetEnemyX(), enemies[0]->GetEnemyY());
+
 }
