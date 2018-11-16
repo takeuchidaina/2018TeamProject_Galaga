@@ -36,9 +36,9 @@ typedef enum {
 	InGamepad
 }eInputType;
 
-class cInterface: public Singleton<cInterface> {
+class cInterface: public cSingleton<cInterface> {
 	cInterface();
-	friend Singleton< cInterface >;
+	friend cSingleton< cInterface >;
 private:
 	static int buff[InNONE];
 	static eInputType inputType;

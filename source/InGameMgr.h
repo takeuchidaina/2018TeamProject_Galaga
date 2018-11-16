@@ -13,9 +13,9 @@
 
 class cPlayer;
 
-class cInGameMgr : public Singleton <cInGameMgr> {
+class cInGameMgr : public cSingleton <cInGameMgr> {
 	cInGameMgr();
-	friend Singleton <cInGameMgr>;
+	friend cSingleton <cInGameMgr>;
 public:
 	typedef enum {
 		eBefore,	//ÀÛƒQ[ƒ€‚ªn‚Ü‚é‘O‚Ì‚ ‚ê
