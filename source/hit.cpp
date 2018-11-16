@@ -1,105 +1,112 @@
 #include <DxLib.h>
-#include"Hit.h"
+#include"hit.h"
 #include"InGameMgr.h"
-#include"player.h"
+#include"Player.h"
+#include"ShotMgr.h"
+#include"Shot.h"
+#include"Player.cpp"
+#include"EnemyMgr.h"
 
-int bulletHit(int *player, int *eBullet, int *pBullet, int*enemy) {
+/* コンストラクタ */
+cHitFunc::cHitFunc() {
 
-	/* ポインタアドレス割当 */
-	int pcx = player._cx;
-	int pcy = player._cy;
-	int pr = player._r;
 
-	int ecx = enemy._cx;
-	int ecy = enemy._cy;
-	int er = enemy._r;
+}
 
-	int eBcx = eBullet._cx;
-	int eBcy = eBullet._cy;
-	int ebr = eBullet._r;
+/* デストラクタ */
+cHitFunc::~cHitFunc() {
 
-	int pBcx = pBullet._cx;
-	int pBcy = pBullet._cy;
-	int pbr = pBullet._r;
+}
+
+void cHitFunc::Update() {
+
+	cHitFunc::Hit(sOBJPos Player, cShot *enemyShot, cShot *playerShot, sEnemy *enemy);	//Hit関数呼び出し
+
+}
+
+void cHitFunc::Draw() {
+
+}
+/************************************************************
+	関数：void cHitFunc::Hit
+	説明：(自機と敵弾) (自機と敵機) (自弾と敵機) の当たり判定
+	引数：sOBJPos *Player
+		：cShot *enemyShot
+		：		*playerShot
+		：sEnemy *enemy
+	戻値：なし
+************************************************************/
+void cHitFunc::Hit(sOBJPos Player, cShot enemyShot, cShot playerShot, sEnemy enemy) {
 
 	/* プレイヤーと敵弾 */
 	for (int i = 0; i < MAXMACHINE; i++) {
 
-		if (*(player.onActive + i) == false) continue;
+		if (Player[i].onActive == false) continue;
 
-		for (int j = 0; j < numB; j++) {
+		for (int j = 0; j < sizeof(enemyShot); j++) {
 
-			if (*(eBullet.onActive + j) == false) continue;
+			if (enemyShot[j].Get_OnActive == false) continue;
 
-			int len = ((*(eBcx + j) - *(pcx + i)) * (*(eBcx + j) - *(pcx + i))) + ((*(eBcy + j) - *(pcy + i))*(*(eBcy + j) - *(pcy + i)));
+			int len = ( (enemyShot[j].cx - Player[i].cx) * (enemyShot[j].cx - Player[i].cx) ) + ( (enemyShot[j].cy - Player[i].cy)*(enemyShot[j].cy - Player[i].cy) );
 
-			if (len <= ((*(ebr + j) + *(pr + i)) * (*(ebr + j) + *(pr + i)))) {
-				if (*player.onActive == true && *(player.onActive + 1) == true) {
-					bulletHit(enemy, j);
-					playerDown(i);
+			if ( len <= ((enemyShot[j].r + Player[i].r) * (enemyShot[j].r + Player[i].r))) {
+				if (Player[eLeftMachine].onActive == true && Player[eRightMachine].onActive == true) {
+					cPlayer::Break(eDoubleDeath, i);
 				}
-				else inGameMgr();
+				else cInGameMgr();
+			}
+		}
+	}
+
+	/* プレイヤーと敵機　*/
+	for (int i = 0; i < MAXMACHINE; i++) {
+
+		if (Player[i].onActive == false) continue;
+
+		for (int j = 0; j < sizeof(enemy); j++) {
+
+			if (enemy[j].onActive == false) continue;
+
+			int len = (enemy[j].cx - Player[i].cx)*(enemy[j].cx - Player[i].cx) + (enemy[j].cy - Player[i].cy)*(enemy[j].cy - Player[i].cy);
+
+			if (len <= ((enemy[j].r + Player[i].r)*(enemy[j].r + Player[i].r))) {
+				if (Player[eLeftMachine].onActive == true && Player[eRightMachine].onActive == true) {
+					cPlayer::Break(eDoubleDeath, i);
+				}
+				else cInGameMgr();
 			}
 		}
 	}
 
 	/* 自弾と敵機　*/
-	for (int i = 0; i < eNum; i++) {
+	for (int i = 0; i < sizeof(enemy); i++) {
 
-		if (eActive == false) continue;
+		if (enemy[i].OnActive == false) continue;
 
-		for (int j = 0; j < pbNum; j++) {
+		for (int j = 0; j < sizeof(playerShot); j++) {
 
-			if (pbActive == false) continue;
+			if (playerShot[j].Get_OnActive == false) continue;
 
-			len = (pbcx - ecx)*(pbcx - ecx) + (pbcy - ecy)*(pbcy - ecy);
+			int len = (playerShot[j].cx - enemy[i].cx)*(playerShot[j].cx - enemy[i].cx) + (playerShot[j].cy - enemy[i].cy)*(playerShot[j].cy - enemy[i].cy);
 
-			if (len <= ((er + pbr)*(er + pbr))) {
+			if (len <= ((enemy[i].r + playerShot[j].r)*(enemy[i].r + playerShot[j].r)) ) {
 				enemyDown(i);
 			}
 		}
 	}
-
-
-	return 0;
 }
 
-int clashHit() {
-
-	/* プレイヤーと敵機　*/
-	for (int i = 0; i < pNum; i++) {
-
-		if (pActive == false) continue;
-
-		for (int j = 0; j < eNum; j++) {
-
-			if (eActive == false) continue;
-
-			len = (ecx - pcx)*(ecx - pcx) + (ecy - pcy)*(ecy - pcy);
-
-			if (len <= ((er + pr)*(er + pr))) {
-				if (maxPlayer >= 2) {
-					playerDown(player, i);
-					enemyDown(enemy, j);
-				}
-				else InGameMgr();
-			}
-		}
-	}
-}
-
-int beemHit() {
+/************************************************************
+関数：void cHitFunc::BeemHit
+説明：トラクタービームの当たり判定
+引数：sOBJPos *Player
+	：cShot *enemyShot
+戻値：なし
+************************************************************/
+void cHitFunc::BeemHit(sOBJPs Plsyer) {
 
 	if (((ecx - beemR) <= pcx && (ecx + beemR) >= pcx)) {
 		InGameMgr();
 	}
-	return 0;
-}
-
-void hit_Update() {
-
-	bulletHit();
-	clashHit();
-	beemHit();
 
 }
