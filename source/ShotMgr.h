@@ -18,7 +18,7 @@ b = tmp;
 class cShotMgr {
 private:
 	cShot *enemyShot, *playerShot;
-	int playerShotGrHandle, enemyShotGrHandle;
+	int ShotGrHandle[4];
 
 protected:
 

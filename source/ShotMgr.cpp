@@ -1,5 +1,6 @@
 #include "ShotMgr.h"
 #include "DXlib.h"
+#include "Player.h"
 
 //Templateクラスの実装
 
@@ -7,8 +8,7 @@
 cShotMgr::cShotMgr() {
 	enemyShot = new cShot[20];
 	playerShot = new cShot[2];
-	enemyShotGrHandle = LoadGraph("");
-	playerShotGrHandle = LoadGraph("");
+	LoadDivGraph("../resource/Image/Galaga_OBJ_bullet.png",4,4,0,10,12,ShotGrHandle);
 }
 
 //デストラクタ
@@ -23,11 +23,13 @@ int cShotMgr::Update() {
 	for (int i = 0; i < sizeof(playerShot) / sizeof*(playerShot); i++) {
 		playerShot[i].Update();
 	}
-	if (CheckHitKey(KEY_INPUT_SPACE) == 1) {
+	if (CheckHitKey(KEY_INPUT_SPACE) == TRUE) {
 		for (int i = 0; i < sizeof*(playerShot); i++) {
 			if( playerShot[i].Get_OnActive() == false) {
-				playerShot[i].Set_OnActive(1);//0=false,1=true
+				playerShot[i].Set_OnActive(TRUE);//0=false,1=true
 				//プレイヤーの座標を受け取って座標をセット
+				//tmp = GetPlayerStruct();
+				
 				break;
 			}
 		}
@@ -37,10 +39,10 @@ int cShotMgr::Update() {
 
 int cShotMgr::Draw() {
 	for (int i = 0; i < sizeof(enemyShot) / sizeof*(enemyShot); i++) {
-		enemyShot[i].Draw();
+		enemyShot[i].Draw(1,ShotGrHandle);
 	}
 	for (int i = 0; i < sizeof(playerShot) / sizeof*(playerShot); i++) {
-		playerShot[i].Draw();
+		playerShot[i].Draw(0,ShotGrHandle);
 	}
 	return 0;
 }
