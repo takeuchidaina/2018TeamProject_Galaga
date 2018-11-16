@@ -4,7 +4,7 @@
 
 int cInGameController::BeforeSceneUpdate() {
 	count++;
-	if (count > 360) {
+	if (count > 10) {
 		cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
 	}
 	return 0;

@@ -2,6 +2,7 @@
 #include "InGameMgr.h"
 #include "InGameController.h"
 #include "Player.h"
+#include "ShotMgr.h"
 //#include "hit.h"
 #include "EnemyMgr.h"
 #include "UI.h"
@@ -128,6 +129,7 @@ void cInGameMgr::Update() {
 		break;
 	case eInGame://ƒQ[ƒ€‰æ–Ê
 		cPlayer::Instance()->Update();
+		cShotMgr::Instance()->Update();
 		//cEnemyMgr::Instance()->Update();
 		EnemyMgr.Update();
 		//cHit::Instance()->Update();
@@ -168,7 +170,7 @@ void cInGameMgr::Draw() {
 	case eInGame://ƒQ[ƒ€‰æ–Ê
 		cPlayer::Instance()->Draw();
 		//cEnemyMgr::Instance()->Draw();
-
+		cShotMgr::Instance()->Draw();
 		EnemyMgr.Draw();
 		DrawFormatString(0, 20, GetColor(255, 255, 255), "eInGame");
 		//
