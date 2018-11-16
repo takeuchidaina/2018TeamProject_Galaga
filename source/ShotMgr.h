@@ -21,6 +21,7 @@ class cShotMgr:public cSingleton<cShotMgr> {
 	friend cSingleton<cShotMgr>;
 private:
 	cShot *enemyShot, *playerShot;
+	int totalShot;
 	int ShotGrHandle[4];
 
 protected:
