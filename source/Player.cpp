@@ -169,7 +169,6 @@ void cPlayer::Draw()
 
 		//表示
 		DrawExtendGraph((int)player[i].pos.x, (int)player[i].pos.y, (int)player[i].pos.x + IMAGEMAG, (int)player[i].pos.y + IMAGEMAG, image[i], TRUE);
-
 	}
 
 //DEBUG
@@ -193,11 +192,27 @@ void cPlayer::Draw()
 *************************************************************************/
 void cPlayer::Double()
 {
+	int activeMachine;
+	int newMachine;
+
 	isDoubleFlg = TRUE;
-	//二機目の座標を更新し状態をアクティブへ
-	player[eRightMachine].pos.x = player[0].pos.x + IMAGEMAG;
-	player[eRightMachine].cx = player[eRightMachine].pos.x + (IMAGEMAG / 2);
-	player[eRightMachine].onActive = TRUE;
+
+	//どの機体がアクティブ状態か判断
+	if (player[eLeftMachine].onActive == TRUE)
+	{
+		newMachine = eRightMachine;
+		activeMachine = eLeftMachine;
+	}
+	else
+	{
+		newMachine = eLeftMachine;
+		activeMachine = eRightMachine;
+	}
+
+	//アクティブな機体の右側に座標を更新しアクティブ状態へ
+	player[newMachine].pos.x = player[activeMachine].pos.x + IMAGEMAG;
+	player[newMachine].cx = player[activeMachine].pos.x + (IMAGEMAG / 2);
+	player[newMachine].onActive = TRUE;
 
 	//問題点:二回目の二機の時に座標が初期座標になるので配列を増やして三機目の情報を入れないといけないかもしれない。
 	//ややこしくなるから他の方法を探す
@@ -208,13 +223,12 @@ void cPlayer::Double()
 /*************************************************************************
   関数: void cPlayer::Break()
   説明: 死亡処理 (引数で死亡かトラクタービームかを判断)
-  引数: int judgeBreak 　eDoubleDeath : 二機居る状態で片方が撃破された時
-					　　 eDeath       : 一機しかない状態でで撃破された時
+  引数: int judgeBreak   eDeath       : 一機しかない状態でで撃破された時
 					　 　eTractorBeam : トラクタービームで攫われた時
 
 		int machineNum　 eLeftMachine   : 左の機体
 						 eRightMachine  : 右の機体
-						 eNoneMachine   : 機体無し
+						 eNoneMachine   : 機体無し()
 			
 戻り値: 無し
 *************************************************************************/
@@ -232,6 +246,7 @@ void cPlayer::Break(int judgeBreak ,int machineNum)
 		{
 			player[eRightMachine].onActive = FALSE;
 		}
+
 		isDoubleFlg = FALSE;
 
 		//二機とも撃破されたら
@@ -240,21 +255,26 @@ void cPlayer::Break(int judgeBreak ,int machineNum)
 			//プレイヤーの残機を減少
 			playerHP--;
 
-			if (playerHP < 0)
+			//プレイヤーの復活
+			if (playerHP > 0)
+			{
+				//シーンの変更
+				//プレイヤーの復活
+			}
+			//GAMEOVER
+			else
 			{
 				//シーンの変更
 				//GAMEOVER
 			}
-
-			//シーンの変更
-			//プレイヤーの復活
 		}
 
 	}
 	//トラクタービームに攫われたら
 	else if(judgeBreak == eTractorBeam)
 	{
-		////////////////////////////////
+		//シーンの変更
+		//トラクタービーム
 	}
 
 }
