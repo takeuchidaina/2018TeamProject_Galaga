@@ -20,11 +20,11 @@ class cPlayer : public cSingleton<cPlayer>
 private:
 
 	int image[2];	  //画像
+	int playerHP;     //HP(場に出ている機体は含まない)
 
 protected:
 
 public:
-
 
 	void Update();	//計算処理
 	void Draw();		//描写処理
@@ -40,14 +40,14 @@ public:
 
 	sOBJPos player[2];
 	//配列なのは一機か二機かで変わる為
+	int isDoubleFlg;
 
 };
 
 //死亡かトラクタービームか判断
 typedef enum
 {
-	eDoubleDeath,		//二機の状態で片方が撃破
-	eDeath,				//一機の状態で撃破
+	eDeath,				//撃破
 	eTractorBeam,		//トラクタービーム
 
 }ePlayerBreak;

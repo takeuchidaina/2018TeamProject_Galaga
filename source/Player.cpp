@@ -30,6 +30,12 @@ cPlayer::cPlayer()
 		WaitKey();
 	}
 
+	//二機時のフラグ  0:一機 1:二機
+	isDoubleFlg = FALSE;
+
+	//PlayerのHP
+	playerHP = 2;
+
 }
 
 //デストラクタ
@@ -187,6 +193,7 @@ void cPlayer::Draw()
 *************************************************************************/
 void cPlayer::Double()
 {
+	isDoubleFlg = TRUE;
 	//二機目の座標を更新し状態をアクティブへ
 	player[eRightMachine].pos.x = player[0].pos.x + IMAGEMAG;
 	player[eRightMachine].cx = player[eRightMachine].pos.x + (IMAGEMAG / 2);
@@ -213,8 +220,8 @@ void cPlayer::Double()
 *************************************************************************/
 void cPlayer::Break(int judgeBreak ,int machineNum)
 {
-	//二機の状態で片方が死んだら
-	if (judgeBreak == eDoubleDeath)
+	//機体が破壊されたら
+	if (judgeBreak == eDeath)
 	{
 		//撃破された方を非アクティブに
 		if (machineNum == eLeftMachine)
@@ -225,15 +232,24 @@ void cPlayer::Break(int judgeBreak ,int machineNum)
 		{
 			player[eRightMachine].onActive = FALSE;
 		}
+		isDoubleFlg = FALSE;
 
-	}
-	//一機の状態で死んだら
-	else if (judgeBreak == eDeath && machineNum == eNoneMachine)
-	{
-		//残機によって、マシーンの生成又は終了処理
+		//二機とも撃破されたら
+		if (player[eLeftMachine].onActive == FALSE && player[eRightMachine].onActive == FALSE)
+		{
+			//プレイヤーの残機を減少
+			playerHP--;
 
-		//DEBUG
-		DrawFormatString(600, 500, GetColor(255, 0, 0), "GAME OVER");
+			if (playerHP < 0)
+			{
+				//シーンの変更
+				//GAMEOVER
+			}
+
+			//シーンの変更
+			//プレイヤーの復活
+		}
+
 	}
 	//トラクタービームに攫われたら
 	else if(judgeBreak == eTractorBeam)
