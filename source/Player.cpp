@@ -17,14 +17,14 @@ cPlayer::cPlayer()
 	player[eLeftMachine].onActive = TRUE;
 	//右側の機体
 	player[eRightMachine].pos.x = player[eLeftMachine].pos.x + IMAGEMAG;
-	player[eRightMachine].pos.y = 850.0;
+	player[eRightMachine].pos.y = player[eLeftMachine].pos.y;
 	player[eRightMachine].cx = player[eRightMachine].pos.x + (IMAGEMAG / 2);
 	player[eRightMachine].cy = player[eRightMachine].pos.y + (IMAGEMAG / 2);
 	player[eRightMachine].onActive = FALSE;
 
 	//画像の読み込みと分割
 	LoadDivGraph("../resource/Image/Galaga_OBJ_dualFighter.png", 2, 2, 1, 16, 16, image);
-	if (image == NULL)
+	if (image == NULL)   //error
 	{
 		DrawFormatString(200, 200, GetColor(255, 0, 0), "画像が読み込めませんでした");
 		WaitKey();
@@ -34,7 +34,7 @@ cPlayer::cPlayer()
 	isDoubleFlg = FALSE;
 
 	//PlayerのHP
-	playerHP = 2;
+	playerHP = 3;
 
 }
 
@@ -79,74 +79,68 @@ void cPlayer::Update()
 		}
 
 		//cxの更新
-		player[i].cx = player[eLeftMachine].pos.x + (IMAGEMAG / 2);
+		player[i].cx = player[i].pos.x + (IMAGEMAG / 2);
 
-			//壁との当たり判定
+		//壁との当たり判定
+		for (int j = 0; j < MAXMACHINE; j++)
+		{
 
-			for (int j = 0; j < MAXMACHINE; j++)
+			//左壁
+			if (player[j].pos.x <= 0)
 			{
-
-				//左壁
-				if (player[j].pos.x <= 0)
+				//二機ともアクティブ状態なら
+				if (isDoubleFlg == TRUE)
 				{
-					//二機ともアクティブ状態なら
-					if (player[eLeftMachine].onActive == TRUE && player[eRightMachine].onActive == TRUE)
-					{
-						player[eLeftMachine].pos.x = 0;
-						player[eRightMachine].pos.x = 0 + IMAGEMAG;
-					}
-					//一機のみアクティブ状態なら
-					else
-					{
-						player[i].pos.x = 0;
-					}
-
+					player[eLeftMachine].pos.x = 0;
+					player[eRightMachine].pos.x = 0 + IMAGEMAG;
 				}
-				//右壁
-				if (player[j].pos.x + IMAGEMAG >= DISP_SIZE)
+				//一機のみアクティブ状態なら
+				else
 				{
-					//二機ともアクティブ状態なら
-					if (player[eLeftMachine].onActive == TRUE && player[eRightMachine].onActive == TRUE)
-					{
-						player[eLeftMachine].pos.x = DISP_SIZE - IMAGEMAG * 2;
-						player[eRightMachine].pos.x = DISP_SIZE - IMAGEMAG;
-					}
-					//一機のみアクティブ状態なら
-					else
-					{
-						player[i].pos.x = DISP_SIZE - IMAGEMAG;
-					}
-
+					player[i].pos.x = 0;
 				}
 
 			}
+			//右壁
+			if (player[j].pos.x + IMAGEMAG >= DISP_SIZE)
+			{
+				//二機ともアクティブ状態なら
+				if (player[eLeftMachine].onActive == TRUE && player[eRightMachine].onActive == TRUE)
+				{
+					player[eLeftMachine].pos.x = DISP_SIZE - IMAGEMAG * 2;
+					player[eRightMachine].pos.x = DISP_SIZE - IMAGEMAG;
+				}
+				//一機のみアクティブ状態なら
+				else
+				{
+					player[i].pos.x = DISP_SIZE - IMAGEMAG;
+				}
+
+			}
+
+		}
 	}
 
 		//DEBUG
-			/*
-			//キー
-			if (cInterface::Instance()->Get_Input(DEBUG1) != 0)
-			{
-				cPlayer::Double();		// 二機になる
-			}
-			else if (cInterface::Instance()->Get_Input(DEBUG2) != 0)
-			{
-				cPlayer::Break(eDoubleDeath,eLeftMachine);	// 一機目が死ぬ
-			}
-			else if (cInterface::Instance()->Get_Input(DEBUG3) != 0)
-			{
-				cPlayer::Break(eDoubleDeath,eRightMachine);	// 二機目が死ぬ
-			}
+#ifndef _DEBUG
+		//キー
+	if (cInterface::Instance()->Get_Input(DEBUG1) == 1)
+	{
+		cPlayer::Double();		// 二機になる
+	}
+	else if (cInterface::Instance()->Get_Input(DEBUG2) == 1)
+	{
+		cPlayer::Break(eDeath, eLeftMachine);	// 左が破壊
+	}
+	else if (cInterface::Instance()->Get_Input(DEBUG3) == 1)
+	{
+		cPlayer::Break(eDeath, eRightMachine);	// 右が破壊
+	}
+#endif
 
-			//両方撃破されたら
-			if (player[eLeftMachine].onActive == FALSE && player[1].onActive == FALSE)
-			{
-				cPlayer::Break(eDeath, eDoubleMachine);  //GAMEOVER
-			}
-
-			//DEBUGに使用する場合はInterface.hのenumにDEBUG1,2,3と
-			//Interface.cppのUpdateにenumを配列の要素数に使用し、三種類のキーボードを対応させてください。
-			*/
+		//DEBUGに使用する場合はInterface.hのenumにDEBUG1,2,3と
+		//Interface.cppのUpdateにenumを配列の要素数に使用し、三種類のキーボードを対応させてください。
+			
 			
 }
 
@@ -158,17 +152,14 @@ void cPlayer::Update()
 *************************************************************************/
 void cPlayer::Draw()
 {
-
-	for (int i = 0; i < MAXMACHINE; i++)
+	//機体の描画
+	if(player[0].onActive == TRUE)
 	{
-
-		if (player[i].onActive == FALSE)
-		{
-			continue;
-		}
-
-		//表示
-		DrawExtendGraph((int)player[i].pos.x, (int)player[i].pos.y, (int)player[i].pos.x + IMAGEMAG, (int)player[i].pos.y + IMAGEMAG, image[i], TRUE);
+		DrawExtendGraph((int)player[0].pos.x, (int)player[0].pos.y, (int)player[0].pos.x + IMAGEMAG, (int)player[0].pos.y + IMAGEMAG, image[0], TRUE);
+	}
+	if(player[1].onActive == TRUE)
+	{
+		DrawExtendGraph((int)player[1].pos.x, (int)player[1].pos.y, (int)player[1].pos.x + IMAGEMAG, (int)player[1].pos.y + IMAGEMAG, image[1], TRUE);
 	}
 
 //DEBUG
@@ -180,6 +171,7 @@ void cPlayer::Draw()
 	DrawFormatString(DISP_SIZE - 300, 560, GetColor(255, 0, 0), "二機目x:%4.2lf", player[eRightMachine].pos.x);
 	DrawFormatString(DISP_SIZE - 300, 580, GetColor(255, 0, 0), "二機目cx:%4.2lf", player[eRightMachine].cx);
 	DrawFormatString(DISP_SIZE - 300, 600, GetColor(255, 0, 0), "二機目onActive:%d", player[eRightMachine].onActive);
+	DrawFormatString(DISP_SIZE - 300, 620, GetColor(255, 0, 0), "HP:%d", playerHP);
 
 }
 
@@ -192,8 +184,8 @@ void cPlayer::Draw()
 *************************************************************************/
 void cPlayer::Double()
 {
-	int activeMachine;
-	int newMachine;
+	int activeMachine;	// 場に出ている機体
+	int newMachine;		// 新しい機体
 
 	isDoubleFlg = TRUE;
 
@@ -214,10 +206,6 @@ void cPlayer::Double()
 	player[newMachine].cx = player[activeMachine].pos.x + (IMAGEMAG / 2);
 	player[newMachine].onActive = TRUE;
 
-	//問題点:二回目の二機の時に座標が初期座標になるので配列を増やして三機目の情報を入れないといけないかもしれない。
-	//ややこしくなるから他の方法を探す
-	//他の関数を作ってプレイヤーの一機目を生成するやつを作ってもいいかも？
-
 }
 
 /*************************************************************************
@@ -237,6 +225,9 @@ void cPlayer::Break(int judgeBreak ,int machineNum)
 	//機体が破壊されたら
 	if (judgeBreak == eDeath)
 	{
+		//プレイヤーのHPを減少
+		playerHP--;
+
 		//撃破された方を非アクティブに
 		if (machineNum == eLeftMachine)
 		{
@@ -252,9 +243,6 @@ void cPlayer::Break(int judgeBreak ,int machineNum)
 		//二機とも撃破されたら
 		if (player[eLeftMachine].onActive == FALSE && player[eRightMachine].onActive == FALSE)
 		{
-			//プレイヤーの残機を減少
-			playerHP--;
-
 			//プレイヤーの復活
 			if (playerHP > 0)
 			{
