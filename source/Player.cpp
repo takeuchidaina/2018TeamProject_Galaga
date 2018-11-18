@@ -34,7 +34,7 @@ cPlayer::cPlayer()
 	isDoubleFlg = FALSE;
 
 	//PlayerのHP
-	playerHP = 3;
+	playerHP = 2;   //(場に出ている機体を含まない)
 
 }
 
@@ -66,16 +66,13 @@ void cPlayer::Update()
 		// 右
 		if (cInterface::Instance()->Get_Input(InRIGHT) != 0)
 		{
-			//フラグの値が1か-1なので向きが変わりcxの更新
 			player[i].pos.x += SPEED;
 		}
 
 		// 左
 		if (cInterface::Instance()->Get_Input(InLEFT) != 0)
 		{
-			//フラグの値が1か-1なので向きが変わりcxの更新
 			player[i].pos.x -= SPEED;
-			
 		}
 
 		//cxの更新
@@ -188,6 +185,7 @@ void cPlayer::Double()
 	int newMachine;		// 新しい機体
 
 	isDoubleFlg = TRUE;
+	playerHP--;
 
 	//どの機体がアクティブ状態か判断
 	if (player[eLeftMachine].onActive == TRUE)

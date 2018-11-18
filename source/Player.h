@@ -40,7 +40,7 @@ public:
 
 	sOBJPos player[2];  //配列なのは一機か二機かで変わる為
 	int isDoubleFlg;    // 0:一機 1:二機
-	int playerHP;       //HP(場に出ている機体を含む)
+	int playerHP;       //HP(場に出ている機体を含まない)
 
 
 };
