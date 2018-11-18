@@ -3,8 +3,6 @@
 #include "Interface.h"
 #include "InGameMgr.h"
 
-
-
 //コンストラクタ
 cPlayer::cPlayer()
 {
@@ -118,8 +116,7 @@ void cPlayer::Update()
 		}
 	}
 
-		//DEBUG
-#ifndef _DEBUG
+#ifdef PLAYER_BREAK_DEBUG
 		//キー
 	if (cInterface::Instance()->Get_Input(DEBUG1) == 1)
 	{
@@ -158,17 +155,20 @@ void cPlayer::Draw()
 	{
 		DrawExtendGraph((int)player[1].pos.x, (int)player[1].pos.y, (int)player[1].pos.x + IMAGEMAG, (int)player[1].pos.y + IMAGEMAG, image[1], TRUE);
 	}
-
-//DEBUG
+#ifdef PLAYER_POS_DEBUG
 
 	//座標の表示
-	DrawFormatString(DISP_SIZE - 300, 500, GetColor(255, 0, 0), "一機目x:%4.2lf", player[eLeftMachine].pos.x);
-	DrawFormatString(DISP_SIZE - 300, 520, GetColor(255, 0, 0), "一機目cx:%4.2lf", player[eLeftMachine].cx);
-	DrawFormatString(DISP_SIZE - 300, 540, GetColor(255, 0, 0), "一機目onActive:%d", player[eLeftMachine].onActive);
-	DrawFormatString(DISP_SIZE - 300, 560, GetColor(255, 0, 0), "二機目x:%4.2lf", player[eRightMachine].pos.x);
-	DrawFormatString(DISP_SIZE - 300, 580, GetColor(255, 0, 0), "二機目cx:%4.2lf", player[eRightMachine].cx);
-	DrawFormatString(DISP_SIZE - 300, 600, GetColor(255, 0, 0), "二機目onActive:%d", player[eRightMachine].onActive);
-	DrawFormatString(DISP_SIZE - 300, 620, GetColor(255, 0, 0), "HP:%d", playerHP);
+	DrawFormatString(DISP_SIZE - 300, 500, P_COLOR, "一機目x:%4.2lf", player[eLeftMachine].pos.x);
+	DrawFormatString(DISP_SIZE - 300, 520, P_COLOR, "一機目cx:%4.2lf", player[eLeftMachine].cx);
+	DrawFormatString(DISP_SIZE - 300, 540, P_COLOR, "一機目onActive:%d", player[eLeftMachine].onActive);
+	DrawFormatString(DISP_SIZE - 300, 560, P_COLOR, "二機目x:%4.2lf", player[eRightMachine].pos.x);
+	DrawFormatString(DISP_SIZE - 300, 580, P_COLOR, "二機目cx:%4.2lf", player[eRightMachine].cx);
+	DrawFormatString(DISP_SIZE - 300, 600, P_COLOR, "二機目onActive:%d", player[eRightMachine].onActive);
+	DrawFormatString(DISP_SIZE - 300, 620, P_COLOR, "HP:%d", playerHP);
+
+#endif
+
+
 
 }
 

@@ -1,10 +1,6 @@
 #include <DxLib.h>
 #include "UI.h"
 
-//DEBUG
-#include "Interface.h"
-#define COLOR GetColor(0,255,0)
-
 static int textImg[48];	//テキストの画像
 static int iconImg[12];	//ステージアイコンの画像
 
@@ -33,7 +29,7 @@ int UI_Init()
 	iconX = DISP_SIZE + 250;
 	iconY = 700;
 
-	stageNo = 18;// cInGameController::Instance()->GetNowStageNum();
+	stageNo = cInGameController::Instance()->GetNowStageNum();
 	playerHP = cPlayer::Instance()->GetPlayerHP();
 
 	//画像の読み込み
@@ -82,15 +78,14 @@ int UI_Draw()
 	//ステージアイコンの表示
 	UI_StgSelectIcon(stageNo);
 
-	//DEBUG
-	//for (int i = 0; i < (sizeof(textPos) / sizeof*(textPos)); i++)
-	//{
-		//DrawFormatString(textPos[i].x, textPos[i].y, COLOR, "%s", textPos[i].text);
-	//}
+#ifdef UI_POS_DEBUG
 
+	for (int i = 0; i < (sizeof(textPos) / sizeof*(textPos)); i++)
+	{
+		DrawFormatString(textPos[i].x, textPos[i].y, UI_COLOR, "%s", textPos[i].text);
+	}
 
-		
-
+#endif
 
 	return 0;
 }
@@ -146,7 +141,8 @@ int UI_StgSelectIcon(int stageNo)
 
 	fiveFlg = FALSE;
 
-#ifndef _DEBUG
+#ifdef UI_ICON_DEBUG
+
 	if (cInterface::Instance()->Get_Input(DEBUG1) == 1)
 	{
 	stageNo++;
@@ -155,11 +151,12 @@ int UI_StgSelectIcon(int stageNo)
 	{
 	stageNo--;
 	}
-	DrawFormatString(iconX - 200, iconY + 110, COLOR, "5flg:%d", fiveFlg);
-	DrawFormatString(iconX - 200, iconY + 130, COLOR, "stage:%d", stageNo);
-	DrawFormatString(iconX - 200, iconY + 150, COLOR, "tmp1:%d", tmp);
-	DrawFormatString(iconX - 200, iconY + 170, COLOR, "tmp2:%d", tmp2);
-	DrawFormatString(iconX - 200, iconY + 190, COLOR, "tmp3:%d", tmp3);
+	DrawFormatString(iconX - 200, iconY + 110, UI_COLOR, "5flg:%d", fiveFlg);
+	DrawFormatString(iconX - 200, iconY + 130, UI_COLOR, "stage:%d", stageNo);
+	DrawFormatString(iconX - 200, iconY + 150, UI_COLOR, "tmp1:%d", tmp);
+	DrawFormatString(iconX - 200, iconY + 170, UI_COLOR, "tmp2:%d", tmp2);
+	DrawFormatString(iconX - 200, iconY + 190, UI_COLOR, "tmp3:%d", tmp3);
+
 #endif
 	
 

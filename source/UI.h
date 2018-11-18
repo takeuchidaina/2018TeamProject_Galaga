@@ -11,6 +11,13 @@
 #define IMAGEMAG 48		//画像倍率
 #define ICONMAG 32      //アイコンの画像倍率
 
+//DEBUG
+#include "Interface.h"
+#define UI_COLOR GetColor(0,255,0)
+
+    //  #include "takeuchi_debug_define.h"
+
+
 //座標と表示する文字列の構造体
 typedef struct
 {

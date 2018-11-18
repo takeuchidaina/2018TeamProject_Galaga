@@ -11,6 +11,12 @@
 #define MAXMACHINE 2	//プレイヤーは二機まで(三機にならない)
 #define NULL 0			//エラー時に使用
 
+//DEBUG
+#define P_COLOR GetColor(255,0,0)
+
+      //    #include "takeuchi_debug_define.h"
+
+
 class cPlayer : public cSingleton<cPlayer>
 {
 	cPlayer();	//コンストラクタ
