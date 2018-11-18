@@ -206,6 +206,15 @@ void cPlayer::Double()
 	player[newMachine].cx = player[activeMachine].pos.x + (IMAGEMAG / 2);
 	player[newMachine].onActive = TRUE;
 
+	//一ドットずれる問題の解決(仮)
+	//当たり判定で微妙になると考える
+	if (newMachine == eLeftMachine)
+	{
+		player[newMachine].pos.x -= 6;
+		player[newMachine].cx -= (6/2);
+	}
+
+
 }
 
 /*************************************************************************
