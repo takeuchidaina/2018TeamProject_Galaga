@@ -27,6 +27,8 @@ private:
 	cShot *enemyShot, *playerShot;
 	int totalShot;
 	int ShotGrHandle[4];
+	int shotRate;
+	int checkGr;
 
 protected:
 

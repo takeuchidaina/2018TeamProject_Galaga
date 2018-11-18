@@ -8,7 +8,16 @@ cShotMgr::cShotMgr() {
 	enemyShot = new cShot[20];
 	playerShot = new cShot[2];
 	totalShot = 0;
-	LoadDivGraph("../resource/Image/Galaga_OBJ_bullet.png",4,4,0,10,12,ShotGrHandle);
+	shotRate = 0;
+	/*checkGr=*/LoadDivGraph("../resource/Image/Galaga_OBJ_bullet.png",4,4,0,10,12,ShotGrHandle);
+	/*if (checkGr == -1){
+		DrawFormatString(420, 600, GetColor(255, 0, 255), "âÊëúÇ™ì«Ç›çûÇﬂÇ‹ÇπÇÒÇ≈ÇµÇΩ");
+		WaitKey();
+	}
+	else{
+		DrawFormatString(420, 600, GetColor(255, 0, 255), "%d",checkGr);
+		WaitKey();
+	}*/
 }
 
 int cShotMgr::Update() {
@@ -18,7 +27,7 @@ int cShotMgr::Update() {
 	for (int i = 0; i < sizeof(playerShot) / sizeof*(playerShot); i++) {
 		playerShot[i].Update();
 	}
-	if (CheckHitKey(KEY_INPUT_SPACE) == TRUE) {
+	if (CheckHitKey(KEY_INPUT_SPACE) == TRUE&&shotRate==0) {
 		for (int i = 0; i < sizeof*(playerShot); i++) {
 			if( playerShot[i].Get_OnActive() == false) {
 				playerShot[i].Set_OnActive(TRUE);//0=false,1=true
@@ -27,11 +36,15 @@ int cShotMgr::Update() {
 				tmp = cPlayer::Instance()->GetPlayer(0);
 				playerShot[i].Set_ShotX(tmp.pos.x);
 				playerShot[i].Set_ShotY(tmp.pos.y);
+				playerShot[i].Set_ShotRad(0);
 				totalShot++;
+				shotRate = 30;
 				break;
 			}
 		}
 	}
+	shotRate--;
+	if (shotRate < 0) shotRate = 0;
 	return 0;
 }
 
@@ -43,6 +56,8 @@ int cShotMgr::Draw() {
 		playerShot[i].Draw(PLAYER,ShotGrHandle);
 	}
 	DrawFormatString(420,500,GetColor(255,0,255),"totalShot:%d",totalShot);
+	DrawFormatString(420, 525, GetColor(255, 0, 255), "pShot1:%d", playerShot[0].Get_OnActive());
+	DrawFormatString(420, 550, GetColor(255, 0, 255), "pShot2:%d", playerShot[1].Get_OnActive());
 	return 0;
 }
 

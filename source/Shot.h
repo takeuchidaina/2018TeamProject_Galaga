@@ -30,12 +30,13 @@ public:
 	inline int Get_OnActive() { return OnActive; }//OnActive‚ÌŠl“¾
 	void Set_OnActive(int tmp) { OnActive = tmp; }
 	inline double Get_ShotX() { return x; }
-	void Set_ShotX(int tmp) { x = tmp; }
+	void Set_ShotX(double tmp) { x = tmp; }
 	inline double Get_ShotY() { return y; }
-	void Set_ShotY(int tmp) { y = tmp; }
+	void Set_ShotY(double tmp) { y = tmp; }
 	inline double Get_ShotCX() { return cx; }
 	inline double Get_ShotCY() { return cy; }
 	inline double Get_ShotR() { return r; }
+	void Set_ShotRad(double tmp) { rad = tmp; }
 
 	//void Set_Width(int tmp) { w = tmp; }
 	//void Set_Height(int tmp) { h = tmp; }
