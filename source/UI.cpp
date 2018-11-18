@@ -11,7 +11,6 @@ static int iconImg[12];	//ステージアイコンの画像
 static int iconX;
 static int iconY;
 
-//DEBUG
 int stageNo;
 int playerHP;
 
@@ -36,7 +35,7 @@ int UI_Init()
 
 	//DEBUG
 	stageNo = cInGameController::Instance()->GetNowStageNum();
-	playerHP = 2;
+	playerHP = cPlayer::Instance()->GetPlayerHP();
 
 	//画像の読み込み
 	//LoadDivGraph("../resource/Image/UI_Text.png",48,8,6,28,28,textImg);
@@ -230,4 +229,15 @@ int UI_StgSelectIcon(int stageNo)
 	}
 
 	return 0;
+}
+
+/*************************************************************************
+   関数: void UI_SetPlayerHP()
+   説明: プレイヤーの残機の更新
+   引数: int (プレイヤーのHP)
+ 戻り値: 無し
+ *************************************************************************/
+void UI_SetPlayerHP(int HP)
+{
+	playerHP = HP;
 }

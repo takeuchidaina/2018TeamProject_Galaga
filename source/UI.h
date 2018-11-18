@@ -4,6 +4,7 @@
 
 #include "Struct.h"
 #include "InGameController.h"
+#include "Player.h"
 
 #define DISP_SIZE ((1280 / 4 * 3) - 50)
 #define UI_SIZE (1280 - DISP_SIZE)
@@ -24,5 +25,6 @@ extern int UI_Draw();
 extern int UI_End();
 
 extern int UI_StgSelectIcon(int );
+extern void UI_SetPlayerHP(int);
 
 #endif
