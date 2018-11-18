@@ -10,9 +10,12 @@ class cTextChange : public cSingleton<cTextChange>
 private:
 
 	int textImg[48];
+	int imgEle[20];
+	int cnt;
 
 	cTextChange();  //private‚È‚Ì‚Ånew‚ªŽg‚¦‚È‚¢
 	friend cSingleton< cTextChange >;
+
 
 public:
 
