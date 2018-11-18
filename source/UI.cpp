@@ -26,24 +26,24 @@ sTextPos textPos[] =
 　関数: int UI_Init()
 　説明: 初期化処理
 　引数: 無し
-戻り値: 無し
+戻り値: -1 画像読み込み時のエラー
 *************************************************************************/
 int UI_Init()
 {
 	iconX = DISP_SIZE + 250;
 	iconY = 700;
 
-	//DEBUG
-	stageNo = cInGameController::Instance()->GetNowStageNum();
+	stageNo = 18;// cInGameController::Instance()->GetNowStageNum();
 	playerHP = cPlayer::Instance()->GetPlayerHP();
 
 	//画像の読み込み
 	//LoadDivGraph("../resource/Image/UI_Text.png",48,8,6,28,28,textImg);
-	LoadDivGraph("../resource/Image/Galaga_UI_icon.png", 12, 6, 2, 18, 19, iconImg);
+	LoadDivGraph("../resource/Image/Galaga_UI_icon1616.png", 12, 6, 2, 16, 16, iconImg);
 	if (iconImg == NULL)
 	{
 		DrawFormatString(200, 200, GetColor(255, 0, 0), "画像が読み込めませんでした");
 		WaitKey();
+		return -1;
 	}
 
 	return 0;
@@ -57,7 +57,6 @@ int UI_Init()
 *************************************************************************/
 int UI_Update()
 {
-	//DEBUG
 	UI_StgSelectIcon(stageNo);
 
 	return 0;
@@ -84,10 +83,10 @@ int UI_Draw()
 	UI_StgSelectIcon(stageNo);
 
 	//DEBUG
-	for (int i = 0; i < (sizeof(textPos) / sizeof*(textPos)); i++)
-	{
-		DrawFormatString(textPos[i].x, textPos[i].y, COLOR, "%s", textPos[i].text);
-	}
+	//for (int i = 0; i < (sizeof(textPos) / sizeof*(textPos)); i++)
+	//{
+		//DrawFormatString(textPos[i].x, textPos[i].y, COLOR, "%s", textPos[i].text);
+	//}
 
 
 		
@@ -147,7 +146,7 @@ int UI_StgSelectIcon(int stageNo)
 
 	fiveFlg = FALSE;
 
-	/*_DEBUG
+#ifndef _DEBUG
 	if (cInterface::Instance()->Get_Input(DEBUG1) == 1)
 	{
 	stageNo++;
@@ -156,14 +155,15 @@ int UI_StgSelectIcon(int stageNo)
 	{
 	stageNo--;
 	}
-	*/
-
 	DrawFormatString(iconX - 200, iconY + 110, COLOR, "5flg:%d", fiveFlg);
 	DrawFormatString(iconX - 200, iconY + 130, COLOR, "stage:%d", stageNo);
 	DrawFormatString(iconX - 200, iconY + 150, COLOR, "tmp1:%d", tmp);
 	DrawFormatString(iconX - 200, iconY + 170, COLOR, "tmp2:%d", tmp2);
 	DrawFormatString(iconX - 200, iconY + 190, COLOR, "tmp3:%d", tmp3);
-	DrawLine(iconX + IMAGEMAG, 0, iconX + IMAGEMAG, 960, GetColor(255, 255, 255));	//アイコンのスタートライン
+#endif
+	
+
+
 
 
 	//ステージが5で割り切れないなら
