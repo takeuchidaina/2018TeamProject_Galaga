@@ -29,6 +29,7 @@ public:
 	void Draw();		//描写処理
 	void Double();   //二機の処理
 	void Break(int,int);    //死亡処理
+	int GetPlayerHP();		//HPを渡す
 	sOBJPos GetPlayer(int num) 	//構造体の受け渡し　　num 0:左  1:右
 	{
 		sOBJPos *p = NULL;

@@ -275,4 +275,14 @@ void cPlayer::Break(int judgeBreak ,int machineNum)
 	}
 
 }
+/*************************************************************************
+関数: int cPlayer::GetPlayerHP()
+説明: プレイヤーのHP(場を含める残機)を受け渡す
+引数: 無し
+戻り値: playerHP
+*************************************************************************/
+int cPlayer::GetPlayerHP()
+{
+	return playerHP;
+}
 
