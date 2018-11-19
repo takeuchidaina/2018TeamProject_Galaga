@@ -11,6 +11,12 @@
 #define MAXMACHINE 2	//プレイヤーは二機まで(三機にならない)
 #define NULL 0			//エラー時に使用
 
+//DEBUG
+#define P_COLOR GetColor(255,0,0)
+
+      //    #include "takeuchi_debug_define.h"
+
+
 class cPlayer : public cSingleton<cPlayer>
 {
 	cPlayer();	//コンストラクタ
@@ -20,16 +26,16 @@ class cPlayer : public cSingleton<cPlayer>
 private:
 
 	int image[2];	  //画像
-
+	
 protected:
 
 public:
-
 
 	void Update();	//計算処理
 	void Draw();		//描写処理
 	void Double();   //二機の処理
 	void Break(int,int);    //死亡処理
+	int GetPlayerHP();		//HPを渡す
 	sOBJPos GetPlayer(int num) 	//構造体の受け渡し　　num 0:左  1:右
 	{
 		sOBJPos *p = NULL;
@@ -38,16 +44,17 @@ public:
 		//for文で受け取ってください
 	}
 
-	sOBJPos player[2];
-	//配列なのは一機か二機かで変わる為
+	sOBJPos player[2];  //配列なのは一機か二機かで変わる為
+	int isDoubleFlg;    // 0:一機 1:二機
+	int playerHP;       //HP(場に出ている機体を含まない)
+
 
 };
 
 //死亡かトラクタービームか判断
 typedef enum
 {
-	eDoubleDeath,		//二機の状態で片方が撃破
-	eDeath,				//一機の状態で撃破
+	eDeath,				//撃破
 	eTractorBeam,		//トラクタービーム
 
 }ePlayerBreak;

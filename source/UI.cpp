@@ -1,17 +1,12 @@
 #include <DxLib.h>
 #include "UI.h"
 
-//DEBUG
-#include "Interface.h"
-#define COLOR GetColor(0,255,0)
-
 static int textImg[48];	//テキストの画像
 static int iconImg[12];	//ステージアイコンの画像
 
 static int iconX;
 static int iconY;
 
-//DEBUG
 int stageNo;
 int playerHP;
 
@@ -27,24 +22,24 @@ sTextPos textPos[] =
 　関数: int UI_Init()
 　説明: 初期化処理
 　引数: 無し
-戻り値: 無し
+戻り値: -1 画像読み込み時のエラー
 *************************************************************************/
 int UI_Init()
 {
 	iconX = DISP_SIZE + 250;
 	iconY = 700;
 
-	//DEBUG
 	stageNo = cInGameController::Instance()->GetNowStageNum();
-	playerHP = 2;
+	playerHP = cPlayer::Instance()->GetPlayerHP();
 
 	//画像の読み込み
 	//LoadDivGraph("../resource/Image/UI_Text.png",48,8,6,28,28,textImg);
-	LoadDivGraph("../resource/Image/Galaga_UI_icon.png", 12, 6, 2, 18, 19, iconImg);
+	LoadDivGraph("../resource/Image/Galaga_UI_icon1616.png", 12, 6, 2, 16, 16, iconImg);
 	if (iconImg == NULL)
 	{
 		DrawFormatString(200, 200, GetColor(255, 0, 0), "画像が読み込めませんでした");
 		WaitKey();
+		return -1;
 	}
 
 	return 0;
@@ -58,7 +53,6 @@ int UI_Init()
 *************************************************************************/
 int UI_Update()
 {
-	//DEBUG
 	UI_StgSelectIcon(stageNo);
 
 	return 0;
@@ -84,15 +78,14 @@ int UI_Draw()
 	//ステージアイコンの表示
 	UI_StgSelectIcon(stageNo);
 
-	//DEBUG
+#ifdef UI_POS_DEBUG
+
 	for (int i = 0; i < (sizeof(textPos) / sizeof*(textPos)); i++)
 	{
-		DrawFormatString(textPos[i].x, textPos[i].y, COLOR, "%s", textPos[i].text);
+		DrawFormatString(textPos[i].x, textPos[i].y, UI_COLOR, "%s", textPos[i].text);
 	}
 
-
-		
-
+#endif
 
 	return 0;
 }
@@ -148,7 +141,8 @@ int UI_StgSelectIcon(int stageNo)
 
 	fiveFlg = FALSE;
 
-	/*_DEBUG
+#ifdef UI_ICON_DEBUG
+
 	if (cInterface::Instance()->Get_Input(DEBUG1) == 1)
 	{
 	stageNo++;
@@ -157,14 +151,16 @@ int UI_StgSelectIcon(int stageNo)
 	{
 	stageNo--;
 	}
-	*/
+	DrawFormatString(iconX - 200, iconY + 110, UI_COLOR, "5flg:%d", fiveFlg);
+	DrawFormatString(iconX - 200, iconY + 130, UI_COLOR, "stage:%d", stageNo);
+	DrawFormatString(iconX - 200, iconY + 150, UI_COLOR, "tmp1:%d", tmp);
+	DrawFormatString(iconX - 200, iconY + 170, UI_COLOR, "tmp2:%d", tmp2);
+	DrawFormatString(iconX - 200, iconY + 190, UI_COLOR, "tmp3:%d", tmp3);
 
-	DrawFormatString(iconX - 200, iconY + 110, COLOR, "5flg:%d", fiveFlg);
-	DrawFormatString(iconX - 200, iconY + 130, COLOR, "stage:%d", stageNo);
-	DrawFormatString(iconX - 200, iconY + 150, COLOR, "tmp1:%d", tmp);
-	DrawFormatString(iconX - 200, iconY + 170, COLOR, "tmp2:%d", tmp2);
-	DrawFormatString(iconX - 200, iconY + 190, COLOR, "tmp3:%d", tmp3);
-	DrawLine(iconX + IMAGEMAG, 0, iconX + IMAGEMAG, 960, GetColor(255, 255, 255));	//アイコンのスタートライン
+#endif
+	
+
+
 
 
 	//ステージが5で割り切れないなら
@@ -230,4 +226,15 @@ int UI_StgSelectIcon(int stageNo)
 	}
 
 	return 0;
+}
+
+/*************************************************************************
+   関数: void UI_SetPlayerHP()
+   説明: プレイヤーの残機の更新
+   引数: int (プレイヤーのHP)
+ 戻り値: 無し
+ *************************************************************************/
+void UI_SetPlayerHP(int HP)
+{
+	playerHP = HP;
 }
