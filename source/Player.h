@@ -7,7 +7,7 @@
 #include "UI.h"
 #include "Singleton.h"
 
-#define SPEED 3			//プレイヤーのスピード
+#define SPEED 6			//プレイヤーのスピード
 #define MAXMACHINE 2	//プレイヤーは二機まで(三機にならない)
 #define NULL 0			//エラー時に使用
 
