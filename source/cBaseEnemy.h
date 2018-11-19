@@ -51,7 +51,10 @@ public:
 		LEFT= -1,
 	};
 
-
+		virtual void Update2() {
+			enemy.mainpos.cx = enemy.mainpos.pos.x + (enemy.width / 2);
+			enemy.mainpos.cy = enemy.mainpos.pos.y + (enemy.hight / 2);
+		}
 
 		// x
 		virtual	double GetEnemyX(){

@@ -331,7 +331,7 @@ void cEnemyMgr::Draw() {
 	}*/
 	
 	for (int i = 0; i < sizeof(enemy) / sizeof(*enemy); i++) {
-		//enemies[i]->Update2();
+		enemies[i]->Update2();
 		enemies[i]->Draw();
 	}
 
