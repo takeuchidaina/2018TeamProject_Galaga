@@ -1,6 +1,7 @@
 #include "DxLib.h"
 #include "Interface.h"
 #include "SceneMgr.h"
+#include "Fps.h"
 
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -16,11 +17,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//‚±‚±‚Éˆ—‚ð’Ç‰Á
 		//Interfase.Update();
+		cFps::Instance()->Update();
 
 		cInterface::Instance()->Update();
 
 		cSceneMgr::Instance()->Update();
 		cSceneMgr::Instance()->Draw();
+
+		cFps::Instance()->Draw();
+
+		cFps::Instance()->Wait();
+
 
 		//SceneMgr.Update();
 		//SceneMgr.Draw();
