@@ -21,24 +21,24 @@ cShotMgr::cShotMgr() {
 }
 
 int cShotMgr::Update() {
-	for (int i = 0; i < sizeof(enemyShot) / sizeof*(enemyShot); i++) {
+	for (int i = 0; i < ENEMYSHOTNUM; i++) {
 		enemyShot[i].Update();
 	}
-	for (int i = 0; i < sizeof(playerShot) / sizeof*(playerShot); i++) {
+	for (int i = 0; i < PLAYERSHOTNUM; i++) {
 		playerShot[i].Update();
 	}
-	if (CheckHitKey(KEY_INPUT_SPACE) == TRUE&&shotRate==0) {
-		for (int i = 0; i < sizeof*(playerShot); i++) {
-			if( playerShot[i].Get_OnActive() == false) {
+	if (CheckHitKey(KEY_INPUT_SPACE) == TRUE) {
+		for (int i = 0; i < PLAYERSHOTNUM; i++) {
+			if( playerShot[i].Get_OnActive() == false&&shotRate==0) {
 				playerShot[i].Set_OnActive(TRUE);//0=false,1=true
 				//プレイヤーの座標を受け取って座標をセット
 				sOBJPos tmp;
-				tmp = cPlayer::Instance()->GetPlayer(0);
+ 				tmp = cPlayer::Instance()->GetPlayer(0);
 				playerShot[i].Set_ShotX(tmp.pos.x);
 				playerShot[i].Set_ShotY(tmp.pos.y);
-				playerShot[i].Set_ShotRad(0);
+				playerShot[i].Set_ShotRad(180);
 				totalShot++;
-				shotRate = 30;
+				shotRate = 6;
 				break;
 			}
 		}
@@ -49,20 +49,26 @@ int cShotMgr::Update() {
 }
 
 int cShotMgr::Draw() {
-	for (int i = 0; i < sizeof(enemyShot) / sizeof*(enemyShot); i++) {
+	for (int i = 0; i < ENEMYSHOTNUM; i++) {
 		enemyShot[i].Draw(ENEMY,ShotGrHandle);
 	}
-	for (int i = 0; i < sizeof(playerShot) / sizeof*(playerShot); i++) {
+	for (int i = 0; i < PLAYERSHOTNUM; i++) {
 		playerShot[i].Draw(PLAYER,ShotGrHandle);
 	}
-	DrawFormatString(420,500,GetColor(255,0,255),"totalShot:%d",totalShot);
-	DrawFormatString(420, 525, GetColor(255, 0, 255), "pShot1:%d", playerShot[0].Get_OnActive());
-	DrawFormatString(420, 550, GetColor(255, 0, 255), "pShot2:%d", playerShot[1].Get_OnActive());
+#ifndef PLAYER_SHOT_DEBUG
+	DrawFormatString(20, 500, GetColor(255, 0, 255), "totalShot:%d", totalShot);
+	DrawFormatString(20, 525, GetColor(255, 0, 255), "pShot1:%d", playerShot[0].Get_OnActive());
+	DrawFormatString(20, 550, GetColor(255, 0, 255), "pShot2:%d", playerShot[1].Get_OnActive());
+	DrawFormatString(20, 575, GetColor(255, 0, 255), "px1:%d", playerShot[0].Get_ShotX());
+	DrawFormatString(20, 600, GetColor(255, 0, 255), "py1:%d", playerShot[0].Get_ShotY());
+	DrawFormatString(20, 625, GetColor(255, 0, 255), "px2:%d", playerShot[1].Get_ShotX());
+	DrawFormatString(20, 650, GetColor(255, 0, 255), "py2:%d", playerShot[1].Get_ShotY());
+#endif
 	return 0;
 }
 
 //弾を消す処理
-int cShotMgr::Break(int type,int num) {
+int cShotMgr::Break(int type,int num) {//type=自機or敵、num=何番目の弾か
 	if (type == PLAYER) {
 		playerShot[num].Set_OnActive(FALSE);
 	}
