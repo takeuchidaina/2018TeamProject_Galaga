@@ -28,13 +28,14 @@ void cHit::Update() {
 void cHit::Draw() {
 
 }
+
 /************************************************************
 	関数：void cHit::Hit
 	説明：(自機と敵弾) (自機と敵機) (自弾と敵機) の当たり判定
-	引数：sOBJPos *Player
-		：cShot *enemyShot
-		：		*playerShot
-		：sEnemy *enemy
+	引数：sOBJPos tmpPlayer
+		：cShot tmpEShot
+		：		tmpPShot
+		：sEnemy tmpEnemy
 	戻値：なし
 ************************************************************/
 void cHit::Hit() {
@@ -45,44 +46,44 @@ void cHit::Hit() {
 	sEnemy tmpEnemy[20];
 
 
-	/* プレイヤーと敵弾 */
+	/* 自機と敵弾 */
 	for (int i = 0; i < MAXMACHINE; i++) {
 
-		if (tmpPlayer[i].onActive == false) continue;
+		if (tmpPlayer[i].onActive == FALSE) continue;
 
 		for (int j = 0; j < sizeof(tmpEShot); j++) {
 
-			if (tmpEShot[j].Get_OnActive == false) continue;
+			if (tmpEShot[j].Get_OnActive == FALSE) continue;
 
-			int len = ( (tmpEShot[j].cx - tmpPlayer[i].cx) * (tmpEShot[j].cx - tmpPlayer[i].cx) ) + ( (tmpEShot[j].cy - tmpPlayer[i].cy)*(tmpEShot[j].cy - tmpPlayer[i].cy) );
+			int len = ( (tmpEShot[j].Get_ShotCX - tmpPlayer[i].cx) * (tmpEShot[j].Get_ShotCX - tmpPlayer[i].cx) ) + ( (tmpEShot[j].Get_ShotCY - tmpPlayer[i].cy)*(tmpEShot[j].Get_ShotCY - tmpPlayer[i].cy) );
 
-			if ( len <= ((tmpEShot[j].r + tmpPlayer[i].r) * (tmpEShot[j].r + tmpPlayer[i].r))) {
+			if ( len <= ((tmpEShot[j].Get_ShotR + tmpPlayer[i].r) * (tmpEShot[j].Get_ShotR + tmpPlayer[i].r)) ) {
 
 				/* プレイヤーが2機いるときに片方がダウン
 				   呼び出し関数：cPlayer::Braik("プレイヤーの状態", "どっちのプレイヤーか") */
-				if (tmpPlayer[eLeftMachine].onActive == true && tmpPlayer[eRightMachine].onActive == true) {
+				if (tmpPlayer[eLeftMachine].onActive == TRUE && tmpPlayer[eRightMachine].onActive == TRUE) {
 					cPlayer::Instance()->Break(eDoubleDeath, i);
-					cShot::Instance()->Break(ENEMY, j);
+					cShotMgr::Instance()->Break(ENEMY, j);
 				}
 
 				/* プレイヤーが1機のときにダウン
 				   呼び出し関数：cPlayer::Braik("プレイヤーの状態", "どっちのプレイヤーか") */
 				else {
 					cPlayer::Instance()->Break(eDeath, i);
-					cShot::Instance()->Break(ENEMY, j);
+					cShotMgr::Instance()->Break(ENEMY, j);
 				}
 			}
 		}
 	}
 
-	/* プレイヤーと敵機　*/
+	/* 自機と敵機　*/
 	for (int i = 0; i < MAXMACHINE; i++) {
 
-		if (tmpPlayer[i].onActive == false) continue;
+		if (tmpPlayer[i].onActive == FALSE) continue;
 
 		for (int j = 0; j < sizeof(tmpEnemy); j++) {
 
-			if (tmpEnemy[j].onActive == false) continue;
+			if (tmpEnemy[j].onActive == FALSE) continue;
 
 			int len = (tmpEnemy[j].cx - tmpPlayer[i].cx)*(tmpEnemy[j].cx - tmpPlayer[i].cx) + (tmpEnemy[j].cy - tmpPlayer[i].cy)*(tmpEnemy[j].cy - tmpPlayer[i].cy);
 
@@ -90,7 +91,7 @@ void cHit::Hit() {
 				
 				/* プレイヤーが2機いるときに片方がダウン
 				呼び出し関数：cPlayer::Braik("プレイヤーの状態", "どっちのプレイヤーか") */
-				if (tmpPlayer[eLeftMachine].onActive == true && tmpPlayer[eRightMachine].onActive == true) {
+				if (tmpPlayer[eLeftMachine].onActive == TRUE && tmpPlayer[eRightMachine].onActive == TRUE) {
 					cPlayer::Instance()->Break(eDoubleDeath, i);
 					sEnemy::Instance()->Break(j);
 				}
@@ -108,16 +109,16 @@ void cHit::Hit() {
 	/* 自弾と敵機　*/
 	for (int i = 0; i < sizeof(enemy); i++) {
 
-		if (enemy[i].OnActive == false) continue;
+		if (enemy[i].OnActive == FALSE) continue;
 
 		for (int j = 0; j < sizeof(tmpPShot); j++) {
 
-			if (tmpPShot[j].Get_OnActive == false) continue;
+			if (tmpPShot[j].Get_OnActive == FALSE) continue;
 
-			int len = (tmpPShot[j].cx - enemy[i].cx)*(tmpPShot[j].cx - enemy[i].cx) + (tmpPShot[j].cy - enemy[i].cy)*(tmpPShot[j].cy - enemy[i].cy);
+			int len = (tmpPShot[j].Get_ShotCX - enemy[i].cx)*(tmpPShot[j].Get_ShotCX - enemy[i].cx) + (tmpPShot[j].Get_ShotCY - enemy[i].cy)*(tmpPShot[j].Get_ShotCY - enemy[i].cy);
 
-			if (len <= ((enemy[i].r + tmpPShot[j].r)*(enemy[i].r + tmpPShot[j].r)) ) {
-				cShot::Instance()->Break(PLAYER, j);
+			if (len <= ((enemy[i].r + tmpPShot[j].Get_ShotR)*(enemy[i].r + tmpPShot[j].Get_ShotR)) ) {
+				cShotMgr::Instance()->Break(PLAYER, j);
 				sEnemy::Instance()->Break(i);
 			}
 		}
@@ -133,7 +134,10 @@ void cHit::Hit() {
 ************************************************************
 void cHit::BeemHit(sOBJPos Player ,sEnemy enemy) {
 
-	if (((enemy.cx - beemR) <= Player.cx && (enemy.cx + beemR) >= Player.cx)) {
+	sOBJPos tmpPlayer[2];
+	sEnemy tmpEnemy[20];
+
+	if (((tmpEnemy.cx - beemR) <= tmpPlayer.cx && (tmpEnemy.cx + beemR) >= tmpPlayer.cx)) {
 		cInGameMgr(eTractor);
 	}
 
