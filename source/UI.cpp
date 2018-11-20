@@ -10,11 +10,11 @@ static int iconY;
 int stageNo;
 int playerHP;
 
-sTextPos textPos[] = 
+sTextPos textPos[3] = 
 {
-	{ DISP_SIZE + 50,100,"HIGH SCORE" },
-	{ DISP_SIZE + 50,140,"text02" },
-	{ DISP_SIZE + 50,180,"text03" },
+	{ DISP_SIZE + 150, 100,"HIGH" },
+	{ DISP_SIZE +  50, 130,"SCORE" },
+	{ DISP_SIZE + 150, 200,"1UP" },
 
 };
 
@@ -237,4 +237,18 @@ int UI_StgSelectIcon(int stageNo)
 void UI_SetPlayerHP(int HP)
 {
 	playerHP = HP;
+}
+/*************************************************************************
+ä÷êî: int GetTextPos()
+ê‡ñæ: ç\ë¢ëÃtextPosÇÃéÛÇØìnÇµ
+à¯êî: ñ≥Çµ
+ñﬂÇËíl: textPos
+*************************************************************************/
+sTextPos GetTextPos()
+{
+	int i;
+	for( i=0;i<sizeof(textPos) / sizeof(textPos[0]);i++);
+	{
+		return textPos[i];
+	}
 }

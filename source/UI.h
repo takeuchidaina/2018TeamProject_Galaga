@@ -33,5 +33,6 @@ extern int UI_End();
 
 extern int UI_StgSelectIcon(int );
 extern void UI_SetPlayerHP(int);
+extern sTextPos GetTextPos();
 
 #endif
