@@ -5,8 +5,8 @@
 
 //コンストラクタ(初期化)
 cShotMgr::cShotMgr() {
-	enemyShot = new cShot[20];
-	playerShot = new cShot[2];
+	enemyShot = new cShot[ENEMYSHOTNUM];
+	playerShot = new cShot[PLAYERSHOTNUM];
 	totalShot = 0;
 	shotRate = 0;
 	/*checkGr=*/LoadDivGraph("../resource/Image/Galaga_OBJ_bullet.png",4,4,0,10,12,ShotGrHandle);
@@ -59,10 +59,10 @@ int cShotMgr::Draw() {
 	DrawFormatString(20, 500, GetColor(255, 0, 255), "totalShot:%d", totalShot);
 	DrawFormatString(20, 525, GetColor(255, 0, 255), "pShot1:%d", playerShot[0].Get_OnActive());
 	DrawFormatString(20, 550, GetColor(255, 0, 255), "pShot2:%d", playerShot[1].Get_OnActive());
-	DrawFormatString(20, 575, GetColor(255, 0, 255), "px1:%d", playerShot[0].Get_ShotX());
-	DrawFormatString(20, 600, GetColor(255, 0, 255), "py1:%d", playerShot[0].Get_ShotY());
-	DrawFormatString(20, 625, GetColor(255, 0, 255), "px2:%d", playerShot[1].Get_ShotX());
-	DrawFormatString(20, 650, GetColor(255, 0, 255), "py2:%d", playerShot[1].Get_ShotY());
+	DrawFormatString(20, 575, GetColor(255, 0, 255), "pcx1:%.1lf", playerShot[0].Get_ShotCX());
+	DrawFormatString(20, 600, GetColor(255, 0, 255), "pcy1:%.1lf", playerShot[0].Get_ShotCY());
+	DrawFormatString(20, 625, GetColor(255, 0, 255), "pcx2:%.1lf", playerShot[1].Get_ShotCX());
+	DrawFormatString(20, 650, GetColor(255, 0, 255), "pcy2:%.1lf", playerShot[1].Get_ShotCY());
 #endif
 	return 0;
 }
