@@ -6,6 +6,7 @@
 #include "Singleton.h"
 #include "Player.h"
 #include "Struct.h"
+#include "Winbox.h"
 #define PLAYER 0
 #define ENEMY 1
 #define PLAYERSHOTNUM 2

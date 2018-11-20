@@ -9,15 +9,12 @@ cShotMgr::cShotMgr() {
 	playerShot = new cShot[PLAYERSHOTNUM];
 	totalShot = 0;
 	shotRate = 0;
-	/*checkGr=*/LoadDivGraph("../resource/Image/Galaga_OBJ_bullet.png",4,4,0,10,12,ShotGrHandle);
-	/*if (checkGr == -1){
-		DrawFormatString(420, 600, GetColor(255, 0, 255), "‰æ‘œ‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ‚Å‚µ‚½");
-		WaitKey();
+	checkGr=LoadDivGraph("../resource/Image/Galaga_OBJ_bullet.png",4,4,0,10,12,ShotGrHandle);
+	if (checkGr == -1){
+		ErrBox("Shot‰æ‘œ“Ç‚İ‚İƒGƒ‰[");
+		//DrawFormatString(420, 600, GetColor(255, 0, 255), "‰æ‘œ‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ‚Å‚µ‚½");
 	}
-	else{
-		DrawFormatString(420, 600, GetColor(255, 0, 255), "%d",checkGr);
-		WaitKey();
-	}*/
+	//ErrBox("‚ß‚¤");
 }
 
 int cShotMgr::Update() {
