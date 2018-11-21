@@ -7,7 +7,7 @@
 
 class cRedEnemy : public cBaseEnemy {
 public:
-	cRedEnemy(double, double, double, int, double, double, int);
+	cRedEnemy(double, double, double, int, double, double, int,int*);
 	virtual void Move(cRedEnemy &);
 	virtual int Update();
 	virtual int Draw();

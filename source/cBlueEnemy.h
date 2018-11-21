@@ -6,7 +6,7 @@
 
 class cBlueEnemy : public cBaseEnemy {
 	public :
-	cBlueEnemy(double, double, double, int, double, double, int);
+	cBlueEnemy(double, double, double, int, double, double, int,int*);
 	virtual void Move(cBlueEnemy &);
 	virtual int Update();
 	virtual int Draw();
