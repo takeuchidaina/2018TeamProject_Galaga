@@ -75,6 +75,12 @@ cEnemyMgr::cEnemyMgr() {
 		//case 17:tmpEnemy.item_n[5] = atoi(inputc); break;
 		}
 
+		tmpEnemy.v.x = 0;
+		tmpEnemy.v.y = 0;
+		tmpEnemy.moveflag = 0;
+		tmpEnemy.onactive = false;
+
+
 		switch (num) {
 		case 0: enemy[n].pos.x = atof(inputc); break;
 		case 1: enemy[n].pos.y = atof(inputc); break;
@@ -135,8 +141,6 @@ cEnemyMgr::cEnemyMgr() {
 	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 		waveflag[enemy[i].wave]++;
 	}
-
-	GetEnemyOnActive();
 
 
 	/*
@@ -251,8 +255,12 @@ void cEnemyMgr::Update() {
 		enemies[i]->SetEnemyY(enemy[i].pos.y);
 		enemies[i]->SetEnemyAngle(enemy[i].angle);
 
-		if (wave == 10) {
-		}
+		//“G@UŒ‚@‰¼
+		
+			if (enemies[i]->GetEnemyAttackflg() == false) {
+				enemies[i]->SetEnemyAttackflg();
+
+			}
 
 
 
