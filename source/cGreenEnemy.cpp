@@ -9,7 +9,7 @@ using namespace std;
 #include"UI.h"
 //‚™674‚©‚çƒr[ƒ€•`‰æ
 
-cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, double ang, int flg) : cBaseEnemy(x, y, r, cnt, spd, ang, flg) {
+cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, double ang, int flg,int *graph) : cBaseEnemy(x, y, r, cnt, spd, ang, flg, graph) {
 	enemy.mainpos.pos.x = x;
 	enemy.mainpos.pos.y = y;
 	enemy.mainpos.r = r;
@@ -226,8 +226,8 @@ int cGreenEnemy::Draw() {
 		b++;
 		if (b > 11)b = 10;
 	}
-	if(enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * 3.14159265) / 180), enemy.graph[b], TRUE, TRUE);
-	else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * 3.14159265 / 180), enemy.graph[b], TRUE, TRUE);
+	if(enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * 3.14159265) / 180), *enemy.graph+b, TRUE, TRUE);
+	else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * 3.14159265 / 180), *enemy.graph+b, TRUE, TRUE);
 	//DrawCircle(enemy.target.x, enemy.target.y, enemy.targetr, GetColor(0, 255, 0), true);
 	DrawFormatString(120, 855, GetColor(255, 255, 255), "%d", enemy.count);
 	DrawFormatString(120, 870, GetColor(255, 255, 255), "%d", enemy.attackflg);

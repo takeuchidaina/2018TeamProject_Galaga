@@ -7,23 +7,19 @@
 #include "DxLib.h"
 
 typedef struct {
-	
-
-	
-
-	sPos vct;
-	sOBJPos mainpos ;
-	sPos target;
+	sPos vct; // ベクトル用x y
+	sOBJPos mainpos ;//メインのx y r onActive
+	sPos target; //変える位置かな？
 	int targetr;
-	double spd;
-	double ang;
-	int graph[20];
+	double spd; //速度
+	double ang; //向いている角度
+	int* graph; //マネージャーからもらう画像のアドレス用
 	int dir = 1;//1　右　-1　左
-	int width;
-	int hight;
-	int count;
-	int moveflg;
-	int attackflg;
+	int width; //幅
+	int hight; //高さ
+	int count; //移動カウント
+	int moveflg; //移動制御フラグ 
+	int attackflg;//攻撃フラグ
 	//int flg;
 	double moveang[10];
 	double countflg[10];
@@ -31,11 +27,12 @@ typedef struct {
 }sEnemy;
 
 class cBaseEnemy {
+
 protected:
 	sEnemy enemy;
 public:
 	     cBaseEnemy();//コンストラクタ
-		 cBaseEnemy(double,double,double,int,double,double,int );	
+		 cBaseEnemy(double,double,double,int,double,double,int ,int*);	
 		virtual ~cBaseEnemy();//デストラクタ
 		virtual	int Update();//更新処理
 		virtual int Draw();//描画処理

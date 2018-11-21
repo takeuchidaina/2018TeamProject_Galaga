@@ -19,7 +19,7 @@ cEnemyMgr::cEnemyMgr() {
 	//画像の読み込み処理
 	LoadDivGraph("../resource/Image/Galaga_OBJ_enemy1616.png", 20, 5, 4, 16, 16,EnemyGraph);
 
-	//読み込むExcelデータの定義
+	//Stage_1.csv
 	StageHandle = FileRead_open(StageFilePath);
 	if (StageHandle == 0);  //エラー処理の記入途中
 
@@ -48,7 +48,6 @@ cEnemyMgr::cEnemyMgr() {
 
 		//ファイル終了処理フラグが立っている場合は以下の処理を行わない
 		if (fileEndFlag == 1)break;
-		//データを一時的に格納する
 		switch (num) {
 		case 0: tmpEnemy.pos.x = atof(inputc); break;
 		case 1: tmpEnemy.pos.y = atof(inputc); break;
@@ -75,13 +74,6 @@ cEnemyMgr::cEnemyMgr() {
 		//case 16:tmpEnemy.onactive = atoi(inputc); break;	   
 		//case 17:tmpEnemy.item_n[5] = atoi(inputc); break;
 		}
-
-
-		tmpEnemy.v.x = 0;
-		tmpEnemy.v.y = 0;
-		tmpEnemy.moveflag = 0;
-		tmpEnemy.onactive = false;
-
 
 		switch (num) {
 		case 0: enemy[n].pos.x = atof(inputc); break;
@@ -121,7 +113,7 @@ cEnemyMgr::cEnemyMgr() {
 			/*switch文でtypeをみて,結果に合わせてtmpEnemyのデータをそれぞれのcbaseEnemyにいれる*/
 			switch (tmpEnemy.etype) {
 			case 0:
-				enemies[n] = (cBaseEnemy*) new cBlueEnemy(tmpEnemy.pos.x, tmpEnemy.pos.y, tmpEnemy.r, tmpEnemy.count, tmpEnemy.speed, tmpEnemy.angle, tmpEnemy.onactive,EnemyGraph);
+				enemies[n] = (cBaseEnemy*) new cBlueEnemy(tmpEnemy.pos.x, tmpEnemy.pos.y, tmpEnemy.r, tmpEnemy.count, tmpEnemy.speed, tmpEnemy.angle, tmpEnemy.onactive, EnemyGraph);
 				break;
 			case 1:
 				enemies[n] = (cBaseEnemy*) new cRedEnemy(tmpEnemy.pos.x, tmpEnemy.pos.y, tmpEnemy.r, tmpEnemy.count, tmpEnemy.speed, tmpEnemy.angle, tmpEnemy.onactive, EnemyGraph);
@@ -131,6 +123,7 @@ cEnemyMgr::cEnemyMgr() {
 				break;
 
 			}
+
 			n++;
 		}
 	}
@@ -142,6 +135,9 @@ cEnemyMgr::cEnemyMgr() {
 	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 		waveflag[enemy[i].wave]++;
 	}
+
+	GetEnemyOnActive();
+
 
 	/*
 	//敵の配列数分の初期化を行う
@@ -254,6 +250,11 @@ void cEnemyMgr::Update() {
 		enemies[i]->SetEnemyX(enemy[i].pos.x);
 		enemies[i]->SetEnemyY(enemy[i].pos.y);
 		enemies[i]->SetEnemyAngle(enemy[i].angle);
+
+		if (wave == 10) {
+		}
+
+
 
 	}//配列数分の敵動作終了
 
