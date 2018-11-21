@@ -6,8 +6,11 @@
 #include "Singleton.h"
 #include "Player.h"
 #include "Struct.h"
+#include "Winbox.h"
 #define PLAYER 0
 #define ENEMY 1
+#define PLAYERSHOTNUM 2
+#define ENEMYSHOTNUM 20
 /*
 //テンプレート例 クラスもテンプレート化可能
 template <typename TYPE>
