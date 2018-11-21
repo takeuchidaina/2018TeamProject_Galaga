@@ -7,7 +7,7 @@ using namespace std;
 #include "DxLib.h"
 #include "Struct.h"
 #include"UI.h"
-
+//ｙ674からビーム描画
 
 cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, double ang, int flg) : cBaseEnemy(x, y, r, cnt, spd, ang, flg) {
 	enemy.mainpos.pos.x = x;
@@ -41,12 +41,27 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 	enemy.countflg[5] = 20;
 	enemy.countflg[6] = 80;
 
+	memset(tractormoveang, 0, sizeof(tractormoveang));
+	tractormoveang[0] = -4;
+	tractormoveang[1] = 90;
+	tractormoveang[2] = 90;
+	
+
+	memset(tractorcountflg, 0, sizeof(tractorcountflg));
+	tractorcountflg[0] = 20;
+	tractorcountflg[1] = 50;
+	tractorcountflg[2] = 50;
+	tractorcountflg[3] = 75;
+	tractorcountflg[4] = 100;
+	tractorcountflg[5] = 20;
+	tractorcountflg[6] = 80;
+
+
 	enemy.target.x = x;
 	enemy.target.y = y;
 	enemy.targetr = 5;
 
-	
-
+	LoadDivGraph("../resource/Image/Galaga_OBJ_effect.png", 15, 5, 3, 50, 82, tractor);
 }
 
 
@@ -61,13 +76,13 @@ void cGreenEnemy::Move(cGreenEnemy &unit) {
 	}
 	else if(enemy.mainpos.onActive == YesActive){
 		if (unit.enemy.attackflg == TRUE) {
-			if (unit.enemy.dir == RIGHT) {
-				unit.enemy.vct.x = cos(enemy.ang);
+			//if (unit.enemy.dir == RIGHT) {
+				unit.enemy.vct.x = cos(enemy.ang)*enemy.dir;
 				unit.enemy.vct.y = sin(enemy.ang);
 				unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
 				unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
-			}
-			else  {
+		//	}
+		/*	else  {
 				if (unit.enemy.moveflg != 7) {
 					unit.enemy.vct.x = -cos(enemy.ang);
 					unit.enemy.vct.y = sin(enemy.ang);
@@ -80,7 +95,7 @@ void cGreenEnemy::Move(cGreenEnemy &unit) {
 					unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
 					unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
 				}
-			}
+			}*/
 		}
 	}
 }
@@ -148,6 +163,59 @@ int cGreenEnemy::Update() {
 
 	return 0;
 }
+
+
+void cGreenEnemy::TractorUpdate() {
+	enemy.count++;
+
+	if (enemy.count > 0) {
+		enemy.mainpos.onActive = YesActive;
+	}
+
+	switch (enemy.moveflg)
+	{
+	case 0:
+	//case 1:
+		enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
+		if (tractorcountflg[enemy.moveflg] <= enemy.count) {
+			enemy.moveflg++;
+			enemy.count = 0;
+		}
+		break;
+	/*case 2:
+		enemy.ang = 0;
+		enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
+		if (tractorcountflg[enemy.moveflg] <= enemy.count) {
+			enemy.moveflg++;
+			enemy.count = 0;
+		}
+		break;*/
+	case 1:
+		enemy.ang = atan2(674-64 - enemy.mainpos.pos.y, (300- enemy.mainpos.pos.x)*enemy.dir);
+		if ((300 - enemy.mainpos.pos.x)*(300 - enemy.mainpos.pos.x) +
+			(674 - 64 - enemy.mainpos.pos.y)*(674 - 64 - enemy.mainpos.pos.y) <=
+			(enemy.mainpos.r - 1 + enemy.targetr)*(enemy.mainpos.r - 1 + enemy.targetr)) {
+			//敵座標を目的地に固定
+			enemy.mainpos.pos.x = 300;
+			enemy.mainpos.pos.y = 674 - 64;
+			enemy.count = 0;
+			enemy.moveflg++;
+		}
+		break;
+	case 2:
+		enemy.mainpos.pos.x = 300;
+		enemy.mainpos.pos.y = 674 - 64;
+		//enemy.count = 0;
+		//enemy.moveflg = 0;
+		enemy.ang = 90 * 3.14159265 / 180;
+		DrawGraph(300,674,tractor[0],TRUE);
+		//enemy.dir *= -1;
+		//enemy.attackflg = false;
+		break;
+
+	}
+}
+
 
 int cGreenEnemy::Draw() {
 	static int a = 0;
