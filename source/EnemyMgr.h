@@ -55,16 +55,17 @@ private:
 	int  input[64];           //ファイルから読み取った文字列の一時保管(int用)
 	char inputc[64];          //ファイルから読み取った文字列の一時保管(char用)
 	int  fileEndFlag;         //ファイル読み込みの終了フラグ
-	int  StageHandle;         //ファイルを開くはんどる
+	int  StageHandle;         //ファイルを開くハンドル
 	char StageFilePath[256];  //読み込むファイルの名前を入れる配列
 	int  n, num;              //n,num
 	int  Phaseflag;           //移動段階フラグ
+	int  EnemyGraph[20];          //敵の画像 20体分よみこむ
 
-							  //関数のプロトタイプ宣言
+	//関数のプロトタイプ宣言
 	void Move(sEnemy&);
 	void Shifted(sEnemy&, sEnemy&);
 	cBaseEnemy* enemies[40];
-	//enemies[i] = new(*cBaseEnemy)cBlueEnemy(tmpEnemy.pos.x,tmpEnemy.pos.y);
+	cBaseEnemy GetEnemyOnActive();
 
 public:
 	cEnemyMgr();
