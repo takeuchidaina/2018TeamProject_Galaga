@@ -30,7 +30,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		zako.Update(); 
 		goei.Update();
-		boss.Update();
+		boss.TractorUpdate();
 
 	/*if (zako.enemy.mainpos.onActive != true) continue;
 	if (goei.enemy.mainpos.onActive != true) continue;
