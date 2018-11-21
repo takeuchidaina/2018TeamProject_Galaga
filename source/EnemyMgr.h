@@ -62,10 +62,11 @@ private:
 	int  EnemyGraph[20];          //敵の画像 20体分よみこむ
 
 	//関数のプロトタイプ宣言
+	void Join(sEnemy&);
 	void Move(sEnemy&);
 	void Shifted(sEnemy&, sEnemy&);
 	cBaseEnemy* enemies[40];
-	cBaseEnemy GetEnemyOnActive();
+	//cBaseEnemy GetEnemyOnActive();
 
 public:
 	cEnemyMgr();
