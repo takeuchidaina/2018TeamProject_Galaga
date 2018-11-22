@@ -4,8 +4,12 @@
 #define INGAME_MGR_INCLUDE_
 
 #include "cBaseEnemy.h"
+#include "Singleton.h"
 
-class cEnemyMgr {
+class cEnemyMgr : public cSingleton <cEnemyMgr>{
+	cEnemyMgr();
+	friend cSingleton<cEnemyMgr>;
+
 private:
 	typedef struct {
 		double x, y;
@@ -73,8 +77,7 @@ private:
 	int onActiveCount;
 
 public:
-	cEnemyMgr();
-	~cEnemyMgr();
+	//~cEnemyMgr();
 
 	void Update();
 	void Draw();

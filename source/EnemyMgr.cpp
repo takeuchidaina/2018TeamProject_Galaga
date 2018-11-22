@@ -170,9 +170,9 @@ cEnemyMgr::cEnemyMgr() {
 }
 
 //デコンストラクタ
-cEnemyMgr::~cEnemyMgr() {
+//cEnemyMgr::~cEnemyMgr() {
 
-}
+//}
 
 
 //計算処理

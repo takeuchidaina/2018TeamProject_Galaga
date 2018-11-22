@@ -32,7 +32,7 @@ public:
 	}eInGameScene;
 
 private:
-	cEnemyMgr EnemyMgr;
+//	cEnemyMgr EnemyMgr;
 
 	eInGameScene sceneflag;
 	eInGameScene next_Sceneflag;

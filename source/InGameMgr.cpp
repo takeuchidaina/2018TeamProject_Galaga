@@ -130,8 +130,8 @@ void cInGameMgr::Update() {
 	case eInGame://ƒQ[ƒ€‰æ–Ê
 		cPlayer::Instance()->Update();
 		cShotMgr::Instance()->Update();
-		//cEnemyMgr::Instance()->Update();
-		EnemyMgr.Update();
+		cEnemyMgr::Instance()->Update();
+		//EnemyMgr.Update();
 		//cHit::Instance()->Update();
 
 		//
@@ -169,9 +169,9 @@ void cInGameMgr::Draw() {
 		break;
 	case eInGame://ƒQ[ƒ€‰æ–Ê
 		cPlayer::Instance()->Draw();
-		//cEnemyMgr::Instance()->Draw();
+		cEnemyMgr::Instance()->Draw();
 		cShotMgr::Instance()->Draw();
-		EnemyMgr.Draw();
+		//EnemyMgr.Draw();
 		DrawFormatString(0, 20, GetColor(255, 255, 255), "eInGame");
 		//
 		break;
