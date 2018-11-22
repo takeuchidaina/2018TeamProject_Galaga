@@ -79,5 +79,8 @@ public:
 	void Update();
 	void Draw();
 
+	double GetTargetX(cBaseEnemy* p) { return enemy[sizeof(p - enemies[0]) / sizeof(cBaseEnemy*)].target.x; }
+	double GetTargetY(cBaseEnemy* p) { return enemy[sizeof(p - enemies[0]) / sizeof(cBaseEnemy*)].target.y; }
+
 };
 #endif // !_INGAME_MGR_INCLUDE_
