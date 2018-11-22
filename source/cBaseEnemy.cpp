@@ -31,7 +31,7 @@ cBaseEnemy::~cBaseEnemy() {
 	;
 }
 
-void cBaseEnemy::Move(cBaseEnemy &unit) {
+void cBaseEnemy::Move() {
 	;
 }
 

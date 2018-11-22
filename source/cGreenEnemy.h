@@ -9,10 +9,10 @@ class cGreenEnemy : public cBaseEnemy {
 private:
 	double tractormoveang[10];
 	double tractorcountflg[10];
-	int tractor[11];
+	int tractor[15];
 public:
 	cGreenEnemy(double, double, double, int, double, double, int, int*);
-	virtual void Move(cGreenEnemy &);
+	virtual void Move();
 	void TractorUpdate();
 	virtual int Update();
 	virtual int Draw();

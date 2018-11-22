@@ -8,20 +8,20 @@ using namespace std;
 #include "cGreenEnemy.h"
 #include "DxLib.h"
 #include "Struct.h"
-
+int EnemyGraph[20];
  static int i = 0;
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	SetGraphMode(1280, 960, 32);
 	ChangeWindowMode(TRUE), DxLib_Init(), SetDrawScreen(DX_SCREEN_BACK); //ウィンドウモード変更と初期化と裏画面設定
-	
+	LoadDivGraph("../resource/Image/Galaga_OBJ_enemy1616.png", 20, 5, 4, 16, 16, EnemyGraph);
 																		 
 																		 
 																		 
 	//x y r cnt spd ang flg
 
-	cBlueEnemy zako(300, 330, 5, 0, 3, 180, false);
-	cRedEnemy  goei(400,330,5,0,3,180,false);
-	cGreenEnemy boss(500,330,5,0,3,180,false);
+	cBlueEnemy zako(300, 330, 5, 0, 3, 180, false, EnemyGraph);
+	cRedEnemy  goei(400,330,5,0,3,180,false, EnemyGraph);
+	cGreenEnemy boss(500,330,5,0,3,180,false, EnemyGraph);
 
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {//画面更新 & メッセージ処理 & 画面消去
 			zako.SetEnemyAttackflg();
@@ -37,9 +37,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	if (boss.enemy.mainpos.onActive != true) continue;
 	*/
 		
-		zako.Move(zako);
-		goei.Move(goei);
-		boss.Move(boss);
+		zako.Move();
+		goei.Move();
+		boss.Move();
 
 		
 		zako.Draw();

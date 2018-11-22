@@ -6,6 +6,13 @@
 #include <math.h>
 #include "DxLib.h"
 
+/*
+
+
+*/
+
+
+
 typedef struct {
 	sPos vct; // ベクトル用x y
 	sOBJPos mainpos ;//メインのx y r onActive
@@ -32,11 +39,11 @@ protected:
 	sEnemy enemy;
 public:
 	     cBaseEnemy();//コンストラクタ
-		 cBaseEnemy(double,double,double,int,double,double,int ,int*);	
+		 cBaseEnemy(double,double,double,int,double,double,int ,int*);//引数付きコンストラクター	
 		virtual ~cBaseEnemy();//デストラクタ
 		virtual	int Update();//更新処理
 		virtual int Draw();//描画処理
-		virtual void Move(cBaseEnemy &);
+		virtual void Move();//移動処理
 		enum eActiveType {
 			StartMove,
 			NoActive,

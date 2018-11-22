@@ -65,37 +65,21 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 }
 
 
-void cGreenEnemy::Move(cGreenEnemy &unit) {
+void cGreenEnemy::Move( ) {
 	enemy.mainpos.cx = enemy.mainpos.pos.x +enemy.width/2;
 	enemy.mainpos.cy = enemy.mainpos.pos.y+enemy.hight/2;
 	if (enemy.mainpos.onActive == StartMove) {
-		unit.enemy.vct.x = cos(enemy.ang);
-		unit.enemy.vct.y = sin(enemy.ang);
-		unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
-		unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
+		enemy.vct.x = cos(enemy.ang);
+		enemy.vct.y = sin(enemy.ang);
+		enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
+		enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
 	}
 	else if(enemy.mainpos.onActive == YesActive){
-		if (unit.enemy.attackflg == TRUE) {
-			//if (unit.enemy.dir == RIGHT) {
-				unit.enemy.vct.x = cos(enemy.ang)*enemy.dir;
-				unit.enemy.vct.y = sin(enemy.ang);
-				unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
-				unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
-		//	}
-		/*	else  {
-				if (unit.enemy.moveflg != 7) {
-					unit.enemy.vct.x = -cos(enemy.ang);
-					unit.enemy.vct.y = sin(enemy.ang);
-					unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
-					unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
-				}
-				else {
-					unit.enemy.vct.x = cos(enemy.ang);
-					unit.enemy.vct.y = sin(enemy.ang);
-					unit.enemy.mainpos.pos.x += unit.enemy.vct.x*unit.enemy.spd;
-					unit.enemy.mainpos.pos.y += unit.enemy.vct.y*unit.enemy.spd;
-				}
-			}*/
+		if (enemy.attackflg == TRUE) {
+				enemy.vct.x = cos(enemy.ang)*enemy.dir;
+				enemy.vct.y = sin(enemy.ang);
+				enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
+				enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
 		}
 	}
 }
@@ -167,13 +151,26 @@ int cGreenEnemy::Update() {
 
 void cGreenEnemy::TractorUpdate() {
 	enemy.count++;
-
+	/*if (enemy.moveflg == 2) {
+		static int a = 0;
+		static int b = 0;
+		a++;
+		if (a >= 30) {
+			b++;
+			a = 0;
+		}
+		if (b > 11) {
+			b = 0;
+			enemy.moveflg++;
+		}
+	}*/
 	if (enemy.count > 0) {
 		enemy.mainpos.onActive = YesActive;
 	}
-
+	
 	switch (enemy.moveflg)
 	{
+		
 	case 0:
 	//case 1:
 		enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
@@ -212,7 +209,18 @@ void cGreenEnemy::TractorUpdate() {
 		//enemy.dir *= -1;
 		//enemy.attackflg = false;
 		break;
-
+	case 3:
+			enemy.ang = atan2(enemy.target.y - enemy.mainpos.pos.y, enemy.target.x - enemy.mainpos.pos.x);
+			if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
+				(enemy.target.y - enemy.mainpos.pos.y)*(enemy.target.y - enemy.mainpos.pos.y) <=
+				(enemy.mainpos.r - 1 + enemy.targetr)*(enemy.mainpos.r - 1 + enemy.targetr)) {
+				//“GÀ•W‚ð–Ú“I’n‚ÉŒÅ’è
+				enemy.mainpos.pos.x = enemy.target.x;
+				enemy.mainpos.pos.y = enemy.target.y;
+				enemy.moveflg++;
+				enemy.count = 0;
+			}
+			break;
 	}
 }
 
