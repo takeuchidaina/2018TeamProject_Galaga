@@ -79,6 +79,8 @@ void cBlueEnemy:: Move() {
 
 
 int cBlueEnemy::Update() {
+	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 	enemy.count++;
 
 	if (enemy.count > 0) {
@@ -150,7 +152,8 @@ int cBlueEnemy::Draw() {
 		DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * 3.14159265 / 180), enemy.graph[b], TRUE, TRUE);
 	}
 
-
+	DrawFormatString(0, 825, GetColor(255, 255, 255), "%.2lf", enemy.target.x);
+	DrawFormatString(0, 840, GetColor(255, 255, 255), "%.2lf", enemy.target.y);
 	DrawFormatString(0, 855, GetColor(255, 255, 255), "%d", enemy.count);
 	DrawFormatString(0, 870, GetColor(255, 255, 255), "%d", enemy.attackflg);
 	DrawFormatString(0, 885, GetColor(255, 255, 255), "%d", enemy.moveflg);

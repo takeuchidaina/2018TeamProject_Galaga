@@ -86,6 +86,8 @@ void cGreenEnemy::Move( ) {
 
 
 int cGreenEnemy::Update() {
+	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 	enemy.count++;
 
 	if (enemy.count > 0) {

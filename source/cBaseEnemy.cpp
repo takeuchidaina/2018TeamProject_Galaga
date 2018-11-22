@@ -7,7 +7,7 @@ using namespace std;
 #include "DxLib.h"
 #include "Struct.h"
 #include "UI.h"
-#include "EnemyMgr.h"
+
 
 
  cBaseEnemy::cBaseEnemy(){
@@ -39,6 +39,8 @@ void cBaseEnemy::Move() {
 
 
 int cBaseEnemy::Update() {
+	enemy.target.x=cEnemyMgr::Instance()->GetTargetX(this);
+	enemy.target.y = cEnemyMgr::Instance()->GetTargetY(this);
 	return 0;
 }
 

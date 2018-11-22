@@ -5,7 +5,7 @@
 #include "Struct.h"
 #include <math.h>
 #include "DxLib.h"
-#include "EnemyMgr.h"
+
 
 /*
 
