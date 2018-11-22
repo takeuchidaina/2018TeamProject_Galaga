@@ -7,6 +7,7 @@ using namespace std;
 #include "DxLib.h"
 #include "Struct.h"
 #include "UI.h"
+#include "EnemyMgr.h"
 
 
  cBaseEnemy::cBaseEnemy(){
@@ -22,6 +23,7 @@ using namespace std;
 	 enemy.hight = 16*3;
 	 enemy.mainpos.cx = enemy.mainpos.pos.x + (double)(enemy.width / 2);
 	 enemy.mainpos.cy = enemy.mainpos.pos.y + (double)(enemy.hight / 2);
+	
 	 //memset(enemy.graph, 0x00, sizeof(enemy.graph));
 	  enemy.graph = graph;
 	  enemy.attackflg = false;
@@ -37,7 +39,6 @@ void cBaseEnemy::Move() {
 
 
 int cBaseEnemy::Update() {
-	;
 	return 0;
 }
 
