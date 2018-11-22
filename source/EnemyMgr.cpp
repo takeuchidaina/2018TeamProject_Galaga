@@ -15,6 +15,8 @@ cEnemyMgr::cEnemyMgr() {
 	n = 0;
 	num = 0;
 	strcpy(StageFilePath, "../resource/MAP/Stage_1.csv");
+	Phaseflag = 0;
+	onActiveCount = 0;
 
 	//画像の読み込み処理
 	LoadDivGraph("../resource/Image/Galaga_OBJ_enemy1616.png", 20, 5, 4, 16, 16,EnemyGraph);
@@ -175,88 +177,119 @@ cEnemyMgr::~cEnemyMgr() {
 
 //計算処理
 void cEnemyMgr::Update() {
-	Phaseflag = 0;
+	phaseFlagCount = 0;
 	wavecount = 0;
-
-	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-		if (enemy[i].wave == wave) {
-			//毎フレームカウントを増やす
-			enemy[i].count++;
-			//カウントが0より多ければ、敵の表示判定をtrue(1)にする
-			if (enemy[i].count > 0) {
-				enemy[i].onactive = 1;
-			}
-			//敵の発生判定がtrueでない場合は以降の処理を無視(continue)してiを加算する
-			if (enemy[i].onactive != 1)continue;
-
-			//moveflagが10になるまで下記の処理を行う
-			if (enemy[i].moveflag < 10) {
-
-				//敵の角度を加算する(ラジアン単位)
-				enemy[i].angle += enemy[i].moveangle[enemy[i].moveflag] * 3.1415 / 180;
-
-				//敵を動かす処理(別途関数で行う)
-				Move(enemy[i]);
-				//片方の列を左または右にずらす
-				//if (i % 2 == 1) Shifted(enemy[i], enemy[i - 1]);
-				if (enemy[i].RLflag != 0)	Shifted(enemy[i], enemy[i - 1]);
-
-				//一定のフレーム数になったら次の動作へ移行する
-				if (enemy[i].countflag[enemy[i].moveflag] == enemy[i].count) {
-					enemy[i].moveflag++;
-					//フレームカウントをリセットする
-					enemy[i].count = 0;
-					//moveflagがmaxmove(3)になったらmoveflagを10にして例外処理へ移行
-					if (enemy[i].moveflag == enemy[i].maxmove) {
-						enemy[i].moveflag = 10;
-					}
+	onActiveCount = 0;
+	if (Phaseflag == 0) {
+		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+			if (enemy[i].wave == wave) {
+				//毎フレームカウントを増やす
+				enemy[i].count++;
+				//カウントが0より多ければ、敵の表示判定をtrue(1)にする
+				if (enemy[i].count > 0) {
+					enemy[i].onactive = 1;
 				}
-			} //敵一体ごとの入場動作終了
-			  //moveflagが10になった場合、目標位置まで移動
-			if (enemy[i].moveflag == 10) {
-				enemy[i].angle = atan2(enemy[i].target.y - enemy[i].pos.y, enemy[i].target.x - enemy[i].pos.x);
-				Move(enemy[i]);
-				if ((enemy[i].target.x - enemy[i].pos.x)*(enemy[i].target.x - enemy[i].pos.x) +
-					(enemy[i].target.y - enemy[i].pos.y)*(enemy[i].target.y - enemy[i].pos.y) <=
-					(enemy[i].r - 3 + enemy[i].targetr)*(enemy[i].r - 3 + enemy[i].targetr)) {
+				//敵の発生判定がtrueでない場合は以降の処理を無視(continue)してiを加算する
+				if (enemy[i].onactive != 1)continue;
+
+				onActiveCount++;
+
+				//moveflagが10になるまで下記の処理を行う
+				if (enemy[i].moveflag < 10) {
+
+					//敵の角度を加算する(ラジアン単位)
+					enemy[i].angle += enemy[i].moveangle[enemy[i].moveflag] * 3.1415 / 180;
+
+					//敵を動かす処理(別途関数で行う)
+					Move(enemy[i]);
+					//片方の列を左または右にずらす
+					//if (i % 2 == 1) Shifted(enemy[i], enemy[i - 1]);
+					if (enemy[i].RLflag != 0)	Shifted(enemy[i], enemy[i - 1]);
+
+					//一定のフレーム数になったら次の動作へ移行する
+					if (enemy[i].countflag[enemy[i].moveflag] == enemy[i].count) {
+						enemy[i].moveflag++;
+						//フレームカウントをリセットする
+						enemy[i].count = 0;
+						//moveflagがmaxmove(3)になったらmoveflagを10にして例外処理へ移行
+						if (enemy[i].moveflag == enemy[i].maxmove) {
+							enemy[i].moveflag = 10;
+						}
+					}
+				} //敵一体ごとの入場動作終了
+				  //moveflagが10になった場合、目標位置まで移動
+				if (enemy[i].moveflag == 10) {
+					enemy[i].angle = atan2(enemy[i].target.y - enemy[i].pos.y, enemy[i].target.x - enemy[i].pos.x);
+					Move(enemy[i]);
+					if ((enemy[i].target.x - enemy[i].pos.x)*(enemy[i].target.x - enemy[i].pos.x) +
+						(enemy[i].target.y - enemy[i].pos.y)*(enemy[i].target.y - enemy[i].pos.y) <=
+						(enemy[i].r - 3 + enemy[i].targetr)*(enemy[i].r - 3 + enemy[i].targetr)) {
+						enemy[i].pos.x = enemy[i].target.x;
+						enemy[i].pos.y = enemy[i].target.y;
+						enemy[i].moveflag++;
+						enemy[i].count = 0;
+						enemy[i].angle = -90 * M_PI / 180;
+					}
+					/*else {
 					enemy[i].pos.x = enemy[i].target.x;
 					enemy[i].pos.y = enemy[i].target.y;
-					enemy[i].moveflag++;
-					enemy[i].count = 0;
-					enemy[i].angle = -90 * M_PI / 180;
-				}
-				/*else {
-				enemy[i].pos.x = enemy[i].target.x;
-				enemy[i].pos.y = enemy[i].target.y;
-				}*/
-			} //例外処理終了
-		} //activeなエネミーの動作処理終了
+					}*/
+				} //例外処理終了
+			} //activeなエネミーの動作処理終了
 
-		if (enemy[i].moveflag == 11) {
-			Phaseflag++;
-			//ウェーブ内で入場行動が終了している敵の数をカウントする
-			if (enemy[i].wave == wave) {
-				wavecount++;
+			if (enemy[i].moveflag == 11) {
+				phaseFlagCount++;
+				//ウェーブ内で入場行動が終了している敵の数をカウントする
+				if (enemy[i].wave == wave) {
+					wavecount++;
+				}
+			}
+
+
+			//ウェーブごとに動く敵の数と入場行動が終了している敵の数が一致している場合、次ウェーブに移行,敵のカウントが初期化
+			if (waveflag[wave] == wavecount) {
+				wave++;
+				wavecount = 0;
+			}
+
+			//クラスのEnemy配列のi番目にクラスでないほうのEnemy(sEnemyMgrData)を代入する
+			enemies[i]->SetEnemyX(enemy[i].pos.x);
+			enemies[i]->SetEnemyY(enemy[i].pos.y);
+			enemies[i]->SetEnemyAngle(enemy[i].angle);
+
+			/*
+					if (phaseFlagCount == onActiveCount) {
+						Phaseflag = 1;
+					}
+			*/
+
+		}//配列数分の敵動作終了
+	}
+	else {
+
+		if (Phaseflag == 1) {
+			for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+				enemies[i]->SetEnemyAttackflg();
+				Phaseflag = 2;
 			}
 		}
-
-		//ウェーブごとに動く敵の数と入場行動が終了している敵の数が一致している場合、次ウェーブに移行,敵のカウントが初期化
-		if (waveflag[wave] == wavecount) {
-			wave++;
-			wavecount = 0;
+	}
+	if (wave == 10 && Phaseflag == 0) {
+		Phaseflag = 1;
+	}
+	if (Phaseflag == 2) {
+		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+			if (enemy[i].onactive != 1)continue;
+			enemies[i]->Update();
+			enemies[i]->Move();
+			
 		}
 
-		//クラスのEnemy配列のi番目にクラスでないほうのEnemy(sEnemyMgrData)を代入する
-		enemies[i]->SetEnemyX(enemy[i].pos.x);
-		enemies[i]->SetEnemyY(enemy[i].pos.y);
-		enemies[i]->SetEnemyAngle(enemy[i].angle);
-
-		if (wave == 10) {
-		}
+	
+	}
 
 
 
-	}//配列数分の敵動作終了
 
 }
 
@@ -307,6 +340,10 @@ void cEnemyMgr::Draw() {
 		enemies[i]->Update2();
 		enemies[i]->Draw();
 	}
+	if (Phaseflag == 2) {
+		DrawFormatString(100, 100, GetColor(255, 255, 255), "攻撃フェーズ");
+	}
+
 
 	DrawFormatString(0,100,GetColor(255,255,255),"wave:%d",wave);
 
