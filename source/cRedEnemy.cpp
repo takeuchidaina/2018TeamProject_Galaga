@@ -75,6 +75,7 @@ int cRedEnemy::Update() {
 	if (enemy.count > 0) {
 		enemy.mainpos.onActive = YesActive;	
 	}
+	//enemy.ang = -90 * 3.14159265 / 180;
 		switch (enemy.moveflg)
 		{
 		case 0:
