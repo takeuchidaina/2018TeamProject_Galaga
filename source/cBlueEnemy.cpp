@@ -141,9 +141,9 @@ int cBlueEnemy::Draw() {
 	}
 
 	if (enemy.dir == RIGHT) 
-		DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + 90*3.14159265 / 180), *enemy.graph+b, TRUE, TRUE);
+		DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + 90*3.14159265 / 180), enemy.graph[b], TRUE, TRUE);
 	else {
-		DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * 3.14159265 / 180), *enemy.graph+b, TRUE, TRUE);
+		DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * 3.14159265 / 180), enemy.graph[b], TRUE, TRUE);
 	}
 
 

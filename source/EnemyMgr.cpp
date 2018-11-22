@@ -136,7 +136,7 @@ cEnemyMgr::cEnemyMgr() {
 		waveflag[enemy[i].wave]++;
 	}
 
-	GetEnemyOnActive();
+	//GetEnemyOnActive();
 
 
 	/*
