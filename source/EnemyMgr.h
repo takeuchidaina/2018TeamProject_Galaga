@@ -5,6 +5,7 @@
 
 #include "cBaseEnemy.h"
 #include "Singleton.h"
+#include "WinBox.h"
 
 class cEnemyMgr : public cSingleton <cEnemyMgr>{
 	cEnemyMgr();
@@ -82,8 +83,31 @@ public:
 	void Update();
 	void Draw();
 
-	double GetTargetX(cBaseEnemy* p) { return enemy[sizeof(p - enemies[0]) / sizeof(cBaseEnemy*)].target.x; }
-	double GetTargetY(cBaseEnemy* p) { return enemy[sizeof(p - enemies[0]) / sizeof(cBaseEnemy*)].target.y; }
+	double GetTargetX(cBaseEnemy* p) {
+		/*
+		char tmp[256];
+		snprintf(tmp,255,"p:%d ene:%d size:%d ", p , enemies[0], sizeof(cBaseEnemy*));
+		ErrBox(tmp);
+		*/
+
+		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+			if (p == enemies[i]) {
+				return enemy[i].target.x;
+			}
+		}
+		//return enemy[sizeof(p - enemies[0]) / sizeof(cBaseEnemy*)].target.x;
+
+	}
+	double GetTargetY(cBaseEnemy* p) {
+		/*return enemy[sizeof(p - enemies[0]) / sizeof(cBaseEnemy*)].target.y; 
+		*/
+		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+			if (p == enemies[i]) {
+				return enemy[i].target.y;
+			}
+		}
+
+	}
 
 };
 #endif // !_INGAME_MGR_INCLUDE_
