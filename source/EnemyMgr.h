@@ -68,6 +68,9 @@ private:
 	void Shifted(sEnemy&, sEnemy&);
 	cBaseEnemy* enemies[40];
 
+	//Ÿè‚Éì‚Á‚½•Ï”‚½‚¿
+	int phaseFlagCount;
+	int onActiveCount;
 
 public:
 	cEnemyMgr();
