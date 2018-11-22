@@ -28,6 +28,7 @@ private:
 		double moveangle[3];  //角度設定の配列
 		int countflag[3];     //特定のフレーム数をあれする配列
 		int onactive;         //表示・非表示の判定
+		int attackflag;       //攻撃フラグ
 	}sEnemy;
 
 	//EnemyMgr内でのみ扱う変数を格納する構造体
@@ -66,7 +67,7 @@ private:
 	void Move(sEnemy&);
 	void Shifted(sEnemy&, sEnemy&);
 	cBaseEnemy* enemies[40];
-	//cBaseEnemy GetEnemyOnActive();
+
 
 public:
 	cEnemyMgr();
