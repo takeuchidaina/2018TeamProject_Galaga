@@ -61,12 +61,20 @@ void cBlueEnemy:: Move() {
 		}
 		else if (enemy.mainpos.onActive == YesActive) {
 			if (enemy.attackflg == TRUE) {
-				enemy.vct.x = cos(enemy.ang)* enemy.dir;
-				enemy.vct.y = sin(enemy.ang);
-				enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
-				enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
+				if (enemy.moveflg != 7) {
+					enemy.vct.x = cos(enemy.ang)*enemy.dir;
+					enemy.vct.y = sin(enemy.ang);
+					enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
+					enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
+				}
+				else {
+					enemy.vct.x = cos(enemy.ang);
+					enemy.vct.y = sin(enemy.ang);
+					enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
+					enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
+				}
+			}
 		}
-	}
 }
 
 
@@ -76,6 +84,9 @@ int cBlueEnemy::Update() {
 	if (enemy.count > 0) {
 		enemy.mainpos.onActive = YesActive;
 	}
+	//enemy.ang = -90 * 3.14159265 / 180;
+
+
 			switch (enemy.moveflg)
 			{
 			case 0:
