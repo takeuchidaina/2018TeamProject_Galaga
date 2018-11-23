@@ -10,6 +10,7 @@ private:
 	double tractormoveang[10];
 	double tractorcountflg[10];
 	int tractor[15];
+	int tractorflg;
 public:
 	cGreenEnemy(double, double, double, int, double, double, int, int*);
 	virtual void Move();

@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 #include <stdio.h>
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include <memory.h>
 #include "cBlueEnemy.h"
@@ -16,7 +17,7 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 
 	enemy.count = cnt;
 	enemy.spd = spd;
-	enemy.ang = ang * 3.14159265 / 180;
+	enemy.ang = ang * M_PI / 180;
 	enemy.mainpos.onActive = flg;
 
 	enemy.moveflg = 0;
@@ -35,9 +36,9 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 
 	memset(enemy.countflg, 0, sizeof(enemy.countflg));
 	enemy.countflg[0] = 40;
-	enemy.countflg[1] = 70;
+	enemy.countflg[1] = 35;
 	enemy.countflg[2] = 25;
-	enemy.countflg[3] = 130;
+	enemy.countflg[3] = 40;
 	enemy.countflg[4] = 30;
 	enemy.countflg[5] = 20;
 	enemy.countflg[6] = 20;
@@ -86,26 +87,31 @@ int cBlueEnemy::Update() {
 	if (enemy.count > 0) {
 		enemy.mainpos.onActive = YesActive;
 	}
-	//enemy.ang = -90 * 3.14159265 / 180;
-
-
+	
 			switch (enemy.moveflg)
 			{
 			case 0:
+				if(enemy.count==0)enemy.ang = 180 * M_PI / 180;
+				enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+				if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+					enemy.moveflg++;
+					enemy.count = 0;
+				}
+				break;
 			case 1:
 			case 2:
 			case 4:
 			case 5:
 			case 6:
-				enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
+				enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 				if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 					enemy.moveflg++;
 					enemy.count = 0;
 				}
 				break;
 			case 3:
-				enemy.ang = 0;
-				enemy.ang += enemy.moveang[enemy.moveflg] * 3.1419265 / 180;
+				enemy.ang = 0 * M_PI / 180;;
+				enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 				if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 					enemy.moveflg++;
 					enemy.count = 0;
@@ -126,9 +132,9 @@ int cBlueEnemy::Update() {
 			case 8:
 				enemy.count = 0;
 				enemy.moveflg = 0;
-				enemy.ang = 180 * 3.14159265 / 180;
+				enemy.ang = 180 * M_PI/180;
 				enemy.dir *= -1;
-				enemy.attackflg = false;
+				//enemy.attackflg = false;
 				break;
 
 		}
@@ -147,19 +153,22 @@ int cBlueEnemy::Draw() {
 	}
 
 	if (enemy.dir == RIGHT) 
-		DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + 90*3.14159265 / 180), enemy.graph[b], TRUE, TRUE);
+		DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + 90*M_PI / 180), enemy.graph[b], TRUE, TRUE);
 	else {
-		DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * 3.14159265 / 180), enemy.graph[b], TRUE, TRUE);
+		DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[b], TRUE, TRUE);
 	}
+#ifdef DEBUG
+/*	DrawFormatString(800, 825, GetColor(255, 255, 255), "%.2lf", enemy.target.x);
+	DrawFormatString(800, 840, GetColor(255, 255, 255), "%.2lf", enemy.target.y);
+	DrawFormatString(800, 855, GetColor(255, 255, 255), "%d", enemy.count);
+	DrawFormatString(800, 870, GetColor(255, 255, 255), "%d", enemy.attackflg);*/
+	DrawFormatString(800, 885, GetColor(255, 255, 255), "%d", enemy.moveflg);
+	/*DrawFormatString(800, 900, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.x);
+	DrawFormatString(800, 915, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.y);*/
+	DrawFormatString(800, 935, GetColor(255, 255, 255), "%.2lf", enemy.dir);
+#endif // 
 
-	DrawFormatString(0, 825, GetColor(255, 255, 255), "%.2lf", enemy.target.x);
-	DrawFormatString(0, 840, GetColor(255, 255, 255), "%.2lf", enemy.target.y);
-	DrawFormatString(0, 855, GetColor(255, 255, 255), "%d", enemy.count);
-	DrawFormatString(0, 870, GetColor(255, 255, 255), "%d", enemy.attackflg);
-	DrawFormatString(0, 885, GetColor(255, 255, 255), "%d", enemy.moveflg);
-	DrawFormatString(0, 900, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.x);
-	DrawFormatString(0, 915, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.y);
-	DrawFormatString(0, 935, GetColor(255, 255, 255), "%d", enemy.dir);
+	
 	
 	return 0;
 }

@@ -45,6 +45,7 @@ public:
 		virtual	int Update();//更新処理
 		virtual int Draw();//描画処理
 		virtual void Move();//移動処理
+		virtual void TractorUpdate();//トラクター用の関数　緑以外ではよんでもなにもない
 		//現状態
 		enum eActiveType {
 			StartMove,

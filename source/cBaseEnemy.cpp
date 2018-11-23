@@ -2,6 +2,7 @@
 using namespace std;
 #include <stdio.h>
 #include <math.h>
+#define _USE_MATH_DEFINES
 #include <memory.h>
 #include "cBaseEnemy.h"
 #include "DxLib.h"
@@ -23,7 +24,7 @@ using namespace std;
 	 enemy.hight = 16*3;
 	 enemy.mainpos.cx = enemy.mainpos.pos.x + (double)(enemy.width / 2);
 	 enemy.mainpos.cy = enemy.mainpos.pos.y + (double)(enemy.hight / 2);
-	
+	 enemy.ang = ang * M_PI / 180;
 	 //memset(enemy.graph, 0x00, sizeof(enemy.graph));
 	  enemy.graph = graph;
 	  enemy.attackflg = false;
@@ -47,11 +48,18 @@ int cBaseEnemy::Update() {
 
 
 int cBaseEnemy::Draw() {
-	
+#ifdef DEBUG
 	DrawFormatString(0, 50, GetColor(255, 255, 255), "%d", enemy.count);
 	DrawFormatString(0, 60, GetColor(255, 255, 255), "%d", enemy.attackflg);
 	DrawFormatString(0, 70, GetColor(255, 255, 255), "%d", enemy.moveflg);
 	DrawFormatString(0, 80, GetColor(255, 255, 255), "%d", enemy.mainpos.pos.x);
 	DrawFormatString(0, 90, GetColor(255, 255, 255), "%d", enemy.mainpos.pos.y);
+#endif
 	return 0;
+}
+
+
+ 
+void cBaseEnemy::TractorUpdate() {
+	;
 }

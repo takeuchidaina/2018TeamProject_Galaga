@@ -282,6 +282,7 @@ void cEnemyMgr::Update() {
 			if (enemy[i].onactive != 1)continue;
 			enemies[i]->Update();
 			enemies[i]->Move();
+		//	enemies[i]->TractorUpdate();
 			
 		}
 
