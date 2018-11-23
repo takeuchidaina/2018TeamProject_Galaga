@@ -68,14 +68,13 @@ private:
 	int  EnemyGraph[20];          //敵の画像 20体分よみこむ
 
 	//関数のプロトタイプ宣言
-	void Join(sEnemy&);
+	//void Join(sEnemy&);
 	void Move(sEnemy&);
 	void Shifted(sEnemy&, sEnemy&);
 	cBaseEnemy* enemies[40];
 
-	//勝手に作った変数たち
-	int phaseFlagCount;
-	int onActiveCount;
+	int phaseFlagCount;  //入場が終了している敵の数
+	int onActiveCount;   //入場時にonActiveがtrueになっている敵の数
 
 public:
 	//~cEnemyMgr();

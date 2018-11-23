@@ -130,16 +130,13 @@ cEnemyMgr::cEnemyMgr() {
 		}
 	}
 
-	//ファイルを閉じるぅ
+	//ファイルを閉じる
 	FileRead_close(StageHandle);
 
 	//waveflagの初期化　これするとwaveflag内に該当waveで何体敵が出現するかを把握できる
 	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 		waveflag[enemy[i].wave]++;
 	}
-
-	//GetEnemyOnActive();
-
 
 	/*
 	//敵の配列数分の初期化を行う
@@ -238,13 +235,13 @@ void cEnemyMgr::Update() {
 			} //activeなエネミーの動作処理終了
 
 			if (enemy[i].moveflag == 11) {
+				//入場行動が終了している敵の数をカウントする
 				phaseFlagCount++;
 				//ウェーブ内で入場行動が終了している敵の数をカウントする
 				if (enemy[i].wave == wave) {
 					wavecount++;
 				}
 			}
-
 
 			//ウェーブごとに動く敵の数と入場行動が終了している敵の数が一致している場合、次ウェーブに移行,敵のカウントが初期化
 			if (waveflag[wave] == wavecount) {
@@ -345,6 +342,6 @@ void cEnemyMgr::Draw() {
 	}
 
 
-	DrawFormatString(0,100,GetColor(255,255,255),"wave:%d",wave);
+	DrawFormatString(0,120,GetColor(255,255,255),"phase:%d",onActiveCount);
 
 }
