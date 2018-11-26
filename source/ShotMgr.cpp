@@ -31,8 +31,8 @@ int cShotMgr::Update() {
 				//プレイヤーの座標を受け取って座標をセット
 				sOBJPos tmp;
  				tmp = cPlayer::Instance()->GetPlayer(0);
-				playerShot[i].Set_ShotX(tmp.pos.x);
-				playerShot[i].Set_ShotY(tmp.pos.y);
+				playerShot[i].Set_ShotCX(tmp.cx);
+				playerShot[i].Set_ShotCY(tmp.cy);
 				playerShot[i].Set_ShotRad(180);
 				totalShot++;
 				shotRate = 6;
