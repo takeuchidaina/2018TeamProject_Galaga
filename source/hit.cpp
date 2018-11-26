@@ -4,6 +4,7 @@
 #include"Player.h"
 #include"ShotMgr.h"
 #include"Shot.h"
+#include"Shot.cpp"
 #include"Player.cpp"
 #include"EnemyMgr.h"
 
@@ -51,6 +52,8 @@ void cHit::Hit() {
 
 		if (tmpPlayer[i].onActive == FALSE) continue;
 
+
+
 		for (int j = 0; j < sizeof(tmpEShot); j++) {
 
 			if (tmpEShot[j].Get_OnActive == FALSE) continue;
@@ -62,7 +65,7 @@ void cHit::Hit() {
 				/* プレイヤーが2機いるときに片方がダウン
 				   呼び出し関数：cPlayer::Braik("プレイヤーの状態", "どっちのプレイヤーか") */
 				if (tmpPlayer[eLeftMachine].onActive == TRUE && tmpPlayer[eRightMachine].onActive == TRUE) {
-					cPlayer::Instance()->Break(eDoubleDeath, i);
+					cPlayer::Instance()->Break(eDeath, i);
 					cShotMgr::Instance()->Break(ENEMY, j);
 				}
 
@@ -77,7 +80,7 @@ void cHit::Hit() {
 	}
 
 	/* 自機と敵機　*/
-	for (int i = 0; i < MAXMACHINE; i++) {
+	/*for (int i = 0; i < MAXMACHINE; i++) {
 
 		if (tmpPlayer[i].onActive == FALSE) continue;
 
@@ -90,24 +93,24 @@ void cHit::Hit() {
 			if (len <= ((tmpEnemy[j].r + tmpPlayer[i].r)*(tmpEnemy[j].r + tmpPlayer[i].r))) {
 				
 				/* プレイヤーが2機いるときに片方がダウン
-				呼び出し関数：cPlayer::Braik("プレイヤーの状態", "どっちのプレイヤーか") */
+				呼び出し関数：cPlayer::Braik("プレイヤーの状態", "どっちのプレイヤーか") *
 				if (tmpPlayer[eLeftMachine].onActive == TRUE && tmpPlayer[eRightMachine].onActive == TRUE) {
 					cPlayer::Instance()->Break(eDoubleDeath, i);
 					sEnemy::Instance()->Break(j);
 				}
 
 				/* プレイヤーが1機のときにダウン
-				呼び出し関数：cPlayer::Braik("プレイヤーの状態", "どっちのプレイヤーか") */
+				呼び出し関数：cPlayer::Braik("プレイヤーの状態", "どっちのプレイヤーか") *
 				else {
 					cPlayer::Instance()->Break(eDeath, i);
 					sEnemy::Instance()->Break(j);
 				}
 			}
 		}
-	}
+	}*/
 
 	/* 自弾と敵機　*/
-	for (int i = 0; i < sizeof(enemy); i++) {
+	/*for (int i = 0; i < sizeof(enemy); i++) {
 
 		if (enemy[i].OnActive == FALSE) continue;
 
@@ -122,7 +125,7 @@ void cHit::Hit() {
 				sEnemy::Instance()->Break(i);
 			}
 		}
-	}
+	}*/
 }
 
 /************************************************************
