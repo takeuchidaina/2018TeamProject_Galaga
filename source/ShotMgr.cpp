@@ -31,8 +31,8 @@ int cShotMgr::Update() {
 				//プレイヤーの座標を受け取って座標をセット
 				sOBJPos tmp;
  				tmp = cPlayer::Instance()->GetPlayer(0);
-				playerShot[i].Set_ShotX(tmp.pos.x);
-				playerShot[i].Set_ShotY(tmp.pos.y);
+				playerShot[i].Set_ShotCX(tmp.cx);
+				playerShot[i].Set_ShotCY(tmp.cy);
 				playerShot[i].Set_ShotRad(180);
 				totalShot++;
 				shotRate = 6;
@@ -52,6 +52,7 @@ int cShotMgr::Draw() {
 	for (int i = 0; i < PLAYERSHOTNUM; i++) {
 		playerShot[i].Draw(PLAYER,ShotGrHandle);
 	}
+
 #ifndef PLAYER_SHOT_DEBUG
 	DrawFormatString(20, 500, GetColor(255, 0, 255), "totalShot:%d", totalShot);
 	DrawFormatString(20, 525, GetColor(255, 0, 255), "pShot1:%d", playerShot[0].Get_OnActive());
