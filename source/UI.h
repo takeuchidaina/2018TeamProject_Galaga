@@ -44,6 +44,9 @@ private:
 	int stageNo;	//ステージ番号
 	int playerHP;   //残機
 
+	int blinkCnt;   //点滅処理のカウント("1UP")
+	int blinkFlg;   //点滅処理のフラグ("1UP")
+
 	const sTextPos textPos[3] =
 	{
 		{ DISP_SIZE + 150, 100,"HIGH" },
