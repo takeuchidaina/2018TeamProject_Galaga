@@ -14,9 +14,10 @@ typedef struct
 	sPos pos;
 	double r, cx, cy;
 	int onActive;
-
+	int type;
 
 }sOBJPos;
+
 
 
 /*

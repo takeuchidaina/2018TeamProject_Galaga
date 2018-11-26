@@ -36,8 +36,8 @@ int cShot::Update() {
 int cShot::Draw(int num,int *GrHandle) {
 	if (num == PLAYER) {//0=playerShot 1=enemyShot
 		//if (OnActive == TRUE) {//0=false,1=true
-			//DrawCircle(cx, cy, r, GetColor(255, 255, 255), TRUE);
-		  DrawExtendGraph(x, y, x + w, y + h, *GrHandle+3, FALSE);
+			DrawCircle(cx, cy, r, GetColor(255, 255, 255), TRUE);
+		  //DrawExtendGraph(x, y, x + w, y + h, *GrHandle+3, FALSE);
 		  //DrawGraph(cx, cy, *GrHandle+3, FALSE);
 	  //}
 	}
