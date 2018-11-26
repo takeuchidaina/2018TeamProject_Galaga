@@ -26,21 +26,22 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 
 	memset(enemy.moveang, 0, sizeof(enemy.moveang));
 
-	enemy.moveang[0] = -4;
-	enemy.moveang[1] = -0.2;
-	enemy.moveang[2] = 1;
-	enemy.moveang[3] = -0.1;
-	enemy.moveang[4] = -1;
+	enemy.moveang[0] = -3;
+	enemy.moveang[1] = 0;
+	enemy.moveang[2] = 3;
+	enemy.moveang[3] = 90;
+	enemy.moveang[4] = 1;
 	enemy.moveang[5] = 90;
 	enemy.moveang[7] = 2;
+
 	memset(enemy.countflg, 0, sizeof(enemy.countflg));
-	enemy.countflg[0] = 20;
-	enemy.countflg[1] = 25;
-	enemy.countflg[2] = 75;
-	enemy.countflg[3] = 35;
-	enemy.countflg[4] = 20;
-	enemy.countflg[5] = 50;
-	enemy.countflg[7] = 90;
+	enemy.countflg[0] = 50;
+	enemy.countflg[1] = 20;
+	enemy.countflg[2] = 30;
+	enemy.countflg[3] = 100;
+	enemy.countflg[4] = 10;
+	enemy.countflg[5] = 100;
+	enemy.countflg[7] = 100;
 
 	enemy.target.x = x;
 	enemy.target.y = y;
@@ -89,7 +90,7 @@ int cRedEnemy::Update() {
 		switch (enemy.moveflg)
 		{
 		case 0:
-			if (enemy.count==0)enemy.ang = 180 * M_PI / 180;
+			if (enemy.count==1)enemy.ang = 180 * M_PI / 180;
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
@@ -155,12 +156,12 @@ int cRedEnemy::Draw() {
 #ifdef DEBUG
 	//DrawCircle(enemy.target.x, enemy.target.y, enemy.targetr, GetColor(0, 255, 0), true);
 	//DrawCircle((int)enemy.target.x, (int)enemy.target.y, enemy.targetr, GetColor(255, 0, 0), true);
-	/*DrawFormatString(60, 855, GetColor(255, 255, 255), "%d", enemy.count);
+	DrawFormatString(60, 855, GetColor(255, 255, 255), "%d", enemy.count);
 	DrawFormatString(60, 870, GetColor(255, 255, 255), "%d", enemy.attackflg);
 	DrawFormatString(60, 885, GetColor(255, 255, 255), "%d", enemy.moveflg);
 	DrawFormatString(60, 900, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.x);
 	DrawFormatString(60, 915, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.y);
-	DrawFormatString(60, 935, GetColor(255, 255, 255), "%d", enemy.dir);*/
+	DrawFormatString(60, 935, GetColor(255, 255, 255), "%d", enemy.dir);
 #endif // DEBUG
 
 	

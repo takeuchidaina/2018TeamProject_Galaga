@@ -47,18 +47,11 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 
 	memset(tractormoveang, 0, sizeof(tractormoveang));
 	tractormoveang[0] = -4;
-	tractormoveang[1] = 90;
-	tractormoveang[2] = 90;
+
 	
 
 	memset(tractorcountflg, 0, sizeof(tractorcountflg));
 	tractorcountflg[0] = 20;
-	tractorcountflg[1] = 50;
-	tractorcountflg[2] = 50;
-	tractorcountflg[3] = 75;
-	tractorcountflg[4] = 100;
-	tractorcountflg[5] = 20;
-	tractorcountflg[6] = 80;
 
 
 	enemy.target.x = x;
@@ -86,10 +79,6 @@ void cGreenEnemy::Move( ) {
 				enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
 				enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
 			}
-			/*else if((tractorflg == 1 && enemy.moveflg == 3 )) {
-				enemy.vct.x = cos(enemy.ang);
-				enemy.vct.y = sin(enemy.ang);
-			}*/
 			else {
 				enemy.vct.x = cos(enemy.ang)*enemy.dir;;
 				enemy.vct.y = sin(enemy.ang);
@@ -108,11 +97,11 @@ int cGreenEnemy::Update() {
 		if (enemy.count > 0) {
 			enemy.mainpos.onActive = YesActive;
 		}
-		//enemy.ang =-90 * M_PI / 180;
+
 		switch (enemy.moveflg)
 		{
 		case 0:
-			if (enemy.count == 0)enemy.ang = 0 * M_PI / 180;
+			if (enemy.count == 1)enemy.ang = 180 * M_PI / 180;
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
@@ -166,7 +155,7 @@ int cGreenEnemy::Update() {
 			enemy.ang = 180 * M_PI / 180;
 			enemy.dir *= -1;
 			//enemy.attackflg = falseflg =
-			//tractorflg = true;
+			tractorflg = true;
 			break;
 		}
 	}
@@ -189,7 +178,7 @@ void cGreenEnemy::TractorUpdate() {
 
 		case 0:
 			if (enemy.count == 0)enemy.ang = 180 * M_PI / 180;
-			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+			enemy.ang += tractormoveang[enemy.moveflg] * M_PI / 180;
 			if (tractorcountflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
 				enemy.count = 0;
@@ -210,25 +199,26 @@ void cGreenEnemy::TractorUpdate() {
 		case 2:
 			enemy.mainpos.pos.x = 300;
 			enemy.mainpos.pos.y = 674 - 64;
-			//enemy.count = 0;
-			//enemy.moveflg = 0;
 			enemy.ang = 90 * M_PI / 180;
-			//DrawGraph(300, 674, tractor[0], TRUE);
-			//enemy.dir *= -1;
-			//enemy.attackflg = false;
 			break;
 		case 3:
-			enemy.ang = atan2(enemy.target.y - enemy.mainpos.pos.y, enemy.target.x - enemy.mainpos.pos.x);
+			enemy.ang = atan2(enemy.target.y - enemy.mainpos.pos.y, (enemy.target.x - enemy.mainpos.pos.x)*enemy.dir);
 			if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
 				(enemy.target.y - enemy.mainpos.pos.y)*(enemy.target.y - enemy.mainpos.pos.y) <=
 				(enemy.mainpos.r - 1 + enemy.targetr)*(enemy.mainpos.r - 1 + enemy.targetr)) {
 				//“GÀ•W‚ð–Ú“I’n‚ÉŒÅ’è
 				enemy.mainpos.pos.x = enemy.target.x;
 				enemy.mainpos.pos.y = enemy.target.y;
-				enemy.moveflg=0;
+				enemy.moveflg++;
 				enemy.count = 0;
-				//tractorflg = 0;
 			}
+			break;
+		case 4:
+			enemy.count = 0;
+			enemy.moveflg = 0;
+			enemy.ang = 180 * M_PI / 180;
+			enemy.dir *= -1;
+			tractorflg = 0;
 			break;
 		}
 	}
@@ -248,7 +238,7 @@ int cGreenEnemy::Draw() {
 	}
 	if(enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * M_PI) / 180), enemy.graph[b], TRUE, TRUE);
 	else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[b], TRUE, TRUE);
-	if (tractorflg == true) {
+	if (tractorflg == 1) {
 		if (enemy.moveflg == 2) {
 			c++;
 			if (c > 60) {
