@@ -32,6 +32,18 @@ private:
 	int ShotGrHandle[4];
 	int shotRate;
 	int checkGr;
+	cShot GetShot(int num) {
+		cShot *p = NULL;//ÉGÉâÅ[éûNULL
+		if (num == PLAYER) {
+			return *playerShot;
+		}
+		else if (num == ENEMY) {
+			return *enemyShot;
+		}
+		else {
+			return *p;
+		}
+	}
 
 protected:
 
