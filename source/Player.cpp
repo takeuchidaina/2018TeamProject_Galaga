@@ -186,7 +186,7 @@ void cPlayer::Double()
 
 	isDoubleFlg = TRUE;
 	playerHP--;
-	UI_SetPlayerHP(playerHP);
+	cUI::Instance()->UI_SetPlayerHP(playerHP);
 
 	//どの機体がアクティブ状態か判断
 	if (player[eLeftMachine].onActive == TRUE)
@@ -235,7 +235,7 @@ void cPlayer::Break(int judgeBreak ,int machineNum)
 	{
 		//プレイヤーのHPを減少
 		playerHP--;
-		UI_SetPlayerHP(playerHP);
+		cUI::Instance()->UI_SetPlayerHP(playerHP);
 
 		//撃破された方を非アクティブに
 		if (machineNum == eLeftMachine)

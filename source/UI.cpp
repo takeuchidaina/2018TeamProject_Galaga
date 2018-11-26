@@ -1,31 +1,10 @@
 #include <DxLib.h>
 #include "UI.h"
 
-static int textImg[48];	//テキストの画像
-static int iconImg[12];	//ステージアイコンの画像
-
-static int iconX;
-static int iconY;
-
-int stageNo;
-int playerHP;
-
-sTextPos textPos[3] = 
+//コンストラクタ
+cUI::cUI()
 {
-	{ DISP_SIZE + 150, 100,"HIGH" },
-	{ DISP_SIZE +  50, 130,"SCORE" },
-	{ DISP_SIZE + 150, 200,"1UP" },
 
-};
-
-/*************************************************************************
-　関数: int UI_Init()
-　説明: 初期化処理
-　引数: 無し
-戻り値: -1 画像読み込み時のエラー
-*************************************************************************/
-int UI_Init()
-{
 	iconX = DISP_SIZE + 250;
 	iconY = 700;
 
@@ -33,16 +12,21 @@ int UI_Init()
 	playerHP = cPlayer::Instance()->GetPlayerHP();
 
 	//画像の読み込み
-	//LoadDivGraph("../resource/Image/UI_Text.png",48,8,6,28,28,textImg);
 	LoadDivGraph("../resource/Image/Galaga_UI_icon1616.png", 12, 6, 2, 16, 16, iconImg);
 	if (iconImg == NULL)
 	{
 		DrawFormatString(200, 200, GetColor(255, 0, 0), "画像が読み込めませんでした");
 		WaitKey();
-		return -1;
 	}
+}
 
-	return 0;
+//デストラクタ
+cUI::~cUI()
+{
+	for (int i = 0; i < 12; i++)
+	{
+		DeleteGraph(iconImg[i]);
+	}
 }
 
 /*************************************************************************
@@ -51,12 +35,12 @@ int UI_Init()
   引数: 無し
 戻り値: 無し
 *************************************************************************/
-int UI_Update()
-{
-	UI_StgSelectIcon(stageNo);
-
-	return 0;
-}
+//int cUI::UI_Update()
+//{
+//	UI_StgSelectIcon(stageNo);
+//
+//	return 0;
+//}
 
 /*************************************************************************
 　関数: int UI_Draw()
@@ -64,13 +48,24 @@ int UI_Update()
   引数: 無し
 戻り値: 無し
 *************************************************************************/
-int UI_Draw()
+int cUI::UI_Draw()
 {
+
+	int i, j;
+
+	//テキスト類の表示
+	for (i = 0; i<sizeof(textPos) / sizeof*(textPos); i++);
+	{
+		//char tmp[20] = {"AAAAA"};
+		//strcpy(tmp,textPos[i].text);
+		cTextChange::Instance()->DrawTextImage(textPos[i].x, textPos[i].y, textPos[i].text);
+	}
+
 	//UIを表示する灰色の部分の描画
 	DrawBox(DISP_SIZE,0,DISP_SIZE + UI_SIZE,960,GetColor(125,125,125),TRUE);
 
 	//プレイヤーの残機
-	for (int j = 0; j < playerHP; j++)  //3はプレイヤーの残機
+	for (j = 0; j < playerHP; j++)
 	{
 		DrawExtendGraph(DISP_SIZE + 50 + (IMAGEMAG*j), 900, DISP_SIZE + 50 + (IMAGEMAG*j + 1) + IMAGEMAG, 900 + IMAGEMAG, iconImg[6], TRUE);
 	}
@@ -78,11 +73,12 @@ int UI_Draw()
 	//ステージアイコンの表示
 	UI_StgSelectIcon(stageNo);
 
+
 #ifdef UI_POS_DEBUG
 
 	for (int i = 0; i < (sizeof(textPos) / sizeof*(textPos)); i++)
 	{
-		DrawFormatString(textPos[i].x, textPos[i].y, UI_COLOR, "%s", textPos[i].text);
+		//DrawFormatString(textPos[i].x, textPos[i].y, UI_COLOR, "%s", textPos[i].text);
 	}
 
 #endif
@@ -91,24 +87,12 @@ int UI_Draw()
 }
 
 /*************************************************************************
-　関数: int UI_End()
-  説明: 終了処理
-  引数: 無し
-戻り値: 無し
-*************************************************************************/
-int UI_End()
-{
-	//終了
-	return 0;
-}
-
-/*************************************************************************
-　関数: int UI_SelectIcon()
+ 関数: int UI_SelectIcon()
  説明: ステージ情報のアイコンをどれを表示するか
  引数: ステージ番号
  戻り値: 無し
  *************************************************************************/
-int UI_StgSelectIcon(int stageNo)
+int cUI::UI_StgSelectIcon(int stageNo)
 {
 	//ステージアイコン
 	int tmp;
@@ -234,21 +218,7 @@ int UI_StgSelectIcon(int stageNo)
    引数: int (プレイヤーのHP)
  戻り値: 無し
  *************************************************************************/
-void UI_SetPlayerHP(int HP)
+void cUI::UI_SetPlayerHP(int HP)
 {
 	playerHP = HP;
-}
-/*************************************************************************
-関数: int GetTextPos()
-説明: 構造体textPosの受け渡し
-引数: 無し
-戻り値: textPos
-*************************************************************************/
-sTextPos GetTextPos()
-{
-	int i;
-	for( i=0;i<sizeof(textPos) / sizeof(textPos[0]);i++);
-	{
-		return textPos[i];
-	}
 }

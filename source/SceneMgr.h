@@ -7,6 +7,7 @@
 #include "InGameMgr.h"
 #include "Template.h"
 #include "EnemyMgr.h"
+#include "UI.h"
 
 //‚±‚ê‚Í•Ê‚Éƒwƒbƒ_[‚ğì‚Á‚Ä‚à‚¢‚¢
 typedef enum {

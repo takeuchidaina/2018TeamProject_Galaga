@@ -5,6 +5,8 @@
 #include "Struct.h"
 #include "InGameController.h"
 #include "Player.h"
+#include "TextChange.h"
+#include "Singleton.h"
 
 #define DISP_SIZE ((1280 / 4 * 3) - 50)
 #define UI_SIZE (1280 - DISP_SIZE)
@@ -26,13 +28,38 @@ typedef struct
 
 }sTextPos;
 
-extern int UI_Init();
-extern int UI_Update();
-extern int UI_Draw();
-extern int UI_End();
+class cUI : public cSingleton<cUI>
+{
+	cUI();	//コンストラクタ
+	~cUI();	//デストラクタ
+	friend cSingleton< cUI >;
 
-extern int UI_StgSelectIcon(int );
-extern void UI_SetPlayerHP(int);
-extern sTextPos GetTextPos();
+private:
+
+	int iconX;
+	int iconY;
+	int textImg[48];	//テキストの画像
+	int iconImg[12];	//ステージアイコンの画像
+
+	int stageNo;	//ステージ番号
+	int playerHP;   //残機
+
+	const sTextPos textPos[3] =
+	{
+		{ DISP_SIZE + 150, 100,"HIGH" },
+		{ DISP_SIZE + 120, 130,"SCORE" },
+		{ DISP_SIZE + 180, 200,"1UP" },
+	};
+
+protected:
+
+public:
+
+	//int UI_Update();
+	int UI_Draw();
+	int UI_StgSelectIcon(int);
+	void UI_SetPlayerHP(int);
+
+};
 
 #endif
