@@ -34,7 +34,9 @@ public:
 	inline double Get_ShotY() { return y; }
 	void Set_ShotY(double tmp) { y = tmp; }
 	inline double Get_ShotCX() { return cx; }
+	void Set_ShotCX(double tmp) { cx = tmp; }
 	inline double Get_ShotCY() { return cy; }
+	void Set_ShotCY(double tmp) { cy = tmp; }
 	inline double Get_ShotR() { return r; }
 	void Set_ShotRad(double tmp) { rad = tmp; }
 

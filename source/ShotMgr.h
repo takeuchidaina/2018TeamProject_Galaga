@@ -32,6 +32,13 @@ private:
 	int ShotGrHandle[4];
 	int shotRate;
 	int checkGr;
+
+protected:
+
+public:
+	int Update();	//ŒvZˆ—
+	int Draw();		//•`Êˆ—
+	int Break(int,int);    //’e‚ğÁ‚·ŠÖ”
 	cShot GetShot(int num) {
 		cShot *p = NULL;//ƒGƒ‰[NULL
 		if (num == PLAYER) {
@@ -45,12 +52,6 @@ private:
 		}
 	}
 
-protected:
-
-public:
-	int Update();	//ŒvZˆ—
-	int Draw();		//•`Êˆ—
-	int Break(int,int);    //’e‚ğÁ‚·ŠÖ”
 	/*
 	//éŒ¾—á
 	private:

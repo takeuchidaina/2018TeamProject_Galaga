@@ -20,8 +20,8 @@ cShot::~cShot() {
 }
 
 int cShot::Update() {
-	cx = x + w / 2;//cx,cyのセット
-	cy = y + h / 2;
+	cx = x + (w / 2);//cx,cyのセット
+	cy = y + (h / 2);
 	r = 3*3;
 	//xとyの移動(ラジアンでベクトルを計算)
 	x += s*sin(rad* M_PI / 180);
@@ -36,7 +36,7 @@ int cShot::Update() {
 int cShot::Draw(int num,int *GrHandle) {
 	if (num == PLAYER) {//0=playerShot 1=enemyShot
 		//if (OnActive == TRUE) {//0=false,1=true
-			DrawCircle(cx, cy, r, GetColor(255, 255, 255), TRUE);
+		DrawBox(cx-w/2, cy-h/2, cx+w/2, cy+h/2, GetColor(255, 255, 255), TRUE);
 		  //DrawExtendGraph(x, y, x + w, y + h, *GrHandle+3, FALSE);
 		  //DrawGraph(cx, cy, *GrHandle+3, FALSE);
 	  //}
@@ -44,7 +44,7 @@ int cShot::Draw(int num,int *GrHandle) {
 
 	if (num == ENEMY) {//0=playerShot 1=enemyShot
 		if (OnActive == TRUE) {
-			DrawCircle(x, y, r, GetColor(255, 255, 255), TRUE);
+			DrawCircle(x, y, x + w, y + h, GetColor(255, 255, 255), TRUE);
 			//DrawExtendGraph(x, y, x + w, y + h, GrHandle[0], FALSE);
 		}
 	}
