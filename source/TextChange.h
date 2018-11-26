@@ -19,8 +19,7 @@ private:
 
 public:
 
-	int Update();
-	void Draw();
+	int DrawTextImage(int, int, const char *);
 };
 #endif
 

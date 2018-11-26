@@ -12,6 +12,7 @@ cSceneMgr::cSceneMgr() {
 	sceneflag = eStartMenu;
 	next_Sceneflag = eSceneNone;
 	Init_Module(sceneflag);
+	
 }
 
 //デコンストラクタ
@@ -123,7 +124,7 @@ void cSceneMgr::Draw() {
 
 		break;
 	}
-
+	cUI::Instance()->UI_Draw();
 }
 
 void cSceneMgr::ChangeScene(eScene nextScene) {

@@ -12,12 +12,10 @@ cInGameMgr::cInGameMgr() {
 	sceneflag = eBefore;
 	next_Sceneflag = eInGameNone;
 	Init_Module(sceneflag);
-	UI_Init();
 }
 
 //デコンストラクタ
 cInGameMgr::~cInGameMgr() {
-	UI_End();
 }
 
 //指定モジュールの初期化処理
@@ -155,7 +153,6 @@ void cInGameMgr::Update() {
 		//
 		break;
 	}
-	UI_Update();
 
 }
 
@@ -194,7 +191,6 @@ void cInGameMgr::Draw() {
 		//
 		break;
 	}
-	UI_Draw();
 
 }
 
