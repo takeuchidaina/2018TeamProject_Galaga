@@ -108,5 +108,22 @@ public:
 
 	}
 
+	/*hit‚Éx,y,r,“G”‚ÌÅ‘å’l‚ð‚í‚½‚·*/
+	int GetMaxEnemy() {
+		return 40;
+	}
+
+	double GetEnemyPosX(int num){
+		return enemies[num]->GetEnemyX();
+	};
+
+	double GetEnemyPosY(int num) {
+		return enemies[num]->GetEnemyY();
+	};
+
+	double GetEnemyPosR(int num) {
+		return enemies[num]->GetEnemyR();
+	};
+
 };
 #endif // !_INGAME_MGR_INCLUDE_

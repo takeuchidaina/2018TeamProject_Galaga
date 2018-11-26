@@ -282,12 +282,7 @@ void cEnemyMgr::Update() {
 		//	enemies[i]->TractorUpdate();
 			
 		}
-
-	
 	}
-
-
-
 
 }
 
@@ -341,7 +336,6 @@ void cEnemyMgr::Draw() {
 	if (Phaseflag == 2) {
 		DrawFormatString(100, 100, GetColor(255, 255, 255), "攻撃フェーズ");
 	}
-
 
 	DrawFormatString(0,120,GetColor(255,255,255),"phase:%d",onActiveCount);
 
