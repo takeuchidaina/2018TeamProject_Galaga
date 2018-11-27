@@ -266,7 +266,8 @@ void cEnemyMgr::Update() {
 
 		if (Phaseflag == 1) {
 			for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-				enemies[i]->SetEnemyAttackflg();
+				enemies[i]->GetEnemyAttackflg();
+				enemies[9]->SetEnemyAttackflg();
 				Phaseflag = 2;
 			}
 		}
@@ -279,8 +280,8 @@ void cEnemyMgr::Update() {
 			if (enemy[i].onactive != 1)continue;
 			enemies[i]->Update();
 			enemies[i]->Move();
-		//	enemies[i]->TractorUpdate();
-			
+			enemies[i]->TractorUpdate();
+			break;
 		}
 	}
 
