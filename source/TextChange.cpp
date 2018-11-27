@@ -50,6 +50,7 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color)
 		break;
 
 	default:
+		//eNone
 		break;
 	}
 

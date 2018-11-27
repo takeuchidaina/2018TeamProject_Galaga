@@ -28,6 +28,7 @@ typedef enum
 	eYellow,	//黄色
 	eLBlue,		//水色
 	eWhite,		//白色
+	eNone,		//無し(色はあるがプログラムの見た目上)
 }eColor;
 
 #endif
