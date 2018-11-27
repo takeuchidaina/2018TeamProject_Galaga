@@ -1,21 +1,15 @@
 #include <DxLib.h>
 #include "TextChange.h"
-//#define GREEN 1,120,0,0
-//#define RED 1,360,0,0
-//#define YELLOW 1,60,0,0
 
 //コンストラクタ
 cTextChange::cTextChange()
 {
 	//テキストの画像の読み込み
-	LoadDivGraph("../resource/Image/UI_Text.png", 48, 8, 6, 28, 28, textImg);
-	//LoadDivGraph("../Image/UI_Text.png", 48, 8, 6, 28, 28, textImg);
-	//for (int i = 0; i < 48; i++)
-	//{
-	//	GraphFilter(textImg[i], DX_GRAPH_FILTER_HSB, YELLOW);// 1, 120, 0, 0);
-	//}
+	LoadDivGraph("../resource/Image/UI_Text_Color.png", 48, 8, 6, 28, 28, textImg);
 
-	eColor color;
+	hue = 0;			//色相[0～360]
+	saturation = 0;		//彩度[-255～]
+	bright = 0;			//輝度[-255～255]
 	
 }
 
@@ -25,24 +19,58 @@ cTextChange::cTextChange()
   引数: (int,int,*text)
 戻り値: 無し
 *************************************************************************/
-int cTextChange::DrawTextImage(int x,int y,const char *text)
+int cTextChange::DrawTextImage(int x,int y,const char *text,int color)
 {
-
-
-	//画像の算出処理
-	for (int i= 0;i<strlen(text);i++)
+	
+	//色の設定
+	switch (color)
 	{
+	case eRed:
+		hue = 360;
+		saturation = 0;
+		bright = 0;
+		break;
 
+	case eYellow:
+		hue = 60;
+		saturation = 0;
+		bright = 0;
+		break;
+
+	case eLBlue:
+		hue = 187;
+		saturation = 0;
+		bright = 0;
+		break;
+
+	case eWhite:
+		hue = 0;
+		saturation = 90;
+		bright = 10;
+		break;
+
+	default:
+		break;
+	}
+
+	//画像の算出・色相変化・描画
+	for (int j= 0;j<strlen(text);j++)
+	{
 			//文字が0～9なら
-			if (text[i] >= '0' && text[i] <= '9')
+			if (text[j] >= '0' && text[j] <= '9')
 			{
-				DrawGraph(x+(i*30), y, textImg[text[i] - '0'], TRUE);
+				//色相変化
+				GraphFilter(textImg[text[j]-'0'], DX_GRAPH_FILTER_HSB, 1, hue, saturation, bright);
+				//描画
+				DrawGraph(x+(j*30), y, textImg[text[j] - '0'], TRUE);
 			}
 			//文字がA～Zなら
-			else if (text[i] >= 'A' && text[i] <= 'Z')
+			else if (text[j] >= 'A' && text[j] <= 'Z')
 			{
-				DrawGraph(x+(i*30), y, textImg[text[i] - 'A'+10], TRUE);
-				// +10するのは0～9の番号を含めないようにするため
+				//色相変化
+				GraphFilter(textImg[text[j] - 'A'+10], DX_GRAPH_FILTER_HSB, 1, hue, saturation, bright);
+				//描画(+10するのは0～9の番号を含めないようにするため)
+				DrawGraph(x+(j*30), y, textImg[text[j] - 'A'+10], TRUE);
 			}
 			//文字が記号なら
 			else
@@ -52,5 +80,6 @@ int cTextChange::DrawTextImage(int x,int y,const char *text)
 			}
 
 	}
+	
 	return 0;
 }
