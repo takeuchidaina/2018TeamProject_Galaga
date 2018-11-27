@@ -8,6 +8,8 @@ using namespace std;
 #include "DxLib.h"
 #include "Struct.h"
 #include "UI.h"
+#include "shot.h"
+#include "shotMgr.h"
 
 
 cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double ang, int flg,int *graph) : cBaseEnemy(x,y,r,cnt,spd,ang,flg, graph) {
@@ -99,6 +101,13 @@ int cBlueEnemy::Update() {
 				}
 				break;
 			case 1:
+				enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+				cShotMgr::Instance()->EnemyShot(enemy.mainpos.pos.x, enemy.mainpos.pos.y);
+				if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+					enemy.moveflg++;
+					enemy.count = 0;
+				}
+				break;
 			case 2:
 			case 4:
 			case 5:
