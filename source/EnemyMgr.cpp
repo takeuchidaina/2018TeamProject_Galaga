@@ -14,7 +14,7 @@ cEnemyMgr::cEnemyMgr() {
 	fileEndFlag = 0;
 	n = 0;
 	num = 0;
-	strcpy(StageFilePath, "../resource/MAP/Stage_1.csv");
+	strcpy(StageFilePath, "../resource/MAP/Stage_2.csv");
 	Phaseflag = 0;
 	onActiveCount = 0;
 
@@ -264,10 +264,15 @@ void cEnemyMgr::Update() {
 	}
 	else {
 
+		//Phaseflagが1の場合
 		if (Phaseflag == 1) {
+			//敵40体分
 			for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-				enemies[i]->GetEnemyAttackflg();
-				enemies[9]->SetEnemyAttackflg();
+
+				//Attackflagをtrueにする
+				enemies[30]->SetEnemyAttackflg();
+
+				//phaseflagを2にする
 				Phaseflag = 2;
 			}
 		}
@@ -276,13 +281,18 @@ void cEnemyMgr::Update() {
 		Phaseflag = 1;
 	}
 	if (Phaseflag == 2) {
+		ReChoiceFlag = 1;
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-			if (enemy[i].onactive != 1)continue;
+			if (enemy[i].onactive != 1 || enemies[i]->GetEnemyAttackflg()!=true)continue;
 			enemies[i]->Update();
 			enemies[i]->Move();
 			enemies[i]->TractorUpdate();
+			ReChoiceFlag = 0;
 			break;
 		}
+		//再抽選
+		if(ReChoiceFlag==1)enemies[GetRand(39)]->SetEnemyAttackflg();
+
 	}
 
 }
@@ -338,6 +348,6 @@ void cEnemyMgr::Draw() {
 		DrawFormatString(100, 100, GetColor(255, 255, 255), "攻撃フェーズ");
 	}
 
-	DrawFormatString(0,120,GetColor(255,255,255),"phase:%d",onActiveCount);
+	DrawFormatString(0,120,GetColor(255,255,255),"再抽選フラグ:%d",ReChoiceFlag);
 
 }
