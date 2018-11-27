@@ -13,13 +13,16 @@ private:
 	int hue;			//F‘Š[0`360]
 	int saturation;		//Ê“x[-255`]
 	int bright;			//‹P“x[-255`255]
+	int magX;			//‰æ‘œ”{—¦—p‚Ìx
+	int magY;			//‰æ‘œ”{—¦—p‚Ìy
+	int mag;			//‰æ‘œ”{—¦
 	cTextChange();  //private‚È‚Ì‚Ånew‚ªg‚¦‚È‚¢
 	friend cSingleton< cTextChange >;
 
 
 public:
 
-	int DrawTextImage(int, int, const char *,int);
+	int DrawTextImage(int, int, const char *,int,int);
 };
 
 typedef enum
@@ -30,5 +33,13 @@ typedef enum
 	eWhite,		//”’F
 	eNone,		//–³‚µ(F‚Í‚ ‚é‚ªƒvƒƒOƒ‰ƒ€‚ÌŒ©‚½–Úã)
 }eColor;
+
+typedef enum
+{
+	eMag16,
+	eMag32,
+	eMag48,
+
+}eMagnification;
 
 #endif

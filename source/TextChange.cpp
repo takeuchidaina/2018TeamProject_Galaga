@@ -5,11 +5,13 @@
 cTextChange::cTextChange()
 {
 	//テキストの画像の読み込み
-	LoadDivGraph("../resource/Image/UI_Text_Color.png", 48, 8, 6, 28, 28, textImg);
-
+	//LoadDivGraph("../resource/Image/UI_Text_Color.png", 48, 8, 6, 28, 28, textImg);
+	LoadDivGraph("../Image/GogoFiveAI.png", 48, 8, 6, 16, 16, textImg);
 	hue = 0;			//色相[0～360]
 	saturation = 0;		//彩度[-255～]
 	bright = 0;			//輝度[-255～255]
+	magX = 0;
+	magY = 0;
 	
 }
 
@@ -19,7 +21,7 @@ cTextChange::cTextChange()
   引数: (int,int,*text)
 戻り値: 無し
 *************************************************************************/
-int cTextChange::DrawTextImage(int x,int y,const char *text,int color)
+int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 {
 	
 	//色の設定
@@ -54,6 +56,30 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color)
 		break;
 	}
 
+	switch (mag)
+	{
+	case eMag16:
+		magX = x + 16;
+		magY = y + 16;
+		mag = 16;
+		break;
+
+	case eMag32:
+		magX = x + 32;
+		magY = y + 32;
+		mag = 32;
+		break;
+
+	case eMag48:
+		magX = x + 48;
+		magY = y + 48;
+		mag = 48;
+		break;
+
+	default:
+		break;
+	}
+
 	//画像の算出・色相変化・描画
 	for (int j= 0;j<strlen(text);j++)
 	{
@@ -63,7 +89,7 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color)
 				//色相変化
 				GraphFilter(textImg[text[j]-'0'], DX_GRAPH_FILTER_HSB, 1, hue, saturation, bright);
 				//描画
-				DrawGraph(x+(j*30), y, textImg[text[j] - '0'], TRUE);
+				DrawExtendGraph(x+(j*mag), y,magX+(j*mag),magY, textImg[text[j] - '0'], TRUE);
 			}
 			//文字がA～Zなら
 			else if (text[j] >= 'A' && text[j] <= 'Z')
@@ -71,7 +97,7 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color)
 				//色相変化
 				GraphFilter(textImg[text[j] - 'A'+10], DX_GRAPH_FILTER_HSB, 1, hue, saturation, bright);
 				//描画(+10するのは0～9の番号を含めないようにするため)
-				DrawGraph(x+(j*30), y, textImg[text[j] - 'A'+10], TRUE);
+				DrawExtendGraph(x+(j*mag), y, magX + (j * mag), magY, textImg[text[j] - 'A'+10], TRUE);
 			}
 			//文字が記号なら
 			else
