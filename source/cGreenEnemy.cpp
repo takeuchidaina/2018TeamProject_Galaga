@@ -9,6 +9,8 @@ using namespace std;
 #include "Struct.h"
 #include"UI.h"
 #include "Player.h"
+#include "shot.h"
+#include "shotMgr.h"
 //ｙ674からビーム描画
 
 cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, double ang, int flg,int *graph) : cBaseEnemy(x, y, r, cnt, spd, ang, flg, graph) {
@@ -58,6 +60,9 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 	enemy.target.x = x;
 	enemy.target.y = y;
 	enemy.targetr = 5;
+
+	tmpx = 0;
+	tmpy = 0;
 
 	LoadDivGraph("../resource/Image/Galaga_OBJ_effect.png", 15, 5, 3, 50, 82, tractor);
 }
@@ -153,9 +158,8 @@ int cGreenEnemy::Update() {
 		case 9:
 			enemy.count = 0;
 			enemy.moveflg = 0;
-			enemy.ang = 180 * M_PI / 180;
+			enemy.ang = 90 * M_PI / 180;
 			enemy.dir *= -1;
-			//enemy.attackflg = falseflg =
 			tractorflg = true;
 			break;
 		}
@@ -168,14 +172,8 @@ void cGreenEnemy::TractorUpdate() {
 	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 
- static	sOBJPos tmpplayer;
- static int tmpx,tmpy;
- if (enemy.count == 0) {
-	 tmpplayer = cPlayer::Instance()->GetPlayer(0);
-	 tmpx = tmpplayer.pos.x;
-	 tmpy = tmpplayer.pos.y;
 
- }
+
 	if (tractorflg !=0) {
 		enemy.count++;
 	
@@ -200,6 +198,12 @@ void cGreenEnemy::TractorUpdate() {
 				(tmpy - 64 - enemy.mainpos.pos.y)*(tmpy - 64 - enemy.mainpos.pos.y) <=
 				(enemy.mainpos.r - 1 + enemy.targetr)*(enemy.mainpos.r - 1 + enemy.targetr)) {
 				//敵座標を目的地に固定
+				if (enemy.count == 0) {
+					tmpplayer = cPlayer::Instance()->GetPlayer(0);
+					tmpx = tmpplayer.pos.x;
+					tmpy = tmpplayer.pos.y;
+
+				}
 				enemy.mainpos.pos.x = tmpx;
 				enemy.mainpos.pos.y = tmpy - 64;
 				enemy.count = 0;
@@ -226,7 +230,7 @@ void cGreenEnemy::TractorUpdate() {
 		case 4:
 			enemy.count = 0;
 			enemy.moveflg = 0;
-			enemy.ang = 180 * M_PI / 180;
+			enemy.ang = 90 * M_PI / 180;
 			enemy.dir *= -1;
 			tractorflg = 0;
 			break;
