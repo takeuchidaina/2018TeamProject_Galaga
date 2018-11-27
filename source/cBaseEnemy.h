@@ -64,6 +64,10 @@ public:
 			enemy.mainpos.cy = enemy.mainpos.pos.y + (enemy.hight / 2);
 		}
 
+		virtual	sEnemy GetEnemy(){
+			return enemy;
+	 }
+
 		// x
 		virtual	double GetEnemyX(){
 			return enemy.mainpos.pos.x;
