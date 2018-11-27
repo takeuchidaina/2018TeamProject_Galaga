@@ -23,8 +23,8 @@ int cShot::Update() {
 	r = 3*3;*/
 
 	//xとyの移動(ラジアンでベクトルを計算)
-	cx += s*cos(rad);
-	cy += s*sin(rad);
+	cx += s*sin(rad);
+	cy += s*cos(rad);
 	//画面外に行ったらFALSEにする
 	if (cx-w/2 < 0 || cx+w/2> 910|| cy-h/2 < 0 || cy+h/2>960) {
 		OnActive = FALSE;
