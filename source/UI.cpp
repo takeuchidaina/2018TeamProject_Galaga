@@ -68,8 +68,8 @@ int cUI::UI_Draw()
 		//i‚Å‚Í‚È‚­ŽÀ”‚ð—v‘f”‚É‚â‚é‚Æo—Í‚³‚ê‚é
 	}
 	*/
-	cTextChange::Instance()->DrawTextImage(textPos[0].x, textPos[0].y, textPos[0].text);
-	cTextChange::Instance()->DrawTextImage(textPos[1].x, textPos[1].y, textPos[1].text);
+	cTextChange::Instance()->DrawTextImage(textPos[0].x, textPos[0].y, textPos[0].text,eRed);
+	cTextChange::Instance()->DrawTextImage(textPos[1].x, textPos[1].y, textPos[1].text,eRed);
 
 	// 1UP‚Ì“_–Å
 	blinkCnt++;
@@ -81,11 +81,11 @@ int cUI::UI_Draw()
 
 	if (blinkFlg)
 	{
-		cTextChange::Instance()->DrawTextImage(textPos[2].x, textPos[2].y, textPos[2].text);
+		cTextChange::Instance()->DrawTextImage(textPos[2].x, textPos[2].y, textPos[2].text,eRed);
 	}
 	else
 	{
-		cTextChange::Instance()->DrawTextImage(textPos[2].x, textPos[2].y, "   ");
+		cTextChange::Instance()->DrawTextImage(textPos[2].x, textPos[2].y, "   ",eRed);
 	}
 	
 
