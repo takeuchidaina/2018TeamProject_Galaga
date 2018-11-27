@@ -39,11 +39,11 @@ public:
 	int Update();	//ŒvZˆ—
 	int Draw();		//•`Êˆ—
 	int Break(int,int);    //’e‚ğÁ‚·ŠÖ”
-	int EnemyShot();
-	cShot GetShot(int num) {
+	int EnemyShot(double,double);
+	cShot* GetShot(int num) {
 		cShot *p = NULL;//ƒGƒ‰[NULL
 		//num==PLAYER‚È‚ç*playerShot num==ENEMY‚È‚ç*enemyShot
-		return (num == PLAYER ? *playerShot : (num == ENEMY ? *enemyShot : *p));
+		return* (num == PLAYER ? &playerShot : (num == ENEMY ? &enemyShot : &p));
 		/*if (num == PLAYER) {
 			return *playerShot;
 		}
