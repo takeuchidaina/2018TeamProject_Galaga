@@ -50,10 +50,10 @@ private:
 
 	const sTextPos textPos[4] =
 	{
-		{ DISP_SIZE + 150, 100,"HIGH",eRed },
-		{ DISP_SIZE + 120, 130,"SCORE",eRed },
-		{ DISP_SIZE + 180, 200,"1UP",eRed },
-		{ DISP_SIZE + 180, 200,"   ",eNone },   //blink
+		{ DISP_SIZE + 150, 10,"HIGH",eRed },
+		{ DISP_SIZE + 102, 58,"SCORE",eRed },
+		{ DISP_SIZE + 198, 152,"1UP",eRed },
+		{ DISP_SIZE + 198, 152,"   ",eNone },   //blink
 	};
 
 protected:
