@@ -79,10 +79,12 @@ int cShotMgr::Break(int type,int num) {//type=©‹@or“GAnum=‰½”Ô–Ú‚Ì’e‚©
 }
 
 //“G‚Ì’eŒ‚‚Âˆ—
+//ˆø”enemyX,enemyY
 int cShotMgr::EnemyShot(double tmpEX,double tmpEY) {
 	sOBJPos tmpPlayer;
 	double rad;
 	tmpPlayer = cPlayer::Instance()->GetPlayer(0);
+	//ˆ—
 	for (int i = 0; i < ENEMYSHOTNUM; i++) {
 		if (enemyShot[i].Get_OnActive() == FALSE) {
 			enemyShot[i].Set_OnActive(TRUE);
