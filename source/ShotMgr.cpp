@@ -77,11 +77,11 @@ int cShotMgr::Break(int type,int num) {//type=Ž©‹@or“GAnum=‰½”Ô–Ú‚Ì’e‚©
 }
 
 //“G‚Ì’eŒ‚‚Âˆ—
-int cShotMgr::EnemyShot() {
+/*int cShotMgr::EnemyShot() {
 	sOBJPos tmp;
 	tmp = cPlayer::Instance()->GetPlayer(0);
 
-}
+}*/
 
 
 
