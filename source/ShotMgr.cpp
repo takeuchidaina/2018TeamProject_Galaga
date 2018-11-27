@@ -1,4 +1,6 @@
- #include "ShotMgr.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
+#include "ShotMgr.h"
 #include "DXlib.h"
 
 //Templateクラスの実装
@@ -9,8 +11,8 @@ cShotMgr::cShotMgr() {
 	playerShot = new cShot[PLAYERSHOTNUM];
 	totalShot = 0;
 	shotRate = 0;
-	checkGr=LoadDivGraph("../resource/Image/Galaga_OBJ_bullet.png",4,4,0,10,12,ShotGrHandle);
-	if (checkGr == -1){
+	checkGr = LoadDivGraph("../resource/Image/Galaga_OBJ_bullet.png", 4, 4, 0, 10, 12, ShotGrHandle);
+	if (checkGr == -1) {
 		ErrBox("Shot画像読み込みエラー");
 		//DrawFormatString(420, 600, GetColor(255, 0, 255), "画像が読み込めませんでした");
 	}
@@ -26,14 +28,14 @@ int cShotMgr::Update() {
 	}
 	if (CheckHitKey(KEY_INPUT_SPACE) == TRUE) {
 		for (int i = 0; i < PLAYERSHOTNUM; i++) {
-			if( playerShot[i].Get_OnActive() == false&&shotRate==0) {
+			if (playerShot[i].Get_OnActive() == FALSE && shotRate == 0) {
 				playerShot[i].Set_OnActive(TRUE);//0=false,1=true
-				//プレイヤーの座標を受け取って座標をセット
+												 //プレイヤーの座標を受け取って座標をセット
 				sOBJPos tmp;
- 				tmp = cPlayer::Instance()->GetPlayer(0);
+				tmp = cPlayer::Instance()->GetPlayer(0);
 				playerShot[i].Set_ShotCX(tmp.cx);
 				playerShot[i].Set_ShotCY(tmp.cy);
-				playerShot[i].Set_ShotRad(180);
+				playerShot[i].Set_ShotRad(M_PI);
 				totalShot++;
 				shotRate = 6;
 				break;
@@ -47,10 +49,10 @@ int cShotMgr::Update() {
 
 int cShotMgr::Draw() {
 	for (int i = 0; i < ENEMYSHOTNUM; i++) {
-		enemyShot[i].Draw(ENEMY,ShotGrHandle);
+		enemyShot[i].Draw(ENEMY, ShotGrHandle);
 	}
 	for (int i = 0; i < PLAYERSHOTNUM; i++) {
-		playerShot[i].Draw(PLAYER,ShotGrHandle);
+		playerShot[i].Draw(PLAYER, ShotGrHandle);
 	}
 
 #ifndef PLAYER_SHOT_DEBUG
@@ -66,7 +68,7 @@ int cShotMgr::Draw() {
 }
 
 //弾を消す処理
-int cShotMgr::Break(int type,int num) {//type=自機or敵、num=何番目の弾か
+int cShotMgr::Break(int type, int num) {//type=自機or敵、num=何番目の弾か
 	if (type == PLAYER) {
 		playerShot[num].Set_OnActive(FALSE);
 	}
@@ -77,11 +79,24 @@ int cShotMgr::Break(int type,int num) {//type=自機or敵、num=何番目の弾か
 }
 
 //敵の弾撃つ処理
-/*int cShotMgr::EnemyShot() {
-	sOBJPos tmp;
-	tmp = cPlayer::Instance()->GetPlayer(0);
-
-}*/
+//引数enemyX,enemyY
+int cShotMgr::EnemyShot(double tmpEX, double tmpEY) {
+	sOBJPos tmpPlayer;
+	double rad;
+	tmpPlayer = cPlayer::Instance()->GetPlayer(0);
+	//処理
+	for (int i = 0; i < ENEMYSHOTNUM; i++) {
+		if (enemyShot[i].Get_OnActive() == FALSE) {
+			enemyShot[i].Set_OnActive(TRUE);
+			rad = atan2(tmpPlayer.pos.y - tmpEY, tmpPlayer.pos.x - tmpEX);
+			enemyShot[i].Set_ShotCX(tmpEX);
+			enemyShot[i].Set_ShotCY(tmpEY);
+			enemyShot[i].Set_ShotRad(rad);
+			break;
+		}
+	}
+	return 0;
+}
 
 
 
