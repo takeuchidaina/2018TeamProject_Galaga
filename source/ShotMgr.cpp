@@ -14,7 +14,6 @@ cShotMgr::cShotMgr() {
 	checkGr = LoadDivGraph("../resource/Image/Galaga_OBJ_bullet.png", 4, 4, 0, 10, 12, ShotGrHandle);
 	if (checkGr == -1) {
 		ErrBox("Shot‰æ‘œ“Ç‚Ýž‚ÝƒGƒ‰[");
-		//DrawFormatString(420, 600, GetColor(255, 0, 255), "‰æ‘œ‚ª“Ç‚Ýž‚ß‚Ü‚¹‚ñ‚Å‚µ‚½");
 	}
 	//ErrBox("‚ß‚¤");
 }
@@ -35,7 +34,7 @@ int cShotMgr::Update() {
 				tmp = cPlayer::Instance()->GetPlayer(0);
 				playerShot[i].Set_ShotCX(tmp.cx);
 				playerShot[i].Set_ShotCY(tmp.cy);
-				playerShot[i].Set_ShotRad(M_PI);
+				playerShot[i].Set_ShotRad(M_PI*270/180);
 				totalShot++;
 				shotRate = 6;
 				break;
@@ -88,7 +87,7 @@ int cShotMgr::EnemyShot(double tmpEX, double tmpEY) {
 	for (int i = 0; i < ENEMYSHOTNUM; i++) {
 		if (enemyShot[i].Get_OnActive() == FALSE) {
 			enemyShot[i].Set_OnActive(TRUE);
-			rad = atan2(tmpPlayer.pos.y - tmpEY, tmpPlayer.pos.x - tmpEX);
+			rad = atan2(tmpPlayer.cy - tmpEY, tmpPlayer.cx - tmpEX);
 			enemyShot[i].Set_ShotCX(tmpEX);
 			enemyShot[i].Set_ShotCY(tmpEY);
 			enemyShot[i].Set_ShotRad(rad);
