@@ -8,6 +8,7 @@ using namespace std;
 #include "DxLib.h"
 #include "Struct.h"
 #include"UI.h"
+#include "Player.h"
 //ｙ674からビーム描画
 
 cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, double ang, int flg,int *graph) : cBaseEnemy(x, y, r, cnt, spd, ang, flg, graph) {
@@ -166,6 +167,15 @@ int cGreenEnemy::Update() {
 void cGreenEnemy::TractorUpdate() {
 	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
+
+ static	sOBJPos tmpplayer;
+ static int tmpx,tmpy;
+ if (enemy.count == 0) {
+	 tmpplayer = cPlayer::Instance()->GetPlayer(0);
+	 tmpx = tmpplayer.pos.x;
+	 tmpy = tmpplayer.pos.y;
+
+ }
 	if (tractorflg !=0) {
 		enemy.count++;
 	
@@ -185,20 +195,20 @@ void cGreenEnemy::TractorUpdate() {
 			}
 			break;
 		case 1:
-			enemy.ang = atan2(674 - 64 - enemy.mainpos.pos.y, (300 - enemy.mainpos.pos.x)*enemy.dir);
-			if ((300 - enemy.mainpos.pos.x)*(300 - enemy.mainpos.pos.x) +
-				(674 - 64 - enemy.mainpos.pos.y)*(674 - 64 - enemy.mainpos.pos.y) <=
+			enemy.ang = atan2(tmpy - 64 - enemy.mainpos.pos.y, (tmpx - enemy.mainpos.pos.x)*enemy.dir);
+			if ((tmpx - enemy.mainpos.pos.x)*(tmpx - enemy.mainpos.pos.x) +
+				(tmpy - 64 - enemy.mainpos.pos.y)*(tmpy - 64 - enemy.mainpos.pos.y) <=
 				(enemy.mainpos.r - 1 + enemy.targetr)*(enemy.mainpos.r - 1 + enemy.targetr)) {
 				//敵座標を目的地に固定
-				enemy.mainpos.pos.x = 300;
-				enemy.mainpos.pos.y = 674 - 64;
+				enemy.mainpos.pos.x = tmpx;
+				enemy.mainpos.pos.y = tmpy - 64;
 				enemy.count = 0;
 				enemy.moveflg++;
 			}
 			break;
 		case 2:
-			enemy.mainpos.pos.x = 300;
-			enemy.mainpos.pos.y = 674 - 64;
+			enemy.mainpos.pos.x = tmpx;
+			enemy.mainpos.pos.y = tmpy - 64;
 			enemy.ang = 90 * M_PI / 180;
 			break;
 		case 3:
