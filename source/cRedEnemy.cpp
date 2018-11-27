@@ -81,18 +81,19 @@ void cRedEnemy::Move( ) {
 
 
 int cRedEnemy::Update() {
-	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
-	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
-	enemy.count++;
+	if (enemy.attackflg == true) {
+		enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+		enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
+		enemy.count++;
 
-	if (enemy.count > 0) {
-		enemy.mainpos.onActive = YesActive;	
-	}
-	//enemy.ang = -90 * M_PI / 180;
+		if (enemy.count > 0) {
+			enemy.mainpos.onActive = YesActive;
+		}
+		//enemy.ang = -90 * M_PI / 180;
 		switch (enemy.moveflg)
 		{
 		case 0:
-			if (enemy.count==1)enemy.ang = 180 * M_PI / 180;
+			if (enemy.count == 1)enemy.ang = 180 * M_PI / 180;
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
@@ -118,13 +119,13 @@ int cRedEnemy::Update() {
 				enemy.mainpos.pos.x = enemy.target.x;
 				enemy.moveflg++;
 			}
-			break; 
+			break;
 		case 6:
 			enemy.ang = atan2(enemy.target.y - enemy.mainpos.pos.y, enemy.target.x - enemy.mainpos.pos.x);
 			if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
 				(enemy.target.y - enemy.mainpos.pos.y)*(enemy.target.y - enemy.mainpos.pos.y) <=
 				(enemy.mainpos.r + enemy.targetr)*(enemy.mainpos.r + enemy.targetr)) {
-				
+
 				enemy.moveflg++;
 				enemy.count = 0;
 			}
@@ -132,16 +133,16 @@ int cRedEnemy::Update() {
 		case 8:
 			enemy.count = 0;
 			enemy.moveflg = 0;
-			enemy.ang = 180 * M_PI / 180;
+			enemy.ang = -90 * M_PI / 180;
 			enemy.dir *= -1;
 			//“GÀ•W‚ð–Ú“I’n‚ÉŒÅ’è
 			enemy.mainpos.pos.x = enemy.target.x;
 			enemy.mainpos.pos.y = enemy.target.y;
-			//enemy.attackflg = false;
+			enemy.attackflg = false;
 			break;
 
 		}
-	
+	}
 	return 0;
 }
 

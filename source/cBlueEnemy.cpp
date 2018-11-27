@@ -82,71 +82,73 @@ void cBlueEnemy:: Move() {
 
 
 int cBlueEnemy::Update() {
-	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
-	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
-	enemy.count++;
+	if (enemy.attackflg == true) {
+		enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+		enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
+		enemy.count++;
 
-	if (enemy.count > 0) {
-		enemy.mainpos.onActive = YesActive;
-	}
-	
-			switch (enemy.moveflg)
-			{
-			case 0:
-				if(enemy.count==0)enemy.ang = 180 * M_PI / 180;
-				enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
-				if (enemy.countflg[enemy.moveflg] <= enemy.count) {
-					enemy.moveflg++;
-					enemy.count = 0;
-				}
-				break;
-			case 1:
-				enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
-				cShotMgr::Instance()->EnemyShot(enemy.mainpos.pos.x, enemy.mainpos.pos.y);
-				if (enemy.countflg[enemy.moveflg] <= enemy.count) {
-					enemy.moveflg++;
-					enemy.count = 0;
-				}
-				break;
-			case 2:
-			case 4:
-			case 5:
-			case 6:
-				enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
-				if (enemy.countflg[enemy.moveflg] <= enemy.count) {
-					enemy.moveflg++;
-					enemy.count = 0;
-				}
-				break;
-			case 3:
-				enemy.ang = 0 * M_PI / 180;;
-				enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
-				if (enemy.countflg[enemy.moveflg] <= enemy.count) {
-					enemy.moveflg++;
-					enemy.count = 0;
-				}
-				break;
-			case 7:
-				enemy.ang = atan2(enemy.target.y - enemy.mainpos.pos.y, enemy.target.x - enemy.mainpos.pos.x);
-				if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
-					(enemy.target.y - enemy.mainpos.pos.y)*(enemy.target.y - enemy.mainpos.pos.y) <=
-					(enemy.mainpos.r + enemy.targetr)*(enemy.mainpos.r + enemy.targetr)) {
-					//敵座標を目的地に固定
-					enemy.mainpos.pos.x = enemy.target.x;
-					enemy.mainpos.pos.y = enemy.target.y;
-					enemy.moveflg++;
-					enemy.count = 0;
-				}
-				break;
-			case 8:
+		if (enemy.count > 0) {
+			enemy.mainpos.onActive = YesActive;
+		}
+
+		switch (enemy.moveflg)
+		{
+		case 0:
+			if (enemy.count == 0)enemy.ang = 180 * M_PI / 180;
+			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+				enemy.moveflg++;
 				enemy.count = 0;
-				enemy.moveflg = 0;
-				enemy.ang = 180 * M_PI/180;
-				enemy.dir *= -1;
-				//enemy.attackflg = false;
-				break;
+			}
+			break;
+		case 1:
+			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+			cShotMgr::Instance()->EnemyShot(enemy.mainpos.pos.x, enemy.mainpos.pos.y);
+			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+				enemy.moveflg++;
+				enemy.count = 0;
+			}
+			break;
+		case 2:
+		case 4:
+		case 5:
+		case 6:
+			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+				enemy.moveflg++;
+				enemy.count = 0;
+			}
+			break;
+		case 3:
+			enemy.ang = 0 * M_PI / 180;;
+			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+				enemy.moveflg++;
+				enemy.count = 0;
+			}
+			break;
+		case 7:
+			enemy.ang = atan2(enemy.target.y - enemy.mainpos.pos.y, enemy.target.x - enemy.mainpos.pos.x);
+			if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
+				(enemy.target.y - enemy.mainpos.pos.y)*(enemy.target.y - enemy.mainpos.pos.y) <=
+				(enemy.mainpos.r + enemy.targetr)*(enemy.mainpos.r + enemy.targetr)) {
+				//敵座標を目的地に固定
+				enemy.mainpos.pos.x = enemy.target.x;
+				enemy.mainpos.pos.y = enemy.target.y;
+				enemy.moveflg++;
+				enemy.count = 0;
+			}
+			break;
+		case 8:
+			enemy.count = 0;
+			enemy.moveflg = 0;
+			enemy.ang = -90 * M_PI / 180;
+			enemy.dir *= -1;
+			enemy.attackflg = false;
+			break;
 
 		}
+	}
 	
 	return 0;
 }

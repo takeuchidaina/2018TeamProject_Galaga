@@ -97,7 +97,7 @@ void cGreenEnemy::Move( ) {
 int cGreenEnemy::Update() {
 	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
-	if (tractorflg == 0) {
+	if (tractorflg == 0 && enemy.attackflg == true) {
 		enemy.count++;
 
 		if (enemy.count > 0) {
@@ -158,8 +158,9 @@ int cGreenEnemy::Update() {
 		case 9:
 			enemy.count = 0;
 			enemy.moveflg = 0;
-			enemy.ang = 90 * M_PI / 180;
+			enemy.ang = -90 * M_PI / 180;
 			enemy.dir *= -1;
+			enemy.attackflg = false;
 			tractorflg = true;
 			break;
 		}
@@ -174,7 +175,7 @@ void cGreenEnemy::TractorUpdate() {
 
 
 
-	if (tractorflg !=0) {
+	if (tractorflg != 0 && enemy.attackflg == true) {
 		enemy.count++;
 	
 		if (enemy.count > 0) {
@@ -230,9 +231,10 @@ void cGreenEnemy::TractorUpdate() {
 		case 4:
 			enemy.count = 0;
 			enemy.moveflg = 0;
-			enemy.ang = 90 * M_PI / 180;
+			enemy.ang = -90 * M_PI / 180;
 			enemy.dir *= -1;
 			tractorflg = 0;
+			enemy.attackflg = false;
 			break;
 		}
 	}
