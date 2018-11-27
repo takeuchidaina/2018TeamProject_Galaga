@@ -8,6 +8,8 @@ using namespace std;
 #include "DxLib.h"
 #include "Struct.h"
 #include "UI.h"
+#include "shot.h"
+#include "shotMgr.h"
 
 
 cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double ang, int flg,int*graph) : cBaseEnemy(x, y, r, cnt, spd, ang, flg, graph) {
