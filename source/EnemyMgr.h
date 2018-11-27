@@ -76,6 +76,8 @@ private:
 	int phaseFlagCount;  //入場が終了している敵の数
 	int onActiveCount;   //入場時にonActiveがtrueになっている敵の数
 
+	int ReChoiceFlag;  //再抽選フラグ 0:抽選を行わない状態 1:抽選を行う状態
+
 public:
 	//~cEnemyMgr();
 
