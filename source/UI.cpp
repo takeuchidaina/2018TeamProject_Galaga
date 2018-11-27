@@ -11,6 +11,9 @@ cUI::cUI()
 	stageNo = cInGameController::Instance()->GetNowStageNum();
 	playerHP = cPlayer::Instance()->GetPlayerHP();
 
+	blinkCnt = 0;  
+	blinkFlg = FALSE;
+
 	//画像の読み込み
 	LoadDivGraph("../resource/Image/Galaga_UI_icon1616.png", 12, 6, 2, 16, 16, iconImg);
 	if (iconImg == NULL)
@@ -53,16 +56,38 @@ int cUI::UI_Draw()
 
 	int i, j;
 
+	//UIを表示する灰色の部分の描画
+	DrawBox(DISP_SIZE, 0, DISP_SIZE + UI_SIZE, 960, GetColor(125, 125, 125), TRUE);
+
 	//テキスト類の表示
-	for (i = 0; i<sizeof(textPos) / sizeof*(textPos); i++);
+	/*
+	for (i = 0; i<sizeof(textPos) / sizeof(textPos[0]); i++);
 	{
-		//char tmp[20] = {"AAAAA"};
-		//strcpy(tmp,textPos[i].text);
 		cTextChange::Instance()->DrawTextImage(textPos[i].x, textPos[i].y, textPos[i].text);
+		//iではなく実数を要素数にやると出力される
+	}
+	*/
+	cTextChange::Instance()->DrawTextImage(textPos[0].x, textPos[0].y, textPos[0].text,textPos[0].color);
+	cTextChange::Instance()->DrawTextImage(textPos[1].x, textPos[1].y, textPos[1].text, textPos[1].color);
+
+	// 1UPの点滅
+	blinkCnt++;
+	if (blinkCnt >= 20)
+	{
+		blinkCnt = 0;
+		blinkFlg = !blinkFlg;
 	}
 
-	//UIを表示する灰色の部分の描画
-	DrawBox(DISP_SIZE,0,DISP_SIZE + UI_SIZE,960,GetColor(125,125,125),TRUE);
+	if (blinkFlg)
+	{
+		cTextChange::Instance()->DrawTextImage(textPos[2].x, textPos[2].y, textPos[2].text, textPos[2].color);
+	}
+	else
+	{
+		cTextChange::Instance()->DrawTextImage(textPos[3].x, textPos[3].y, textPos[3].text, textPos[3].color);
+	}
+	
+
 
 	//プレイヤーの残機
 	for (j = 0; j < playerHP; j++)
@@ -73,6 +98,8 @@ int cUI::UI_Draw()
 	//ステージアイコンの表示
 	UI_StgSelectIcon(stageNo);
 
+	// アイコンのステージ計算をして要素数をreturnで返してもらって
+	// その番号で表示する(Drawで描画)
 
 #ifdef UI_POS_DEBUG
 

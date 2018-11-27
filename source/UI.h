@@ -25,6 +25,7 @@ typedef struct
 {
 	int x, y;
 	char text[20];
+	eColor color;
 
 }sTextPos;
 
@@ -44,11 +45,15 @@ private:
 	int stageNo;	//ステージ番号
 	int playerHP;   //残機
 
-	const sTextPos textPos[3] =
+	int blinkCnt;   //点滅処理のカウント("1UP")
+	int blinkFlg;   //点滅処理のフラグ("1UP")
+
+	const sTextPos textPos[4] =
 	{
-		{ DISP_SIZE + 150, 100,"HIGH" },
-		{ DISP_SIZE + 120, 130,"SCORE" },
-		{ DISP_SIZE + 180, 200,"1UP" },
+		{ DISP_SIZE + 150, 100,"HIGH",eRed },
+		{ DISP_SIZE + 120, 130,"SCORE",eRed },
+		{ DISP_SIZE + 180, 200,"1UP",eRed },
+		{ DISP_SIZE + 180, 200,"   ",eNone },   //blink
 	};
 
 protected:
