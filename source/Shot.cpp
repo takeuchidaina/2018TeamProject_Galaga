@@ -1,5 +1,3 @@
-#define _USE_MATH_DEFINES
-#include <math.h>
 #include "Shot.h"
 #include "DxLib.h"
 #include "UI.h"
@@ -25,8 +23,8 @@ int cShot::Update() {
 	r = 3*3;*/
 
 	//xとyの移動(ラジアンでベクトルを計算)
-	cx += s*sin(rad* M_PI / 180);
-	cy += s*cos(rad* M_PI / 180);
+	cx += s*sin(rad);
+	cy += s*cos(rad);
 	//画面外に行ったらFALSEにする
 	if (cx-w/2 < 0 || cx+w/2> 910|| cy-h/2 < 0 || cy+h/2>960) {
 		OnActive = FALSE;
@@ -36,16 +34,17 @@ int cShot::Update() {
 
 int cShot::Draw(int num,int *GrHandle) {
 	if (num == PLAYER) {//0=playerShot 1=enemyShot
-		//if (OnActive == TRUE) {//0=false,1=true
-		DrawBox(cx-w/2, cy-h/2, cx+w/2, cy+h/2, GetColor(255, 255, 255), TRUE);
+		if (OnActive == TRUE) {//0=false,1=true
+			DrawBox(cx-w/2, cy-h/2, cx+w/2, cy+h/2, GetColor(255, 255, 255), TRUE);
 		  //DrawExtendGraph(x, y, x + w, y + h, *GrHandle+3, FALSE);
 		  //DrawGraph(cx, cy, *GrHandle+3, FALSE);
-	  //}
+	  }
 	}
 
 	if (num == ENEMY) {//0=playerShot 1=enemyShot
 		if (OnActive == TRUE) {
-			DrawCircle(x, y, x + w, y + h, GetColor(255, 255, 255), TRUE);
+			DrawBox(cx-w/2, cy-h/2, cx+w/2, cy+h/2, GetColor(255, 255, 255), TRUE);
+			//DrawCircle(x, y, x + w, y + h, GetColor(255, 255, 255), TRUE);
 			//DrawExtendGraph(x, y, x + w, y + h, GrHandle[0], FALSE);
 		}
 	}
