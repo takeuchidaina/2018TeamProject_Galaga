@@ -224,7 +224,7 @@ void cPlayer::Double()
 
 		int machineNum　 eLeftMachine   : 左の機体
 						 eRightMachine  : 右の機体
-						 eNoneMachine   : 機体無し()
+						 eNoneMachine   : 機体無し
 			
 戻り値: 無し
 *************************************************************************/

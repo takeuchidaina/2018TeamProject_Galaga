@@ -2,7 +2,6 @@
 #ifndef _UI_INCLUDE_
 #define _UI_INCLUDE_
 
-#include "Struct.h"
 #include "InGameController.h"
 #include "Player.h"
 #include "TextChange.h"
@@ -37,17 +36,16 @@ class cUI : public cSingleton<cUI>
 
 private:
 
-	int iconX;
-	int iconY;
+	int iconX;			//アイコンの座標x
+	int iconY;			//アイコンの座標y
 	int textImg[48];	//テキストの画像
 	int iconImg[12];	//ステージアイコンの画像
+	int stageNo;		//ステージ番号
+	int playerHP;		//残機
+	int blinkCnt;	    //点滅処理のカウント("1UP")
+	int blinkFlg;	    //点滅処理のフラグ("1UP")
 
-	int stageNo;	//ステージ番号
-	int playerHP;   //残機
-
-	int blinkCnt;   //点滅処理のカウント("1UP")
-	int blinkFlg;   //点滅処理のフラグ("1UP")
-
+	//座標と表示する文字列の構造体の初期化
 	const sTextPos textPos[4] =
 	{
 		{ DISP_SIZE + 150, 10,"HIGH",eRed },
@@ -59,10 +57,28 @@ private:
 protected:
 
 public:
-
-	//int UI_Update();
+	/*************************************************************************
+	   関数: int UI_Draw()
+	   説明: 枠組み・残機・ステージアイコンの表示と文字データの送信
+	   引数: 無し
+	 戻り値: 無し
+	 *************************************************************************/
 	int UI_Draw();
+
+	/*************************************************************************
+	　関数: int UI_SelectIcon()
+	　説明: ステージ情報のアイコンをどれを表示するか
+	　引数: int ステージ番号
+	戻り値: 無し
+	*************************************************************************/
 	int UI_StgSelectIcon(int);
+
+	/*************************************************************************
+	　関数: void UI_SetPlayerHP()
+	　説明: プレイヤーの残機の更新
+	　引数: int プレイヤーのHP
+	戻り値: 無し
+	*************************************************************************/
 	void UI_SetPlayerHP(int);
 
 };

@@ -8,17 +8,18 @@ cTextChange::cTextChange()
 	//LoadDivGraph("../resource/Image/UI_Text_Color.png", 48, 8, 6, 28, 28, textImg);
 	LoadDivGraph("../Image/GogoFiveAI.png", 48, 8, 6, 16, 16, textImg);
 	hue = 0;			//F‘Š[0`360]
-	saturation = 0;		//Ê“x[-255`]
+	saturation = 0;		//Ê“x[-255`100]
 	bright = 0;			//‹P“x[-255`255]
-	magX = 0;
-	magY = 0;
+	magX = 0;			//‰æ‘œ‚ğŠg‘å‚·‚éÛ‚Ìx
+	magY = 0;			//‰æ‘œ‚ğŠg‘å‚·‚éÛ‚Ìy
 	
 }
 
 /*************************************************************************
-@ŠÖ”: int cTextChange::_Update()
-  à–¾: •¶š—ñ‚©‚ç‰æ‘œ‚Ì—v‘f”‚Ö‚Ì•ÏŠ·
-  ˆø”: (int,int,*text)
+ŠÖ”: int DrawTextImage
+à–¾: ˆø”‚ÌÀ•W‚Éw’è‚ÌF‚Æ”{—¦‚Å•¶š‚ğ•\¦‚µ‚Ü‚·
+ˆø”: (int x, int y, char *•¶š—ñ, int F, int ”{—¦)
+	   F‚Æ”{—¦‚Íenum
 –ß‚è’l: –³‚µ
 *************************************************************************/
 int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
@@ -56,6 +57,7 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 		break;
 	}
 
+	//”{—¦‚Ìİ’è
 	switch (mag)
 	{
 	case eMag16:
