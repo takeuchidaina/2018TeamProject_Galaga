@@ -26,7 +26,7 @@ public:
 	cShot();	//コンストラクタ
 	~cShot();	//デストラクタ
 	int Update();	//計算処理
-	int Draw(int,int *);		//描写処理
+	int Draw(int,int*);		//描写処理
 	inline int Get_OnActive() { return OnActive; }//OnActiveの獲得
 	void Set_OnActive(int tmp) { OnActive = tmp; }
 	inline double Get_ShotX() { return x; }
