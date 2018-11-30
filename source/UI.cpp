@@ -33,21 +33,8 @@ cUI::~cUI()
 }
 
 /*************************************************************************
-　関数: int UI_Update()
-  説明: 計算処理
-  引数: 無し
-戻り値: 無し
-*************************************************************************/
-//int cUI::UI_Update()
-//{
-//	UI_StgSelectIcon(stageNo);
-//
-//	return 0;
-//}
-
-/*************************************************************************
 　関数: int UI_Draw()
-  説明: 描画処理
+  説明: 枠組み・残機・ステージアイコンの表示と文字データの送信
   引数: 無し
 戻り値: 無し
 *************************************************************************/
@@ -67,8 +54,8 @@ int cUI::UI_Draw()
 		//iではなく実数を要素数にやると出力される
 	}
 	*/
-	cTextChange::Instance()->DrawTextImage(textPos[0].x, textPos[0].y, textPos[0].text,textPos[0].color);
-	cTextChange::Instance()->DrawTextImage(textPos[1].x, textPos[1].y, textPos[1].text, textPos[1].color);
+	cTextChange::Instance()->DrawTextImage(textPos[0].x, textPos[0].y, textPos[0].text,textPos[0].color,eMag48);
+	cTextChange::Instance()->DrawTextImage(textPos[1].x, textPos[1].y, textPos[1].text, textPos[1].color, eMag48);
 
 	// 1UPの点滅
 	blinkCnt++;
@@ -80,14 +67,12 @@ int cUI::UI_Draw()
 
 	if (blinkFlg)
 	{
-		cTextChange::Instance()->DrawTextImage(textPos[2].x, textPos[2].y, textPos[2].text, textPos[2].color);
+		cTextChange::Instance()->DrawTextImage(textPos[2].x, textPos[2].y, textPos[2].text, textPos[2].color, eMag48);
 	}
 	else
 	{
-		cTextChange::Instance()->DrawTextImage(textPos[3].x, textPos[3].y, textPos[3].text, textPos[3].color);
+		cTextChange::Instance()->DrawTextImage(textPos[3].x, textPos[3].y, textPos[3].text, textPos[3].color, eMag48);
 	}
-	
-
 
 	//プレイヤーの残機
 	for (j = 0; j < playerHP; j++)
@@ -97,9 +82,6 @@ int cUI::UI_Draw()
 
 	//ステージアイコンの表示
 	UI_StgSelectIcon(stageNo);
-
-	// アイコンのステージ計算をして要素数をreturnで返してもらって
-	// その番号で表示する(Drawで描画)
 
 #ifdef UI_POS_DEBUG
 
