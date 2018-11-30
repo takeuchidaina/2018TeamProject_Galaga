@@ -58,17 +58,18 @@ private:
 	int wave;                  //現在のウェーブ数
 	int wavecount;             //該当ウェーブで入場行動が終了している敵の数
 
-	int  input[64];            //ファイルから読み取った文字列の一時保管(int用)
-	char inputc[64];           //ファイルから読み取った文字列の一時保管(char用)
-	int  fileEndFlag;          //ファイル読み込みの終了フラグ
-	int  StageHandle;          //ファイルを開くハンドル
-	char StageFilePath[256];   //読み込むファイルの名前を入れる配列
-	int  n, num;               //n,num
-	int  Phaseflag;            //移動段階フラグ
-	int  EnemyGraph[20];       //敵の画像 20体分よみこむ
-	int  Stayflag;             //敵が入場後に動いていないか 0:動いている 1:動いていない
+	int  input[64];           //ファイルから読み取った文字列の一時保管(int用)
+	char inputc[64];          //ファイルから読み取った文字列の一時保管(char用)
+	int  fileEndFlag;         //ファイル読み込みの終了フラグ
+	int  StageHandle;         //ファイルを開くハンドル
+	char StageFilePath[256];  //読み込むファイルの名前を入れる配列
+	int  n, num;              //n,num
+	int  Phaseflag;           //移動段階フラグ
+	int  EnemyGraph[20];      //敵の画像 20体分よみこむ
+	int  Stayflag;            //敵が入場後に動いていないか 0:動いている 1:動いていない
 
-	//関数のプロトタイプ宣言
+							  //関数のプロトタイプ宣言
+							  //void Join(sEnemy&);
 	void Move(sEnemy&);
 	void Shifted(sEnemy&, sEnemy&);
 	cBaseEnemy* enemies[40];
@@ -127,11 +128,15 @@ public:
 		return enemies[num]->GetEnemyR();
 	};
 
-	double GetEnemyOnactive(int num) {
+	double GetEnemyR(int num) {
+		return enemies[num]->GetEnemyR();
+	};
+
+	double GetEnemyonActive(int num) {
 		return enemies[num]->GetEnemyOnActive();
 	};
 
-	void GetEnemyDeath(int num) {
+	int GetEnemyDeath(int num) {
 		enemies[num]->Break();
 	}
 
