@@ -54,7 +54,6 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 
 
 void cRedEnemy::Move( ) {
-	destroy();
 	enemy.mainpos.cx = enemy.mainpos.pos.x + enemy.width / 2;
 	enemy.mainpos.cy = enemy.mainpos.pos.y + enemy.hight / 2;
 	

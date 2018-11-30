@@ -69,7 +69,7 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 
 
 void cGreenEnemy::Move( ) {
-	destroy();
+
 	enemy.mainpos.cx = enemy.mainpos.pos.x +enemy.width/2;
 	enemy.mainpos.cy = enemy.mainpos.pos.y+enemy.hight/2;
 	/*if (enemy.mainpos.onActive == StartMove) {
