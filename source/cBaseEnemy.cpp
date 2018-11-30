@@ -28,6 +28,8 @@ using namespace std;
 	 //memset(enemy.graph, 0x00, sizeof(enemy.graph));
 	  enemy.graph = graph;
 	  enemy.attackflg = false;
+	  a = 0;
+	  b = 0;
  }
 
 cBaseEnemy::~cBaseEnemy() {
@@ -65,5 +67,3 @@ void cBaseEnemy::TractorUpdate() {
 }
 
 
-
-	
