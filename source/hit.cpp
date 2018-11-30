@@ -60,11 +60,11 @@ void cHit::Hit() {
 
 		for (int j = 0; j < sizeof(tmpEShot); j++) {
 
-			if (tmpEShot[j]->Get_OnActive == FALSE) continue;
+			if (tmpEShot[j]->Get_OnActive() == FALSE) continue;
 
-			int len = ( (tmpEShot[j]->Get_ShotCX - tmpPlayer[i].cx) * (tmpEShot[j]->Get_ShotCX - tmpPlayer[i].cx) ) + ( (tmpEShot[j]->Get_ShotCY - tmpPlayer[i].cy)*(tmpEShot[j]->Get_ShotCY - tmpPlayer[i].cy) );
+			double len = ( (tmpEShot[j]->Get_ShotCX() - tmpPlayer[i].cx) * (tmpEShot[j]->Get_ShotCX() - tmpPlayer[i].cx) ) + ( (tmpEShot[j]->Get_ShotCY() - tmpPlayer[i].cy)*(tmpEShot[j]->Get_ShotCY() - tmpPlayer[i].cy) );
 
-			if ( len <= ((tmpEShot[j]->Get_ShotR + tmpPlayer[i].r) * (tmpEShot[j]->Get_ShotR + tmpPlayer[i].r)) ) {
+			if ( len <= ((tmpEShot[j]->Get_ShotR() + tmpPlayer[i].r) * (tmpEShot[j]->Get_ShotR() + tmpPlayer[i].r)) ) {
 
 				/* プレイヤーが2機いるときに片方がダウン */
 				if (tmpPlayer[eLeftMachine].onActive == TRUE && tmpPlayer[eRightMachine].onActive == TRUE) {
@@ -90,11 +90,11 @@ void cHit::Hit() {
 
 			//if (tmpEnemy[j].mainpos.onActive == FALSE) continue;
 
-			int tmpEnemy_cx = cEnemyMgr::Instance()->GetEnemyPosX(j);
-			int tmpEnemy_cy = cEnemyMgr::Instance()->GetEnemyPosY(j);
-			int tmpEnemy_r = cEnemyMgr::Instance()->GetEnemyPosR(j);
+			double tmpEnemy_cx = cEnemyMgr::Instance()->GetEnemyPosX(j);
+			double tmpEnemy_cy = cEnemyMgr::Instance()->GetEnemyPosY(j);
+			double tmpEnemy_r = cEnemyMgr::Instance()->GetEnemyPosR(j);
 
-			int len = (tmpEnemy_cx - tmpPlayer[i].cx)*(tmpEnemy_cx - tmpPlayer[i].cx) + (tmpEnemy_cy - tmpPlayer[i].cy)*(tmpEnemy_cy - tmpPlayer[i].cy);
+			double len = (tmpEnemy_cx - tmpPlayer[i].cx)*(tmpEnemy_cx - tmpPlayer[i].cx) + (tmpEnemy_cy - tmpPlayer[i].cy)*(tmpEnemy_cy - tmpPlayer[i].cy);
 
 			if (len <= ((tmpEnemy_r + tmpPlayer[i].r)*(tmpEnemy_r + tmpPlayer[i].r))) {
 				
@@ -118,17 +118,17 @@ void cHit::Hit() {
 
 		//if (tmpEnemy[i].mainpos.onActive == FALSE) continue;
 
-		int tmpEnemy_cx = cEnemyMgr::Instance()->GetEnemyPosX(i);
-		int tmpEnemy_cy = cEnemyMgr::Instance()->GetEnemyPosY(i);
-		int tmpEnemy_r = cEnemyMgr::Instance()->GetEnemyPosR(i);
+		double tmpEnemy_cx = cEnemyMgr::Instance()->GetEnemyPosX(i);
+		double tmpEnemy_cy = cEnemyMgr::Instance()->GetEnemyPosY(i);
+		double tmpEnemy_r = cEnemyMgr::Instance()->GetEnemyPosR(i);
 
 		for (int j = 0; j < sizeof(tmpPShot); j++) {
 
-			if (tmpPShot[j]->Get_OnActive == FALSE) continue;
+			if (tmpPShot[j]->Get_OnActive() == FALSE) continue;
 
-			int len = (tmpPShot[j]->Get_ShotCX - tmpEnemy_cx)*(tmpPShot[j]->Get_ShotCX - tmpEnemy_cx) + (tmpPShot[j]->Get_ShotCY - tmpEnemy_cy)*(tmpPShot[j]->Get_ShotCY - tmpEnemy_cy);
+			double len = (tmpPShot[j]->Get_ShotCX() - tmpEnemy_cx)*(tmpPShot[j]->Get_ShotCX() - tmpEnemy_cx) + (tmpPShot[j]->Get_ShotCY() - tmpEnemy_cy)*(tmpPShot[j]->Get_ShotCY() - tmpEnemy_cy);
 
-			if (len <= ((tmpEnemy_r + tmpPShot[j]->Get_ShotR)*(tmpEnemy_r + tmpPShot[j]->Get_ShotR)) ) {
+			if (len <= ((tmpEnemy_r + tmpPShot[j]->Get_ShotR())*(tmpEnemy_r + tmpPShot[j]->Get_ShotR())) ) {
 				cShotMgr::Instance()->Break(PLAYER, j);
 				cBaseEnemy::Break(i);
 			}
