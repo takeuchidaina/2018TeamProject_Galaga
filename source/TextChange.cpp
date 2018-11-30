@@ -6,7 +6,8 @@ cTextChange::cTextChange()
 {
 	//テキストの画像の読み込み
 	//LoadDivGraph("../resource/Image/UI_Text_Color.png", 48, 8, 6, 28, 28, textImg);
-	LoadDivGraph("../Image/GogoFiveAI.png", 48, 8, 6, 16, 16, textImg);
+	//LoadDivGraph("../Image/GogoFiveAI.png", 48, 8, 6, 16, 16, textImg);
+	LoadDivGraph("../Image/AC_Classic24.png", 40, 8, 5, 16, 16, textImg);
 	hue = 0;			//色相[0～360]
 	saturation = 0;		//彩度[-255～100]
 	bright = 0;			//輝度[-255～255]
@@ -75,7 +76,7 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 	case eMag48:
 		magX = x + 48;
 		magY = y + 48;
-		mag = 48;
+		mag = 40;
 		break;
 
 	default:

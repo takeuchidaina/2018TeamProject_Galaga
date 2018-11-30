@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Interface.h"
 #include "InGameMgr.h"
+#include "InGameController.h"
 
 //コンストラクタ
 cPlayer::cPlayer()
@@ -269,12 +270,15 @@ void cPlayer::Break(int judgeBreak ,int machineNum)
 			{
 				//シーンの変更
 				//プレイヤーの復活
+				//DEBUG
+				cInGameController::Instance()->PlayerDeath();
 			}
 			//GAMEOVER
 			else
 			{
 				//シーンの変更
 				//GAMEOVER
+				cInGameController::Instance()->PlayerDeath();
 				DrawFormatString(DISP_SIZE - 300, 800, GetColor(255, 0, 0), "GAMEOVER");
 			}
 		}

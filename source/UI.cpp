@@ -44,7 +44,7 @@ int cUI::UI_Draw()
 	int i, j;
 
 	//UIを表示する灰色の部分の描画
-	DrawBox(DISP_SIZE, 0, DISP_SIZE + UI_SIZE, 960, GetColor(125, 125, 125), TRUE);
+	DrawBox(DISP_SIZE, 0, DISP_SIZE + UI_SIZE, 960, GetColor(80, 80, 80), TRUE);
 
 	//テキスト類の表示
 	/*
