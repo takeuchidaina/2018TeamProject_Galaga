@@ -28,6 +28,7 @@ using namespace std;
 	 //memset(enemy.graph, 0x00, sizeof(enemy.graph));
 	  enemy.graph = graph;
 	  enemy.attackflg = false;
+	  
  }
 
 cBaseEnemy::~cBaseEnemy() {
@@ -62,4 +63,8 @@ int cBaseEnemy::Draw() {
  
 void cBaseEnemy::TractorUpdate() {
 	;
+}
+
+void cBaseEnemy::destroy() {
+	if(CheckHitKey(KEY_INPUT_Z) == true)enemy.mainpos.onActive=NoActive;
 }

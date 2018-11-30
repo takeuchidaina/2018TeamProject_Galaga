@@ -54,16 +54,17 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 
 
 void cRedEnemy::Move( ) {
+	destroy();
 	enemy.mainpos.cx = enemy.mainpos.pos.x + enemy.width / 2;
 	enemy.mainpos.cy = enemy.mainpos.pos.y + enemy.hight / 2;
 	
-		if (enemy.mainpos.onActive == StartMove) {
+	/*	if (enemy.mainpos.onActive == StartMove) {
 			enemy.vct.x = cos(enemy.ang);
 			enemy.vct.y = sin(enemy.ang);
 			enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
 			enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
-		}
-		else if (enemy.mainpos.onActive == YesActive) {
+		}*/
+		 if (enemy.mainpos.onActive == YesActive) {
 			if (enemy.attackflg == TRUE) {
 				if (enemy.moveflg != 7) {
 					enemy.vct.x = cos(enemy.ang)* enemy.dir;
@@ -81,7 +82,7 @@ void cRedEnemy::Move( ) {
 
 
 int cRedEnemy::Update() {
-	if (enemy.attackflg == true) {
+	if (enemy.attackflg == true  && enemy.mainpos.onActive != NoActive) {
 		enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 		enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 		enemy.count++;
@@ -151,11 +152,14 @@ int cRedEnemy::Update() {
 
 
 int cRedEnemy::Draw() {
+	
 	static int a = 0;
 	static int b = 5;
-//	DrawCircle((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 5, GetColor(255, 0,0), true);
-	if(enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * M_PI) / 180), enemy.graph[b], TRUE, TRUE);
-	else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[b], TRUE, TRUE);
+	if (enemy.mainpos.onActive == YesActive || enemy.mainpos.onActive == StartMove) {
+		//	DrawCircle((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 5, GetColor(255, 0,0), true);
+		if (enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * M_PI) / 180), enemy.graph[b], TRUE, TRUE);
+		else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[b], TRUE, TRUE);
+	}
 #ifdef DEBUG
 	//DrawCircle(enemy.target.x, enemy.target.y, enemy.targetr, GetColor(0, 255, 0), true);
 	//DrawCircle((int)enemy.target.x, (int)enemy.target.y, enemy.targetr, GetColor(255, 0, 0), true);
