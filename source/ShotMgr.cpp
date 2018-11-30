@@ -23,7 +23,7 @@ int cShotMgr::Update() {
 	for (int i = 0; i < ENEMYSHOTNUM; i++) {
 		enemyShot[i].Update();
 	}
-	for (int i = 0; i < PLAYERSHOTNUM; i++) {
+	for (int i = 0; i < PLAYERSHOTNUM*2; i++) {
 		playerShot[i].Update();
 	}
 	if (CheckHitKey(KEY_INPUT_SPACE) == TRUE) {
@@ -54,12 +54,25 @@ int cShotMgr::Update() {
 					playerShot[i].Set_ShotCY(tmp.cy);
 					playerShot[i].Set_ShotRad(M_PI * 270 / 180);//上
 					totalShot++;
+					break;
+				}
+				//2機目
+				if (playerShot[i+2].Get_OnActive() == FALSE && shotRate == 0) {
+					playerShot[i+2].Set_OnActive(TRUE);//0=false,1=true
+													 //プレイヤーの座標を受け取って座標をセット
+					sOBJPos tmp2;
+					tmp2 = cPlayer::Instance()->GetPlayer(1);
+					playerShot[i+2].Set_ShotCX(tmp2.cx);
+					playerShot[i+2].Set_ShotCY(tmp2.cy);
+					playerShot[i+2].Set_ShotRad(M_PI * 270 / 180);//上
+					totalShot++;
 					shotRate = 6;
 					break;
 				}
+
 			}
 			//2機目のShot
-			for (int i = 2; i < PLAYERSHOTNUM*2; i++) {
+			/*for (int i = 2; i < PLAYERSHOTNUM*2; i++) {
 				if (playerShot[i].Get_OnActive() == FALSE && shotRate == 0) {
 					playerShot[i].Set_OnActive(TRUE);//0=false,1=true
 					//プレイヤーの座標を受け取って座標をセット
@@ -72,7 +85,7 @@ int cShotMgr::Update() {
 					shotRate = 6;
 					break;
 				}
-			}
+			}*/
 		}
 	}
 	shotRate--;
@@ -86,7 +99,7 @@ int cShotMgr::Draw() {
 	for (int i = 0; i < ENEMYSHOTNUM; i++) {
 		enemyShot[i].Draw(ENEMY, ShotGrHandle);
 	}
-	for (int i = 0; i < PLAYERSHOTNUM; i++) {
+	for (int i = 0; i < PLAYERSHOTNUM*2; i++) {
 		playerShot[i].Draw(PLAYER, ShotGrHandle);
 	}
 
