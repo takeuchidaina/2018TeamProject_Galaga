@@ -128,6 +128,14 @@ public:
 		return enemies[num]->GetEnemyR();
 	};
 
+	double GetEnemyR(int num) {
+		return enemies[num]->GetEnemyR();
+	};
+
+	double GetEnemyonActive(int num) {
+		return enemies[num]->GetEnemyOnActive();
+	};
+
 	int GetEnemyDeath(int num) {
 		enemies[num]->Break();
 	}

@@ -307,8 +307,8 @@ void cEnemyMgr::Update() {
 		//再抽選
 
 		//ボスギャラガだけ動かす(ここをコメントアウトすると全ての敵がランダムに動きます)
-		int random = GetRand(3);
-		switch (random) {
+		int random = GetRand(39);
+		/*switch (random) {
 		case 0:
 			random = 8;
 			break;
@@ -321,9 +321,12 @@ void cEnemyMgr::Update() {
 		case 3:
 			random = 14;
 			break;
-		}
+		}*/
 		if (ReChoiceFlag == 1)enemies[random]->SetEnemyAttackflg();
+	}
 
+	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+		enemies[i]->AnimationCount();
 	}
 
 }
