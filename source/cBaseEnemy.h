@@ -46,7 +46,7 @@ public:
 		virtual int Draw();//描画処理
 		virtual void Move();//移動処理
 		virtual void TractorUpdate();//トラクター用の関数　緑以外ではよんでもなにもない
-		virtual void destroy();
+		virtual void Break() { enemy.mainpos.onActive = false; };
 		//現状態
 		enum eActiveType {
 			StartMove,
