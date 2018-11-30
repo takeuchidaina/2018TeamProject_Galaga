@@ -50,8 +50,8 @@ private:
 	{
 		{ DISP_SIZE + 150, 10,"HIGH",eRed },
 		{ DISP_SIZE + 102, 58,"SCORE",eRed },
-		{ DISP_SIZE + 198, 152,"1UP",eRed },
-		{ DISP_SIZE + 198, 152,"   ",eNone },   //blink
+		{ DISP_SIZE + 182, 200,"1UP",eRed },
+		{ DISP_SIZE + 182, 200,"   ",eNone },   //blink
 	};
 
 protected:
