@@ -9,7 +9,7 @@ using namespace std;
 #include "Struct.h"
 #include "UI.h"
 #include "shot.h"
-#include "shotMgr.h"
+
 
 
 cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double ang, int flg,int *graph) : cBaseEnemy(x,y,r,cnt,spd,ang,flg, graph) {
@@ -53,16 +53,17 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 
 
 void cBlueEnemy:: Move() {
+	destroy();
 	enemy.mainpos.cx = enemy.mainpos.pos.x + (enemy.width / 2);
 	enemy.mainpos.cy = enemy.mainpos.pos.y + (enemy.hight / 2);
 	
-		if (enemy.mainpos.onActive == StartMove) {
+		/*if (enemy.mainpos.onActive == StartMove) {
 			enemy.vct.x = cos(enemy.ang);
 			enemy.vct.y = sin(enemy.ang);
 			enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
 			enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
-		}
-		else if (enemy.mainpos.onActive == YesActive) {
+		}*/
+		 if (enemy.mainpos.onActive == YesActive) {
 			if (enemy.attackflg == TRUE) {
 				if (enemy.moveflg != 7) {
 					enemy.vct.x = cos(enemy.ang)*enemy.dir;
@@ -82,7 +83,7 @@ void cBlueEnemy:: Move() {
 
 
 int cBlueEnemy::Update() {
-	if (enemy.attackflg == true) {
+	if (enemy.attackflg == true && enemy.mainpos.onActive != NoActive) {
 		enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 		enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 		enemy.count++;
@@ -142,9 +143,9 @@ int cBlueEnemy::Update() {
 		case 8:
 			enemy.count = 0;
 			enemy.moveflg = 0;
-			enemy.ang = -90 * M_PI / 180;
+			enemy.ang = 180 * M_PI / 180;
 			enemy.dir *= -1;
-			enemy.attackflg = false;
+			//enemy.attackflg = false;
 			break;
 
 		}
@@ -154,6 +155,7 @@ int cBlueEnemy::Update() {
 }
  
 int cBlueEnemy::Draw() {
+	
 	static int a = 0;
 	static int b = 0;
 	a++;
@@ -162,11 +164,12 @@ int cBlueEnemy::Draw() {
 		b++;
 		if (b > 1)b = 0;
 	}
-
-	if (enemy.dir == RIGHT) 
-		DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + 90*M_PI / 180), enemy.graph[b], TRUE, TRUE);
-	else {
-		DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[b], TRUE, TRUE);
+	if (enemy.mainpos.onActive == YesActive || enemy.mainpos.onActive == StartMove) {
+		if (enemy.dir == RIGHT)
+			DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + 90 * M_PI / 180), enemy.graph[b], TRUE, TRUE);
+		else {
+			DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[b], TRUE, TRUE);
+		}
 	}
 #ifdef DEBUG
 /*	DrawFormatString(800, 825, GetColor(255, 255, 255), "%.2lf", enemy.target.x);

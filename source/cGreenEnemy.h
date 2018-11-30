@@ -12,7 +12,7 @@ private:
 	int tractor[15];
 	int tractorflg;
 	sOBJPos tmpplayer;
-	int tmpx, tmpy;
+	double tmpx, tmpy;
 public:
 	cGreenEnemy(double, double, double, int, double, double, int, int*);
 	virtual void Move();
