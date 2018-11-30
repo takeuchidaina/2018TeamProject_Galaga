@@ -65,7 +65,8 @@ private:
 	char StageFilePath[256];  //読み込むファイルの名前を入れる配列
 	int  n, num;              //n,num
 	int  Phaseflag;           //移動段階フラグ
-	int  EnemyGraph[20];          //敵の画像 20体分よみこむ
+	int  EnemyGraph[20];      //敵の画像 20体分よみこむ
+	int  Stayflag;            //敵が入場後に動いていないか 0:動いている 1:動いていない
 
 	//関数のプロトタイプ宣言
 	//void Join(sEnemy&);
@@ -125,6 +126,14 @@ public:
 
 	double GetEnemyPosR(int num) {
 		return enemies[num]->GetEnemyR();
+	};
+
+	/*
+	入場後敵が何も動いていない状態を獲得する
+	0:動いている 1:動いていない
+	*/
+	int GetEnemyStay(){
+		return Stayflag;
 	};
 
 };
