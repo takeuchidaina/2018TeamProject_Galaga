@@ -323,7 +323,10 @@ void cEnemyMgr::Update() {
 			break;
 		}*/
 		if (ReChoiceFlag == 1)enemies[random]->SetEnemyAttackflg();
+	}
 
+	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+		enemies[i]->AnimationCount();
 	}
 
 }
