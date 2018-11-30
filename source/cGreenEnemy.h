@@ -7,6 +7,7 @@
 
 class cGreenEnemy : public cBaseEnemy {
 private:
+	
 	double tractormoveang[10];
 	double tractorcountflg[10];
 	int tractor[15];

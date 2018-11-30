@@ -64,6 +64,9 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 	tmpx = 0;
 	tmpy = 0;
 
+	 a = 0;
+	 b = 10;
+
 	LoadDivGraph("../resource/Image/Galaga_OBJ_effect.png", 15, 5, 3, 50, 82, tractor);
 }
 
@@ -96,6 +99,7 @@ void cGreenEnemy::Move( ) {
 
 
 int cGreenEnemy::Update() {
+	
 	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 	if (tractorflg == 0 && enemy.attackflg == true) {
@@ -245,11 +249,9 @@ void cGreenEnemy::TractorUpdate() {
 
 int cGreenEnemy::Draw() {
 	
-	static int a = 0;
-	static int b = 10;
+	
 	static int c = 0;
 	static int d = 0;
-	a++;
 	if (a > 60) {
 		a = 0;
 		b++;

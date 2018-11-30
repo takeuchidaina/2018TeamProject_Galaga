@@ -48,12 +48,12 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 	enemy.target.x = x;
 	enemy.target.y = y;
 	enemy.targetr = 5;
-
+	a = 0;
+	b = 0;
 }
 
 
 void cBlueEnemy:: Move() {
-
 	enemy.mainpos.cx = enemy.mainpos.pos.x + (enemy.width / 2);
 	enemy.mainpos.cy = enemy.mainpos.pos.y + (enemy.hight / 2);
 	
@@ -95,7 +95,7 @@ int cBlueEnemy::Update() {
 		switch (enemy.moveflg)
 		{
 		case 0:
-			if (enemy.count == 0)enemy.ang = 180 * M_PI / 180;
+			if (enemy.count == 0)enemy.ang = -90 * M_PI / 180;
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
@@ -145,7 +145,7 @@ int cBlueEnemy::Update() {
 			enemy.moveflg = 0;
 			enemy.ang = 180 * M_PI / 180;
 			enemy.dir *= -1;
-			//enemy.attackflg = false;
+			enemy.attackflg = false;
 			break;
 
 		}
@@ -155,12 +155,9 @@ int cBlueEnemy::Update() {
 }
  
 int cBlueEnemy::Draw() {
-	
-	static int a = 0;
-	static int b = 0;
-	a++;
+
 	if (a > 60) {
-		a = 0;
+		a = 0; 
 		b++;
 		if (b > 1)b = 0;
 	}
@@ -168,17 +165,18 @@ int cBlueEnemy::Draw() {
 		if (enemy.dir == RIGHT)
 			DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + 90 * M_PI / 180), enemy.graph[b], TRUE, TRUE);
 		else {
-			DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[b], TRUE, TRUE);
+			DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[a/60%2], TRUE, TRUE);
 		}
 	}
-#ifdef DEBUG
-/*	DrawFormatString(800, 825, GetColor(255, 255, 255), "%.2lf", enemy.target.x);
+#ifndef DEBUG
+	DrawFormatString(0, 100, GetColor(255, 255, 255), "%d", a);
+	DrawFormatString(800, 825, GetColor(255, 255, 255), "%.2lf", enemy.target.x);
 	DrawFormatString(800, 840, GetColor(255, 255, 255), "%.2lf", enemy.target.y);
 	DrawFormatString(800, 855, GetColor(255, 255, 255), "%d", enemy.count);
-	DrawFormatString(800, 870, GetColor(255, 255, 255), "%d", enemy.attackflg);*/
+	DrawFormatString(800, 870, GetColor(255, 255, 255), "%d", enemy.attackflg);
 	DrawFormatString(800, 885, GetColor(255, 255, 255), "%d", enemy.moveflg);
-	/*DrawFormatString(800, 900, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.x);
-	DrawFormatString(800, 915, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.y);*/
+	DrawFormatString(800, 900, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.x);
+	DrawFormatString(800, 915, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.y);
 	DrawFormatString(800, 935, GetColor(255, 255, 255), "%.2lf", enemy.dir);
 #endif // 
 
