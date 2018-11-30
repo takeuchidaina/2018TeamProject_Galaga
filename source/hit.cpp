@@ -35,12 +35,6 @@ void cHit::Draw() {
 
 }
 
-/************************************************************
-
- 関数：void cHit::Player_EnemyShot
- 説明：自機と敵弾の当たり判定
-
-************************************************************/
 void cHit::Player_EnemyShot() {
 
 	for (int i = 0; i < MAXMACHINE; i++) {
@@ -51,16 +45,16 @@ void cHit::Player_EnemyShot() {
 
 		for (int j = 0; j < ENEMYSHOTNUM; j++) {
 
-			S_onActive = cShotMgr::Instance()->GetShotOnActive(ENEMY, j);
-			S_cx = cShotMgr::Instance()->GetShotCX(ENEMY, j);
-			S_cy = cShotMgr::Instance()->GetShotCY(ENEMY, j);
-			S_r = cShotMgr::Instance()->GetShotR(ENEMY, j);
+			S_onActive = cShotMgr::Instance()->GetShotonActive(j);
+			S_cx = cShotMgr::Instance()->GetShotX(j);
+			S_cy = cShotMgr::Instance()->GetEnemyPosY(j);
+			S_r = cShotMgr::Instance()->GetEnemyPosR(j);
 
 			if (S_onActive == FALSE) continue;
 
-			len = ((S_cx - Player.cx) * (S_cx - Player.cx)) + ((S_cy - Player.cy)*(S_cy - Player.cy));
+			len = ((tmpEShot[j]->Get_ShotCX() - Player.cx) * (tmpEShot[j]->Get_ShotCX() - Player.cx)) + ((tmpEShot[j]->Get_ShotCY() - Player.cy)*(tmpEShot[j]->Get_ShotCY() - Player.cy));
 
-			if (len <= ((S_r + Player.r) * (S_r + Player.r))) {
+			if (len <= ((tmpEShot[j]->Get_ShotR() + Player.r) * (tmpEShot[j]->Get_ShotR() + Player.r))) {
 
 				if (cPlayer::Instance()->GetDoubleFlg() == TRUE) {
 					cPlayer::Instance()->Break(eDeath, i);
@@ -76,12 +70,6 @@ void cHit::Player_EnemyShot() {
 	}
 }
 
-/************************************************************
-
- 関数：void cHit::Player_Enemy
- 説明：自機と敵機の当たり判定
-
-************************************************************/
 void cHit::Player_Enemy() {
 
 	static int maxEnemy = cEnemyMgr::Instance()->GetMaxEnemy();
@@ -107,86 +95,18 @@ void cHit::Player_Enemy() {
 
 				if (cPlayer::Instance()->GetDoubleFlg() == TRUE) {
 					cPlayer::Instance()->Break(eDeath, i);
-					cEnemyMgr::Instance()->GetEnemyDeath(j);
+					cEnemyMgr::Break(j);
 				}
 
 				else {
 					cPlayer::Instance()->Break(eDeath, i);
-					cEnemyMgr::Instance()->GetEnemyDeath(j);
+					cEnemyMgr::Break(j);
 				}
 			}
 		}
 	}
 
 }
-
-/************************************************************
-
- 関数：void cHit::PlayerShot_Enemy
- 説明：自弾と敵機の当たり判定
-
-************************************************************/
-void cHit::PlayerShot_Enemy() {
-
-	static int maxEnemy = cEnemyMgr::Instance()->GetMaxEnemy();
-
-	for (int i = 0; i < maxEnemy; i++) {
-
-		E_onActive = cEnemyMgr::Instance()->GetEnemyonActive(i);
-		E_cx = cEnemyMgr::Instance()->GetEnemyPosX(i);
-		E_cy = cEnemyMgr::Instance()->GetEnemyPosY(i);
-		E_r = cEnemyMgr::Instance()->GetEnemyPosR(i);
-
-		if (E_onActive == FALSE) continue;
-
-		for (int j = 0; j < PLAYERSHOTNUM; j++) {
-
-			S_onActive = cShotMgr::Instance()->GetShotOnActive(PLAYER, j);
-			S_cx = cShotMgr::Instance()->GetShotCX(PLAYER, j);
-			S_cy = cShotMgr::Instance()->GetShotCY(PLAYER, j);
-			S_r = cShotMgr::Instance()->GetShotR(PLAYER, j);
-
-			if (S_onActive == FALSE) continue;
-
-			double len = (S_cx - E_cx)*(S_cx - E_cx) + (S_cy - E_cy)*(S_cy - E_cy);
-
-			if (len <= ((E_r + S_r)*(E_r + S_r))) {
-				cShotMgr::Instance()->Break(PLAYER, j);
-				cEnemyMgr::Instance()->GetEnemyDeath(i);
-			}
-		}
-	}
-}
-
-/************************************************************
-関数：void cHit::BeemHit
-説明：トラクタービームの当たり判定
-引数：sOBJPos *Player
-：cShot *enemyShot
-戻値：なし
-************************************************************
-void cHit::BeemHit() {
-
-sOBJPos Player[2];
-
-
-if (((tmpEnemy.cx - beemR) <= Player.cx && (tmpEnemy.cx + beemR) >= Player.cx)) {
-cInGameMgr(eTractor);
-}
-
-}*/
-
-
-
-
-
-
-
-
-
-
-
-
 /************************************************************
 	関数：void cHit::Hit
 	説明：(自機と敵弾) (自機と敵機) (自弾と敵機) の当たり判定
@@ -218,9 +138,9 @@ void cHit::Hit() {
 
 			if (tmpEShot[j]->Get_OnActive() == FALSE) continue;
 
-			double len = ( (S_cx - Player.cx) * (S_cx - Player.cx) ) + ( (S_cy - Player.cy)*(S_cy - Player.cy) );
+			double len = ( (tmpEShot[j]->Get_ShotCX() - Player.cx) * (tmpEShot[j]->Get_ShotCX() - Player.cx) ) + ( (tmpEShot[j]->Get_ShotCY() - Player.cy)*(tmpEShot[j]->Get_ShotCY() - Player.cy) );
 
-			if ( len <= ((S_r + Player.r) * (S_r + Player.r)) ) {
+			if ( len <= ((tmpEShot[j]->Get_ShotR() + Player.r) * (tmpEShot[j]->Get_ShotR() + Player.r)) ) {
 
 				if (Player[eLeftMachine].onActive == TRUE && Player[eRightMachine].onActive == TRUE) {
 					cPlayer::Instance()->Break(eDeath, i);
@@ -268,7 +188,7 @@ void cHit::Hit() {
 	/* 自弾と敵機　*
 	for (int i = 0; i < maxEnemy; i++) {
 
-		//if (E_onActive == FALSE) continue;
+		//if (tmpEnemy[i].mainpos.onActive == FALSE) continue;
 
 		double E_cx = cEnemyMgr::Instance()->GetEnemyPosX(i);
 		double E_cy = cEnemyMgr::Instance()->GetEnemyPosY(i);
@@ -276,15 +196,32 @@ void cHit::Hit() {
 
 		for (int j = 0; j < sizeof(tmpPShot); j++) {
 
-			if (S_onActive == FALSE) continue;
+			if (tmpPShot[j]->Get_OnActive() == FALSE) continue;
 
-			double len = (S_cx - E_cx)*(S_cx - E_cx) + (S_cy - E_cy)*(S_cy - E_cy);
+			double len = (tmpPShot[j]->Get_ShotCX() - E_cx)*(tmpPShot[j]->Get_ShotCX() - E_cx) + (tmpPShot[j]->Get_ShotCY() - E_cy)*(tmpPShot[j]->Get_ShotCY() - E_cy);
 
-			if (len <= ((E_r + S_r)*(E_r + S_r)) ) {
+			if (len <= ((E_r + tmpPShot[j]->Get_ShotR())*(E_r + tmpPShot[j]->Get_ShotR())) ) {
 				cShotMgr::Instance()->Break(PLAYER, j);
 				cEnemyMgr::Break(i);
 			}
 		}
 	}
-}*/
+}
 
+/************************************************************
+関数：void cHit::BeemHit 
+説明：トラクタービームの当たり判定
+引数：sOBJPos *Player
+	：cShot *enemyShot
+戻値：なし
+************************************************************
+void cHit::BeemHit() {
+
+	sOBJPos Player[2];
+	
+
+	if (((tmpEnemy.cx - beemR) <= Player.cx && (tmpEnemy.cx + beemR) >= Player.cx)) {
+		cInGameMgr(eTractor);
+	}
+
+}*/
