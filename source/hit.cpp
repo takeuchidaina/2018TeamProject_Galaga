@@ -101,13 +101,13 @@ void cHit::Hit() {
 				/* プレイヤーが2機いるときに片方がダウン */
 				if (tmpPlayer[eLeftMachine].onActive == TRUE && tmpPlayer[eRightMachine].onActive == TRUE) {
 					cPlayer::Instance()->Break(eDeath, i);
-					cBaseEnemy::Break(j);
+					cEnemyMgr::Break(j);
 				}
 
 				/* プレイヤーが1機のときにダウン */
 				else {
 					cPlayer::Instance()->Break(eDeath, i);
-					cBaseEnemy::Break(j);
+					cEnemyMgr::Break(j);
 				}
 			}
 		}
@@ -130,7 +130,7 @@ void cHit::Hit() {
 
 			if (len <= ((tmpEnemy_r + tmpPShot[j]->Get_ShotR())*(tmpEnemy_r + tmpPShot[j]->Get_ShotR())) ) {
 				cShotMgr::Instance()->Break(PLAYER, j);
-				cBaseEnemy::Break(i);
+				cEnemyMgr::Break(i);
 			}
 		}
 	}
