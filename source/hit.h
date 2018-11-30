@@ -12,6 +12,7 @@
 
 #include "Singleton.h"
 #include "Struct.h"
+#include "Player.h"
 
 
 /*
@@ -31,7 +32,18 @@ class cHit: public cSingleton<cHit>
 	friend cSingleton< cHit >;
 private:
 
-	void Hit();		//“–‚½‚è”»’è
+	//void Hit();		//“–‚½‚è”»’è
+
+	void Player_EnemyShot();	//©‹@‚Æ“G’e‚Ì“–‚½‚è”»’è
+	void Player_Enemy();		//©‹@‚Æ“G‹@‚Ì“–‚½‚è”»’è
+	void PlayerShot_Enemy();	//©’e‚Æ“G‹@‚Ì“–‚½‚è”»’è
+
+	//double onActive, cx, cy, r;		//ƒvƒŒƒCƒ„[
+	sOBJPos Player;
+	double S_onActive, S_cx, S_cy, S_r;		//’e
+	double E_onActive, E_cx, E_cy, E_r;		//“G
+
+	double len;
 
 protected:
 
