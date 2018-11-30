@@ -8,10 +8,11 @@
 //コンストラクタ(初期化)
 cShotMgr::cShotMgr() {
 	enemyShot = new cShot[ENEMYSHOTNUM];
-	playerShot = new cShot[PLAYERSHOTNUM];
+	playerShot = new cShot[PLAYERSHOTNUM*2];//*2は2機分
 	totalShot = 0;
 	shotRate = 0;
-	checkGr = LoadDivGraph("../resource/Image/Galaga_OBJ_bullet.png", 4, 4, 0, 10, 12, ShotGrHandle);
+	//LoadDivGraph("../resource/Image/Galaga_OBJ_dualFighter.png", 4, 4, 1, 16, 16, ShotGrHandle);
+	checkGr = LoadDivGraph("../resource/Image/Galaga_OBJ_bullet.png", 4, 4, 1, 10, 12, ShotGrHandle);
 	if (checkGr == -1) {
 		ErrBox("Shot画像読み込みエラー");
 	}
@@ -22,23 +23,69 @@ int cShotMgr::Update() {
 	for (int i = 0; i < ENEMYSHOTNUM; i++) {
 		enemyShot[i].Update();
 	}
-	for (int i = 0; i < PLAYERSHOTNUM; i++) {
+	for (int i = 0; i < PLAYERSHOTNUM*2; i++) {
 		playerShot[i].Update();
 	}
 	if (CheckHitKey(KEY_INPUT_SPACE) == TRUE) {
-		for (int i = 0; i < PLAYERSHOTNUM; i++) {
-			if (playerShot[i].Get_OnActive() == FALSE && shotRate == 0) {
-				playerShot[i].Set_OnActive(TRUE);//0=false,1=true
-												 //プレイヤーの座標を受け取って座標をセット
-				sOBJPos tmp;
-				tmp = cPlayer::Instance()->GetPlayer(0);
-				playerShot[i].Set_ShotCX(tmp.cx);
-				playerShot[i].Set_ShotCY(tmp.cy);
-				playerShot[i].Set_ShotRad(M_PI*270/180);//上
-				totalShot++;
-				shotRate = 6;
-				break;
+		if (cPlayer::Instance()->GetDoubleFlg()==0) {
+			for (int i = 0; i < PLAYERSHOTNUM; i++) {
+				if (playerShot[i].Get_OnActive() == FALSE && shotRate == 0) {
+					playerShot[i].Set_OnActive(TRUE);//0=false,1=true
+					//プレイヤーの座標を受け取って座標をセット
+					sOBJPos tmp;
+					tmp = cPlayer::Instance()->GetPlayer(0);
+					playerShot[i].Set_ShotCX(tmp.cx);
+					playerShot[i].Set_ShotCY(tmp.cy);
+					playerShot[i].Set_ShotRad(M_PI * 270 / 180);//上
+					totalShot++;
+					shotRate = 6;
+					break;
+				}
 			}
+		}
+		else if (cPlayer::Instance()->GetDoubleFlg() == 1) {
+			for (int i = 0; i < PLAYERSHOTNUM; i++) {
+				if (playerShot[i].Get_OnActive() == FALSE && shotRate == 0) {
+					playerShot[i].Set_OnActive(TRUE);//0=false,1=true
+					//プレイヤーの座標を受け取って座標をセット
+					sOBJPos tmp;
+					tmp = cPlayer::Instance()->GetPlayer(0);
+					playerShot[i].Set_ShotCX(tmp.cx);
+					playerShot[i].Set_ShotCY(tmp.cy);
+					playerShot[i].Set_ShotRad(M_PI * 270 / 180);//上
+					totalShot++;
+					break;
+				}
+				//2機目
+				if (playerShot[i+2].Get_OnActive() == FALSE && shotRate == 0) {
+					playerShot[i+2].Set_OnActive(TRUE);//0=false,1=true
+													 //プレイヤーの座標を受け取って座標をセット
+					sOBJPos tmp2;
+					tmp2 = cPlayer::Instance()->GetPlayer(1);
+					playerShot[i+2].Set_ShotCX(tmp2.cx);
+					playerShot[i+2].Set_ShotCY(tmp2.cy);
+					playerShot[i+2].Set_ShotRad(M_PI * 270 / 180);//上
+					totalShot++;
+					shotRate = 6;
+					break;
+				}
+
+			}
+			//2機目のShot
+			/*for (int i = 2; i < PLAYERSHOTNUM*2; i++) {
+				if (playerShot[i].Get_OnActive() == FALSE && shotRate == 0) {
+					playerShot[i].Set_OnActive(TRUE);//0=false,1=true
+					//プレイヤーの座標を受け取って座標をセット
+					sOBJPos tmp;
+					tmp = cPlayer::Instance()->GetPlayer(1);
+					playerShot[i].Set_ShotCX(tmp.cx);
+					playerShot[i].Set_ShotCY(tmp.cy);
+					playerShot[i].Set_ShotRad(M_PI * 270 / 180);//上
+					totalShot++;
+					shotRate = 6;
+					break;
+				}
+			}*/
 		}
 	}
 	shotRate--;
@@ -47,12 +94,15 @@ int cShotMgr::Update() {
 }
 
 int cShotMgr::Draw() {
+	//デバッグ用
+	//DrawExtendGraph(20, 60, 400, 600, ShotGrHandle[3], TRUE);
 	for (int i = 0; i < ENEMYSHOTNUM; i++) {
 		enemyShot[i].Draw(ENEMY, ShotGrHandle);
 	}
-	for (int i = 0; i < PLAYERSHOTNUM; i++) {
+	for (int i = 0; i < PLAYERSHOTNUM*2; i++) {
 		playerShot[i].Draw(PLAYER, ShotGrHandle);
 	}
+
 
 #ifndef PLAYER_SHOT_DEBUG
 	DrawFormatString(20, 500, GetColor(255, 0, 255), "totalShot:%d", totalShot);

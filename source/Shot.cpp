@@ -35,17 +35,20 @@ int cShot::Update() {
 int cShot::Draw(int num,int *GrHandle) {
 	if (num == PLAYER) {//0=playerShot 1=enemyShot
 		if (OnActive == TRUE) {//0=false,1=true
-			DrawBox(cx-w/2, cy-h/2, cx+w/2, cy+h/2, GetColor(255, 255, 255), TRUE);
-		  //DrawExtendGraph(x, y, x + w, y + h, *GrHandle+3, FALSE);
-		  //DrawGraph(cx, cy, *GrHandle+3, FALSE);
-	  }
+		  //DrawBox(cx-w/2, cy-h/2, cx+w/2, cy+h/2, GetColor(255, 255, 255), TRUE);
+			//DrawExtendGraph(cx-w/2, cy-h/2, cx+w/2, cy+h/2, *(GrHandle + 3), TRUE);
+			DrawExtendGraph(cx-IMAGEMAG/2, cy-IMAGEMAG/2, cx+IMAGEMAG/2, cy+IMAGEMAG/2, *(GrHandle + 3), TRUE);
+			//DrawGraph(cx, cy, *(GrHandle+3), TRUE);
+		}
+	
 	}
 
 	if (num == ENEMY) {//0=playerShot 1=enemyShot
 		if (OnActive == TRUE) {
-			DrawBox(cx-w/2, cy-h/2, cx+w/2, cy+h/2, GetColor(255, 255, 255), TRUE);
+			//DrawBox(cx-w/2, cy-h/2, cx+w/2, cy+h/2, GetColor(255, 255, 255), TRUE);
 			//DrawCircle(x, y, x + w, y + h, GetColor(255, 255, 255), TRUE);
-			//DrawExtendGraph(x, y, x + w, y + h, GrHandle[0], FALSE);
+			//DrawExtendGraph(cx-w/2, cy-h/2, cx+w/2, cy+h/2, *GrHandle, TRUE);
+			DrawExtendGraph(cx - IMAGEMAG / 2, cy - IMAGEMAG / 2, cx + IMAGEMAG / 2, cy + IMAGEMAG / 2, *(GrHandle + 3), TRUE);
 		}
 	}
 	return 0;
