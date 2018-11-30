@@ -34,7 +34,7 @@ int cShotMgr::Update() {
 					//プレイヤーの座標を受け取って座標をセット
 					sOBJPos tmp;
 					tmp = cPlayer::Instance()->GetPlayer(0);
-					playerShot[i].Set_ShotCX(tmp.cx);
+					playerShot[i].Set_ShotCX(tmp.cx-6);//微調整
 					playerShot[i].Set_ShotCY(tmp.cy);
 					playerShot[i].Set_ShotRad(M_PI * 270 / 180);//上
 					totalShot++;
@@ -50,7 +50,7 @@ int cShotMgr::Update() {
 					//プレイヤーの座標を受け取って座標をセット
 					sOBJPos tmp;
 					tmp = cPlayer::Instance()->GetPlayer(0);
-					playerShot[i].Set_ShotCX(tmp.cx);
+					playerShot[i].Set_ShotCX(tmp.cx-6);
 					playerShot[i].Set_ShotCY(tmp.cy);
 					playerShot[i].Set_ShotRad(M_PI * 270 / 180);//上
 					totalShot++;
@@ -61,7 +61,7 @@ int cShotMgr::Update() {
 													 //プレイヤーの座標を受け取って座標をセット
 					sOBJPos tmp2;
 					tmp2 = cPlayer::Instance()->GetPlayer(1);
-					playerShot[i+2].Set_ShotCX(tmp2.cx);
+					playerShot[i+2].Set_ShotCX(tmp2.cx-6);
 					playerShot[i+2].Set_ShotCY(tmp2.cy);
 					playerShot[i+2].Set_ShotRad(M_PI * 270 / 180);//上
 					totalShot++;
