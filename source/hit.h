@@ -39,7 +39,7 @@ public:
 
 	void Update();	//計算処理
 	void Draw();	//描写処理
-//	void BeemHit(sOBJPos); //トラクタービーム当たり判定
+	void BeemHit(); //トラクタービーム当たり判定
 
 };
 

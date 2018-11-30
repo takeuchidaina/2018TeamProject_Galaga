@@ -7,6 +7,7 @@
 #include"Shot.cpp"
 #include"Player.cpp"
 #include"EnemyMgr.h"
+#include"cBaseEnemy.h"
 
 
 /* コンストラクタ */
@@ -33,23 +34,23 @@ void cHit::Draw() {
 /************************************************************
 	関数：void cHit::Hit
 	説明：(自機と敵弾) (自機と敵機) (自弾と敵機) の当たり判定
-	引数：sOBJPos tmpPlayer
-		：cShot tmpEShot
-		：		tmpPShot
-		：sEnemy tmpEnemy
-	戻値：なし
+	引数：なし
+	呼び出す関数：
+		　cPlayer::Instance()->Break("プレイヤーの状態", "どっちのプレイヤーか")
+		  cShotMgr::Instance()->Break("どっちの弾か", "どの弾か")
+		  cBaseEnemy::Break("どの敵か")
 ************************************************************/
 void cHit::Hit() {
-
-	
 
 	sOBJPos tmpPlayer[2];
 	cShot *tmpEShot[20];
 	cShot *tmpPShot[2];
-	sEnemy tmpEnemy[20];
+	//sEnemy tmpEnemy[20];
 
 	tmpPShot[0] = cShotMgr::Instance()->GetShot(PLAYER);
 	tmpEShot[0] = cShotMgr::Instance()->GetShot(ENEMY);
+
+	static int maxEnemy = cEnemyMgr::Instance()->GetMaxEnemy();
 
 
 	/* 自機と敵弾 */
@@ -65,15 +66,13 @@ void cHit::Hit() {
 
 			if ( len <= ((tmpEShot[j]->Get_ShotR + tmpPlayer[i].r) * (tmpEShot[j]->Get_ShotR + tmpPlayer[i].r)) ) {
 
-				/* プレイヤーが2機いるときに片方がダウン
-				   呼び出し関数：cPlayer::Braik("プレイヤーの状態", "どっちのプレイヤーか") */
+				/* プレイヤーが2機いるときに片方がダウン */
 				if (tmpPlayer[eLeftMachine].onActive == TRUE && tmpPlayer[eRightMachine].onActive == TRUE) {
 					cPlayer::Instance()->Break(eDeath, i);
 					cShotMgr::Instance()->Break(ENEMY, j);
 				}
 
-				/* プレイヤーが1機のときにダウン
-				   呼び出し関数：cPlayer::Braik("プレイヤーの状態", "どっちのプレイヤーか") */
+				/* プレイヤーが1機のときにダウン */
 				else {
 					cPlayer::Instance()->Break(eDeath, i);
 					cShotMgr::Instance()->Break(ENEMY, j);
@@ -83,49 +82,55 @@ void cHit::Hit() {
 	}
 
 	/* 自機と敵機　*/
-	/*for (int i = 0; i < MAXMACHINE; i++) {
+	for (int i = 0; i < MAXMACHINE; i++) {
 
 		if (tmpPlayer[i].onActive == FALSE) continue;
 
-		for (int j = 0; j < sizeof(tmpEnemy); j++) {
+		for (int j = 0; j < maxEnemy; j++) {
 
-			if (tmpEnemy[j].onActive == FALSE) continue;
+			//if (tmpEnemy[j].mainpos.onActive == FALSE) continue;
 
-			int len = (tmpEnemy[j].cx - tmpPlayer[i].cx)*(tmpEnemy[j].cx - tmpPlayer[i].cx) + (tmpEnemy[j].cy - tmpPlayer[i].cy)*(tmpEnemy[j].cy - tmpPlayer[i].cy);
+			int tmpEnemy_cx = cEnemyMgr::Instance()->GetEnemyPosX(j);
+			int tmpEnemy_cy = cEnemyMgr::Instance()->GetEnemyPosY(j);
+			int tmpEnemy_r = cEnemyMgr::Instance()->GetEnemyPosR(j);
 
-			if (len <= ((tmpEnemy[j].r + tmpPlayer[i].r)*(tmpEnemy[j].r + tmpPlayer[i].r))) {
+			int len = (tmpEnemy_cx - tmpPlayer[i].cx)*(tmpEnemy_cx - tmpPlayer[i].cx) + (tmpEnemy_cy - tmpPlayer[i].cy)*(tmpEnemy_cy - tmpPlayer[i].cy);
+
+			if (len <= ((tmpEnemy_r + tmpPlayer[i].r)*(tmpEnemy_r + tmpPlayer[i].r))) {
 				
-				/* プレイヤーが2機いるときに片方がダウン
-				呼び出し関数：cPlayer::Braik("プレイヤーの状態", "どっちのプレイヤーか") *
+				/* プレイヤーが2機いるときに片方がダウン */
 				if (tmpPlayer[eLeftMachine].onActive == TRUE && tmpPlayer[eRightMachine].onActive == TRUE) {
 					cPlayer::Instance()->Break(eDeath, i);
-					sEnemy::Instance()->Break(j);
+					cBaseEnemy::Break(j);
 				}
 
-				/* プレイヤーが1機のときにダウン
-				呼び出し関数：cPlayer::Braik("プレイヤーの状態", "どっちのプレイヤーか") *
+				/* プレイヤーが1機のときにダウン */
 				else {
 					cPlayer::Instance()->Break(eDeath, i);
-					sEnemy::Instance()->Break(j);
+					cBaseEnemy::Break(j);
 				}
 			}
 		}
-	}*/
+	}
 
 	/* 自弾と敵機　*/
-	/*for (int i = 0; i < sizeof(enemy); i++) {
+	for (int i = 0; i < maxEnemy; i++) {
 
-		if (enemy[i].OnActive == FALSE) continue;
+		//if (tmpEnemy[i].mainpos.onActive == FALSE) continue;
+
+		int tmpEnemy_cx = cEnemyMgr::Instance()->GetEnemyPosX(i);
+		int tmpEnemy_cy = cEnemyMgr::Instance()->GetEnemyPosY(i);
+		int tmpEnemy_r = cEnemyMgr::Instance()->GetEnemyPosR(i);
 
 		for (int j = 0; j < sizeof(tmpPShot); j++) {
 
 			if (tmpPShot[j]->Get_OnActive == FALSE) continue;
 
-			int len = (tmpPShot[j]->Get_ShotCX - enemy[i].cx)*(tmpPShot[j]->Get_ShotCX - enemy[i].cx) + (tmpPShot[j]->Get_ShotCY - enemy[i].cy)*(tmpPShot[j]->Get_ShotCY - enemy[i].cy);
+			int len = (tmpPShot[j]->Get_ShotCX - tmpEnemy_cx)*(tmpPShot[j]->Get_ShotCX - tmpEnemy_cx) + (tmpPShot[j]->Get_ShotCY - tmpEnemy_cy)*(tmpPShot[j]->Get_ShotCY - tmpEnemy_cy);
 
-			if (len <= ((enemy[i].r + tmpPShot[j]->Get_ShotR)*(enemy[i].r + tmpPShot[j]->Get_ShotR)) ) {
+			if (len <= ((tmpEnemy_r + tmpPShot[j]->Get_ShotR)*(tmpEnemy_r + tmpPShot[j]->Get_ShotR)) ) {
 				cShotMgr::Instance()->Break(PLAYER, j);
-				sEnemy::Instance()->Break(i);
+				cBaseEnemy::Break(i);
 			}
 		}
 	}
@@ -138,10 +143,10 @@ void cHit::Hit() {
 	：cShot *enemyShot
 戻値：なし
 ************************************************************
-void cHit::BeemHit(sOBJPos Player ,sEnemy enemy) {
+void cHit::BeemHit() {
 
 	sOBJPos tmpPlayer[2];
-	sEnemy tmpEnemy[20];
+	
 
 	if (((tmpEnemy.cx - beemR) <= tmpPlayer.cx && (tmpEnemy.cx + beemR) >= tmpPlayer.cx)) {
 		cInGameMgr(eTractor);
