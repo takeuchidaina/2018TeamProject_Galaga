@@ -7,7 +7,7 @@
 #include "Singleton.h"
 #include "WinBox.h"
 
-class cEnemyMgr : public cSingleton <cEnemyMgr>{
+class cEnemyMgr : public cSingleton <cEnemyMgr> {
 	cEnemyMgr();
 	friend cSingleton<cEnemyMgr>;
 
@@ -65,10 +65,11 @@ private:
 	char StageFilePath[256];  //読み込むファイルの名前を入れる配列
 	int  n, num;              //n,num
 	int  Phaseflag;           //移動段階フラグ
-	int  EnemyGraph[20];          //敵の画像 20体分よみこむ
+	int  EnemyGraph[20];      //敵の画像 20体分よみこむ
+	int  Stayflag;            //敵が入場後に動いていないか 0:動いている 1:動いていない
 
-	//関数のプロトタイプ宣言
-	//void Join(sEnemy&);
+							  //関数のプロトタイプ宣言
+							  //void Join(sEnemy&);
 	void Move(sEnemy&);
 	void Shifted(sEnemy&, sEnemy&);
 	cBaseEnemy* enemies[40];
@@ -100,7 +101,7 @@ public:
 
 	}
 	double GetTargetY(cBaseEnemy* p) {
-		/*return enemy[sizeof(p - enemies[0]) / sizeof(cBaseEnemy*)].target.y; 
+		/*return enemy[sizeof(p - enemies[0]) / sizeof(cBaseEnemy*)].target.y;
 		*/
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 			if (p == enemies[i]) {
@@ -110,12 +111,12 @@ public:
 
 	}
 
-	/*hitにx,y,r,敵数の最大値をわたす*/
+	/*hitにx,y,r,敵数の最大値,敵の死亡する関数をわたす*/
 	int GetMaxEnemy() {
 		return 40;
 	}
 
-	double GetEnemyPosX(int num){
+	double GetEnemyPosX(int num) {
 		return enemies[num]->GetEnemyX();
 	};
 
@@ -125,6 +126,18 @@ public:
 
 	double GetEnemyPosR(int num) {
 		return enemies[num]->GetEnemyR();
+	};
+
+	int GetEnemyDeath(int num) {
+		enemies[num]->Break();
+	}
+
+	/*
+	入場後敵が何も動いていない状態を獲得する
+	0:動いている 1:動いていない
+	*/
+	int GetEnemyStay() {
+		return Stayflag;
 	};
 
 };

@@ -6,6 +6,7 @@
 #include "cBlueEnemy.h"
 #include "cRedEnemy.h"
 #include "cGreenEnemy.h"
+#include "Struct.h"
 
 //コンストラクタ
 cEnemyMgr::cEnemyMgr() {
@@ -17,15 +18,16 @@ cEnemyMgr::cEnemyMgr() {
 	strcpy(StageFilePath, "../resource/MAP/Stage_2.csv");
 	Phaseflag = 0;
 	onActiveCount = 0;
+	Stayflag = 0;
 
 	//画像の読み込み処理
-	LoadDivGraph("../resource/Image/Galaga_OBJ_enemy1616.png", 20, 5, 4, 16, 16,EnemyGraph);
+	LoadDivGraph("../resource/Image/Galaga_OBJ_enemy1616.png", 20, 5, 4, 16, 16, EnemyGraph);
 
 	//Stage_1.csv
 	StageHandle = FileRead_open(StageFilePath);
 	if (StageHandle == 0);  //エラー処理の記入途中
 
-	//最初の二行　読み飛ばす　処理　
+							//最初の二行　読み飛ばす　処理　
 	for (int i = 0; i < 2; i++)while (FileRead_getc(StageHandle) != '\n');
 
 	//ファイルの読み取り処理(breakでwhile文を抜ける処理なので条件式は1に設定されている)
@@ -53,55 +55,55 @@ cEnemyMgr::cEnemyMgr() {
 		switch (num) {
 		case 0: tmpEnemy.pos.x = atof(inputc); break;
 		case 1: tmpEnemy.pos.y = atof(inputc); break;
-		//case 2: tmpEnemy.v.x = atof(inputc); break;	   
-		//case 3: tmpEnemy.v.y = atof(inputc); break;	       
+			//case 2: tmpEnemy.v.x = atof(inputc); break;	   
+			//case 3: tmpEnemy.v.y = atof(inputc); break;	       
 		case 2: tmpEnemy.r = atoi(inputc); break;
 		case 3: tmpEnemy.count = atoi(inputc); break;
-		case 4: tmpEnemy.angle = atof(inputc)* M_PI/180; break;
+		case 4: tmpEnemy.angle = atof(inputc)* M_PI / 180; break;
 		case 5: tmpEnemy.speed = atoi(inputc); break;
-		//case 8: tmpEnemy.moveflag = atoi(inputc); break;  
+			//case 8: tmpEnemy.moveflag = atoi(inputc); break;  
 		case 6: tmpEnemy.maxmove = atoi(inputc); break;
 		case 7:tmpEnemy.RLflag = atoi(inputc); break;
 		case 8:tmpEnemy.target.x = atof(inputc); break;
 		case 9:tmpEnemy.target.y = atof(inputc); break;
 		case 10:tmpEnemy.targetr = atoi(inputc); break;
-		case 11:tmpEnemy.wave = atoi(inputc); break;	       
-		case 12:tmpEnemy.etype = atoi(inputc); break;             
-		case 13:tmpEnemy.moveangle[0] = atof(inputc); break;	
-		case 14:tmpEnemy.countflag[0] = atoi(inputc); break;	
+		case 11:tmpEnemy.wave = atoi(inputc); break;
+		case 12:tmpEnemy.etype = atoi(inputc); break;
+		case 13:tmpEnemy.moveangle[0] = atof(inputc); break;
+		case 14:tmpEnemy.countflag[0] = atoi(inputc); break;
 		case 15:tmpEnemy.moveangle[1] = atof(inputc); break;
-		case 16:tmpEnemy.countflag[1] = atoi(inputc); break;	
+		case 16:tmpEnemy.countflag[1] = atoi(inputc); break;
 		case 17:tmpEnemy.moveangle[2] = atof(inputc); break;
-		case 18:tmpEnemy.countflag[2] = atoi(inputc); break;	
-		//case 16:tmpEnemy.onactive = atoi(inputc); break;	   
-		//case 17:tmpEnemy.item_n[5] = atoi(inputc); break;
+		case 18:tmpEnemy.countflag[2] = atoi(inputc); break;
+			//case 16:tmpEnemy.onactive = atoi(inputc); break;	   
+			//case 17:tmpEnemy.item_n[5] = atoi(inputc); break;
 		}
 
 		switch (num) {
 		case 0: enemy[n].pos.x = atof(inputc); break;
 		case 1: enemy[n].pos.y = atof(inputc); break;
-		//case 2: enemy[n].v.x = atof(inputc); break;           
-		//case 3: enemy[n].v.y = atof(inputc); break;       
+			//case 2: enemy[n].v.x = atof(inputc); break;           
+			//case 3: enemy[n].v.y = atof(inputc); break;       
 		case 2: enemy[n].r = atoi(inputc); break;
 		case 3: enemy[n].count = atoi(inputc); break;
 		case 4: enemy[n].angle = atof(inputc) *M_PI / 180; break;
 		case 5: enemy[n].speed = atoi(inputc); break;
-		//case 8: enemy[n].moveflag = atoi(inputc); break;   
+			//case 8: enemy[n].moveflag = atoi(inputc); break;   
 		case 6: enemy[n].maxmove = atoi(inputc); break;
 		case 7:enemy[n].RLflag = atoi(inputc); break;
 		case 8:enemy[n].target.x = atof(inputc); break;
 		case 9:enemy[n].target.y = atof(inputc); break;
 		case 10:enemy[n].targetr = atoi(inputc); break;
-		case 11:enemy[n].wave = atoi(inputc); break;        
-		case 12:enemy[n].etype = atoi(inputc); break;        
-		case 13:enemy[n].moveangle[0] = atof(inputc); break; 
-		case 14:enemy[n].countflag[0] = atoi(inputc); break; 
-		case 15:enemy[n].moveangle[1] = atof(inputc); break;   
+		case 11:enemy[n].wave = atoi(inputc); break;
+		case 12:enemy[n].etype = atoi(inputc); break;
+		case 13:enemy[n].moveangle[0] = atof(inputc); break;
+		case 14:enemy[n].countflag[0] = atoi(inputc); break;
+		case 15:enemy[n].moveangle[1] = atof(inputc); break;
 		case 16:enemy[n].countflag[1] = atoi(inputc); break;
-		case 17:enemy[n].moveangle[2] = atof(inputc); break; 
+		case 17:enemy[n].moveangle[2] = atof(inputc); break;
 		case 18:enemy[n].countflag[2] = atoi(inputc); break;
-		//case 16:enemy[n].onactive = atoi(inputc); break;       
-		//case 17:enemy[n].item_n[5] = atoi(inputc); break;
+			//case 16:enemy[n].onactive = atoi(inputc); break;       
+			//case 17:enemy[n].item_n[5] = atoi(inputc); break;
 		}
 
 		enemy[n].v.x = 0;
@@ -124,8 +126,9 @@ cEnemyMgr::cEnemyMgr() {
 				enemies[n] = (cBaseEnemy*) new cGreenEnemy(tmpEnemy.pos.x, tmpEnemy.pos.y, tmpEnemy.r, tmpEnemy.count, tmpEnemy.speed, tmpEnemy.angle, tmpEnemy.onactive, EnemyGraph);
 				break;
 
-			}
+				/*case3:playerが敵になった時の処理を入れよう*/
 
+			}
 			n++;
 		}
 	}
@@ -242,7 +245,6 @@ void cEnemyMgr::Update() {
 					wavecount++;
 				}
 			}
-
 			//ウェーブごとに動く敵の数と入場行動が終了している敵の数が一致している場合、次ウェーブに移行,敵のカウントが初期化
 			if (waveflag[wave] == wavecount) {
 				wave++;
@@ -255,12 +257,22 @@ void cEnemyMgr::Update() {
 			enemies[i]->SetEnemyAngle(enemy[i].angle);
 
 			/*
-					if (phaseFlagCount == onActiveCount) {
-						Phaseflag = 1;
-					}
+			if (phaseFlagCount == onActiveCount) {
+			Phaseflag = 1;
+			}
 			*/
 
+			/*
+			//入場中に敵が死んだ時の処理(hitから死亡フラグを受け取る予定？)
+			if(enemies[i]->_______==true){
+			enemies[i].onActive==false;
+			}
+			*/
 		}//配列数分の敵動作終了
+
+		 //敵が動いていないフラグをonにする
+		Stayflag = 1;
+
 	}
 	else {
 
@@ -268,6 +280,8 @@ void cEnemyMgr::Update() {
 		if (Phaseflag == 1) {
 			//敵40体分
 			for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+				//Stayflagをfalseにする
+				Stayflag = 0;
 
 				//Attackflagをtrueにする
 				enemies[30]->SetEnemyAttackflg();
@@ -283,7 +297,7 @@ void cEnemyMgr::Update() {
 	if (Phaseflag == 2) {
 		ReChoiceFlag = 1;
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-			if (enemy[i].onactive != 1 || enemies[i]->GetEnemyAttackflg()!=true)continue;
+			if (enemy[i].onactive != 1 || enemies[i]->GetEnemyAttackflg() != true)continue;
 			enemies[i]->Update();
 			enemies[i]->Move();
 			enemies[i]->TractorUpdate();
@@ -291,7 +305,24 @@ void cEnemyMgr::Update() {
 			break;
 		}
 		//再抽選
-		if(ReChoiceFlag==1)enemies[GetRand(39)]->SetEnemyAttackflg();
+
+		//ボスギャラガだけ動かす(ここをコメントアウトすると全ての敵がランダムに動きます)
+		int random = GetRand(3);
+		switch (random) {
+		case 0:
+			random = 8;
+			break;
+		case 1:
+			random = 10;
+			break;
+		case 2:
+			random = 12;
+			break;
+		case 3:
+			random = 14;
+			break;
+		}
+		if (ReChoiceFlag == 1)enemies[random]->SetEnemyAttackflg();
 
 	}
 
@@ -327,20 +358,21 @@ void cEnemyMgr::Draw() {
 	DrawFormatString(0, 60, GetColor(255, 255, 255), "atan2=%.3lf", atan2(enemy[0].target.y - enemy[0].pos.y, enemy[0].target.x - enemy[0].pos.x));
 	*/
 	/*for (int i = 0; i < sizeof(enemy) / sizeof(*enemy); i++) {
-		//敵配列の描画
-		if (enemy[i].etype == 0) {
-			DrawCircle(enemy[i].pos.x, enemy[i].pos.y, enemy[i].r, GetColor(0, 0, 255), TRUE);
-		}
-		else if(enemy[i].etype == 1){
-			DrawCircle(enemy[i].pos.x, enemy[i].pos.y, enemy[i].r, GetColor(255, 0, 0), TRUE);
-		}
-		else if (enemy[i].etype == 2) {
-			DrawCircle(enemy[i].pos.x, enemy[i].pos.y, enemy[i].r, GetColor(0, 255, 0), TRUE);
-		}
+	//敵配列の描画
+	if (enemy[i].etype == 0) {
+	DrawCircle(enemy[i].pos.x, enemy[i].pos.y, enemy[i].r, GetColor(0, 0, 255), TRUE);
+	}
+	else if(enemy[i].etype == 1){
+	DrawCircle(enemy[i].pos.x, enemy[i].pos.y, enemy[i].r, GetColor(255, 0, 0), TRUE);
+	}
+	else if (enemy[i].etype == 2) {
+	DrawCircle(enemy[i].pos.x, enemy[i].pos.y, enemy[i].r, GetColor(0, 255, 0), TRUE);
+	}
 
 	}*/
-	
+
 	for (int i = 0; i < sizeof(enemy) / sizeof(*enemy); i++) {
+		if (enemies[i]->GetEnemyOnActive() == 1)continue;
 		enemies[i]->Update2();
 		enemies[i]->Draw();
 	}
@@ -348,6 +380,6 @@ void cEnemyMgr::Draw() {
 		DrawFormatString(100, 100, GetColor(255, 255, 255), "攻撃フェーズ");
 	}
 
-	DrawFormatString(0,120,GetColor(255,255,255),"再抽選フラグ:%d",ReChoiceFlag);
+	DrawFormatString(0, 120, GetColor(255, 255, 255), "再抽選フラグ:%d", ReChoiceFlag);
 
 }
