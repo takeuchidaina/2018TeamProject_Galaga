@@ -54,7 +54,6 @@ int cShotMgr::Update() {
 					playerShot[i].Set_ShotCY(tmp.cy);
 					playerShot[i].Set_ShotRad(M_PI * 270 / 180);//上
 					totalShot++;
-					break;
 				}
 				//2機目
 				if (playerShot[i+2].Get_OnActive() == FALSE && shotRate == 0) {
@@ -66,26 +65,10 @@ int cShotMgr::Update() {
 					playerShot[i+2].Set_ShotCY(tmp2.cy);
 					playerShot[i+2].Set_ShotRad(M_PI * 270 / 180);//上
 					totalShot++;
-					shotRate = 6;
-					break;
 				}
-
+				shotRate = 6;
+				break;
 			}
-			//2機目のShot
-			/*for (int i = 2; i < PLAYERSHOTNUM*2; i++) {
-				if (playerShot[i].Get_OnActive() == FALSE && shotRate == 0) {
-					playerShot[i].Set_OnActive(TRUE);//0=false,1=true
-					//プレイヤーの座標を受け取って座標をセット
-					sOBJPos tmp;
-					tmp = cPlayer::Instance()->GetPlayer(1);
-					playerShot[i].Set_ShotCX(tmp.cx);
-					playerShot[i].Set_ShotCY(tmp.cy);
-					playerShot[i].Set_ShotRad(M_PI * 270 / 180);//上
-					totalShot++;
-					shotRate = 6;
-					break;
-				}
-			}*/
 		}
 	}
 	shotRate--;
