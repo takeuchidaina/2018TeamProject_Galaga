@@ -304,6 +304,7 @@ void cEnemyMgr::Update() {
 			ReChoiceFlag = 0;
 			break;
 		}
+
 		//再抽選
 
 		//ボスギャラガだけ動かす(ここをコメントアウトすると全ての敵がランダムに動きます)
