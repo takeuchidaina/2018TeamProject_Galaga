@@ -20,7 +20,8 @@ public:
 	typedef enum {
 		eBefore,	//実際ゲームが始まる前のあれ
 		eInGame,	//ゲーム画面
-		eRevival,	//プレイヤー復活
+		eDeath,		//プレイヤー死亡
+		eRevival,	//プレイヤー復活　いらないかも
 		ePause,		//ポーズ画面
 		eTractor,	//きゃとられ中
 		ePReturn,	//プレイヤー帰還
@@ -36,6 +37,7 @@ private:
 
 	eInGameScene sceneflag;
 	eInGameScene next_Sceneflag;
+	eInGameScene Before_Sceneflag;
 
 	void Init_Module(eInGameScene scene);
 	void End_Module(eInGameScene scene);

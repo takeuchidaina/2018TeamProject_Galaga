@@ -11,6 +11,7 @@
 cInGameMgr::cInGameMgr() {
 	sceneflag = eBefore;
 	next_Sceneflag = eInGameNone;
+	Before_Sceneflag = eInGameNone;
 	Init_Module(sceneflag);
 }
 
@@ -25,6 +26,9 @@ void cInGameMgr::Init_Module(eInGameScene scene) {
 		//
 		break;						
 	case eInGame://ゲーム画面
+		//
+		break;
+	case eDeath://プレイヤー死亡
 		//
 		break;
 	case eRevival://プレイヤー復活
@@ -90,6 +94,9 @@ void cInGameMgr::End_Module(eInGameScene scene) {
 	case eInGame://ゲーム画面
 		//
 		break;
+	case eDeath://プレイヤー死亡
+		//
+		break;
 	case eRevival://プレイヤー復活
 		//
 		break;
@@ -134,6 +141,11 @@ void cInGameMgr::Update() {
 
 		//
 		break;
+	case eDeath://プレイヤー死亡
+		cShotMgr::Instance()->Update();
+		cEnemyMgr::Instance()->Update();
+		//
+		break;
 	case eRevival://プレイヤー復活
 		//
 		break;
@@ -153,7 +165,16 @@ void cInGameMgr::Update() {
 		//
 		break;
 	}
-
+	//グローバルキー受付（関数化予定
+	if (cInterface::Instance()->Get_Input(InSTRAT) == 1) {
+		if (sceneflag != ePause) {
+			cInGameMgr::ChangeScene(ePause);
+			Before_Sceneflag = sceneflag;
+		}
+		else {//ポーズなら
+			cInGameMgr::ChangeScene(Before_Sceneflag);
+		}
+	}
 }
 
 //描写処理
@@ -172,10 +193,21 @@ void cInGameMgr::Draw() {
 		DrawFormatString(0, 20, GetColor(255, 255, 255), "eInGame");
 		//
 		break;
+	case eDeath://プレイヤー死亡
+		cPlayer::Instance()->Draw();
+		cEnemyMgr::Instance()->Draw();
+		cShotMgr::Instance()->Draw();
+		DrawFormatString(0, 20, GetColor(255, 255, 255), "eDeath");
+		//
+		break;
 	case eRevival://プレイヤー復活
 		//
 		break;
 	case ePause://ポーズ画面
+		cPlayer::Instance()->Draw();
+		cEnemyMgr::Instance()->Draw();
+		cShotMgr::Instance()->Draw();
+		DrawFormatString(0, 20, GetColor(255, 255, 255), "ePause");
 		//
 		break;
 	case eTractor://きゃとられ中

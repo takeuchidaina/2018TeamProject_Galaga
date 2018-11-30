@@ -14,8 +14,37 @@ private:
 	int count = 0;
 
 public:
+	//ゲーム開始前のあれ
 	int BeforeSceneUpdate();
 	int BeforeSceneDraw();
+	//プレイヤー死亡
+	int PlayerDeath();
+	int PlayerDeathUpdate();
+	int PlayerDeathDraw();
+
+	//プレイヤー復活
+//	int RevivalSceneUpdate();
+//	int RevivalSceneDraw();
+	//ポーズ画面
+	
+
+	//きゃとられ中
+	int HitToTractor();
+	int TractorSceneUpdate();
+	int TractorSceneDraw();
+	//プレイヤー帰還
+
+
+
+	//リザルト画面
+
+
+
+	//次のステージへ
+
+
+
+	//現在のステージ数を獲得
 	int GetNowStageNum() { return nowStageNum; }
 };
 
