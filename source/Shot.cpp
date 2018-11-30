@@ -37,7 +37,7 @@ int cShot::Draw(int num,int *GrHandle) {
 		if (OnActive == TRUE) {//0=false,1=true
 		  //DrawBox(cx-w/2, cy-h/2, cx+w/2, cy+h/2, GetColor(255, 255, 255), TRUE);
 			//DrawExtendGraph(cx-w/2, cy-h/2, cx+w/2, cy+h/2, *(GrHandle + 3), TRUE);
-			DrawExtendGraph(cx-IMAGEMAG/2, cy-IMAGEMAG/2, cx+IMAGEMAG/2, cy+IMAGEMAG/2, *(GrHandle + 3), TRUE);
+			DrawExtendGraph(cx-IMAGEMAG/2, cy-IMAGEMAG/2, cx+IMAGEMAG/2, cy+IMAGEMAG/2, *GrHandle, TRUE);
 			//DrawGraph(cx, cy, *(GrHandle+3), TRUE);
 		}
 	

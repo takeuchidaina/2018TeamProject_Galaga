@@ -40,20 +40,21 @@ public:
 	int Draw();		//描写処理
 	int Break(int,int);    //弾を消す関数
 	int EnemyShot(double,double);
-	cShot* GetShot(int num) {
-		cShot *p = NULL;//エラー時NULL
-		//num==PLAYERなら*playerShot num==ENEMYなら*enemyShot
-		return* (num == PLAYER ? &playerShot : (num == ENEMY ? &enemyShot : &p));
-		/*if (num == PLAYER) {
-			return *playerShot;
-		}
-		else if (num == ENEMY) {
-			return *enemyShot;
-		}
-		else {
-			return *p;
-		}*/
+
+	//Get関数、引数(type, 配列の何番目か)
+	double GetShotCX(int num,int num2) {
+		return (num == PLAYER ? playerShot[num2].Get_ShotCX() : (num == ENEMY ? enemyShot[num2].Get_ShotCX() : NULL));
 	}
+	double GetShotCY(int num, int num2) {
+		return (num == PLAYER ? playerShot[num2].Get_ShotCY() : (num == ENEMY ? enemyShot[num2].Get_ShotCY() : NULL));
+	}
+	double GetShotR(int num, int num2) {
+		return (num == PLAYER ? playerShot[num2].Get_ShotR() : (num == ENEMY ? enemyShot[num2].Get_ShotR() : NULL));
+	}
+	double GetShotOnActive(int num, int num2) {
+		return (num == PLAYER ? playerShot[num2].Get_OnActive() : (num == ENEMY ? enemyShot[num2].Get_OnActive() : NULL));
+	}
+
 
 	/*
 	//宣言例
