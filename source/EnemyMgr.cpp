@@ -19,13 +19,14 @@ cEnemyMgr::cEnemyMgr() {
 	Phaseflag = 0;
 	onActiveCount = 0;
 	Stayflag = 0;
+	EnemyAttackFlag = 1;
 
 	//画像の読み込み処理
 	LoadDivGraph("../resource/Image/Galaga_OBJ_enemy1616.png", 20, 5, 4, 16, 16, EnemyGraph);
 
 	//Stage_1.csv
 	StageHandle = FileRead_open(StageFilePath);
-	if (StageHandle == 0);  //エラー処理の記入途中
+	//if (StageHandle == 0);  //エラー処理の記入途中
 
 							//最初の二行　読み飛ばす　処理　
 	for (int i = 0; i < 2; i++)while (FileRead_getc(StageHandle) != '\n');
@@ -217,11 +218,9 @@ void cEnemyMgr::Update() {
 			enemies[i]->SetEnemyAngle(enemy[i].angle);
 
 			/*
-			if (phaseFlagCount == onActiveCount) {
-			Phaseflag = 1;
-			}
+			//onactiveをReadyStartにする（敵が動かなくなるので変更が必要）
+			enemy[i].onactive=GetEnemyReadyStart(enemy[i].onactive);
 			*/
-			//enemy[i].onactive=SetEnemyReadyStart();
 
 		}//配列数分の敵動作終了
 
@@ -251,7 +250,7 @@ void cEnemyMgr::Update() {
 	if (Phaseflag == 2) {
 		ReChoiceFlag = 1;
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-			if (enemy[i].onactive != 1 || enemies[i]->GetEnemyAttackflg() != true)continue;
+			if (enemy[i].onactive != 1 || enemies[i]->GetEnemyAttackflg() != 1 || EnemyAttackFlag !=1)continue;
 			enemies[i]->Update();
 			enemies[i]->Move();
 			enemies[i]->TractorUpdate();
@@ -260,24 +259,7 @@ void cEnemyMgr::Update() {
 		}
 
 		//再抽選
-
-		//ボスギャラガだけ動かす(ここをコメントアウトすると全ての敵がランダムに動きます)
-		int random = GetRand(39);
-		/*switch (random) {
-		case 0:
-			random = 8;
-			break;
-		case 1:
-			random = 10;
-			break;
-		case 2:
-			random = 12;
-			break;
-		case 3:
-			random = 14;
-			break;
-		}*/
-		if (ReChoiceFlag == 1)enemies[random]->SetEnemyAttackflg();
+		if (ReChoiceFlag == 1)enemies[GetRand(39)]->SetEnemyAttackflg();
 	}
 
 	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
@@ -320,6 +302,6 @@ void cEnemyMgr::Draw() {
 		DrawFormatString(100, 100, GetColor(255, 255, 255), "攻撃フェーズ");
 	}
 
-	DrawFormatString(0, 120, GetColor(255, 255, 255), "再抽選フラグ:%d", ReChoiceFlag);
+	//DrawFormatString(0, 120, GetColor(255, 255, 255), "再抽選フラグ:%d", ReChoiceFlag);
 
 }
