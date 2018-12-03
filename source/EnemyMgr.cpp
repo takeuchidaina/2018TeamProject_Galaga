@@ -221,13 +221,6 @@ void cEnemyMgr::Update() {
 			Phaseflag = 1;
 			}
 			*/
-
-			/*
-			//入場中に敵が死んだ時の処理(hitから死亡フラグを受け取る予定？)
-			if(enemies[i]->_______==true){
-			enemies[i].onActive==false;
-			}
-			*/
 		}//配列数分の敵動作終了
 
 		 //敵が動いていないフラグをonにする
