@@ -108,25 +108,25 @@ public:
 
 	double GetEnemyPosX(int num) {
 		return enemies[num]->GetEnemyX();
-	};
+	}
 
 	double GetEnemyPosY(int num) {
 		return enemies[num]->GetEnemyY();
-	};
+	}
 
 	double GetEnemyPosR(int num) {
 		return enemies[num]->GetEnemyR();
-	};
+	}
 
 	double GetEnemyR(int num) {
 		return enemies[num]->GetEnemyR();
-	};
+	}
 
 	double GetEnemyonActive(int num) {
 		return enemies[num]->GetEnemyOnActive();
 	};
 
-	int GetEnemyDeath(int num) {
+	void SetEnemyDeath(int num) {
 		enemies[num]->Break();
 	}
 
@@ -136,11 +136,12 @@ public:
 	*/
 	int GetEnemyStay() {
 		return Stayflag;
-	};
+	}
 
+	/*
 	int GetEnemyTaki() {
 		return Takiflag;
-	};
-
+	}
+	*/
 };
 #endif // !_INGAME_MGR_INCLUDE_
