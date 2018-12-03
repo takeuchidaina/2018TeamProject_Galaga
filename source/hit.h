@@ -13,6 +13,11 @@
 #include "Singleton.h"
 #include "Struct.h"
 #include "Player.h"
+#include "InGameMgr.h"
+#include "ShotMgr.h"
+#include "Shot.h"
+#include "EnemyMgr.h"
+#include "cBaseEnemy.h"
 
 
 /*

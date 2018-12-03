@@ -1,12 +1,6 @@
 #include <DxLib.h>
 #include"hit.h"
-#include"InGameMgr.h"
-#include"Player.h"
-#include"ShotMgr.h"
-#include"Shot.h"
-#include"Shot.cpp"
-#include"EnemyMgr.h"
-#include"cBaseEnemy.h"
+
 
 
 /* コンストラクタ */
@@ -106,12 +100,12 @@ void cHit::Player_Enemy() {
 
 				if (cPlayer::Instance()->GetDoubleFlg() == TRUE) {
 					cPlayer::Instance()->Break(eDeath, i);
-					cEnemyMgr::Instance()->GetEnemyDeath(j);
+					cEnemyMgr::Instance()->SetEnemyDeath(j);
 				}
 
 				else {
 					cPlayer::Instance()->Break(eDeath, i);
-					cEnemyMgr::Instance()->GetEnemyDeath(j);
+					cEnemyMgr::Instance()->SetEnemyDeath(j);
 				}
 			}
 		}
@@ -152,7 +146,7 @@ void cHit::PlayerShot_Enemy() {
 
 				if (len <= ((E_r + S_r)*(E_r + S_r))) {
 					cShotMgr::Instance()->Break(PLAYER, j);
-					cEnemyMgr::Instance()->GetEnemyDeath(i);
+					cEnemyMgr::Instance()->SetEnemyDeath(i);
 				}
 
 			}
