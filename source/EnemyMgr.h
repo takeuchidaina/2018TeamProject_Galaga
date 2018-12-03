@@ -109,11 +109,11 @@ public:
 	}
 
 	double GetEnemyPosX(int num) {
-		return enemies[num]->GetEnemyX();
+		return enemies[num]->GetEnemyCx();
 	}
 
 	double GetEnemyPosY(int num) {
-		return enemies[num]->GetEnemyY();
+		return enemies[num]->GetEnemyCy();
 	}
 
 	double GetEnemyPosR(int num) {
