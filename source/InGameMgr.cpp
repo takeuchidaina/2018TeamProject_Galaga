@@ -3,7 +3,7 @@
 #include "InGameController.h"
 #include "Player.h"
 #include "ShotMgr.h"
-//#include "hit.h"
+#include "hit.h"
 #include "EnemyMgr.h"
 #include "UI.h"
 
@@ -137,7 +137,7 @@ void cInGameMgr::Update() {
 		cShotMgr::Instance()->Update();
 		cEnemyMgr::Instance()->Update();
 		//EnemyMgr.Update();
-		//cHit::Instance()->Update();
+		cHit::Instance()->Update();
 
 		//
 		break;
