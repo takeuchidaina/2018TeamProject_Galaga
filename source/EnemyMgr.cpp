@@ -55,13 +55,10 @@ cEnemyMgr::cEnemyMgr() {
 		switch (num) {
 		case 0: tmpEnemy.pos.x = atof(inputc); break;
 		case 1: tmpEnemy.pos.y = atof(inputc); break;
-			//case 2: tmpEnemy.v.x = atof(inputc); break;	   
-			//case 3: tmpEnemy.v.y = atof(inputc); break;	       
 		case 2: tmpEnemy.r = atoi(inputc); break;
 		case 3: tmpEnemy.count = atoi(inputc); break;
 		case 4: tmpEnemy.angle = atof(inputc)* M_PI / 180; break;
 		case 5: tmpEnemy.speed = atoi(inputc); break;
-			//case 8: tmpEnemy.moveflag = atoi(inputc); break;  
 		case 6: tmpEnemy.maxmove = atoi(inputc); break;
 		case 7:tmpEnemy.RLflag = atoi(inputc); break;
 		case 8:tmpEnemy.target.x = atof(inputc); break;
@@ -75,20 +72,15 @@ cEnemyMgr::cEnemyMgr() {
 		case 16:tmpEnemy.countflag[1] = atoi(inputc); break;
 		case 17:tmpEnemy.moveangle[2] = atof(inputc); break;
 		case 18:tmpEnemy.countflag[2] = atoi(inputc); break;
-			//case 16:tmpEnemy.onactive = atoi(inputc); break;	   
-			//case 17:tmpEnemy.item_n[5] = atoi(inputc); break;
 		}
 
 		switch (num) {
 		case 0: enemy[n].pos.x = atof(inputc); break;
 		case 1: enemy[n].pos.y = atof(inputc); break;
-			//case 2: enemy[n].v.x = atof(inputc); break;           
-			//case 3: enemy[n].v.y = atof(inputc); break;       
 		case 2: enemy[n].r = atoi(inputc); break;
 		case 3: enemy[n].count = atoi(inputc); break;
 		case 4: enemy[n].angle = atof(inputc) *M_PI / 180; break;
 		case 5: enemy[n].speed = atoi(inputc); break;
-			//case 8: enemy[n].moveflag = atoi(inputc); break;   
 		case 6: enemy[n].maxmove = atoi(inputc); break;
 		case 7:enemy[n].RLflag = atoi(inputc); break;
 		case 8:enemy[n].target.x = atof(inputc); break;
@@ -102,8 +94,6 @@ cEnemyMgr::cEnemyMgr() {
 		case 16:enemy[n].countflag[1] = atoi(inputc); break;
 		case 17:enemy[n].moveangle[2] = atof(inputc); break;
 		case 18:enemy[n].countflag[2] = atoi(inputc); break;
-			//case 16:enemy[n].onactive = atoi(inputc); break;       
-			//case 17:enemy[n].item_n[5] = atoi(inputc); break;
 		}
 
 		enemy[n].v.x = 0;
@@ -140,33 +130,6 @@ cEnemyMgr::cEnemyMgr() {
 	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 		waveflag[enemy[i].wave]++;
 	}
-
-	/*
-	//敵の配列数分の初期化を行う
-	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-	enemy[i].pos.x = 400;
-	enemy[i].pos.y = -50;
-	enemy[i].r = 5;
-	enemy[i].count = 0 - (i / 2);
-	enemy[i].angle = 100 * 3.1415 / 180;
-	enemy[i].speed = 3;
-	enemy[i].moveflag = 0;
-	enemy[i].maxmove = 3;
-	memset(enemy[i].moveangle, 0, sizeof(enemy[i].moveangle));
-	enemy[i].moveangle[0] = 0.5;
-	enemy[i].moveangle[1] = 0;
-	enemy[i].moveangle[2] = -2.5;
-	memset(enemy[i].countflag, 0, sizeof(enemy[i].countflag));
-	enemy[i].countflag[0] = 100;
-	enemy[i].countflag[1] = 20;
-	enemy[i].countflag[2] = 90;
-	enemy[i].RLflag = 1;
-	enemy[i].target.x = 320 + i / 2 * 32;
-	enemy[i].target.y = 64 + (i % 2) * 32;
-	enemy[i].targetr = 1;
-	enemy[i].onactive = 0;
-	}
-	*/
 }
 
 //デコンストラクタ
@@ -230,10 +193,6 @@ void cEnemyMgr::Update() {
 						enemy[i].count = 0;
 						enemy[i].angle = -90 * M_PI / 180;
 					}
-					/*else {
-					enemy[i].pos.x = enemy[i].target.x;
-					enemy[i].pos.y = enemy[i].target.y;
-					}*/
 				} //例外処理終了
 			} //activeなエネミーの動作処理終了
 
@@ -357,24 +316,6 @@ void cEnemyMgr::Shifted(sEnemy& ene1, sEnemy& ene2) {
 
 //描写処理
 void cEnemyMgr::Draw() {
-	/*
-	DrawFormatString(0, 20, GetColor(255, 255, 255), "[0]:x=%.1lf y=%.1lf", enemy[0].pos.x, enemy[0].pos.y);
-	DrawFormatString(0, 40, GetColor(255, 255, 255), "[7]:x=%.1lf y=%.1lf", enemy[7].pos.x, enemy[7].pos.y);
-	DrawFormatString(0, 60, GetColor(255, 255, 255), "atan2=%.3lf", atan2(enemy[0].target.y - enemy[0].pos.y, enemy[0].target.x - enemy[0].pos.x));
-	*/
-	/*for (int i = 0; i < sizeof(enemy) / sizeof(*enemy); i++) {
-	//敵配列の描画
-	if (enemy[i].etype == 0) {
-	DrawCircle(enemy[i].pos.x, enemy[i].pos.y, enemy[i].r, GetColor(0, 0, 255), TRUE);
-	}
-	else if(enemy[i].etype == 1){
-	DrawCircle(enemy[i].pos.x, enemy[i].pos.y, enemy[i].r, GetColor(255, 0, 0), TRUE);
-	}
-	else if (enemy[i].etype == 2) {
-	DrawCircle(enemy[i].pos.x, enemy[i].pos.y, enemy[i].r, GetColor(0, 255, 0), TRUE);
-	}
-
-	}*/
 
 	for (int i = 0; i < sizeof(enemy) / sizeof(*enemy); i++) {
 		if (enemies[i]->GetEnemyOnActive() == 1)continue;
