@@ -98,13 +98,12 @@ int cShotMgr::Draw() {
 }
 
 //’e‚ğÁ‚·ˆ—
-//ˆø” type=0,1,2  0(player1),1(player2),2(enemy)Anum=‰½”Ô–Ú‚Ì’e‚©
+//ˆø” type=0,1 (player or enemy)Anum=‰½”Ô–Ú‚Ì’e‚©
 int cShotMgr::Break(int type, int num) {
 	if (type == 0) {
 		player1Shot[num].Set_OnActive(FALSE);
-	}else if (type == 1) {
 		player2Shot[num].Set_OnActive(FALSE);
-	}else if (type == 2) {
+	}else if (type == 1) {
 		enemyShot[num].Set_OnActive(FALSE);
 	}
 	return 0;
