@@ -2,7 +2,6 @@
 #include"hit.h"
 
 
-
 /* コンストラクタ */
 cHit::cHit() {
 
@@ -25,6 +24,26 @@ void cHit::Update() {
 }
 
 void cHit::Draw() {
+
+	/*unsigned int Cr;
+	Cr = GetColor(255, 0, 0);
+	static int maxEnemy = cEnemyMgr::Instance()->GetMaxEnemy();
+
+	for (int j = 0; j < maxEnemy; j++) {
+
+		E_onActive = cEnemyMgr::Instance()->GetEnemyonActive(j);
+		E_cx = cEnemyMgr::Instance()->GetEnemyPosX(j);
+		E_cy = cEnemyMgr::Instance()->GetEnemyPosY(j);
+		E_r = cEnemyMgr::Instance()->GetEnemyPosR(j);
+
+		if (E_onActive == FALSE) continue;
+
+		DrawCircle(E_cx, E_cy, E_r, Cr, TRUE);
+
+	}*/
+
+	
+	
 
 }
 
@@ -51,7 +70,7 @@ void cHit::Player_EnemyShot() {
 
 			if (S_onActive == FALSE) continue;
 
-			len = ((S_cx - Player.cx) * (S_cx - Player.cx)) + ((S_cy - Player.cy)*(S_cy - Player.cy));
+ 			len = ((S_cx - Player.cx) * (S_cx - Player.cx)) + ((S_cy - Player.cy)*(S_cy - Player.cy));
 
 			if (len <= ((S_r + Player.r) * (S_r + Player.r))) {
 
