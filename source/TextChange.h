@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef _TEXTCONVERSION_INCLUDE_
-#define _TEXTCONVERSION_INCLUDE_
+#ifndef _TEXTCHANGE_INCLUDE_
+#define _TEXTCHANGE_INCLUDE_
 
 #include "Singleton.h"
 
