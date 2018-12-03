@@ -238,6 +238,7 @@ void cEnemyMgr::Update() {
 			} //activeなエネミーの動作処理終了
 
 			if (enemy[i].moveflag == 11) {
+
 				//入場行動が終了している敵の数をカウントする
 				phaseFlagCount++;
 				//ウェーブ内で入場行動が終了している敵の数をカウントする
