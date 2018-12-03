@@ -138,10 +138,10 @@ public:
 		return Stayflag;
 	}
 
-	/*
-	int GetEnemyTaki() {
-		return Takiflag;
-	}
-	*/
+	
+	/*int SetEnemyReadyStart) {
+		enemies[num].;
+	}*/
+
 };
 #endif // !_INGAME_MGR_INCLUDE_

@@ -221,11 +221,12 @@ void cEnemyMgr::Update() {
 			Phaseflag = 1;
 			}
 			*/
+			//enemy[i].onactive=SetEnemyReadyStart();
+
 		}//配列数分の敵動作終了
 
 		 //敵が動いていないフラグをonにする
 		Stayflag = 1;
-
 	}
 	else {
 
