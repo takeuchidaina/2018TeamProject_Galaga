@@ -19,7 +19,7 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 
 	enemy.count = cnt;
 	enemy.spd = spd;
-	enemy.ang = -90 * M_PI / 180;
+	enemy.ang = ang * M_PI / 180;
 	enemy.mainpos.onActive = flg;
 
 	enemy.moveflg = 0;
@@ -83,11 +83,13 @@ void cBlueEnemy:: Move() {
 
 
 int cBlueEnemy::Update() {
-	if (enemy.attackflg == true && enemy.mainpos.onActive != NoActive) {
-		/*enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
-		enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);*/
-		enemy.target.x = 300;
-		enemy.target.y = 300;
+	if (enemy.count < 0)enemy.count = 0;
+	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = LadyStart;
+	if (enemy.attackflg == 1 && enemy.mainpos.onActive != NoActive) {
+		enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+		enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
+		/*enemy.target.x = 230;
+		enemy.target.y = 230;*/
 		enemy.count++;
 
 		if (enemy.count > 0) {
@@ -97,7 +99,7 @@ int cBlueEnemy::Update() {
 		switch (enemy.moveflg)
 		{
 		case 0:
-			if (enemy.count == 0)enemy.ang = 180 * M_PI / 180;
+			if (enemy.count < 3)enemy.ang = 180 * M_PI / 180;
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
@@ -123,7 +125,7 @@ int cBlueEnemy::Update() {
 			}
 			break;
 		case 3:
-			enemy.ang = 0 * M_PI / 180;;
+			enemy.ang = 0 * M_PI / 180;
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
@@ -150,6 +152,7 @@ int cBlueEnemy::Update() {
 			enemy.mainpos.pos.x = enemy.target.x;	
 			enemy.mainpos.pos.y = enemy.target.y;
 			enemy.attackflg = false;
+		    enemy.mainpos.onActive = LadyStart;
 			break;
 
 		}
@@ -160,23 +163,24 @@ int cBlueEnemy::Update() {
  
 int cBlueEnemy::Draw() {
 
-	if (enemy.mainpos.onActive == YesActive || enemy.mainpos.onActive == StartMove) {
+	if (enemy.mainpos.onActive != NoActive) {
 		if (enemy.dir == RIGHT)
 			DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + 90 * M_PI / 180), enemy.graph[a / 60 % 2], TRUE, TRUE);
 		else {
-			DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[a/60%2], TRUE, TRUE);
+			DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang+ 90 *M_PI/180), enemy.graph[a/60%2], TRUE, TRUE);
 		}
 	}
-#ifndef DEBUG
+#ifdef DEBUG
 	DrawFormatString(0, 100, GetColor(255, 255, 255), "%d", a);
 	DrawFormatString(800, 825, GetColor(255, 255, 255), "%.2lf", enemy.target.x);
 	DrawFormatString(800, 840, GetColor(255, 255, 255), "%.2lf", enemy.target.y);
-	DrawFormatString(800, 855, GetColor(255, 255, 255), "%d", enemy.count);
-	DrawFormatString(800, 870, GetColor(255, 255, 255), "%d", enemy.attackflg);
-	DrawFormatString(800, 885, GetColor(255, 255, 255), "%d", enemy.moveflg);
-	DrawFormatString(800, 900, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.x);
-	DrawFormatString(800, 915, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.y);
-	DrawFormatString(800, 935, GetColor(255, 255, 255), "%.2lf", enemy.dir);
+	DrawFormatString(60, 755, GetColor(255, 255, 255), "enemy.count%d", enemy.count);
+	DrawFormatString(60, 770, GetColor(255, 255, 255), "enemy.attackflg%d", enemy.attackflg);
+	DrawFormatString(60, 785, GetColor(255, 255, 255), "enemy.moveflg%d", enemy.moveflg);
+	DrawFormatString(60, 800, GetColor(255, 255, 255), "enemy.mainpos.pos.x%.2lf", enemy.mainpos.pos.x);
+	DrawFormatString(60, 815, GetColor(255, 255, 255), "enemy.mainpos.pos.y%.2lf", enemy.mainpos.pos.y);
+	DrawFormatString(60, 835, GetColor(255, 255, 255), "enemy.dir%d", enemy.dir);
+	DrawFormatString(60, 855, GetColor(255, 255, 255), "enemy.ang%lf.2", enemy.ang);
 #endif // 
 
 	

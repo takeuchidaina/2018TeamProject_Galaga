@@ -20,16 +20,36 @@ using namespace std;
  cBaseEnemy::cBaseEnemy(double x,double y,double r,int cnt ,double spd ,double ang,int flg,int *graph) {
 	 enemy.mainpos.pos.x = x;
 	 enemy.mainpos.pos.y = y;
-	 enemy.width =16*3;
-	 enemy.hight = 16*3;
 	 enemy.mainpos.cx = enemy.mainpos.pos.x + (double)(enemy.width / 2);
 	 enemy.mainpos.cy = enemy.mainpos.pos.y + (double)(enemy.hight / 2);
+	 enemy.mainpos.r = r;
+
 	 enemy.ang = ang * M_PI / 180;
-	 //memset(enemy.graph, 0x00, sizeof(enemy.graph));
+	 enemy.count = cnt;
+	 enemy.spd = spd;
+
+	 enemy.width =16*3;
+	 enemy.hight = 16*3;
+
+	 enemy.moveflg = 0;
+	 enemy.vct.x = 0;
+	 enemy.vct.y = 0;
+
+	 enemy.target.x = x;
+	 enemy.target.y = y;
+	 enemy.targetr = 5;
+
+	 memset(enemy.moveang, 0, sizeof(enemy.moveang));
+	 memset(enemy.countflg, 0, sizeof(enemy.countflg));
+
+
+	
 	  enemy.graph = graph;
 	  enemy.attackflg = false;
 	  a = 0;
 	  b = 0;
+	  c = 0;
+	  d = 0;
  }
 
 cBaseEnemy::~cBaseEnemy() {
@@ -42,9 +62,10 @@ void cBaseEnemy::Move() {
 
 
 int cBaseEnemy::Update() {
+	/*if (enemy.count < 0)enemy.count = 0;
 	enemy.target.x=cEnemyMgr::Instance()->GetTargetX(this);
 	enemy.target.y = cEnemyMgr::Instance()->GetTargetY(this);
-	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = LadyStart;
+	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = LadyStart;*/
 	return 0;
 }
 
