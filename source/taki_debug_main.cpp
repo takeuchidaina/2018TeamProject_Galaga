@@ -19,9 +19,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 																		 
 	//x y r cnt spd ang flg
 
-	cBlueEnemy zako(300, 330, 5, 0, 3, -90, false, EnemyGraph);
-	cRedEnemy  goei(400,330,5,0,3,-90,false, EnemyGraph);
-	cGreenEnemy boss(500,330,5,0,3,-90,false, EnemyGraph);
+	cBlueEnemy zako(300, 330, 5, 0, 3, 180, false, EnemyGraph);
+	cRedEnemy  goei(400,330,5,0,3,180,false, EnemyGraph);
+	cGreenEnemy boss(500,330,5,0,3,180,false, EnemyGraph);
 
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {//画面更新 & メッセージ処理 & 画面消去
 			zako.SetEnemyAttackflg();
@@ -47,7 +47,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		boss.Draw();
 	}
 
-	WaitKey();
+
 	DxLib_End(); // DXライブラリ終了処理
 	return 0;
 }

@@ -44,6 +44,7 @@ void cBaseEnemy::Move() {
 int cBaseEnemy::Update() {
 	enemy.target.x=cEnemyMgr::Instance()->GetTargetX(this);
 	enemy.target.y = cEnemyMgr::Instance()->GetTargetY(this);
+	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = LadyStart;
 	return 0;
 }
 

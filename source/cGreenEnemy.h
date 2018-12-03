@@ -7,7 +7,7 @@
 
 class cGreenEnemy : public cBaseEnemy {
 private:
-	
+	int tractorAnimation[23] = { 0,1,2,3,4,5,6,7,8,9,10,11,10,9,8,7,6,5,4,3,2,1,0 };
 	double tractormoveang[10];
 	double tractorcountflg[10];
 	int tractor[15];
@@ -20,5 +20,6 @@ public:
 	void TractorUpdate();
 	virtual int Update();
 	virtual int Draw();
+	virtual void AnimationCount() { a++; c++; };
 };
 #endif // !REDENEMY_INCLUDE
