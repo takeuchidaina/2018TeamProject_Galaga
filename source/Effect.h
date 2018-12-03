@@ -3,6 +3,9 @@
 #ifndef _EFFECT_INCLUDE_
 #define _EFFECT_INCLUDE_
 
+#include "Singleton.h"
+
+
 /*
 //テンプレート例 クラスもテンプレート化可能
 template <typename TYPE>
@@ -15,14 +18,14 @@ void Swap(TYPE& a, TYPE& b) {
 */
 
 
-class cEffect {
+class cEffect :public cSingleton<cEffect> {
+	cEffect();
+	friend cSingleton<cEffect>;
 private:
 	
 protected:
 
 public:
-	cEffect();	//コンストラクタ
-	~cEffect();	//デストラクタ
 	int Update();	//計算処理
 	int Draw();		//描写処理
 /*

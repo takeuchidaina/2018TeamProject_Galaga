@@ -1,4 +1,5 @@
 #include "Effect.h"
+#include "DXlib.h"
 
 //Effectクラスの実装
 
@@ -8,9 +9,9 @@ cEffect::cEffect(){
 }
 
 //デストラクタ
-cEffect::~cEffect() {
+/*cEffect::~cEffect() {
 
-}
+}*/
 
 int cEffect::Update() {
 	return 0;
