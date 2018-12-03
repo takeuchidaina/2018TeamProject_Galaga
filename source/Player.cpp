@@ -11,12 +11,14 @@ cPlayer::cPlayer()
 	//ç∂ë§ÇÃã@ëÃ
 	player[eLeftMachine].pos.x = 640.0;
 	player[eLeftMachine].pos.y = 850.0;
+	player[eLeftMachine].r = 8;
 	player[eLeftMachine].cx = player[eLeftMachine].pos.x + (IMAGEMAG / 2);
 	player[eLeftMachine].cy = player[eLeftMachine].pos.y + (IMAGEMAG / 2);
 	player[eLeftMachine].onActive = TRUE;
 	//âEë§ÇÃã@ëÃ
 	player[eRightMachine].pos.x = player[eLeftMachine].pos.x + IMAGEMAG;
 	player[eRightMachine].pos.y = player[eLeftMachine].pos.y;
+	player[eRightMachine].r = 8;
 	player[eRightMachine].cx = player[eRightMachine].pos.x + (IMAGEMAG / 2);
 	player[eRightMachine].cy = player[eRightMachine].pos.y + (IMAGEMAG / 2);
 	player[eRightMachine].onActive = FALSE;
