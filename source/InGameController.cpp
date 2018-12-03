@@ -32,18 +32,24 @@ int cInGameController::PlayerDeathUpdate() {
 	//エフェクトを出す
 	//エフェクトが出終わったらREADY表示
 	//プレイヤーを再配置
-	
+	cEnemyMgr::Instance()->Update();
 	//全てのエネミーが移動が終わっているかを獲得
-	//終わっていたら
-	if (count > 120) {
-		cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
-		count = 0;
+	if (cEnemyMgr::Instance()->GetEnemyStay() == 0) {
+
+	}
+	else {
+		if (count > 120) {
+			cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
+			count = 0;
+		}
 	}
 
 	return 0;
 }
 int cInGameController::PlayerDeathDraw() {
-	DrawFormatString(400, 400, GetColor(255, 255, 255), "READY");
+	if (count > 1) {
+		DrawFormatString(400, 400, GetColor(255, 255, 255), "READY");
+	}
 	return 0;
 }
 
