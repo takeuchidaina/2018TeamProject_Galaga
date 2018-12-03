@@ -79,6 +79,8 @@ private:
 	   
 	int ReChoiceFlag;         //再抽選フラグ 0:抽選を行わない状態 1:抽選を行う状態
 
+	int EnemyAttackFlag;      //攻撃フラグ   0:攻撃を行わない状態 1:攻撃を行う状態
+
 public:
 	//~cEnemyMgr();
 
@@ -107,11 +109,11 @@ public:
 	}
 
 	double GetEnemyPosX(int num) {
-		return enemies[num]->GetEnemyX();
+		return enemies[num]->GetEnemyCx();
 	}
 
 	double GetEnemyPosY(int num) {
-		return enemies[num]->GetEnemyY();
+		return enemies[num]->GetEnemyCy();
 	}
 
 	double GetEnemyPosR(int num) {
@@ -137,11 +139,15 @@ public:
 	int GetEnemyStay() {
 		return Stayflag;
 	}
-
-	/*
-	int GetEnemyTaki() {
-		return Takiflag;
+	
+	void SetEnemyAttackFlag(int flag) {
+		EnemyAttackFlag=flag;
 	}
-	*/
+
+	//onactiveをReadyStartにする関数（敵が動かなくなるので変更が必要）
+	/*int GetEnemyReadyStart(int) {
+		return 3;
+	}*/
+
 };
 #endif // !_INGAME_MGR_INCLUDE_
