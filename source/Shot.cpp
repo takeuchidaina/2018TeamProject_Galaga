@@ -9,7 +9,8 @@ cShot::cShot(){
 	s = 10;
 	w = 10*3; h = 12*3;//元データの3倍に拡大
 	OnActive=0;
-	r = 5;
+	r = 8;
+	adjust = 6;
 }
 
 //デストラクタ
@@ -37,8 +38,8 @@ int cShot::Draw(int num,int *GrHandle) {
 		if (OnActive == TRUE) {//0=false,1=true
 		  //DrawBox(cx-w/2, cy-h/2, cx+w/2, cy+h/2, GetColor(255, 255, 255), TRUE);
 			//DrawExtendGraph(cx-w/2, cy-h/2, cx+w/2, cy+h/2, *(GrHandle + 3), TRUE);
-			DrawExtendGraph((int)cx-IMAGEMAG/2, (int)cy-IMAGEMAG/2, 
-				(int)cx+IMAGEMAG/2, (int)cy+IMAGEMAG/2, *GrHandle, TRUE);
+			DrawExtendGraph((int)cx-IMAGEMAG/2-adjust, (int)cy-IMAGEMAG/2, 
+				(int)cx+IMAGEMAG/2-adjust, (int)cy+IMAGEMAG/2, *GrHandle, TRUE);
 			//DrawGraph(cx, cy, *(GrHandle+3), TRUE);
 		}
 	
@@ -49,8 +50,8 @@ int cShot::Draw(int num,int *GrHandle) {
 			//DrawBox(cx-w/2, cy-h/2, cx+w/2, cy+h/2, GetColor(255, 255, 255), TRUE);
 			//DrawCircle(x, y, x + w, y + h, GetColor(255, 255, 255), TRUE);
 			//DrawExtendGraph(cx-w/2, cy-h/2, cx+w/2, cy+h/2, *GrHandle, TRUE);
-			DrawExtendGraph((int)cx - IMAGEMAG / 2, (int)cy - IMAGEMAG / 2, 
-				(int)cx + IMAGEMAG / 2, (int)cy + IMAGEMAG / 2, *(GrHandle + 3), TRUE);
+			DrawExtendGraph((int)cx - IMAGEMAG / 2-adjust, (int)cy - IMAGEMAG / 2, 
+				(int)cx + IMAGEMAG / 2-adjust, (int)cy + IMAGEMAG / 2, *(GrHandle + 3), TRUE);
 		}
 	}
 	return 0;
