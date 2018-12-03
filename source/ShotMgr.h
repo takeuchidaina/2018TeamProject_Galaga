@@ -27,7 +27,7 @@ class cShotMgr:public cSingleton<cShotMgr> {
 	cShotMgr();
 	friend cSingleton<cShotMgr>;
 private:
-	cShot *enemyShot, *playerShot;
+	cShot *enemyShot, *player1Shot, *player2Shot;
 	int totalShot;
 	int ShotGrHandle[4];
 	int shotRate;
@@ -41,19 +41,34 @@ public:
 	int Break(int,int);    //弾を消す関数
 	int EnemyShot(double,double);
 
-	//Get関数、引数(type, 配列の何番目か)
-	double GetShotCX(int num,int num2) {
-		return (num == PLAYER ? playerShot[num2].Get_ShotCX() : (num == ENEMY ? enemyShot[num2].Get_ShotCX() : NULL));
+	//GetPlayerShot関数、引数(player1かplayer2, 配列の何番目か(0か1))
+	double GetPlayerShotCX(int num,int num2) {
+		return (num == 0 ? player1Shot[num2].Get_ShotCX() : (num == 1 ? player2Shot[num2].Get_ShotCX() : NULL));
 	}
-	double GetShotCY(int num, int num2) {
-		return (num == PLAYER ? playerShot[num2].Get_ShotCY() : (num == ENEMY ? enemyShot[num2].Get_ShotCY() : NULL));
+	double GetPlayerShotCY(int num, int num2) {
+		return (num == 0 ? player1Shot[num2].Get_ShotCY() : (num == 1 ? player2Shot[num2].Get_ShotCY() : NULL));
 	}
-	double GetShotR(int num, int num2) {
-		return (num == PLAYER ? playerShot[num2].Get_ShotR() : (num == ENEMY ? enemyShot[num2].Get_ShotR() : NULL));
+	double GetPlayerShotR(int num, int num2) {
+		return (num == 0 ? player1Shot[num2].Get_ShotR() : (num == 1 ? player2Shot[num2].Get_ShotR() : NULL));
 	}
-	double GetShotOnActive(int num, int num2) {
-		return (num == PLAYER ? playerShot[num2].Get_OnActive() : (num == ENEMY ? enemyShot[num2].Get_OnActive() : NULL));
+	double GetPlayerShotOnActive(int num, int num2) {
+		return (num == 0 ? player1Shot[num2].Get_OnActive() : (num == 1 ? player2Shot[num2].Get_OnActive() : NULL));
 	}
+
+	//GetEnemyShot関数、引数(配列の何番目か(0-19))
+	double GetEnemyShotCX(int num) {
+		return enemyShot[num].Get_ShotCX();
+	}
+	double GetEnemyShotCY(int num) {
+		return enemyShot[num].Get_ShotCY();
+	}
+	double GetEnemyShotR(int num) {
+		return enemyShot[num].Get_ShotR();
+	}
+	double GetEnemyShotOnActive(int num) {
+		return enemyShot[num].Get_OnActive();
+	}
+
 
 
 	/*
