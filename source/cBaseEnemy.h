@@ -28,8 +28,8 @@ typedef struct {
 	int count; //移動カウント
 	int moveflg; //移動制御フラグ 
 	int attackflg;//攻撃フラグ
-	double moveang[10];//
-	double countflg[10];
+	double moveang[15];//
+	double countflg[15];
 	
 }sEnemy;
 
@@ -37,8 +37,7 @@ class cBaseEnemy {
 
 protected:
 	int a, b;
-    int c = 0;
-    int d = 0;
+    int c ,d;
 	sEnemy enemy;
 
 public:
@@ -50,7 +49,7 @@ public:
 		virtual int Draw();//描画処理
 		virtual void Move();//移動処理
 		virtual void TractorUpdate();//トラクター用の関数　緑以外ではよんでもなにもない
-		virtual void Break() { enemy.mainpos.onActive = false; };
+		virtual void Break() { enemy.mainpos.onActive = NoActive; };
 	    virtual void AnimationCount() { a++; };
 		//現状態
 		enum eActiveType {
@@ -110,7 +109,7 @@ public:
 			return enemy.mainpos.onActive;
 		}
 		virtual	void SetEnemyOnActive() {
-			if (enemy.mainpos.onActive == YesActive)enemy.mainpos.onActive = NoActive;
+			if (enemy.mainpos.onActive != NoActive)enemy.mainpos.onActive = NoActive;
 			else enemy.mainpos.onActive = YesActive;
 		}
 		//r

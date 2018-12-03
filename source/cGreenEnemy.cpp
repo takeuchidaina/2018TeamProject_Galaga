@@ -99,11 +99,12 @@ void cGreenEnemy::Move( ) {
 
 
 int cGreenEnemy::Update() {
-	
-	/*enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
-	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);*/
-	enemy.target.x = 500;
-	enemy.target.y = 300;
+	if (enemy.count < 0)enemy.count = 0;
+	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = LadyStart;
+	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
+	/*enemy.target.x = 500;
+	enemy.target.y = 300;*/
 
 	if (tractorflg == 0 && enemy.attackflg == true) {
 		enemy.count++;
@@ -180,6 +181,7 @@ int cGreenEnemy::Update() {
 
 
 void cGreenEnemy::TractorUpdate() {
+	if (enemy.count < 0)enemy.count = 0;
 	/*enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);*/
 	enemy.target.x = 500;
@@ -264,12 +266,11 @@ int cGreenEnemy::Draw() {
 		b++;
 		if (b > 11)b = 10;
 	}
-	if (enemy.mainpos.onActive == YesActive || enemy.mainpos.onActive == StartMove) {
+	if (enemy.mainpos.onActive != NoActive) {
 		if (enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * M_PI) / 180), enemy.graph[b], TRUE, TRUE);
 		else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[b], TRUE, TRUE);
 		if (tractorflg == 1) {
 			if (enemy.moveflg == 2) {
-				c++;
 				if (c > 20) {
 					c = 0;
 					d++;
