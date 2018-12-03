@@ -28,7 +28,7 @@ int cShotMgr::Update() {
 		player1Shot[i].Update();
 		player2Shot[i].Update();
 	}
-	if (CheckHitKey(KEY_INPUT_SPACE) == TRUE) {
+	if (cInterface::Instance()->Get_Input(InDECISION) == 1) {
 		if (cPlayer::Instance()->GetDoubleFlg()==0) {
 			for (int i = 0; i < PLAYERSHOTNUM; i++) {
 				if (player1Shot[i].Get_OnActive() == FALSE && shotRate == 0) {
