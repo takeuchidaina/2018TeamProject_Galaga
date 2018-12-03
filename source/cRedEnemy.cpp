@@ -40,7 +40,7 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 	enemy.countflg[0] = 50;
 	enemy.countflg[1] = 20;
 	enemy.countflg[2] = 30;
-	enemy.countflg[3] = 100;
+	enemy.countflg[3] = 10;
 	enemy.countflg[4] = 10;
 	enemy.countflg[5] = 100;
 	enemy.countflg[7] = 100;
@@ -58,13 +58,13 @@ void cRedEnemy::Move( ) {
 	enemy.mainpos.cx = enemy.mainpos.pos.x + enemy.width / 2;
 	enemy.mainpos.cy = enemy.mainpos.pos.y + enemy.hight / 2;
 	
-	/*	if (enemy.mainpos.onActive == StartMove) {
+		if (enemy.mainpos.onActive == StartMove) {
 			enemy.vct.x = cos(enemy.ang);
 			enemy.vct.y = sin(enemy.ang);
 			enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
 			enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
-		}*/
-		 if (enemy.mainpos.onActive == YesActive) {
+		}
+		else  if (enemy.mainpos.onActive == YesActive) {
 			if (enemy.attackflg == TRUE) {
 				if (enemy.moveflg != 7) {
 					enemy.vct.x = cos(enemy.ang)* enemy.dir;
@@ -83,8 +83,10 @@ void cRedEnemy::Move( ) {
 
 int cRedEnemy::Update() {
 	if (enemy.attackflg == true  && enemy.mainpos.onActive != NoActive) {
-		enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
-		enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
+		/*enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+		enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);*/
+		enemy.target.x = 400;
+		enemy.target.y = 300;
 		enemy.count++;
 
 		if (enemy.count > 0) {

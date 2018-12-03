@@ -37,7 +37,10 @@ class cBaseEnemy {
 
 protected:
 	int a, b;
+    int c = 0;
+    int d = 0;
 	sEnemy enemy;
+
 public:
 
 	     cBaseEnemy();//コンストラクタ
@@ -48,12 +51,13 @@ public:
 		virtual void Move();//移動処理
 		virtual void TractorUpdate();//トラクター用の関数　緑以外ではよんでもなにもない
 		virtual void Break() { enemy.mainpos.onActive = false; };
-	    void AnimationCount() { a++; };
+	    virtual void AnimationCount() { a++; };
 		//現状態
 		enum eActiveType {
 			StartMove,
 			NoActive,
 			YesActive,
+			LadyStart,
 		};
 		//右にいるか左にいるか
 		enum eRF {
