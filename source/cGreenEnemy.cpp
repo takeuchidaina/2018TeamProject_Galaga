@@ -182,10 +182,10 @@ int cGreenEnemy::Update() {
 
 void cGreenEnemy::TractorUpdate() {
 	if (enemy.count < 0)enemy.count = 0;
-	/*enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
-	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);*/
-	enemy.target.x = 500;
-	enemy.target.y = 300;
+	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
+	/*enemy.target.x = 500;
+	enemy.target.y = 300;*/
 
 
 	if (tractorflg != 0 && enemy.mainpos.onActive != NoActive && enemy.attackflg == true ) {
