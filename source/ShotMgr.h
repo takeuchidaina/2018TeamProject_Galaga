@@ -32,6 +32,7 @@ private:
 	int ShotGrHandle[4];
 	int shotRate;
 	int checkGr;
+	int ShotFlg;
 
 protected:
 
@@ -40,6 +41,9 @@ public:
 	int Draw();		//•`Êˆ—
 	int Break(int,int);    //’e‚ğÁ‚·ŠÖ”
 	int EnemyShot(double,double);
+
+	//ShotFlg‚ÌŠÖ”(TRUE FALSE)
+	int SetShotFlg(int num) { ShotFlg = num; }
 
 	//GetPlayerShotŠÖ”Aˆø”(player1‚©player2, ”z—ñ‚Ì‰½”Ô–Ú‚©(0‚©1))
 	double GetPlayerShotCX(int num,int num2) {
