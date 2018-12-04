@@ -18,7 +18,7 @@ void Swap(TYPE& a, TYPE& b) {
 class cShot {
 private:
 	double x, y, vx,vy,cx,cy,s,r, w ,h,rad;
-	int OnActive;
+	int OnActive,adjust;
 	
 protected:
 
