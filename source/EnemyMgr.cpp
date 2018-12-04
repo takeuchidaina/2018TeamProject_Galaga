@@ -20,6 +20,7 @@ cEnemyMgr::cEnemyMgr() {
 	onActiveCount = 0;
 	Stayflag = 0;
 	EnemyAttackFlag = 1;
+	EnemyDeathFlag = 0;
 
 	//‰æ‘œ‚Ì“Ç‚İ‚İˆ—
 	LoadDivGraph("../resource/Image/Galaga_OBJ_enemy1616.png", 20, 5, 4, 16, 16, EnemyGraph);
@@ -250,16 +251,17 @@ void cEnemyMgr::Update() {
 	if (Phaseflag == 2) {
 		ReChoiceFlag = 1;
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-			if (enemy[i].onactive != 1 || enemies[i]->GetEnemyAttackflg() != 1 || EnemyAttackFlag !=1)continue;
+			if (enemy[i].onactive != 1 || enemies[i]->GetEnemyAttackflg() != 1 || EnemyAttackFlag !=1|| EnemyDeathFlag!=0)continue;
 			enemies[i]->Update();
 			enemies[i]->Move();
 			enemies[i]->TractorUpdate();
 			ReChoiceFlag = 0;
 			break;
 		}
-
 		//Ä’Š‘I
-		if (ReChoiceFlag == 1)enemies[GetRand(39)]->SetEnemyAttackflg();
+		if (ReChoiceFlag == 1 || EnemyDeathFlag == 1) {
+			enemies[GetRand(39)]->SetEnemyAttackflg();
+		}
 	}
 
 	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {

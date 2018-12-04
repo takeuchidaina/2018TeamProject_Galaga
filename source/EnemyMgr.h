@@ -80,6 +80,7 @@ private:
 	int ReChoiceFlag;         //再抽選フラグ 0:抽選を行わない状態 1:抽選を行う状態
 
 	int EnemyAttackFlag;      //攻撃フラグ   0:攻撃を行わない状態 1:攻撃を行う状態
+	int EnemyDeathFlag;       //死亡フラグ   0:生きてる 1:死んでる
 
 public:
 	//~cEnemyMgr();
@@ -125,11 +126,17 @@ public:
 	}
 
 	double GetEnemyonActive(int num) {
-		return enemies[num]->GetEnemyOnActive();
+		return enemies[num]->GetEnemyAttackflg();
 	};
 
 	void SetEnemyDeath(int num) {
 		enemies[num]->Break();
+		SetEnemyDeathFlag();
+	}
+
+	//敵の死亡判定フラグ 0:生きてる 1:死んでる
+	void SetEnemyDeathFlag() {
+		EnemyDeathFlag = true;
 	}
 
 	/*
