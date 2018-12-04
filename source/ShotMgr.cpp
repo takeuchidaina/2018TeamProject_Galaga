@@ -12,6 +12,7 @@ cShotMgr::cShotMgr() {
 	player2Shot = new cShot[PLAYERSHOTNUM];
 	totalShot = 0;
 	shotRate = 0;
+	ShotFlg = 1;
 	//LoadDivGraph("../resource/Image/Galaga_OBJ_dualFighter.png", 4, 4, 1, 16, 16, ShotGrHandle);
 	checkGr = LoadDivGraph("../resource/Image/Galaga_OBJ_bullet.png", 4, 4, 1, 10, 12, ShotGrHandle);
 	if (checkGr == -1) {
@@ -28,7 +29,7 @@ int cShotMgr::Update() {
 		player1Shot[i].Update();
 		player2Shot[i].Update();
 	}
-	if (cInterface::Instance()->Get_Input(InDECISION) == 1) {
+	if (cInterface::Instance()->Get_Input(InDECISION) == 1&&ShotFlg==TRUE) {
 		if (cPlayer::Instance()->GetDoubleFlg()==0) {
 			for (int i = 0; i < PLAYERSHOTNUM; i++) {
 				if (player1Shot[i].Get_OnActive() == FALSE && shotRate == 0) {
