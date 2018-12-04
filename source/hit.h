@@ -44,6 +44,8 @@ private:
 	void Player_Enemy();		//自機と敵機の当たり判定
 	void PlayerShot_Enemy();	//自弾と敵機の当たり判定
 
+	void Debug();				//デバッグ用関数				
+
 	//double onActive, cx, cy, r;		//プレイヤー
 	sOBJPos Player;
 	double S_onActive, S_cx, S_cy, S_r;		//弾

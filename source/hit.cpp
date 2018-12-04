@@ -17,34 +17,14 @@ void cHit::Update() {
 
 	//cHit::Hit();	//HitŠÖ”ŒÄ‚Ño‚µ
 
-	cHit::Player_EnemyShot();	//Ž©‹@‚Æ“G’e‚Ì“–‚½‚è”»’è
-	cHit::Player_Enemy();		//Ž©‹@‚Æ“G‹@‚Ì“–‚½‚è”»’è
+	//cHit::Player_EnemyShot();	//Ž©‹@‚Æ“G’e‚Ì“–‚½‚è”»’è
+	//cHit::Player_Enemy();		//Ž©‹@‚Æ“G‹@‚Ì“–‚½‚è”»’è
 	cHit::PlayerShot_Enemy();	//Ž©’e‚Æ“G‹@‚Ì“–‚½‚è”»’è
 
 }
 
 void cHit::Draw() {
-
-	/*unsigned int Cr;
-	Cr = GetColor(255, 0, 0);
-	static int maxEnemy = cEnemyMgr::Instance()->GetMaxEnemy();
-
-	for (int j = 0; j < maxEnemy; j++) {
-
-		E_onActive = cEnemyMgr::Instance()->GetEnemyonActive(j);
-		E_cx = cEnemyMgr::Instance()->GetEnemyPosX(j);
-		E_cy = cEnemyMgr::Instance()->GetEnemyPosY(j);
-		E_r = cEnemyMgr::Instance()->GetEnemyPosR(j);
-
-		if (E_onActive == FALSE) continue;
-
-		DrawCircle(E_cx, E_cy, E_r, Cr, TRUE);
-
-	}*/
-
-	
-	
-
+	cHit::Debug();
 }
 
 /************************************************************
@@ -113,7 +93,7 @@ void cHit::Player_Enemy() {
 
 			if (E_onActive == FALSE) continue;
 
-			len = (E_cx - Player.cx)*(E_cx - Player.cx) + (E_cy - Player.cy)*(E_cy - Player.cy);
+			len = (E_cx - Player.cx)*(E_cx - Player.cx) + (E_cy - Player.cy+5.0)*(E_cy - Player.cy+5.0);
 
 			if (len <= ((E_r + Player.r)*(E_r + Player.r))) {
 
@@ -191,7 +171,66 @@ cInGameMgr(eTractor);
 
 }*/
 
+/**********************************************************
 
+ ŠÖ”Fvoid cHit::Debug
+ à–¾FƒfƒoƒbƒO—p
+
+**********************************************************/
+void cHit::Debug() {
+
+	unsigned int Cr;
+	Cr = GetColor(255, 0, 0);
+
+	static int maxEnemy = cEnemyMgr::Instance()->GetMaxEnemy();
+
+	/* Player */
+	Player = cPlayer::Instance()->GetPlayer(0);
+	DrawCircle(Player.cx+1.0, Player.cy+5.0, Player.r, Cr, TRUE);
+
+	/* Shot */
+	for (int j = 0; j < ENEMYSHOTNUM; j++) {
+
+		S_onActive = cShotMgr::Instance()->GetEnemyShotOnActive(j);
+		S_cx = cShotMgr::Instance()->GetEnemyShotCX(j);
+		S_cy = cShotMgr::Instance()->GetEnemyShotCY(j);
+		S_r = cShotMgr::Instance()->GetEnemyShotR(j);
+
+		if (S_onActive == FALSE) continue;
+
+		DrawCircle(S_cx, S_cy, S_r, Cr, TRUE);
+
+	}
+
+	for (int j = 0; j < PLAYERSHOTNUM; j++) {
+		for (int k = 0; k < 2; k++) {
+
+			S_onActive = cShotMgr::Instance()->GetPlayerShotOnActive(j, k);
+			S_cx = cShotMgr::Instance()->GetPlayerShotCX(j, k);
+			S_cy = cShotMgr::Instance()->GetPlayerShotCY(j, k);
+			S_r = cShotMgr::Instance()->GetPlayerShotR(j, k);
+
+			if (S_onActive == FALSE) continue;
+
+			DrawCircle(S_cx, S_cy, S_r, Cr, TRUE);
+
+		}
+	}
+
+	/* Enemy */
+	for (int j = 0; j < maxEnemy; j++) {
+
+		E_onActive = cEnemyMgr::Instance()->GetEnemyonActive(j);
+		E_cx = cEnemyMgr::Instance()->GetEnemyPosX(j);
+		E_cy = cEnemyMgr::Instance()->GetEnemyPosY(j);
+		E_r = cEnemyMgr::Instance()->GetEnemyPosR(j);
+
+		if (E_onActive == FALSE) continue;
+
+		DrawCircle(E_cx, E_cy, E_r, Cr, TRUE);
+
+	}
+}
 
 
 
