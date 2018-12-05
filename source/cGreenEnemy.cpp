@@ -100,7 +100,7 @@ void cGreenEnemy::Move( ) {
 
 int cGreenEnemy::Update() {
 	if (enemy.count < 0)enemy.count = 0;
-	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = LadyStart;
+	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = ReadyStart;
 	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 	/*enemy.target.x = 500;
@@ -172,6 +172,7 @@ int cGreenEnemy::Update() {
 			enemy.ang = -90 * M_PI / 180;
 			enemy.dir *= -1;
 			enemy.attackflg = false;
+			enemy.mainpos.onActive = ReadyStart;
 			tractorflg = true;
 			break;
 		}

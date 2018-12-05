@@ -84,7 +84,7 @@ void cBlueEnemy:: Move() {
 
 int cBlueEnemy::Update() {
 	if (enemy.count < 0)enemy.count = 0;
-	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = LadyStart;
+	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = ReadyStart;
 	if (enemy.attackflg == 1 && enemy.mainpos.onActive != NoActive) {
 		enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 		enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
@@ -152,7 +152,7 @@ int cBlueEnemy::Update() {
 			enemy.mainpos.pos.x = enemy.target.x;	
 			enemy.mainpos.pos.y = enemy.target.y;
 			enemy.attackflg = false;
-		    enemy.mainpos.onActive = LadyStart;
+		    enemy.mainpos.onActive = ReadyStart;
 			break;
 
 		}

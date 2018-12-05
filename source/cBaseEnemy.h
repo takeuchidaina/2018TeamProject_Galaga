@@ -56,7 +56,7 @@ public:
 			StartMove,
 			NoActive,
 			YesActive,
-			LadyStart,
+			ReadyStart,
 		};
 		//âEÇ…Ç¢ÇÈÇ©ç∂Ç…Ç¢ÇÈÇ©
 		enum eRF {
