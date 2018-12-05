@@ -34,6 +34,7 @@ private:
 		int countflag[3];     //特定のフレーム数をあれする配列
 		int onactive;         //表示・非表示の判定
 		int attackflag;       //攻撃フラグ
+		int deathflag;        //敵の死亡フラグ 0:生きてる 1:死んでる
 	}sEnemy;
 
 	//EnemyMgr内でのみ扱う変数を格納する構造体
@@ -48,6 +49,7 @@ private:
 		int etype;            //敵の種類(3種分)
 		double moveangle[3];  //角度設定の配列
 		int countflag[3];     //特定のフレーム数をあれする配列
+		int deathflag;        //敵の死亡フラグ 0:生きてる 1:死んでる
 	}sEnemyMgrData;
 
 
@@ -80,7 +82,8 @@ private:
 	int ReChoiceFlag;         //再抽選フラグ 0:抽選を行わない状態 1:抽選を行う状態
 
 	int EnemyAttackFlag;      //攻撃フラグ   0:攻撃を行わない状態 1:攻撃を行う状態
-	int EnemyDeathFlag;       //死亡フラグ   0:生きてる 1:死んでる
+	//int EnemyDeathFlag;       //死亡フラグ   0:生きてる 1:死んでる　ごみ
+	int EnemyDeathCount;       //死亡カウント
 
 public:
 	//~cEnemyMgr();
@@ -104,19 +107,24 @@ public:
 
 	}
 
-	/*hitにx,y,r,敵数の最大値,敵の死亡する関数をわたす*/
+	/*hitに情報をわたす用関数*/
+	
+	//敵の最大数
 	int GetMaxEnemy() {
 		return 40;
 	}
 
+	//敵のcx
 	double GetEnemyPosX(int num) {
 		return enemies[num]->GetEnemyCx();
 	}
 
+	//敵のcy
 	double GetEnemyPosY(int num) {
 		return enemies[num]->GetEnemyCy();
 	}
 
+	//敵のr
 	double GetEnemyPosR(int num) {
 		return enemies[num]->GetEnemyR();
 	}
@@ -124,20 +132,35 @@ public:
 	double GetEnemyR(int num) {
 		return enemies[num]->GetEnemyR();
 	}
+	
 
-	double GetEnemyonActive(int num) {
-		return enemies[num]->GetEnemyAttackflg();
-	};
+	//敵の攻撃判定を行うためのフラグ
+	int GetEnemyonActive(int num) {
+		//
+		return enemies[num]->GetEnemyOnActive() == 1 ? false:true;
+	}
+	
 
+	/***************************************
+	関数名：void SetEnemyDeath(int num)
+	説明：この関数が呼ばれたとき、敵の死亡処理を行う
+	引数：int型 num
+	戻り値：なしお
+	***************************************/
 	void SetEnemyDeath(int num) {
+		//敵の破壊処理を行う
 		enemies[num]->Break();
-		SetEnemyDeathFlag();
+		enemy[num].onactive = FALSE;
+		enemy[num].deathflag =TRUE;
+		EnemyDeathCount++;
 	}
 
+	/*
 	//敵の死亡判定フラグ 0:生きてる 1:死んでる
 	void SetEnemyDeathFlag() {
 		EnemyDeathFlag = true;
 	}
+	*/
 
 	/*
 	入場後敵が何も動いていない状態を獲得する
@@ -147,14 +170,11 @@ public:
 		return Stayflag;
 	}
 	
+	
+	//InGameControllerで敵の攻撃動作を制御する関数
 	void SetEnemyAttackFlag(int flag) {
 		EnemyAttackFlag=flag;
 	}
-
-	//onactiveをReadyStartにする関数（敵が動かなくなるので変更が必要）
-	/*int GetEnemyReadyStart(int) {
-		return 3;
-	}*/
-
+	
 };
 #endif // !_INGAME_MGR_INCLUDE_
