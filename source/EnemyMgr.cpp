@@ -11,10 +11,14 @@
 
 //コンストラクタ
 cEnemyMgr::cEnemyMgr() {
+	//画像の読み込み処理
+	LoadDivGraph("../resource/Image/Galaga_OBJ_enemy1616.png", 20, 5, 4, 16, 16, EnemyGraph);
+
 	Init();
 }
 
 void cEnemyMgr::Init() {
+	delete[] enemies[40];	//これでいいのか不明。
 	memset(waveflag, 0x00, sizeof(waveflag));
 	wave = 1;
 	fileEndFlag = 0;
@@ -28,8 +32,6 @@ void cEnemyMgr::Init() {
 	EnemyAttackFlag = 1;     //攻撃フラグ 0:攻撃を行わない状態 1:攻撃を行う状態
 	ChoiseOrderFlag = TRUE;
 
-	//画像の読み込み処理
-	LoadDivGraph("../resource/Image/Galaga_OBJ_enemy1616.png", 20, 5, 4, 16, 16, EnemyGraph);
 
 	//Stage_1.csv
 	StageHandle = FileRead_open(StageFilePath);
