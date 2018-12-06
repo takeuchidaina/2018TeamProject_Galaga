@@ -25,6 +25,7 @@ b = tmp;
 
 class cShotMgr:public cSingleton<cShotMgr> {
 	cShotMgr();
+	~cShotMgr();
 	friend cSingleton<cShotMgr>;
 private:
 	cShot *enemyShot, *player1Shot, *player2Shot;
@@ -39,6 +40,7 @@ protected:
 public:
 	int Update();	//ŒvZˆ—
 	int Draw();		//•`Êˆ—
+	void Init();
 	int Break(int,int);    //’e‚ğÁ‚·ŠÖ”
 	int EnemyShot(double,double);
 

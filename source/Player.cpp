@@ -8,20 +8,6 @@
 cPlayer::cPlayer()
 {
 
-	//左側の機体
-	player[eLeftMachine].pos.x = 640.0;
-	player[eLeftMachine].pos.y = 850.0;
-	player[eLeftMachine].r = IMAGEMAG/2;
-	player[eLeftMachine].cx = player[eLeftMachine].pos.x + (IMAGEMAG / 2);
-	player[eLeftMachine].cy = player[eLeftMachine].pos.y + (IMAGEMAG / 2);
-	player[eLeftMachine].onActive = TRUE;
-	//右側の機体
-	player[eRightMachine].pos.x = player[eLeftMachine].pos.x + IMAGEMAG;
-	player[eRightMachine].pos.y = player[eLeftMachine].pos.y;
-	player[eRightMachine].r = IMAGEMAG/2;
-	player[eRightMachine].cx = player[eRightMachine].pos.x + (IMAGEMAG / 2);
-	player[eRightMachine].cy = player[eRightMachine].pos.y + (IMAGEMAG / 2);
-	player[eRightMachine].onActive = FALSE;
 
 	//画像の読み込みと分割
 	LoadDivGraph("../resource/Image/Galaga_OBJ_dualFighter.png", 2, 2, 1, 16, 16, image);
@@ -30,7 +16,26 @@ cPlayer::cPlayer()
 		DrawFormatString(200, 200, GetColor(255, 0, 0), "画像が読み込めませんでした");
 		WaitKey();
 	}
+	Init();
 
+}
+
+void cPlayer::Init() {
+	//左側の機体
+	player[eLeftMachine].pos.x = 450.0;
+	player[eLeftMachine].pos.y = 850.0;
+	player[eLeftMachine].r = IMAGEMAG / 2;
+	player[eLeftMachine].cx = player[eLeftMachine].pos.x + (IMAGEMAG / 2);
+	player[eLeftMachine].cy = player[eLeftMachine].pos.y + (IMAGEMAG / 2);
+	player[eLeftMachine].onActive = TRUE;
+	//右側の機体
+	player[eRightMachine].pos.x = player[eLeftMachine].pos.x + IMAGEMAG;
+	player[eRightMachine].pos.y = player[eLeftMachine].pos.y;
+	player[eRightMachine].r = IMAGEMAG / 2;
+	player[eRightMachine].cx = player[eRightMachine].pos.x + (IMAGEMAG / 2);
+	player[eRightMachine].cy = player[eRightMachine].pos.y + (IMAGEMAG / 2);
+
+	player[eRightMachine].onActive = FALSE;
 	//二機時のフラグ  0:一機 1:二機
 	isDoubleFlg = FALSE;
 
@@ -299,7 +304,7 @@ int cPlayer::GetPlayerHP()
 *************************************************************************/
 void cPlayer::PlayerRevive()
 {
-	player[eLeftMachine].pos.x = 640.0;
+	player[eLeftMachine].pos.x = 450.0;
 	player[eLeftMachine].pos.y = 850.0;
 	player[eLeftMachine].cx = player[eLeftMachine].pos.x + (IMAGEMAG / 2);
 	player[eLeftMachine].cy = player[eLeftMachine].pos.y + (IMAGEMAG / 2);

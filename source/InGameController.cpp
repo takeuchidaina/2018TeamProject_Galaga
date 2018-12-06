@@ -2,6 +2,8 @@
 #include "InGameMgr.h"
 #include "WinBox.h"
 #include "Player.h"
+#include "Interface.h"
+#include "SceneMgr.h"
 
 cInGameController::cInGameController() {}
 
@@ -94,7 +96,24 @@ int cInGameController::TractorSceneDraw() {
 
 
 //リザルト画面
-
+int cInGameController::ResultUpdate() {
+	if (cInterface::Instance()->Get_Input(InDECISION) == 1) {
+		cInGameMgr::Instance()->ChangeScene(cInGameMgr::eBefore);
+		cSceneMgr::Instance()->ChangeScene(eStartMenu);
+		nowStageNum = 1;
+		cScore::Instance()->ResetScore();
+		cEnemyMgr::Instance()->Init();
+		cPlayer::Instance()->Init();
+		cShotMgr::Instance()->Init();
+	}
+	return 0;
+}
+int cInGameController::ResultDraw() {
+	DrawFormatString(400, 400, GetColor(255, 0, 0), "RESULT");
+	DrawFormatString(400, 440, GetColor(255, 255, 255), "調節中");
+	DrawFormatString(400, 460, GetColor(255, 255, 255), "スペースキーでタイトルへ戻るだけ");
+	return 0;
+}
 
 
 //次のステージへ

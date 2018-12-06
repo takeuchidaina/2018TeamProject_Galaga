@@ -160,6 +160,7 @@ void cInGameMgr::Update() {
 		//
 		break;
 	case eResult://リザルト画面
+		cInGameController::Instance()->ResultUpdate();
 		//
 		break;
 	case eNextStage://次のステージへ
@@ -219,6 +220,7 @@ void cInGameMgr::Draw() {
 		//
 		break;
 	case eResult://リザルト画面
+		cInGameController::Instance()->ResultDraw();
 		DrawFormatString(0, 20, GetColor(255, 255, 255), "eResult");
 		 //
 		break;

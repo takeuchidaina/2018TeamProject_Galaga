@@ -37,6 +37,8 @@ public:
 
 
 	//ƒŠƒUƒ‹ƒg‰æ–Ê
+	int ResultUpdate();
+	int ResultDraw();
 
 
 

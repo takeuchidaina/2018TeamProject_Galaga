@@ -8,18 +8,35 @@
 
 //コンストラクタ(初期化)
 cShotMgr::cShotMgr() {
+	//enemyShot = new cShot[ENEMYSHOTNUM];
+	//player1Shot = new cShot[PLAYERSHOTNUM];
+	//player2Shot = new cShot[PLAYERSHOTNUM];
+	//LoadDivGraph("../resource/Image/Galaga_OBJ_dualFighter.png", 4, 4, 1, 16, 16, ShotGrHandle);
+	checkGr = LoadDivGraph("../resource/Image/Galaga_OBJ_bullet.png", 4, 4, 1, 10, 12, ShotGrHandle);
+	if (checkGr == -1) {
+		ErrBox("Shot画像読み込みエラー");
+	}
+	Init();
+	//ErrBox("めう");
+}
+
+void cShotMgr::Init() {
+	delete[] enemyShot;
+	delete[] player1Shot;
+	delete[] player2Shot;
 	enemyShot = new cShot[ENEMYSHOTNUM];
 	player1Shot = new cShot[PLAYERSHOTNUM];
 	player2Shot = new cShot[PLAYERSHOTNUM];
 	totalShot = 0;
 	shotRate = 0;
 	ShotFlg = 1;
-	//LoadDivGraph("../resource/Image/Galaga_OBJ_dualFighter.png", 4, 4, 1, 16, 16, ShotGrHandle);
-	checkGr = LoadDivGraph("../resource/Image/Galaga_OBJ_bullet.png", 4, 4, 1, 10, 12, ShotGrHandle);
-	if (checkGr == -1) {
-		ErrBox("Shot画像読み込みエラー");
-	}
-	//ErrBox("めう");
+
+}
+
+cShotMgr::~cShotMgr() {
+	delete[] enemyShot;
+	delete[] player1Shot;
+	delete[] player2Shot;
 }
 
 int cShotMgr::Update() {

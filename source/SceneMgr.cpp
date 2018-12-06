@@ -79,7 +79,7 @@ void cSceneMgr::Update() {
 	switch (sceneflag) {
 	case eStartMenu:
 		//スタートメニュー
-		if (cInterface::Instance()->Get_Input(InDECISION) != 0) {
+		if (cInterface::Instance()->Get_Input(InDECISION) == 1) {
 			ChangeScene(eInGame);
 		}
 //		test->Update();
@@ -106,7 +106,7 @@ void cSceneMgr::Draw() {
 	case eStartMenu:
 		//スタートメニュー
 		DrawFormatString(0, 0, GetColor(255, 255, 255), "SceneMgr StartMenu");
-		DrawFormatString(200, 400, GetColor(255, 255, 255), "Please press Space key");
+		DrawFormatString(300, 400, GetColor(255, 255, 255), "Please press Space key");
 //		test->Draw();
 		break;
 	case eInGame:

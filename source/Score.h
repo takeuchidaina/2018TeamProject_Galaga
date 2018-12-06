@@ -13,6 +13,7 @@ public:
 	void Draw();
 
 	void AddScore(int n) { score += n; }
+	void ResetScore() { score = 0; }
 };
 
 

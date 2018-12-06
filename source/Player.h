@@ -37,6 +37,7 @@ public:
 
 	void Update();
 	void Draw();
+	void Init();
 
 	/*************************************************************************
 	  ä÷êî: void cPlayer::Move()
