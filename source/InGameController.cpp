@@ -1,6 +1,7 @@
 #include "InGameController.h"
 #include "InGameMgr.h"
 #include "WinBox.h"
+#include "Player.h"
 
 cInGameController::cInGameController() {}
 
@@ -22,7 +23,12 @@ int cInGameController::BeforeSceneDraw() {
 
 //プレイヤー死亡
 int cInGameController::PlayerDeath() {
-	cInGameMgr::Instance()->ChangeScene(cInGameMgr::eDeath);
+	if (cPlayer::Instance()->GetPlayerHP() < 0) {
+		cInGameMgr::Instance()->ChangeScene(cInGameMgr::eResult);
+	}
+	else {
+		cInGameMgr::Instance()->ChangeScene(cInGameMgr::eDeath);
+	}
 	cEnemyMgr::Instance()->SetChoiseOrderFlag(false);
 	ReportBox("プレイヤーが死んだんじゃ\n敵は止まりません。");
 	return 0;
@@ -38,7 +44,11 @@ int cInGameController::PlayerDeathUpdate() {
 	}
 	else {
 		count++;
+		if (count == 10) {
+			cPlayer::Instance()->PlayerRevive();
+		}
 		if (count > 120) {
+			cEnemyMgr::Instance()->SetChoiseOrderFlag(true);
 			cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
 			count = 0;
 		}

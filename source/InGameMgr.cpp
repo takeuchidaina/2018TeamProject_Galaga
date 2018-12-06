@@ -219,6 +219,7 @@ void cInGameMgr::Draw() {
 		//
 		break;
 	case eResult://リザルト画面
+		DrawFormatString(0, 20, GetColor(255, 255, 255), "eResult");
 		 //
 		break;
 	case eNextStage://次のステージへ

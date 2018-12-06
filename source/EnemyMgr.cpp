@@ -243,6 +243,7 @@ void cEnemyMgr::Update() {
 		Phaseflag = 1;
 	}
 	if (Phaseflag == 2) {
+		Stayflag = 0;
 		ReChoiceFlag = 1;
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 			//“G‚ª”ñ•\Ž¦‚à‚µ‚­‚ÍUŒ‚’†‚Å‚Í‚È‚¢‚Æ‚«‚à‚µ‚­‚Í“G‚ªŽ€‚ñ‚Å‚¢‚é‚Æ‚«‚ÍˆÈ‰º‚Ìˆ—‚ð”ò‚Î‚·
