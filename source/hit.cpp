@@ -17,8 +17,8 @@ void cHit::Update() {
 
 	//cHit::Hit();	//HitŠÖ”ŒÄ‚Ño‚µ
 
-	//cHit::Player_EnemyShot();	//©‹@‚Æ“G’e‚Ì“–‚½‚è”»’è
-	//cHit::Player_Enemy();		//©‹@‚Æ“G‹@‚Ì“–‚½‚è”»’è
+	cHit::Player_EnemyShot();	//©‹@‚Æ“G’e‚Ì“–‚½‚è”»’è
+	cHit::Player_Enemy();		//©‹@‚Æ“G‹@‚Ì“–‚½‚è”»’è
 	cHit::PlayerShot_Enemy();	//©’e‚Æ“G‹@‚Ì“–‚½‚è”»’è
 
 }
@@ -144,7 +144,7 @@ void cHit::PlayerShot_Enemy() {
 				double len = (S_cx - E_cx)*(S_cx - E_cx) + (S_cy - E_cy)*(S_cy - E_cy);
 
 				if (len <= ((E_r + S_r)*(E_r + S_r))) {
-					cShotMgr::Instance()->Break(PLAYER, j);
+					cShotMgr::Instance()->Break(PLAYER, k);
 					cEnemyMgr::Instance()->SetEnemyDeath(i);
 				}
 
