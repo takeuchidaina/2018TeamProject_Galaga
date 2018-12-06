@@ -145,10 +145,12 @@ int cRedEnemy::Update() {
 			enemy.ang = atan2(enemy.target.y - enemy.mainpos.pos.y, enemy.target.x - enemy.mainpos.pos.x);
 			if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
 				(enemy.target.y - enemy.mainpos.pos.y)*(enemy.target.y - enemy.mainpos.pos.y) <=
-				(enemy.mainpos.r + enemy.targetr)*(enemy.mainpos.r + enemy.targetr)) {
+				(enemy.mainpos.r/5 + enemy.targetr)*(enemy.mainpos.r/5 + enemy.targetr)) {
 
 				enemy.moveflg++;
 				enemy.count = 0;
+				enemy.mainpos.onActive = SetPos;
+
 			}
 			break;
 		case 9:

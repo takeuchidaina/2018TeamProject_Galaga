@@ -57,6 +57,7 @@ public:
 			NoActive,
 			YesActive,
 			ReadyStart,
+			SetPos
 		};
 		//âEÇ…Ç¢ÇÈÇ©ç∂Ç…Ç¢ÇÈÇ©
 		enum eRF {
@@ -89,8 +90,16 @@ public:
 		}
 		//attackflg
 		virtual	int GetEnemyAttackflg() {
+			//if (enemy.attackflg == true && enemy.mainpos.onActive == SetPos)return false;
+
 			return enemy.attackflg;
 		}
+
+		virtual int GetEnemyChoiseOrder() {
+			if (enemy.attackflg == true && enemy.mainpos.onActive == SetPos)return FALSE;
+			return enemy.attackflg;
+		}
+
 		virtual	void SetEnemyAttackflg() {
 			enemy.attackflg = true;
 		}

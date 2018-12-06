@@ -8,7 +8,7 @@ cInGameController::cInGameController() {}
 //ゲームが始まる前のあのシーン
 int cInGameController::BeforeSceneUpdate() {
 	count++;
-	if (count > 120) {
+	if (count > 180) {
 		cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
 		count = 0;
 	}
@@ -17,7 +17,12 @@ int cInGameController::BeforeSceneUpdate() {
 
 int cInGameController::BeforeSceneDraw() {
 	DrawFormatString(0, 40, GetColor(255,255,255),"%d",count);
-	DrawFormatString(400, 400, GetColor(255, 255, 255), "Stage %d", nowStageNum);
+	if (count < 90 && count > 0) {
+		DrawFormatString(400, 400, GetColor(255, 255, 255), "Stage %d", nowStageNum);
+	}
+	else {
+		DrawFormatString(400, 400, GetColor(255, 255, 255), "READY");
+	}
 	return 0;
 }
 
@@ -30,7 +35,7 @@ int cInGameController::PlayerDeath() {
 		cInGameMgr::Instance()->ChangeScene(cInGameMgr::eDeath);
 	}
 	cEnemyMgr::Instance()->SetChoiseOrderFlag(false);
-	ReportBox("プレイヤーが死んだんじゃ\n敵は止まりません。");
+	//ReportBox("プレイヤーが死んだんじゃ\n敵は止まりません。");
 	return 0;
 }
 int cInGameController::PlayerDeathUpdate() {

@@ -198,7 +198,7 @@ void cEnemyMgr::Update() {
 					Move(enemy[i]);
 					if ((enemy[i].target.x - enemy[i].pos.x)*(enemy[i].target.x - enemy[i].pos.x) +
 						(enemy[i].target.y - enemy[i].pos.y)*(enemy[i].target.y - enemy[i].pos.y) <=
-						(enemy[i].r - 3 + enemy[i].targetr)*(enemy[i].r - 3 + enemy[i].targetr)) {
+						(enemy[i].r /5 + enemy[i].targetr)*(enemy[i].r /5 + enemy[i].targetr)) {
 						enemy[i].pos.x = enemy[i].target.x;
 						enemy[i].pos.y = enemy[i].target.y;
 						enemy[i].moveflag++;
@@ -259,9 +259,14 @@ void cEnemyMgr::Update() {
 			enemies[i]->Update();
 			enemies[i]->Move();
 			enemies[i]->TractorUpdate();
-			ReChoiceFlag = 0;
-		}
 
+		}
+		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+			if (enemy[i].onactive != TRUE || enemies[i]->GetEnemyChoiseOrder() != 1 || enemy[i].deathflag == TRUE)continue;
+			
+			ReChoiceFlag = 0;
+		
+		}
 		if (EnemyDeathCount == GetMaxEnemy()) {
 			cInGameController::Instance()->NextStage();//InGameControllerの全滅報告関数を呼び出す(水野さん,関数の作成よろしくお願いいたします。)しました。
 			Init();
