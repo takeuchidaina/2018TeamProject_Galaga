@@ -8,6 +8,42 @@
 #define SENUM 23
 
 
+
+typedef enum {
+	capture,
+	challenging_stage_clear,
+	challenging_stage_perfect,
+	challenging_stage_start,
+	gamestart,
+	mistake_12,
+	nameentry_1st,
+	music_nameentry_2nd_5th,	// - が使えないので _ に変更
+	rescue
+
+}eMUSIC;
+
+
+typedef enum {
+	alien_flying = 9,
+	boss_striken_1,
+	boss_striken_2,
+	credit,
+	extend_sound,
+	fighter_shot,
+	goei_striken,
+	ingame_ambience,
+	miss,
+	stage_flag,
+	tractor_beam,
+	tractor_beam_capture,
+	triple_formation,
+	zako_striken
+
+}eSE;
+
+
+
+
 class cSE : public cSingleton<cSE>
 {
 	cSE();	//コンストラクタ

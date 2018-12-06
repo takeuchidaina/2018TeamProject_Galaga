@@ -1,12 +1,44 @@
 #include <DxLib.h>
 #include "SE.h"
+#include "WinBox.h"
 
 //コンストラクタ
 cSE::cSE()
 {
 	//配列へ読み込み
 	//int LoadSoundMem(char *FileName);
-	se[0] = LoadSoundMem("gal_se_fighter_shot.wav");
+	//se[0] = LoadSoundMem("gal_se_fighter_shot.wav");
+	//読み込み順ばらばらなので整理が必要 名前順
+	//se[0] = LoadSoundMem("../resource/Sound/gal_se_fighter_shot.wav");
+	//se[1] = LoadSoundMem("../resource/Sound/gal_music_gamestart.wav");
+
+	se[0] = LoadSoundMem("../resource/Sound/gal_music_capture.wav");
+	se[1] = LoadSoundMem("../resource/Sound/gal_music_challenging_stage_clear.wav");
+	se[2] = LoadSoundMem("../resource/Sound/gal_music_challenging_stage_perfect");
+	se[3] = LoadSoundMem("../resource/Sound/gal_music_challenging_stage_start.wav");
+	se[4] = LoadSoundMem("../resource/Sound/gal_music_gamestart.wav");
+	se[5] = LoadSoundMem("../resource/Sound/gal_music_mistake_12.wav");
+	se[6] = LoadSoundMem("../resource/Sound/gal_music_nameentry_1st.wav");
+	se[7] = LoadSoundMem("../resource/Sound/gal_music_nameentry_2nd-5th.wav");
+	se[8] = LoadSoundMem("../resource/Sound/gal_music_rescue.wav");
+	se[9] = LoadSoundMem("../resource/Sound/gal_se_alien_flying.wav");
+	se[10] = LoadSoundMem("../resource/Sound/gal_se_boss_striken_1.wav");
+	se[11] = LoadSoundMem("../resource/Sound/gal_se_boss_striken_2.wav");
+	se[12] = LoadSoundMem("../resource/Sound/gal_se_credit.wav");
+	se[13] = LoadSoundMem("../resource/Sound/gal_se_extend_sound.wav");
+	se[14] = LoadSoundMem("../resource/Sound/gal_se_fighter_shot.wav");
+	se[15] = LoadSoundMem("../resource/Sound/gal_se_goei_striken.wav");
+	se[16] = LoadSoundMem("../resource/Sound/gal_se_ingame_ambience.wav");
+	se[17] = LoadSoundMem("../resource/Sound/gal_se_miss.wav");
+	se[18] = LoadSoundMem("../resource/Sound/gal_se_stage_flag.wav");
+	se[19] = LoadSoundMem("../resource/Sound/gal_se_tractor_beam.wav");
+	se[20] = LoadSoundMem("../resource/Sound/gal_se_tractor_beam_capture.wav");
+	se[21] = LoadSoundMem("../resource/Sound/gal_se_triple_formation.wav");
+	se[22] = LoadSoundMem("../resource/Sound/gal_se_zako_striken.wav");
+
+
+
+	if (se[0] == -1)ErrBox("SE読み込めませんでした");
 }
 
 //デストラクタ
@@ -24,7 +56,8 @@ void cSE::selectSE(int select)
 {
 	//再生
 	//配列の要素数をselectに
-
+	//enumで指定に変更する
+	PlaySoundMem(se[select], DX_PLAYTYPE_BACK);
 
 }
 

@@ -2,6 +2,7 @@
 #include <math.h>
 #include "ShotMgr.h"
 #include "DXlib.h"
+#include "SE.h"
 
 //TemplateƒNƒ‰ƒX‚ÌŽÀ‘•
 
@@ -42,6 +43,7 @@ int cShotMgr::Update() {
 					player1Shot[i].Set_ShotRad(M_PI * 270 / 180);//ã
 					totalShot++;
 					shotRate = 6;
+					cSE::Instance()->selectSE(fighter_shot);
 				}
 			}
 		}
