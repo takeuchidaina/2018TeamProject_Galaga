@@ -144,6 +144,7 @@ void cInGameMgr::Update() {
 	case eDeath://プレイヤー死亡
 		cShotMgr::Instance()->Update();
 		cEnemyMgr::Instance()->Update();
+		cInGameController::Instance()->PlayerDeathUpdate();
 		//
 		break;
 	case eRevival://プレイヤー復活
@@ -197,6 +198,7 @@ void cInGameMgr::Draw() {
 		cPlayer::Instance()->Draw();
 		cEnemyMgr::Instance()->Draw();
 		cShotMgr::Instance()->Draw();
+		cInGameController::Instance()->PlayerDeathDraw();
 		DrawFormatString(0, 20, GetColor(255, 255, 255), "eDeath");
 		//
 		break;

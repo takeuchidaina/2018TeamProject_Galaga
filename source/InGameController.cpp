@@ -23,12 +23,11 @@ int cInGameController::BeforeSceneDraw() {
 //プレイヤー死亡
 int cInGameController::PlayerDeath() {
 	cInGameMgr::Instance()->ChangeScene(cInGameMgr::eDeath);
-
+	cEnemyMgr::Instance()->SetChoiseOrderFlag(false);
 	ReportBox("プレイヤーが死んだんじゃ\n敵は止まりません。");
 	return 0;
 }
 int cInGameController::PlayerDeathUpdate() {
-	count++;
 	//エフェクトを出す
 	//エフェクトが出終わったらREADY表示
 	//プレイヤーを再配置
@@ -38,6 +37,7 @@ int cInGameController::PlayerDeathUpdate() {
 
 	}
 	else {
+		count++;
 		if (count > 120) {
 			cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
 			count = 0;

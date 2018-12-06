@@ -15,7 +15,7 @@ cEnemyMgr::cEnemyMgr() {
 	fileEndFlag = 0;
 	n = 0;
 	num = 0;
-	strcpy(StageFilePath, "../resource/MAP/Stage_1.csv");
+	strcpy(StageFilePath, "../resource/MAP/Stage_2.csv");
 	Phaseflag = 0;
 	onActiveCount = 0;
 	Stayflag = 0;
@@ -263,6 +263,9 @@ void cEnemyMgr::Update() {
 						break;
 					}
 				}
+			}
+			else if(ReChoiceFlag == 1 && ChoiseOrderFlag == FALSE){
+				Stayflag = 1;
 			}
 	
 		//if (EnemyDeathCount == GetMaxEnemy());//InGameController‚Ì‘S–Å•ñŠÖ”‚ğŒÄ‚Ño‚·(…–ì‚³‚ñ,ŠÖ”‚Ìì¬‚æ‚ë‚µ‚­‚¨Šè‚¢‚¢‚½‚µ‚Ü‚·B)
