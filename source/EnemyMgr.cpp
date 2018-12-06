@@ -19,7 +19,8 @@ cEnemyMgr::cEnemyMgr() {
 	Phaseflag = 0;
 	onActiveCount = 0;
 	Stayflag = 0;
-	EnemyAttackFlag = 1;  //攻撃フラグ 0:攻撃を行わない状態 1:攻撃を行う状態
+	EnemyAttackFlag = 1;     //攻撃フラグ 0:攻撃を行わない状態 1:攻撃を行う状態
+	ChoiseOrderFlag = TRUE;  
 
 	//画像の読み込み処理
 	LoadDivGraph("../resource/Image/Galaga_OBJ_enemy1616.png", 20, 5, 4, 16, 16, EnemyGraph);
@@ -244,18 +245,17 @@ void cEnemyMgr::Update() {
 	if (Phaseflag == 2) {
 		ReChoiceFlag = 1;
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-			//敵が非表示もしくは攻撃中ではないときもしくは敵の攻撃命令が出されていないときもしくは敵が死んでいるときは以下の処理を飛ばす
-			if (enemy[i].onactive != TRUE || enemies[i]->GetEnemyAttackflg() != 1 || EnemyAttackFlag !=1||enemy[i].deathflag==TRUE)continue;
+			//敵が非表示もしくは攻撃中ではないときもしくは敵が死んでいるときは以下の処理を飛ばす
+			if (enemy[i].onactive != TRUE || enemies[i]->GetEnemyAttackflg() != 1||enemy[i].deathflag==TRUE)continue;
 			enemies[i]->Update();
 			enemies[i]->Move();
 			enemies[i]->TractorUpdate();
 			ReChoiceFlag = 0;
-			//break;
 		}
 
 		//再抽選
 			//再抽選フラグがTRUEになっているもしくは敵が死んでいる場合は敵の再抽選を行う
-			if (ReChoiceFlag == 1 /*|| enemy[i].deathflag == TRUE*/) {
+			if (ReChoiceFlag == 1 && ChoiseOrderFlag==TRUE) {
 				while(1){
 					int tmp = GetRand(39);
 					if (enemy[tmp].deathflag != TRUE) {
