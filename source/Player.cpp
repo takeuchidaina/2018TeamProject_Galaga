@@ -267,22 +267,8 @@ void cPlayer::Break(int judgeBreak ,int machineNum)
 		//二機とも撃破されたら
 		if (player[eLeftMachine].onActive == FALSE && player[eRightMachine].onActive == FALSE)
 		{
-			//プレイヤーの復活
-			if (playerHP > 0)
-			{
-				//シーンの変更
-				//プレイヤーの復活
-				//DEBUG
-				cInGameController::Instance()->PlayerDeath();
-			}
-			//GAMEOVER
-			else
-			{
-				//シーンの変更
-				//GAMEOVER
-				cInGameController::Instance()->PlayerDeath();
-				DrawFormatString(DISP_SIZE - 300, 800, GetColor(255, 0, 0), "GAMEOVER");
-			}
+			//インゲームコントローラーでHPを管理して復活かゲームオーバー
+			cInGameController::Instance()->PlayerDeath();
 		}
 
 	}
@@ -303,5 +289,20 @@ void cPlayer::Break(int judgeBreak ,int machineNum)
 int cPlayer::GetPlayerHP()
 {
 	return playerHP;
+}
+
+/*************************************************************************
+　関数: void PlayerRevive();
+  説明: プレイヤーの復活
+  引数: 無し
+戻り値: 無し
+*************************************************************************/
+void cPlayer::PlayerRevive()
+{
+	player[eLeftMachine].pos.x = 640.0;
+	player[eLeftMachine].pos.y = 850.0;
+	player[eLeftMachine].cx = player[eLeftMachine].pos.x + (IMAGEMAG / 2);
+	player[eLeftMachine].cy = player[eLeftMachine].pos.y + (IMAGEMAG / 2);
+	player[eLeftMachine].onActive = TRUE;
 }
 
