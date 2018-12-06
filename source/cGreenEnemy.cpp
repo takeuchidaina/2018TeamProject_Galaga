@@ -214,21 +214,21 @@ void cGreenEnemy::TractorUpdate() {
 				tmpy = tmpplayer.pos.y;
 
 			}
-			enemy.ang = atan2(tmpy - 64 - enemy.mainpos.pos.y, (tmpx - enemy.mainpos.pos.x)*enemy.dir);
+			enemy.ang = atan2(tmpy - 160 - enemy.mainpos.pos.y, (tmpx - enemy.mainpos.pos.x)*enemy.dir);
 			if ((tmpx - enemy.mainpos.pos.x)*(tmpx - enemy.mainpos.pos.x) +
-				(tmpy - 64 - enemy.mainpos.pos.y)*(tmpy - 64 - enemy.mainpos.pos.y) <=
+				(tmpy - 160 - enemy.mainpos.pos.y)*(tmpy - 160 - enemy.mainpos.pos.y) <=
 				(enemy.mainpos.r - 1 + enemy.targetr)*(enemy.mainpos.r - 1 + enemy.targetr)) {
 				//“GÀ•W‚ð–Ú“I’n‚ÉŒÅ’è
 				
 				enemy.mainpos.pos.x = tmpx;
-				enemy.mainpos.pos.y = tmpy - 64;
+				enemy.mainpos.pos.y = tmpy - 160;
 				enemy.count = 0;
 				enemy.moveflg++;
 			}
 			break;
 		case 2:
 			enemy.mainpos.pos.x = tmpx;
-			enemy.mainpos.pos.y = tmpy - 64;
+			enemy.mainpos.pos.y = tmpy - 160;
 			enemy.ang = 90 * M_PI / 180;
 			break;
 		case 3:
@@ -280,7 +280,7 @@ int cGreenEnemy::Draw() {
 						enemy.moveflg++;
 					}
 				}
-				DrawGraph((int)enemy.mainpos.pos.x - 6, (int)enemy.mainpos.pos.y + enemy.hight, tractor[tractorAnimation[d]], TRUE);
+				DrawExtendGraph((int)enemy.mainpos.pos.x , (int)enemy.mainpos.pos.y + enemy.hight, (int)enemy.mainpos.pos.x+96, (int)enemy.mainpos.pos.y + enemy.hight+160,tractor[tractorAnimation[d]], TRUE);
 			}
 		}
 	}

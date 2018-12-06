@@ -108,7 +108,7 @@ int cBlueEnemy::Update() {
 			break;
 		case 1:
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
-			if(enemy.count == 10)cShotMgr::Instance()->EnemyShot(enemy.mainpos.pos.x, enemy.mainpos.pos.y);
+			if(enemy.count == 5 || enemy.count == 25)cShotMgr::Instance()->EnemyShot(enemy.mainpos.pos.x, enemy.mainpos.pos.y);
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
 				enemy.count = 0;
