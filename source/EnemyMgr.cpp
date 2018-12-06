@@ -15,12 +15,11 @@ cEnemyMgr::cEnemyMgr() {
 	fileEndFlag = 0;
 	n = 0;
 	num = 0;
-	strcpy(StageFilePath, "../resource/MAP/Stage_2.csv");
+	strcpy(StageFilePath, "../resource/MAP/Stage_1.csv");
 	Phaseflag = 0;
 	onActiveCount = 0;
 	Stayflag = 0;
-	EnemyAttackFlag = 1;
-	EnemyDeathFlag = 0;
+	EnemyAttackFlag = 1;  //攻撃フラグ 0:攻撃を行わない状態 1:攻撃を行う状態
 
 	//画像の読み込み処理
 	LoadDivGraph("../resource/Image/Galaga_OBJ_enemy1616.png", 20, 5, 4, 16, 16, EnemyGraph);
@@ -98,10 +97,12 @@ cEnemyMgr::cEnemyMgr() {
 		case 18:enemy[n].countflag[2] = atoi(inputc); break;
 		}
 
+		//同じ値で初期化する変数
 		enemy[n].v.x = 0;
 		enemy[n].v.y = 0;
 		enemy[n].moveflag = 0;
-		enemy[n].onactive = false;
+		enemy[n].onactive = FALSE;
+		enemy[n].deathflag = FALSE;
 
 		num++;
 		if (num == 19) {
@@ -152,10 +153,10 @@ void cEnemyMgr::Update() {
 				enemy[i].count++;
 				//カウントが0より多ければ、敵の表示判定をtrue(1)にする
 				if (enemy[i].count > 0) {
-					enemy[i].onactive = 1;
+					enemy[i].onactive = TRUE;
 				}
 				//敵の発生判定がtrueでない場合は以降の処理を無視(continue)してiを加算する
-				if (enemy[i].onactive != 1)continue;
+				if (enemy[i].onactive != TRUE)continue;
 
 				onActiveCount++;
 
@@ -217,12 +218,6 @@ void cEnemyMgr::Update() {
 			enemies[i]->SetEnemyX(enemy[i].pos.x);
 			enemies[i]->SetEnemyY(enemy[i].pos.y);
 			enemies[i]->SetEnemyAngle(enemy[i].angle);
-
-			/*
-			//onactiveをReadyStartにする（敵が動かなくなるので変更が必要）
-			enemy[i].onactive=GetEnemyReadyStart(enemy[i].onactive);
-			*/
-
 		}//配列数分の敵動作終了
 
 		 //敵が動いていないフラグをonにする
@@ -232,17 +227,15 @@ void cEnemyMgr::Update() {
 
 		//Phaseflagが1の場合
 		if (Phaseflag == 1) {
-			//敵40体分
-			for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-				//Stayflagをfalseにする
-				Stayflag = 0;
 
-				//Attackflagをtrueにする
-				enemies[30]->SetEnemyAttackflg();
+     		//Stayflagをfalseにする
+			Stayflag = 0;
 
-				//phaseflagを2にする
-				Phaseflag = 2;
-			}
+		    //phaseflagを2にする
+		    Phaseflag = 2;
+
+			//EnemyのAttackflagをtrueにする
+			enemies[GetRand(39)]->SetEnemyAttackflg();
 		}
 	}
 	if (wave == 10 && Phaseflag == 0) {
@@ -251,17 +244,28 @@ void cEnemyMgr::Update() {
 	if (Phaseflag == 2) {
 		ReChoiceFlag = 1;
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-			if (enemy[i].onactive != 1 || enemies[i]->GetEnemyAttackflg() != 1 || EnemyAttackFlag !=1|| EnemyDeathFlag!=0)continue;
+			//敵が非表示もしくは攻撃中ではないときもしくは敵の攻撃命令が出されていないときもしくは敵が死んでいるときは以下の処理を飛ばす
+			if (enemy[i].onactive != TRUE || enemies[i]->GetEnemyAttackflg() != 1 || EnemyAttackFlag !=1||enemy[i].deathflag==TRUE)continue;
 			enemies[i]->Update();
 			enemies[i]->Move();
 			enemies[i]->TractorUpdate();
 			ReChoiceFlag = 0;
-			break;
+			//break;
 		}
+
 		//再抽選
-		if (ReChoiceFlag == 1 || EnemyDeathFlag == 1) {
-			enemies[GetRand(39)]->SetEnemyAttackflg();
-		}
+			//再抽選フラグがTRUEになっているもしくは敵が死んでいる場合は敵の再抽選を行う
+			if (ReChoiceFlag == 1 /*|| enemy[i].deathflag == TRUE*/) {
+				while(1){
+					int tmp = GetRand(39);
+					if (enemy[tmp].deathflag != TRUE) {
+						enemies[tmp]->SetEnemyAttackflg();
+						break;
+					}
+				}
+			}
+	
+		//if (EnemyDeathCount == GetMaxEnemy());//InGameControllerの全滅報告関数を呼び出す(水野さん,関数の作成よろしくお願いいたします。)
 	}
 
 	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
@@ -304,6 +308,8 @@ void cEnemyMgr::Draw() {
 		DrawFormatString(100, 100, GetColor(255, 255, 255), "攻撃フェーズ");
 	}
 
-	//DrawFormatString(0, 120, GetColor(255, 255, 255), "再抽選フラグ:%d", ReChoiceFlag);
+	//
+	DrawFormatString(0, 120, GetColor(255, 255, 255), "再抽選フラグ:%d", ReChoiceFlag);
+	DrawFormatString(0, 140, GetColor(255, 255, 255), "敵死亡フラグ:%d", enemy[1].deathflag);
 
 }
