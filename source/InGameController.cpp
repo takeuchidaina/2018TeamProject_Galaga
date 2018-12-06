@@ -8,7 +8,7 @@ cInGameController::cInGameController() {}
 //ゲームが始まる前のあのシーン
 int cInGameController::BeforeSceneUpdate() {
 	count++;
-	if (count > 10) {
+	if (count > 120) {
 		cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
 		count = 0;
 	}
@@ -93,7 +93,11 @@ int cInGameController::TractorSceneDraw() {
 
 
 //次のステージへ
-
+int cInGameController::NextStage() {
+	nowStageNum++;
+	cInGameMgr::Instance()->ChangeScene(cInGameMgr::eBefore);
+	return 0;
+}
 
 
 

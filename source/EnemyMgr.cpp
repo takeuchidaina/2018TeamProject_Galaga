@@ -7,20 +7,26 @@
 #include "cRedEnemy.h"
 #include "cGreenEnemy.h"
 #include "Struct.h"
+#include "InGameController.h"
 
 //コンストラクタ
 cEnemyMgr::cEnemyMgr() {
+	Init();
+}
+
+void cEnemyMgr::Init() {
 	memset(waveflag, 0x00, sizeof(waveflag));
 	wave = 1;
 	fileEndFlag = 0;
 	n = 0;
 	num = 0;
-	strcpy(StageFilePath, "../resource/MAP/Stage_2.csv");
+	snprintf(StageFilePath, 255, "../resource/MAP/Stage_%d.csv", cInGameController::Instance()->GetNowStageNum());
+	//strcpy(StageFilePath, "../resource/MAP/Stage_2.csv");
 	Phaseflag = 0;
 	onActiveCount = 0;
 	Stayflag = 0;
 	EnemyAttackFlag = 1;     //攻撃フラグ 0:攻撃を行わない状態 1:攻撃を行う状態
-	ChoiseOrderFlag = TRUE;  
+	ChoiseOrderFlag = TRUE;
 
 	//画像の読み込み処理
 	LoadDivGraph("../resource/Image/Galaga_OBJ_enemy1616.png", 20, 5, 4, 16, 16, EnemyGraph);
@@ -29,7 +35,7 @@ cEnemyMgr::cEnemyMgr() {
 	StageHandle = FileRead_open(StageFilePath);
 	//if (StageHandle == 0);  //エラー処理の記入途中
 
-							//最初の二行　読み飛ばす　処理　
+	//最初の二行　読み飛ばす　処理　
 	for (int i = 0; i < 2; i++)while (FileRead_getc(StageHandle) != '\n');
 
 	//ファイルの読み取り処理(breakでwhile文を抜ける処理なので条件式は1に設定されている)
@@ -254,10 +260,16 @@ void cEnemyMgr::Update() {
 			ReChoiceFlag = 0;
 		}
 
-		//再抽選
-			//再抽選フラグがTRUEになっているもしくは敵が死んでいる場合は敵の再抽選を行う
-			if (ReChoiceFlag == 1 && ChoiseOrderFlag==TRUE) {
-				while(1){
+		if (EnemyDeathCount == GetMaxEnemy()) {
+			cInGameController::Instance()->NextStage();//InGameControllerの全滅報告関数を呼び出す(水野さん,関数の作成よろしくお願いいたします。)
+			Init();
+			return;
+		}
+		else {
+			//再抽選
+				//再抽選フラグがTRUEになっているもしくは敵が死んでいる場合は敵の再抽選を行う
+			if (ReChoiceFlag == 1 && ChoiseOrderFlag == TRUE) {
+				while (1) {
 					int tmp = GetRand(39);
 					if (enemy[tmp].deathflag != TRUE) {
 						enemies[tmp]->SetEnemyAttackflg();
@@ -265,11 +277,10 @@ void cEnemyMgr::Update() {
 					}
 				}
 			}
-			else if(ReChoiceFlag == 1 && ChoiseOrderFlag == FALSE){
+			else if (ReChoiceFlag == 1 && ChoiseOrderFlag == FALSE) {
 				Stayflag = 1;
 			}
-	
-		//if (EnemyDeathCount == GetMaxEnemy());//InGameControllerの全滅報告関数を呼び出す(水野さん,関数の作成よろしくお願いいたします。)
+		}
 	}
 
 	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {

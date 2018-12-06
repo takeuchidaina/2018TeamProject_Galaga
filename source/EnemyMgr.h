@@ -92,6 +92,8 @@ public:
 	void Update();
 	void Draw();
 
+	void Init();
+
 	double GetTargetX(cBaseEnemy* p) {
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 			if (p == enemies[i]) {
