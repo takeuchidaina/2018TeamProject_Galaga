@@ -6,6 +6,7 @@
 #include "cBaseEnemy.h"
 #include "Singleton.h"
 #include "WinBox.h"
+#include "Score.h"
 
 class cEnemyMgr : public cSingleton <cEnemyMgr> {
 	cEnemyMgr();
@@ -156,6 +157,7 @@ public:
 		enemy[num].onactive = FALSE;
 		enemy[num].deathflag =TRUE;
 		EnemyDeathCount++;
+		cScore::Instance()->AddScore(100);
 	}
 
 	/*

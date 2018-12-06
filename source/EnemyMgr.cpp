@@ -33,8 +33,10 @@ void cEnemyMgr::Init() {
 
 	//Stage_1.csv
 	StageHandle = FileRead_open(StageFilePath);
-	//if (StageHandle == 0);  //エラー処理の記入途中
-
+	if (StageHandle == 0) {
+		//エラー処理の記入途中
+		StageHandle = FileRead_open("../resource/MAP/Stage_2.csv");
+	}
 	//最初の二行　読み飛ばす　処理　
 	for (int i = 0; i < 2; i++)while (FileRead_getc(StageHandle) != '\n');
 
@@ -261,7 +263,7 @@ void cEnemyMgr::Update() {
 		}
 
 		if (EnemyDeathCount == GetMaxEnemy()) {
-			cInGameController::Instance()->NextStage();//InGameControllerの全滅報告関数を呼び出す(水野さん,関数の作成よろしくお願いいたします。)
+			cInGameController::Instance()->NextStage();//InGameControllerの全滅報告関数を呼び出す(水野さん,関数の作成よろしくお願いいたします。)しました。
 			Init();
 			return;
 		}

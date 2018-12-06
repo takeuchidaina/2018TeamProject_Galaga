@@ -124,7 +124,9 @@ void cSceneMgr::Draw() {
 
 		break;
 	}
+	
 	cUI::Instance()->UI_Draw();
+	cScore::Instance()->Draw();
 }
 
 void cSceneMgr::ChangeScene(eScene nextScene) {
