@@ -113,12 +113,19 @@ int cRedEnemy::Update() {
 				enemy.count = 0;
 			}
 			break;
-		case 1:
 		case 2:
 		case 3:
 		case 4:
 		case 5:
 		case 8:
+			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+				enemy.moveflg++;
+				enemy.count = 0;
+			}
+			break;
+		case 1:
+			if (enemy.count == 5 || enemy.count == 25)cShotMgr::Instance()->EnemyShot(enemy.mainpos.pos.x, enemy.mainpos.pos.y);
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
