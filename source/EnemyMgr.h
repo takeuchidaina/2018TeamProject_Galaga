@@ -79,6 +79,7 @@ private:
 	int phaseFlagCount;       //入場が終了している敵の数
 	int onActiveCount;        //入場時にonActiveがtrueになっている敵の数
 	   
+	int ChoiseOrderFlag;      //外部で操作可能な再抽選フラグ TRUE:抽選可能。抽選を行う  FALSE:抽選不可。抽選を行わない
 	int ReChoiceFlag;         //再抽選フラグ 0:抽選を行わない状態 1:抽選を行う状態
 
 	int EnemyAttackFlag;      //攻撃フラグ   0:攻撃を行わない状態 1:攻撃を行う状態
@@ -170,11 +171,15 @@ public:
 		return Stayflag;
 	}
 	
-	
 	//InGameControllerで敵の攻撃動作を制御する関数
 	void SetEnemyAttackFlag(int flag) {
 		EnemyAttackFlag=flag;
 	}
-	
+
+	//InGameControllerで敵の抽選命令を制御する関数
+	void SetChoiseOrderFlag(int flag) {
+		ChoiseOrderFlag = flag;
+	}
+
 };
 #endif // !_INGAME_MGR_INCLUDE_
