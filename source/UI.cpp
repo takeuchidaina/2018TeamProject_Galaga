@@ -79,7 +79,7 @@ int cUI::UI_Draw()
 	//プレイヤーの残機
 	for (j = 0; j < playerHP; j++)
 	{
-		DrawExtendGraph(DISP_SIZE + 50 + (IMAGEMAG*j), 900, DISP_SIZE + 50 + (IMAGEMAG*j + 1) + IMAGEMAG, 900 + IMAGEMAG, iconImg[6], TRUE);
+		DrawExtendGraph(DISP_SIZE + 50 + (IMAGEMAG*j), 650, DISP_SIZE + 50 + (IMAGEMAG*j + 1) + IMAGEMAG, 650 + IMAGEMAG, iconImg[6], TRUE);
 	}
 
 	//ステージアイコンの表示
