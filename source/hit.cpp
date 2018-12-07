@@ -5,6 +5,7 @@
 /* コンストラクタ */
 cHit::cHit() {
 
+	beemR = 10.0;
 
 }
 
@@ -15,8 +16,6 @@ cHitFunc::~cHitFunc() {
 
 void cHit::Update() {
 
-	//cHit::Hit();	//Hit関数呼び出し
-
 	cHit::Player_EnemyShot();	//自機と敵弾の当たり判定
 	cHit::Player_Enemy();		//自機と敵機の当たり判定
 	cHit::PlayerShot_Enemy();	//自弾と敵機の当たり判定
@@ -24,25 +23,26 @@ void cHit::Update() {
 }
 
 void cHit::Draw() {
-	cHit::Debug();
+	//cHit::Debug();
 }
 
 /************************************************************
 
-関数：void cHit::Player_EnemyShot
-説明：自機と敵弾の当たり判定
+ 関数：void cHit::Player_EnemyShot
+ 説明：自機と敵弾の当たり判定
 
 ************************************************************/
 void cHit::Player_EnemyShot() {
 
-	for (int i = 0; i < MAXMACHINE; i++) {
+	for (int i = 0; i < MAXMACHINE; i++) {	// 表示中のプレイヤーを調べる
 
-		Player = cPlayer::Instance()->GetPlayer(i);
+		Player = cPlayer::Instance()->GetPlayer(i);	// プレイヤーの情報受取
 
 		if (Player.onActive == FALSE) continue;
 
-		for (int j = 0; j < ENEMYSHOTNUM; j++) {
+		for (int j = 0; j < ENEMYSHOTNUM; j++) {	// 表示中の敵弾を調べる
 
+			/* 敵弾の情報受取 */
 			S_onActive = cShotMgr::Instance()->GetEnemyShotOnActive(j);
 			S_cx = cShotMgr::Instance()->GetEnemyShotCX(j);
 			S_cy = cShotMgr::Instance()->GetEnemyShotCY(j);
@@ -70,22 +70,23 @@ void cHit::Player_EnemyShot() {
 
 /************************************************************
 
-関数：void cHit::Player_Enemy
-説明：自機と敵機の当たり判定
+ 関数：void cHit::Player_Enemy
+ 説明：自機と敵機の当たり判定
 
 ************************************************************/
-void cHit::Player_Enemy() {
+void cHit::Player_Enemy() {	
 
-	static int maxEnemy = cEnemyMgr::Instance()->GetMaxEnemy();
+	static int maxEnemy = cEnemyMgr::Instance()->GetMaxEnemy();	// 敵機の数取得
 
-	for (int i = 0; i < MAXMACHINE; i++) {
+	for (int i = 0; i < MAXMACHINE; i++) {	// 表示中のプレイヤーを調べる
 
-		Player = cPlayer::Instance()->GetPlayer(i);
+		Player = cPlayer::Instance()->GetPlayer(i);	// プレイヤー情報受取
 
 		if (Player.onActive == FALSE) continue;
 
-		for (int j = 0; j < maxEnemy; j++) {
+		for (int j = 0; j < maxEnemy; j++) {	// 表示中の敵機を調べる
 
+			/* 敵機の情報受取 */
 			E_onActive = cEnemyMgr::Instance()->GetEnemyonActive(j);
 			E_cx = cEnemyMgr::Instance()->GetEnemyPosX(j);
 			E_cy = cEnemyMgr::Instance()->GetEnemyPosY(j);
@@ -114,16 +115,17 @@ void cHit::Player_Enemy() {
 
 /************************************************************
 
-関数：void cHit::PlayerShot_Enemy
-説明：自弾と敵機の当たり判定
+ 関数：void cHit::PlayerShot_Enemy
+ 説明：自弾と敵機の当たり判定
 
 ************************************************************/
 void cHit::PlayerShot_Enemy() {
 
-	static int maxEnemy = cEnemyMgr::Instance()->GetMaxEnemy();
+	static int maxEnemy = cEnemyMgr::Instance()->GetMaxEnemy();	// 敵機の数取得
 
-	for (int i = 0; i < maxEnemy; i++) {
+	for (int i = 0; i < maxEnemy; i++) {	// 表示中の敵機を調べる
 
+		/* 敵機の情報受取 */
 		E_onActive = cEnemyMgr::Instance()->GetEnemyonActive(i);
 		E_cx = cEnemyMgr::Instance()->GetEnemyPosX(i);
 		E_cy = cEnemyMgr::Instance()->GetEnemyPosY(i);
@@ -131,9 +133,10 @@ void cHit::PlayerShot_Enemy() {
 
 		if (E_onActive == FALSE) continue;
 
-		for (int j = 0; j < PLAYERSHOTNUM; j++) {
-			for (int k = 0; k < 2; k++) {
+		for (int j = 0; j < PLAYERSHOTNUM; j++) {	// 弾を撃ったプレイヤー
+			for (int k = 0; k < 2; k++) {	// プレイヤーの弾を調べる
 
+				/* 自機弾の情報受取 */
 				S_onActive = cShotMgr::Instance()->GetPlayerShotOnActive(j, k);
 				S_cx = cShotMgr::Instance()->GetPlayerShotCX(j, k);
 				S_cy = cShotMgr::Instance()->GetPlayerShotCY(j, k);
@@ -154,22 +157,25 @@ void cHit::PlayerShot_Enemy() {
 }
 
 /************************************************************
-関数：void cHit::BeemHit
-説明：トラクタービームの当たり判定
-引数：sOBJPos *Player
-：cShot *enemyShot
-戻値：なし
+
+ 関数：void cHit::BeemHit
+ 説明：トラクタービームの当たり判定
+ 引数：トラクタービームを撃った敵
+
 ************************************************************
-void cHit::BeemHit() {
+void cHit::BeemHit(int cntEnemy) {
 
-sOBJPos Player[2];
+	for (int i = 0; i < MAXMACHINE; i++) {	// 表示中のプレイヤーを調べる
 
+		Player = cPlayer::Instance()->GetPlayer(i);
+		E_cx = cEnemyMgr::Instance()->GetEnemyPosX(cntEnemy);
 
-if (((tmpEnemy.cx - beemR) <= Player.cx && (tmpEnemy.cx + beemR) >= Player.cx)) {
-cInGameMgr(eTractor);
+		if (((E_cx - beemR) <= Player.cx+Player.r) && ((E_cx + beemR) >= Player.cx-Player.r)) {
+			cInGameMgr::Instance()->ChangeScene(eTractor);
+		}
+
+	}
 }
-
-}*/
 
 /**********************************************************
 

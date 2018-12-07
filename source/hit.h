@@ -13,24 +13,11 @@
 #include "Singleton.h"
 #include "Struct.h"
 #include "Player.h"
-#include"InGameMgr.h"
-#include"ShotMgr.h"
-#include"Shot.h"
-#include"EnemyMgr.h"
-#include"cBaseEnemy.h"
-
-
-
-/*
-//テンプレート例 クラスもテンプレート化可能
-template <typename TYPE>
-void Swap(TYPE& a, TYPE& b) {
-TYPE tmp;
-tmp = a;
-a = b;
-b = tmp;
-}
-*/
+#include "InGameMgr.h"
+#include "ShotMgr.h"
+#include "Shot.h"
+#include "EnemyMgr.h"
+#include "cBaseEnemy.h"
 
 class cHit: public cSingleton<cHit>
 {
@@ -46,11 +33,11 @@ private:
 
 	void Debug();				//デバッグ用関数				
 
-	//double onActive, cx, cy, r;		//プレイヤー
-	sOBJPos Player;
+	sOBJPos Player;							//プレイヤー
 	double S_onActive, S_cx, S_cy, S_r;		//弾
 	double E_onActive, E_cx, E_cy, E_r;		//敵
-
+	
+	double beemR;
 	double len;
 
 protected:
@@ -59,7 +46,7 @@ public:
 
 	void Update();	//計算処理
 	void Draw();	//描写処理
-	//void BeemHit(); //トラクタービーム当たり判定
+	void BeemHit(int); //トラクタービーム当たり判定
 
 };
 
