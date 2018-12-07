@@ -49,8 +49,8 @@ private:
 	const sUITextPos UItextPos[3] =
 	{
 		{ DISP_SIZE, 50,"HIGH SCORE",eRed },
-		{ DISP_SIZE + 100, 150,"1UP",eRed },
-		{ DISP_SIZE + 100, 150,"   ",eNone },   //blink
+		{ DISP_SIZE + 125, 150,"1UP",eRed },
+		{ DISP_SIZE + 125, 150,"   ",eNone },   //blink
 	};
 
 protected:

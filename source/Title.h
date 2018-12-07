@@ -4,6 +4,7 @@
 
 #include "Singleton.h"
 #include "TextChange.h"
+#include "UI.h"
 
 //ç¿ïWÇ∆ï\é¶Ç∑ÇÈï∂éöóÒÇÃç\ë¢ëÃ
 typedef struct
@@ -25,14 +26,15 @@ private:
 
 	const sTitleTextPos TTextPos[5] =
 	{
-		{ 200,400,"PUSH SPACE BUTTON",eLBlue,eMag48 },
-		{ 100,500,"1ST BONUS FOR 20000 PTS",eYellow,eMag48 },
-		{ 100,600,"2ND BONUS FOR 70000 PTS",eYellow,eMag48 },
-		{ 100,700,"AND FOR EVERY 70000 PTS",eYellow,eMag48 },
-		//{ 150,600,"C 1981 1995 NAMCO LTD",eWhite,eMag48},
+		{ 160,450,"PUSH SPACE BUTTON",eLBlue,eMag48 },
+		{ 100,550,"1ST BONUS FOR 20000 PTS",eYellow,eMag48 },
+		{ 100,650,"2ND BONUS FOR 70000 PTS",eYellow,eMag48 },
+		{ 100,750,"AND FOR EVERY 70000 PTS",eYellow,eMag48 },
+		//{ 150,650,"C 1981 1995 NAMCO LTD",eWhite,eMag48},
 
 	};
 	int TitleHandle[2];
+	int TitleIcon;
 
 public:
 
