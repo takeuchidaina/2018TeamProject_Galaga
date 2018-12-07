@@ -9,6 +9,7 @@
 #include "EnemyMgr.h"
 #include "UI.h"
 #include "Score.h"
+#include "Title.h"
 
 //‚±‚ê‚Í•Ê‚Éƒwƒbƒ_[‚ğì‚Á‚Ä‚à‚¢‚¢
 typedef enum {
