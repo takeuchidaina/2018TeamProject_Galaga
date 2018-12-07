@@ -14,6 +14,7 @@ private:
 	int tractorflg;
 	sOBJPos tmpplayer;
 	double tmpx, tmpy;
+	
 public:
 	cGreenEnemy(double, double, double, int, double, double, int, int*);
 	virtual void Move();
@@ -21,5 +22,6 @@ public:
 	virtual int Update();
 	virtual int Draw();
 	virtual void AnimationCount() { a++; c++; };
+//	int GetHp() { return hp; };
 };
 #endif // !REDENEMY_INCLUDE

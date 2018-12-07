@@ -8,7 +8,7 @@
 
 
 /*
-
+全てのエネミーの継承元
 
 */
 
@@ -17,8 +17,8 @@
 typedef struct {
 	sPos vct;               // ベクトル用x y
 	sOBJPos mainpos ;//メインのx y r onActive
-	sPos target;          //変える位置かな？
-	int targetr;
+	sPos target;          //定位置
+	int targetr;          //エネミーの定位置の半径
 	double spd;		  //速度
 	double ang;	      //向いている角度
 	int* graph;		 //マネージャーからもらう画像のアドレス用
@@ -28,14 +28,15 @@ typedef struct {
 	int count; //移動カウント
 	int moveflg; //移動制御フラグ 
 	int attackflg;//攻撃フラグ
-	double moveang[15];//
-	double countflg[15];
-	
+	double moveang[15];//移動中の方向変化量
+	double countflg[15];//移動のフェーズ切り替えのカウント
+	int hp;
 }sEnemy;
 
 class cBaseEnemy {
 
 protected:
+	//アニメーションのカウント
 	int a, b;
     int c ,d;
 	sEnemy enemy;
@@ -47,28 +48,35 @@ public:
 		virtual ~cBaseEnemy();//デストラクタ
 		virtual	int Update();//更新処理
 		virtual int Draw();//描画処理
-		virtual void Move();//移動処理
+		/*****************************************************
+		移動処理
+		****************************************************/
+		virtual void Move();
 		virtual void TractorUpdate();//トラクター用の関数　緑以外ではよんでもなにもない
-		virtual void Break() { enemy.mainpos.onActive = NoActive; };
-	    virtual void AnimationCount() { a++; };
-		//現状態
+		virtual void Break() { enemy.mainpos.onActive = NoActive; };//エネミーの破壊関数
+	    virtual void AnimationCount() { a++; };//アニメーションの描画関数
+		
+		//状態
 		enum eActiveType {
-			StartMove,
-			NoActive,
-			YesActive,
-			ReadyStart,
-			SetPos
+			StartMove, //スタート時
+			NoActive,  // 破壊時
+			YesActive, //起動時
+			ReadyStart, //移動可能時
+			SetPos //移動終了時
 		};
+
 		//右にいるか左にいるか
 		enum eRF {
 		RIGHT = 1,
 		LEFT= -1,
 	};
-		//
+		//エネミーマネージャーで使う移動
 		virtual void Update2() {
 			enemy.mainpos.cx = enemy.mainpos.pos.x + (enemy.width / 2);
 			enemy.mainpos.cy = enemy.mainpos.pos.y + (enemy.hight / 2);
 		}
+		//ここら辺から自分の情報を返す関数
+		//情報を自分に代入する関数
 
 		virtual	sEnemy GetEnemy(){
 			return enemy;
@@ -85,6 +93,7 @@ public:
 		virtual	double GetEnemyY() {
 			return enemy.mainpos.pos.y;
 		}
+		//
 		virtual	void SetEnemyY(double y) {
 			enemy.mainpos.pos.y = y;
 		}
@@ -95,6 +104,7 @@ public:
 			return enemy.attackflg;
 		}
 
+		//作水野　攻撃する敵を選択するときに使うもの
 		virtual int GetEnemyChoiseOrder() {
 			if (enemy.attackflg == true && enemy.mainpos.onActive == SetPos)return FALSE;
 			return enemy.attackflg;
@@ -103,6 +113,7 @@ public:
 		virtual	void SetEnemyAttackflg() {
 			enemy.attackflg = true;
 		}
+
 		//ang
 		virtual	double GetEnemyAngle() {
 			return enemy.ang;
@@ -113,6 +124,7 @@ public:
 		virtual	void SetEnemyAddAngle(double ang) {
 			enemy.ang += ang;
 		}
+
 		//activeflg
 		virtual	int GetEnemyOnActive() {
 			return enemy.mainpos.onActive;
@@ -142,6 +154,11 @@ public:
 		virtual	void SetEnemyCy(double cy) {
 			enemy.mainpos.cy = cy;
 		}
+
+		virtual	int GetHp() { return enemy.hp; };
+
+		virtual	void DamageHp() { enemy.hp--; };
+		virtual	void SetHp() { enemy.hp = 0; };
 };
 
 #endif // !_cBaseEnemy_INCLUDE_
