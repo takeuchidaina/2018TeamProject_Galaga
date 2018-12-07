@@ -64,19 +64,19 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 	case eMag16:
 		magX = x + 16;
 		magY = y + 16;
-		mag = 16;
+		mag = 16;  //文字間隔の調整必要
 		break;
 
 	case eMag32:
 		magX = x + 32;
 		magY = y + 32;
-		mag = 32;
+		mag = 32;  //文字間隔の調整必要
 		break;
 
 	case eMag48:
 		magX = x + 48;
 		magY = y + 48;
-		mag = 40;
+		mag = 32;
 		break;
 
 	default:
@@ -103,10 +103,10 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 				DrawExtendGraph(x+(j*mag), y, magX + (j * mag), magY, textImg[text[j] - 'A'+10], TRUE);
 			}
 			//文字が記号なら
-			else
+			else if(text[j] == ' ')
 			{
 				//記号
-				//switch case
+				DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, textImg[38], TRUE);
 			}
 
 	}
