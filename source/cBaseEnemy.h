@@ -48,7 +48,10 @@ public:
 		virtual ~cBaseEnemy();//デストラクタ
 		virtual	int Update();//更新処理
 		virtual int Draw();//描画処理
-		virtual void Move();//移動処理
+		/*****************************************************
+		移動処理
+		****************************************************/
+		virtual void Move();
 		virtual void TractorUpdate();//トラクター用の関数　緑以外ではよんでもなにもない
 		virtual void Break() { enemy.mainpos.onActive = NoActive; };//エネミーの破壊関数
 	    virtual void AnimationCount() { a++; };//アニメーションの描画関数
