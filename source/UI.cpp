@@ -54,8 +54,8 @@ int cUI::UI_Draw()
 		//iではなく実数を要素数にやると出力される
 	}
 	*/
-	cTextChange::Instance()->DrawTextImage(textPos[0].x, textPos[0].y, textPos[0].text,textPos[0].color,eMag48);
-	cTextChange::Instance()->DrawTextImage(textPos[1].x, textPos[1].y, textPos[1].text, textPos[1].color, eMag48);
+	cTextChange::Instance()->DrawTextImage(UItextPos[0].x, UItextPos[0].y, UItextPos[0].text, UItextPos[0].color, eMag48);
+	//cTextChange::Instance()->DrawTextImage(UItextPos[1].x, UItextPos[1].y, UItextPos[1].text, UItextPos[1].color, eMag48);
 
 	// 1UPの点滅
 	blinkCnt++;
@@ -67,11 +67,11 @@ int cUI::UI_Draw()
 
 	if (blinkFlg)
 	{
-		cTextChange::Instance()->DrawTextImage(textPos[2].x, textPos[2].y, textPos[2].text, textPos[2].color, eMag48);
+		cTextChange::Instance()->DrawTextImage(UItextPos[1].x, UItextPos[1].y, UItextPos[1].text, UItextPos[1].color, eMag48);
 	}
 	else
 	{
-		cTextChange::Instance()->DrawTextImage(textPos[3].x, textPos[3].y, textPos[3].text, textPos[3].color, eMag48);
+		cTextChange::Instance()->DrawTextImage(UItextPos[2].x, UItextPos[2].y, UItextPos[2].text, UItextPos[2].color, eMag48);
 	}
 
 	//プレイヤーの残機
