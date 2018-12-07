@@ -37,6 +37,7 @@ int cInGameController::PlayerDeath() {
 		cInGameMgr::Instance()->ChangeScene(cInGameMgr::eDeath);
 	}
 	cEnemyMgr::Instance()->SetChoiseOrderFlag(false);
+	cShotMgr::Instance()->SetShotFlg(false);
 	//ReportBox("ƒvƒŒƒCƒ„[‚ªŽ€‚ñ‚¾‚ñ‚¶‚á\n“G‚ÍŽ~‚Ü‚è‚Ü‚¹‚ñB");
 	return 0;
 }
@@ -56,6 +57,7 @@ int cInGameController::PlayerDeathUpdate() {
 		}
 		if (count > 120) {
 			cEnemyMgr::Instance()->SetChoiseOrderFlag(true);
+			cShotMgr::Instance()->SetShotFlg(true);
 			cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
 			count = 0;
 		}

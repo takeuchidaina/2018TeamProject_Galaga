@@ -45,7 +45,7 @@ public:
 	int EnemyShot(double,double);
 
 	//ShotFlg‚ÌŠÖ”(TRUE FALSE)
-	int SetShotFlg(int num) { ShotFlg = num; }
+	void SetShotFlg(int num) { ShotFlg = num; }
 
 	//GetPlayerShotŠÖ”Aˆø”(player1‚©player2, ”z—ñ‚Ì‰½”Ô–Ú‚©(0‚©1))
 	double GetPlayerShotCX(int num,int num2) {
