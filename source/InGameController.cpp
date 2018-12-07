@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Interface.h"
 #include "SceneMgr.h"
+#include "TextChange.h"
 
 cInGameController::cInGameController() {}
 
@@ -20,10 +21,15 @@ int cInGameController::BeforeSceneUpdate() {
 int cInGameController::BeforeSceneDraw() {
 	DrawFormatString(0, 40, GetColor(255,255,255),"%d",count);
 	if (count < 90 && count > 0) {
-		DrawFormatString(400, 400, GetColor(255, 255, 255), "Stage %d", nowStageNum);
+		char tmp[256];
+		snprintf(tmp, 255, "STAGE %d", nowStageNum);
+		cTextChange::Instance()->DrawTextImage(350, 400, tmp, eLBlue, eMag48);
+		
+		//DrawFormatString(400, 400, GetColor(255, 255, 255), "Stage %d", nowStageNum);
 	}
 	else {
-		DrawFormatString(400, 400, GetColor(255, 255, 255), "READY");
+		cTextChange::Instance()->DrawTextImage(370, 400, "READY", eLBlue, eMag48);
+		//DrawFormatString(400, 400, GetColor(255, 255, 255), "READY");
 	}
 	return 0;
 }
@@ -67,7 +73,8 @@ int cInGameController::PlayerDeathUpdate() {
 }
 int cInGameController::PlayerDeathDraw() {
 	if (count > 1) {
-		DrawFormatString(400, 400, GetColor(255, 255, 255), "READY");
+		cTextChange::Instance()->DrawTextImage(370, 400, "READY", eLBlue, eMag48);
+		//DrawFormatString(400, 400, GetColor(255, 255, 255), "READY");
 	}
 	return 0;
 }

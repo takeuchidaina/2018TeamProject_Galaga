@@ -211,7 +211,8 @@ void cInGameMgr::Draw() {
 		cEnemyMgr::Instance()->Draw();
 		cShotMgr::Instance()->Draw();
 		DrawFormatString(0, 20, GetColor(255, 255, 255), "ePause");
-		DrawFormatString(420, 400, GetColor(100, 255, 255), "PAUSE");
+		//DrawFormatString(420, 400, GetColor(100, 255, 255), "PAUSE");
+		cTextChange::Instance()->DrawTextImage(370, 600, "PAUSE", eLBlue, eMag48);
 		//
 		break;
 	case eTractor://‚«‚á‚Æ‚ç‚ê’†
