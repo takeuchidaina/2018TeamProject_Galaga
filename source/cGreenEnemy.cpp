@@ -282,7 +282,7 @@ int cGreenEnemy::Draw() {
 						enemy.moveflg++;
 					}
 				}
-				DrawExtendGraph((int)enemy.mainpos.pos.x , (int)enemy.mainpos.pos.y + enemy.hight, (int)enemy.mainpos.pos.x+96, (int)enemy.mainpos.pos.y + enemy.hight+160,tractor[tractorAnimation[d]], TRUE);
+				DrawExtendGraph((int)enemy.mainpos.pos.x - 96 / 2, (int)enemy.mainpos.pos.y + enemy.hight, (int)enemy.mainpos.pos.x + 90-1, (int)enemy.mainpos.pos.y + enemy.hight + 160-1, tractor[tractorAnimation[d]], TRUE);
 			}
 		}
 	}
