@@ -40,6 +40,8 @@ cUI::~cUI()
 *************************************************************************/
 int cUI::UI_Draw()
 {
+	stageNo = cInGameController::Instance()->GetNowStageNum();
+	playerHP = cPlayer::Instance()->GetPlayerHP();
 
 	int i, j;
 
