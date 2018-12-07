@@ -10,7 +10,7 @@ using namespace std;
 #include "UI.h"
 #include "shot.h"
 
-
+//コンストラクタ　エネミーマネージャーからの情報ですべてを初期化します　
 
 cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double ang, int flg,int *graph) : cBaseEnemy(x,y,r,cnt,spd,ang,flg, graph) {
 	enemy.mainpos.pos.x = x;
@@ -50,20 +50,15 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 	enemy.targetr = 5;
 	a = 0;
 	b = 0;
+	enemy.hp = 1;
 }
 
-
+//ベクトルと速度をもらって移動する
 void cBlueEnemy:: Move() {
 	enemy.mainpos.cx = enemy.mainpos.pos.x + (enemy.width / 2);
 	enemy.mainpos.cy = enemy.mainpos.pos.y + (enemy.hight / 2);
 	
-		if (enemy.mainpos.onActive == StartMove) {
-			enemy.vct.x = cos(enemy.ang)*enemy.dir;
-			enemy.vct.y = sin(enemy.ang);
-			enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
-			enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
-		}
-		else if (enemy.mainpos.onActive == YesActive) {
+		 if (enemy.mainpos.onActive == YesActive) {
 			if (enemy.attackflg == TRUE) {
 				if (enemy.moveflg != 7) {
 					enemy.vct.x = cos(enemy.ang)*enemy.dir;
@@ -81,7 +76,7 @@ void cBlueEnemy:: Move() {
 		}
 }
 
-
+//移動カウントと方向変更で移動ベクトルを決める
 int cBlueEnemy::Update() {
 	if (enemy.count < 0)enemy.count = 0;
 	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = ReadyStart;
@@ -162,6 +157,7 @@ int cBlueEnemy::Update() {
 	return 0;
 }
  
+//描画処理
 int cBlueEnemy::Draw() {
 
 	if (enemy.mainpos.onActive != NoActive) {

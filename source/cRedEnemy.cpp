@@ -58,7 +58,7 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 	enemy.targetr = 5;
 	a = 0;
     b = 5;
-
+	enemy.hp = 1;
 }
 
 
