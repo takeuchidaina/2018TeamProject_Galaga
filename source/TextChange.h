@@ -8,6 +8,7 @@
 class cTextChange : public cSingleton<cTextChange>
 {
 	cTextChange();
+	~cTextChange();
 	friend cSingleton< cTextChange >;
 
 private:
@@ -16,7 +17,7 @@ private:
 	int textImgLB[48];	//画像ハンドル 水
 	int textImgYL[48];	//画像ハンドル 黄
 	int textImgWH[48];	//画像ハンドル 白
-	int ImgColor[48];//画像ハンドル代入用
+	int imgColor[48];//画像ハンドル代入用
 	//int hue;			//色相[0～360]
 	//int saturation;		//彩度[-255～]
 	//int bright;			//輝度[-255～255]

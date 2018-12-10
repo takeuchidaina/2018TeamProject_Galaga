@@ -10,6 +10,7 @@ cTextChange::cTextChange()
 	LoadDivGraph("../resource/Image/AC_Classic_LBlue.png", 40, 8, 5, 16, 16, textImgLB);
 	LoadDivGraph("../resource/Image/AC_Classic_Yellow.png", 40, 8, 5, 16, 16, textImgYL);
 	LoadDivGraph("../resource/Image/AC_Classic_White.png", 40, 8, 5, 16, 16, textImgWH);
+	imgColor[48] = { 0 };
 	//hue = 0;			//色相[0～360]
 	//saturation = 0;		//彩度[-255～100]
 	//bright = 0;			//輝度[-255～255]
@@ -19,7 +20,7 @@ cTextChange::cTextChange()
 }
 
 //デストラクタ
-cTextChange::cTextChange() 
+cTextChange::~cTextChange() 
 {
 	for (int i = 0; i < 48; i++) 
 	{
@@ -27,6 +28,7 @@ cTextChange::cTextChange()
 		DeleteGraph(textImgLB[i]);
 		DeleteGraph(textImgYL[i]);
 		DeleteGraph(textImgWH[i]);
+		DeleteGraph(imgColor[i]);
 	}
 }
 
@@ -45,6 +47,7 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 	{
 	case eRed:
 		//ImgColorに赤色を代入
+		memcpy(imgColor, textImgRD, sizeof(textImgRD));
 
 		//hue = 360;
 		//saturation = 0;
@@ -53,6 +56,7 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 
 	case eYellow:
 		//ImgColorに黄色を代入
+		memcpy(imgColor, textImgYL, sizeof(textImgYL));
 
 		//hue = 60;
 		//saturation = 0;
@@ -61,6 +65,7 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 
 	case eLBlue:
 		//ImgColorに水色を代入
+		memcpy(imgColor, textImgLB, sizeof(textImgLB));
 
 		//hue = 187;
 		//saturation = 0;
@@ -69,6 +74,7 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 
 	case eWhite:
 		//ImgColorに白色を代入
+		memcpy(imgColor, textImgWH, sizeof(textImgWH));
 
 		//hue = 0;
 		//saturation = 90;
@@ -79,7 +85,8 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 		//eNone
 
 		//ImgColorに白色を代入
-		
+		memcpy(imgColor, textImgWH, sizeof(textImgWH));
+
 		break;
 	}
 
@@ -117,7 +124,7 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 				//色相変化
 				//GraphFilter(textImg[text[j]-'0'], DX_GRAPH_FILTER_HSB, 1, hue, saturation, bright);
 				//描画
-				DrawExtendGraph(x+(j*mag), y,magX+(j*mag),magY, ImgColor[text[j] - '0'], TRUE);
+				DrawExtendGraph(x+(j*mag), y,magX+(j*mag),magY, imgColor[text[j] - '0'], TRUE);
 			}
 			//文字がA～Zなら
 			else if (text[j] >= 'A' && text[j] <= 'Z')
@@ -125,13 +132,13 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 				//色相変化
 				//GraphFilter(textImg[text[j] - 'A'+10], DX_GRAPH_FILTER_HSB, 1, hue, saturation, bright);
 				//描画(+10するのは0～9の番号を含めないようにするため)
-				DrawExtendGraph(x+(j*mag), y, magX + (j * mag), magY, ImgColor[text[j] - 'A'+10], TRUE);
+				DrawExtendGraph(x+(j*mag), y, magX + (j * mag), magY, imgColor[text[j] - 'A'+10], TRUE);
 			}
 			//文字がスペースなら
 			else if(text[j] == ' ')
 			{
 				//記号
-				DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, ImgColor[38], TRUE);
+				DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, imgColor[38], TRUE);
 			}
 
 	}
