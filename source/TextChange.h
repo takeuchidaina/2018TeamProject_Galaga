@@ -12,10 +12,14 @@ class cTextChange : public cSingleton<cTextChange>
 
 private:
 
-	int textImg[48];	//画像ハンドル
-	int hue;			//色相[0～360]
-	int saturation;		//彩度[-255～]
-	int bright;			//輝度[-255～255]
+	int textImgRD[48];	//画像ハンドル 赤
+	int textImgLB[48];	//画像ハンドル 水
+	int textImgYL[48];	//画像ハンドル 黄
+	int textImgWH[48];	//画像ハンドル 白
+	int ImgColor[48];//画像ハンドル代入用
+	//int hue;			//色相[0～360]
+	//int saturation;		//彩度[-255～]
+	//int bright;			//輝度[-255～255]
 	int magX;			//画像倍率用のx
 	int magY;			//画像倍率用のy
 	int mag;			//画像倍率

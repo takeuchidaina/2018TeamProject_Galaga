@@ -30,27 +30,27 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 	switch (color)
 	{
 	case eRed:
-		hue = 360;
-		saturation = 0;
-		bright = 0;
+		//hue = 360;
+		//saturation = 0;
+		//bright = 0;
 		break;
 
 	case eYellow:
-		hue = 60;
-		saturation = 0;
-		bright = 0;
+		//hue = 60;
+		//saturation = 0;
+		//bright = 0;
 		break;
 
 	case eLBlue:
-		hue = 187;
-		saturation = 0;
-		bright = 0;
+		//hue = 187;
+		//saturation = 0;
+		//bright = 0;
 		break;
 
 	case eWhite:
-		hue = 0;
-		saturation = 90;
-		bright = 10;
+		//hue = 0;
+		//saturation = 90;
+		//bright = 10;
 		break;
 
 	default:
@@ -102,7 +102,7 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 				//描画(+10するのは0～9の番号を含めないようにするため)
 				DrawExtendGraph(x+(j*mag), y, magX + (j * mag), magY, textImg[text[j] - 'A'+10], TRUE);
 			}
-			//文字が記号なら
+			//文字がスペースなら
 			else if(text[j] == ' ')
 			{
 				//記号
