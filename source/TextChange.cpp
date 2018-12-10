@@ -5,15 +5,29 @@
 cTextChange::cTextChange()
 {
 	//テキストの画像の読み込み
-	//LoadDivGraph("../resource/Image/UI_Text_Color.png", 48, 8, 6, 28, 28, textImg);
-	//LoadDivGraph("../Image/GogoFiveAI.png", 48, 8, 6, 16, 16, textImg);
-	LoadDivGraph("../resource/Image/AC_Classic.png", 40, 8, 5, 16, 16, textImg);
-	hue = 0;			//色相[0～360]
-	saturation = 0;		//彩度[-255～100]
-	bright = 0;			//輝度[-255～255]
+	//LoadDivGraph("../resource/Image/AC_Classic.png", 40, 8, 5, 16, 16, textImg);
+	LoadDivGraph("../resource/Image/AC_Classic_Red.png", 40, 8, 5, 16, 16, textImgRD);
+	LoadDivGraph("../resource/Image/AC_Classic_LBlue.png", 40, 8, 5, 16, 16, textImgLB);
+	LoadDivGraph("../resource/Image/AC_Classic_Yellow.png", 40, 8, 5, 16, 16, textImgYL);
+	LoadDivGraph("../resource/Image/AC_Classic_White.png", 40, 8, 5, 16, 16, textImgWH);
+	//hue = 0;			//色相[0～360]
+	//saturation = 0;		//彩度[-255～100]
+	//bright = 0;			//輝度[-255～255]
 	magX = 0;			//画像を拡大する際のx
 	magY = 0;			//画像を拡大する際のy
 	
+}
+
+//デストラクタ
+cTextChange::cTextChange() 
+{
+	for (int i = 0; i < 48; i++) 
+	{
+		DeleteGraph(textImgRD[i]);
+		DeleteGraph(textImgLB[i]);
+		DeleteGraph(textImgYL[i]);
+		DeleteGraph(textImgWH[i]);
+	}
 }
 
 /*************************************************************************
@@ -30,6 +44,7 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 	switch (color)
 	{
 	case eRed:
+		
 		//hue = 360;
 		//saturation = 0;
 		//bright = 0;
