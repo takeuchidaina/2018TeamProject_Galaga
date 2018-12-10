@@ -46,6 +46,8 @@ using namespace std;
 	
 	  enemy.graph = graph;
 	  enemy.attackflg = false;
+	 
+
 	  a = 0;
 	  b = 0;
 	  c = 0;
@@ -62,10 +64,7 @@ void cBaseEnemy::Move() {
 
 
 int cBaseEnemy::Update() {
-	/*if (enemy.count < 0)enemy.count = 0;
-	enemy.target.x=cEnemyMgr::Instance()->GetTargetX(this);
-	enemy.target.y = cEnemyMgr::Instance()->GetTargetY(this);
-	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = LadyStart;*/
+	
 	return 0;
 }
 

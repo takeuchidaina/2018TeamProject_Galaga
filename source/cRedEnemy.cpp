@@ -12,7 +12,7 @@ using namespace std;
 #include "shotMgr.h"
 
 
-cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double ang, int flg,int*graph) : cBaseEnemy(x, y, r, cnt, spd, ang, flg, graph) {
+cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double ang, int flg, int*graph) : cBaseEnemy(x, y, r, cnt, spd, ang, flg, graph) {
 	enemy.mainpos.pos.x = x;
 	enemy.mainpos.pos.y = y;
 	enemy.mainpos.r = r;
@@ -49,7 +49,7 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 	enemy.countflg[5] = 60;
 	enemy.countflg[6] = 10;
 
-	
+
 
 	enemy.countflg[8] = 100;
 
@@ -57,34 +57,36 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 	enemy.target.y = y;
 	enemy.targetr = 5;
 	a = 0;
-    b = 5;
+	b = 5;
 	enemy.hp = 1;
 }
 
 
-void cRedEnemy::Move( ) {
+void cRedEnemy::Move() {
+
+	
 	enemy.mainpos.cx = enemy.mainpos.pos.x + enemy.width / 2;
 	enemy.mainpos.cy = enemy.mainpos.pos.y + enemy.hight / 2;
-	
-		if (enemy.mainpos.onActive == StartMove) {
-			enemy.vct.x = cos(enemy.ang);
-			enemy.vct.y = sin(enemy.ang);
-			enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
-			enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
-		}
-		else  if (enemy.mainpos.onActive == YesActive) {
-			if (enemy.attackflg == TRUE) {
-				if (enemy.moveflg != 8) {
-					enemy.vct.x = cos(enemy.ang)* enemy.dir;
-					enemy.vct.y = sin(enemy.ang);
-					enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
-					enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
-				}
-			}
-			else {
+
+	if (enemy.mainpos.onActive == StartMove) {
+		enemy.vct.x = cos(enemy.ang);
+		enemy.vct.y = sin(enemy.ang);
+		enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
+		enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
+	}
+	else  if (enemy.mainpos.onActive == YesActive) {
+		if (enemy.attackflg == TRUE) {
+			if (enemy.moveflg != 8) {
 				enemy.vct.x = cos(enemy.ang)* enemy.dir;
 				enemy.vct.y = sin(enemy.ang);
+				enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
+				enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
 			}
+		}
+		else {
+			enemy.vct.x = cos(enemy.ang)* enemy.dir;
+			enemy.vct.y = sin(enemy.ang);
+		}
 	}
 }
 
@@ -92,7 +94,7 @@ void cRedEnemy::Move( ) {
 int cRedEnemy::Update() {
 	if (enemy.count < 0)enemy.count = 0;
 	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = ReadyStart;
-	if (enemy.attackflg == true  && enemy.mainpos.onActive != NoActive) {
+	if (enemy.attackflg == true && enemy.mainpos.onActive != NoActive) {
 		enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 		enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 		/*enemy.target.x = 280;
@@ -145,7 +147,7 @@ int cRedEnemy::Update() {
 			enemy.ang = atan2(enemy.target.y - enemy.mainpos.pos.y, enemy.target.x - enemy.mainpos.pos.x);
 			if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
 				(enemy.target.y - enemy.mainpos.pos.y)*(enemy.target.y - enemy.mainpos.pos.y) <=
-				(enemy.mainpos.r/5 + enemy.targetr)*(enemy.mainpos.r/5 + enemy.targetr)) {
+				(enemy.mainpos.r / 5 + enemy.targetr)*(enemy.mainpos.r / 5 + enemy.targetr)) {
 
 				enemy.moveflg++;
 				enemy.count = 0;
@@ -157,7 +159,12 @@ int cRedEnemy::Update() {
 			enemy.count = 0;
 			enemy.moveflg = 0;
 			enemy.ang = -90 * M_PI / 180;
-			enemy.dir *= -1;
+			if (enemy.mainpos.pos.x <= 430) {
+				enemy.dir = 1;
+			}
+			else {
+				enemy.dir = -1;
+			}
 			//“GÀ•W‚ð–Ú“I’n‚ÉŒÅ’è
 			enemy.mainpos.pos.x = enemy.target.x;
 			enemy.mainpos.pos.y = enemy.target.y;
@@ -181,7 +188,7 @@ int cRedEnemy::Draw() {
 		if (b > 6)b = 5;
 	}
 
-	if (enemy.mainpos.onActive !=NoActive) {
+	if (enemy.mainpos.onActive != NoActive) {
 		//	DrawCircle((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 5, GetColor(255, 0,0), true);
 		if (enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * M_PI) / 180), enemy.graph[b], TRUE, TRUE);
 		else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[b], TRUE, TRUE);
