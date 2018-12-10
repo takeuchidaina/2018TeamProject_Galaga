@@ -44,25 +44,32 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 	switch (color)
 	{
 	case eRed:
-		
+		//ImgColorに赤色を代入
+
 		//hue = 360;
 		//saturation = 0;
 		//bright = 0;
 		break;
 
 	case eYellow:
+		//ImgColorに黄色を代入
+
 		//hue = 60;
 		//saturation = 0;
 		//bright = 0;
 		break;
 
 	case eLBlue:
+		//ImgColorに水色を代入
+
 		//hue = 187;
 		//saturation = 0;
 		//bright = 0;
 		break;
 
 	case eWhite:
+		//ImgColorに白色を代入
+
 		//hue = 0;
 		//saturation = 90;
 		//bright = 10;
@@ -70,6 +77,9 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 
 	default:
 		//eNone
+
+		//ImgColorに白色を代入
+		
 		break;
 	}
 
@@ -105,23 +115,23 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 			if (text[j] >= '0' && text[j] <= '9')
 			{
 				//色相変化
-				GraphFilter(textImg[text[j]-'0'], DX_GRAPH_FILTER_HSB, 1, hue, saturation, bright);
+				//GraphFilter(textImg[text[j]-'0'], DX_GRAPH_FILTER_HSB, 1, hue, saturation, bright);
 				//描画
-				DrawExtendGraph(x+(j*mag), y,magX+(j*mag),magY, textImg[text[j] - '0'], TRUE);
+				DrawExtendGraph(x+(j*mag), y,magX+(j*mag),magY, ImgColor[text[j] - '0'], TRUE);
 			}
 			//文字がA～Zなら
 			else if (text[j] >= 'A' && text[j] <= 'Z')
 			{
 				//色相変化
-				GraphFilter(textImg[text[j] - 'A'+10], DX_GRAPH_FILTER_HSB, 1, hue, saturation, bright);
+				//GraphFilter(textImg[text[j] - 'A'+10], DX_GRAPH_FILTER_HSB, 1, hue, saturation, bright);
 				//描画(+10するのは0～9の番号を含めないようにするため)
-				DrawExtendGraph(x+(j*mag), y, magX + (j * mag), magY, textImg[text[j] - 'A'+10], TRUE);
+				DrawExtendGraph(x+(j*mag), y, magX + (j * mag), magY, ImgColor[text[j] - 'A'+10], TRUE);
 			}
 			//文字がスペースなら
 			else if(text[j] == ' ')
 			{
 				//記号
-				DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, textImg[38], TRUE);
+				DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, ImgColor[38], TRUE);
 			}
 
 	}
