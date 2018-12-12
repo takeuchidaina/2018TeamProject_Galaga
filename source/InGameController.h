@@ -30,6 +30,7 @@ public:
 
 	//きゃとられ中
 	int HitToTractor();
+	int OutToTractor();
 	int TractorSceneUpdate();
 	int TractorSceneDraw();
 	//プレイヤー帰還
