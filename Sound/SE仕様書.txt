@@ -1,0 +1,72 @@
+【MUSIC】
+呼び出すタイミング : タイトルでスペースを押した時
+指定するenum	   : gamestart
+
+呼び出すタイミング : トラクタービームに当たって、ビームが引っ込み終わったら
+指定するenum	   : capture
+
+呼び出すタイミング : トラクタービームが当たらず、ビームが引っ込み終わったら
+指定するenum	   : mistake_12
+
+呼び出すタイミング : 攫われたプレイヤーを取り返した時(保持しているエネミーを倒した時)
+指定するenum	   : rescue
+
+呼び出すタイミング : チャレンジステージをクリア
+指定するenum	   : challenging_stage_clear
+
+呼び出すタイミング : チャレンジステージをパーフェクトでクリア
+指定するenum	   : challenging_stage_perfect
+
+呼び出すタイミング : チャレンジステージが始まった時(文字の表示と同タイミング)
+指定するenum	   : challenging_stage_start
+
+呼び出すタイミング : 
+指定するenum	   : nameentry_1st
+
+呼び出すタイミング : 
+指定するenum	   : music_nameentry_2nd_5th
+
+
+【SE】
+呼び出すタイミング : プレイヤーが弾を撃った時
+指定するenum	   : fighter_shot
+
+呼び出すタイミング : プレイヤーが破壊された時
+指定するenum	   : miss
+
+呼び出すタイミング : 敵が降ってくるとき
+指定するenum	   : alien_flying
+
+呼び出すタイミング : 広がる時に他の音が鳴っていないと鳴る(?) ambience(意味:雰囲気)
+指定するenum	   : ingame_ambience
+
+呼び出すタイミング : ボスエネミー(紫)にプレイヤーの弾が当たった時
+指定するenum	   : boss_striken_1
+
+呼び出すタイミング : ボスエネミー(緑)にプレイヤーの弾が当たった時
+指定するenum	   : boss_striken_2
+
+呼び出すタイミング : 赤のエネミーにプレイヤーの弾が当たった時
+指定するenum	   : goei_striken
+
+呼び出すタイミング : 青のエネミーにプレイヤーの弾が当たった時
+指定するenum	   : zako_striken
+
+呼び出すタイミング : トラクタービームを撃った時 ~ トラクタービームが伸びきるまで
+指定するenum	   : tractor_beam
+
+呼び出すタイミング : トラクタービームに当たった時 ~ トラクタービームをしまうまで
+指定するenum	   : tractor_beam_capture
+
+呼び出すタイミング : クレジットが増えた時
+指定するenum	   : credit
+
+呼び出すタイミング : ステージのカウントが増えた時
+指定するenum	   : stage_flag
+
+呼び出すタイミング : 
+指定するenum	   : extend_sound
+
+呼び出すタイミング : 
+指定するenum	   : triple_formation
+
