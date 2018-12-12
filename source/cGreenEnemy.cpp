@@ -65,8 +65,8 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 	tmpx = 0;
 	tmpy = 0;
 
-	a = 0;
-	b = 10;
+	AnimationCnt = 0;
+	AnimationNum = 10;
 
 	enemy.hp = 2;
 
@@ -197,7 +197,7 @@ int cGreenEnemy::Update() {
 
 
 void cGreenEnemy::TractorUpdate() {
-	if (d > 8 && d < 13)tractor::Instance()->TractorHit(&enemy);
+	if (TractorNum > 8 && TractorNum < 13)tractor::Instance()->TractorHit(&enemy);
 
 	if (enemy.count < 0)enemy.count = 0;
 	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
@@ -280,26 +280,26 @@ int cGreenEnemy::Draw() {
 
 
 
-	if (a > 60) {
-		a = 0;
-		b++;
-		if (b > 11)b = 10;
+	if (AnimationCnt > 60) {
+		AnimationCnt = 0;
+		AnimationNum++;
+		if (AnimationNum > 11)AnimationNum = 10;
 	}
 	if (enemy.mainpos.onActive != NoActive) {
-		if (enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * M_PI) / 180), enemy.graph[b], TRUE, TRUE);
-		else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[b], TRUE, TRUE);
+		if (enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * M_PI) / 180), enemy.graph[AnimationNum], TRUE, TRUE);
+		else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[AnimationNum], TRUE, TRUE);
 		if (tractorflg == 1) {
 			if (enemy.moveflg == 2) {
-				if (c > 20) {
-					c = 0;
-					d++;
+				if (TractorCnt > 20) {
+					TractorCnt = 0;
+					TractorNum++;
 					//     tractor::Instance()->TractorHit(enemy);
-					if (d > 22) {
-						d = 0;
+					if (TractorNum > 22) {
+						TractorNum = 0;
 						enemy.moveflg++;
 					}
 				}
-				DrawExtendGraph((int)enemy.mainpos.pos.x - 96 / 2, (int)enemy.mainpos.pos.y + enemy.hight, (int)enemy.mainpos.pos.x + 90 - 1, (int)enemy.mainpos.pos.y + enemy.hight + 160 - 1, tractor[tractorAnimation[d]], TRUE);
+				DrawExtendGraph((int)enemy.mainpos.pos.x - 96 / 2, (int)enemy.mainpos.pos.y + enemy.hight, (int)enemy.mainpos.pos.x + 90 - 1, (int)enemy.mainpos.pos.y + enemy.hight + 160 - 1, tractor[tractorAnimation[TractorNum]], TRUE);
 				DrawFormatString(0, 800, GetColor(255, 255, 255), "%d", (int)enemy.mainpos.pos.x - 96 / 2, false);
 				DrawFormatString(0, 900, GetColor(255, 255, 255), "%d", (int)enemy.mainpos.pos.x + 90 - 1, false);
 

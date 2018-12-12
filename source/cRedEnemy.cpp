@@ -56,8 +56,8 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 	enemy.target.x = x;
 	enemy.target.y = y;
 	enemy.targetr = 5;
-	a = 0;
-	b = 5;
+	AnimationCnt = 0;
+	AnimationNum = 5;
 	enemy.hp = 1;
 }
 
@@ -182,16 +182,16 @@ int cRedEnemy::Update() {
 
 
 int cRedEnemy::Draw() {
-	if (a > 60) {
-		a = 0;
-		b++;
-		if (b > 6)b = 5;
+	if (AnimationCnt > 60) {
+		AnimationCnt = 0;
+		AnimationNum++;
+		if (AnimationNum > 6)AnimationNum = 5;
 	}
 
 	if (enemy.mainpos.onActive != NoActive) {
 		//	DrawCircle((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 5, GetColor(255, 0,0), true);
-		if (enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * M_PI) / 180), enemy.graph[b], TRUE, TRUE);
-		else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[b], TRUE, TRUE);
+		if (enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * M_PI) / 180), enemy.graph[AnimationNum], TRUE, TRUE);
+		else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[AnimationNum], TRUE, TRUE);
 	}
 
 #ifdef DEBUG

@@ -37,9 +37,10 @@ class cBaseEnemy {
 
 protected:
 	//アニメーションのカウント
-	int a, b;
-    int c ,d;
+	int AnimationCnt, AnimationNum;
+    int TractorCnt ,TractorNum;
 	sEnemy enemy;
+	bool tractorHitFlg;
 
 public:
 
@@ -48,15 +49,28 @@ public:
 		virtual ~cBaseEnemy();//デストラクタ
 		virtual	int Update();//更新処理
 		virtual int Draw();//描画処理
-		/*****************************************************
+		/***********************************
 		移動処理
-		****************************************************/
+		引数なし : 戻り値なし
+		****************************************/
 		virtual void Move();
-		virtual void TractorUpdate();//トラクター用の関数　緑以外ではよんでもなにもない
-		virtual void Break() { enemy.mainpos.onActive = NoActive; };//エネミーの破壊関数
-	    virtual void AnimationCount() { a++; };//アニメーションの描画関数
+		/***********************************
+		トラクター用の関数　緑以外ではよんでもなにもない
+		引数なし : 戻り値なし
+		****************************************/
+		virtual void TractorUpdate();
+		/***********************************
+		エネミーの破壊関数　
+		引数なし : 戻り値なし
+		****************************************/
+		virtual void Break() { enemy.mainpos.onActive = NoActive; };
+		/***********************************
+		アニメーションの描画関数
+		引数なし : 戻り値なし
+		****************************************/
+	    virtual void AnimationCount() { AnimationCnt++; };
 		
-		//状態
+		//OnAcitveの状態
 		enum eActiveType {
 			StartMove, //スタート時
 			NoActive,  // 破壊時
@@ -153,6 +167,14 @@ public:
 		}
 		virtual	void SetEnemyCy(double cy) {
 			enemy.mainpos.cy = cy;
+		}
+
+		virtual bool GetTractorHitFlg(){
+			return tractorHitFlg;
+		}
+
+		virtual void SettractorHitFlg() {
+			 tractorHitFlg = false;
 		}
 
 		virtual	int GetHp() { return enemy.hp; };

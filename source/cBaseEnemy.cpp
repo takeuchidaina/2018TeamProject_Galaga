@@ -48,10 +48,10 @@ using namespace std;
 	  enemy.attackflg = false;
 	 
 
-	  a = 0;
-	  b = 0;
-	  c = 0;
-	  d = 0;
+	  AnimationCnt = 0;
+	  AnimationNum = 0;
+	  TractorCnt = 0;
+	  TractorNum = 0;
  }
 
 cBaseEnemy::~cBaseEnemy() {

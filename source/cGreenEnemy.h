@@ -27,7 +27,7 @@ public:
 		return tractorflg;
 	}
 
-	virtual void AnimationCount() { a++; c++; };
+	virtual void AnimationCount() { AnimationCnt++; TractorCnt++; };
 //	int GetHp() { return hp; };
 };
 #endif // !REDENEMY_INCLUDE

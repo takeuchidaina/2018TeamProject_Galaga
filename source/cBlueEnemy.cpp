@@ -48,14 +48,14 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 	enemy.target.x = x;
 	enemy.target.y = y;
 	enemy.targetr = 5;
-	a = 0;
-	b = 0;
+	AnimationCnt = 0;
+	AnimationNum = 0;
 	enemy.hp = 1;
 }
 
 //ベクトルと速度をもらって移動する
 void cBlueEnemy::Move() {
-	
+
 
 	enemy.mainpos.cx = enemy.mainpos.pos.x + (enemy.width / 2);
 	enemy.mainpos.cy = enemy.mainpos.pos.y + (enemy.hight / 2);
@@ -169,13 +169,13 @@ int cBlueEnemy::Draw() {
 
 	if (enemy.mainpos.onActive != NoActive) {
 		if (enemy.dir == RIGHT)
-			DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + 90 * M_PI / 180), enemy.graph[a / 60 % 2], TRUE, TRUE);
+			DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + 90 * M_PI / 180), enemy.graph[AnimationCnt / 60 % 2], TRUE, TRUE);
 		else {
-			DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[a / 60 % 2], TRUE, TRUE);
+			DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[AnimationCnt / 60 % 2], TRUE, TRUE);
 		}
 	}
 #ifdef DEBUG
-	DrawFormatString(0, 100, GetColor(255, 255, 255), "%d", a);
+	DrawFormatString(0, 100, GetColor(255, 255, 255), "%d", AnimationCnt);
 	DrawFormatString(800, 825, GetColor(255, 255, 255), "%.2lf", enemy.target.x);
 	DrawFormatString(800, 840, GetColor(255, 255, 255), "%.2lf", enemy.target.y);
 	DrawFormatString(60, 755, GetColor(255, 255, 255), "enemy.count%d", enemy.count);
