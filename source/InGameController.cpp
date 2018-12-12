@@ -91,6 +91,11 @@ int cInGameController::PlayerDeathDraw() {
 
 //‚«‚á‚Æ‚ç‚ê’†
 int cInGameController::HitToTractor() {
+	cInGameMgr::Instance()->ChangeScene(cInGameMgr::eTractor);
+	return 0;
+}
+int cInGameController::OutToTractor() {
+	cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
 	return 0;
 }
 int cInGameController::TractorSceneUpdate(){
