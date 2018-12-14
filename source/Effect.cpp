@@ -5,13 +5,16 @@
 
 //コンストラクタ
 cEffect::cEffect(){
-	
+	Init();
+}
+
+//初期化
+void cEffect::Init() {
 }
 
 //デストラクタ
-/*cEffect::~cEffect() {
-
-}*/
+cEffect::~cEffect() {
+}
 
 int cEffect::Update() {
 	return 0;
