@@ -1,7 +1,12 @@
 #pragma once
 
-#ifndef _EFFECT_INCLUDE_
-#define _EFFECT_INCLUDE_
+#ifndef _EFFECTMGR_INCLUDE_
+#define _EFFECTMGR_INCLUDE_
+
+#include "Singleton.h"
+#include "Winbox.h"
+#include "Effect.h"
+
 
 /*
 //テンプレート例 クラスもテンプレート化可能
@@ -15,14 +20,25 @@ void Swap(TYPE& a, TYPE& b) {
 */
 
 
-class cEffect {
+class cEffectMgr :public cSingleton<cEffectMgr> {
+	cEffectMgr();
+	~cEffectMgr();
+	friend cSingleton<cEffectMgr>;
 private:
+	cEffect *BlowupArray;
+	int BlowupCnt;
+	//Player
+	int PBlowupGrHandle[3];
+	int PcheckGr;
+	int PblowupOrders;
+	//Enemy
+	int EBlowupGrHandle[3];
+	int EcheckGr;
+	int EblowupOrders;
 	
 protected:
 
 public:
-	cEffect();
-	~cEffect();
 	void Init();//初期化処理
 	int Update();	//計算処理
 	int Draw();		//描写処理
