@@ -30,7 +30,7 @@ void cEnemyMgr::Init() {
 	onActiveCount = 0;
 	Stayflag = 0;
 	EnemyAttackFlag = 1;     //攻撃フラグ 0:攻撃を行わない状態 1:攻撃を行う状態
-	ChoiseOrderFlag = TRUE;
+	ChoiseOrderFlag = TRUE;  //攻撃命令が出されているか判断するフラグ
 
 
 	//Stage_1.csv
@@ -329,12 +329,24 @@ void cEnemyMgr::Shifted(sEnemy& ene1, sEnemy& ene2) {
 }
 
 /*****************************************************
-関数名：void Scalings(sEnemy& )
+関数名：void Scaling(sEnemy& enemy)
 説明：敵が攻撃待機中に大きくなったり小さくなったりする
 引数：sEnemy型 enemy
 戻り値：なし
 ******************************************************/
+void Scaliing(sEnemy& enemy) {
+	;
+}
 
+/*****************************************************
+関数名：void Sliding(sEnemy& )
+説明：敵が攻撃待機中に大きくなったり小さくなったりする
+引数：sEnemy型 enemy
+戻り値：なし
+******************************************************/
+void Sliding(sEnemy& enemy) {
+	;
+}
 
 
 
