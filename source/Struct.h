@@ -30,7 +30,7 @@ typedef struct
 	int ActiveFlg;
 	int* Graph;
 	int width;
-	int hight;
+	int height;
 
 }sUtility;*/
 

@@ -31,8 +31,12 @@ bool tractor::TractorHit(sEnemy* Tmpenemy) {
 			playerY = TmpPlayer.pos.y;
 			cInGameController::Instance()->HitToTractor();
 			cPlayer::Instance()->Break(eDeath,i);
-			Tmpenemy->moveflg++;
-			cInGameController::Instance()->OutToTractor();
+			if (Tmpenemy->count >= 120) {
+				Tmpenemy->moveflg++;
+				Tmpenemy->count = 0;
+				cInGameController::Instance()->OutToTractor();
+			}
+			
 			return true;
 		}
 		else {

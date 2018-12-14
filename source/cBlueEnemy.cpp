@@ -9,6 +9,7 @@ using namespace std;
 #include "Struct.h"
 #include "UI.h"
 #include "shot.h"
+#include"SE.h"
 
 //コンストラクタ　エネミーマネージャーからの情報ですべてを初期化します　
 
@@ -58,7 +59,7 @@ void cBlueEnemy::Move() {
 
 
 	enemy.mainpos.cx = enemy.mainpos.pos.x + (enemy.width / 2);
-	enemy.mainpos.cy = enemy.mainpos.pos.y + (enemy.hight / 2);
+	enemy.mainpos.cy = enemy.mainpos.pos.y + (enemy.height / 2);
 
 	if (enemy.mainpos.onActive == YesActive) {
 		if (enemy.attackflg == TRUE) {
@@ -96,6 +97,7 @@ int cBlueEnemy::Update() {
 		switch (enemy.moveflg)
 		{
 		case 0:
+			if(CheckSoundFile()==0) cSE::Instance()->selectSE(alien_flying);
 			if (enemy.count < 3)enemy.ang = 180 * M_PI / 180;
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {

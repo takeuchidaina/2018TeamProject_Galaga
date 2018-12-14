@@ -21,7 +21,7 @@ using namespace std;
 	 enemy.mainpos.pos.x = x;
 	 enemy.mainpos.pos.y = y;
 	 enemy.mainpos.cx = enemy.mainpos.pos.x + (double)(enemy.width / 2);
-	 enemy.mainpos.cy = enemy.mainpos.pos.y + (double)(enemy.hight / 2);
+	 enemy.mainpos.cy = enemy.mainpos.pos.y + (double)(enemy.height / 2);
 	 enemy.mainpos.r = r;
 
 	 enemy.ang = ang * M_PI / 180;
@@ -29,7 +29,7 @@ using namespace std;
 	 enemy.spd = spd;
 
 	 enemy.width =16*3;
-	 enemy.hight = 16*3;
+	 enemy.height = 16*3;
 
 	 enemy.moveflg = 0;
 	 enemy.vct.x = 0;
