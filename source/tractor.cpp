@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
-
+#include<math.h>
+#define _USE_MATH_DEFINES
 #include "cBaseEnemy.h"
 #include "cBlueEnemy.h"
 #include "cRedEnemy.h"
@@ -55,7 +56,7 @@ bool tractor::TractorHit(cGreenEnemy* Tmpenemy) {
 
 void tractor::draw() {
 	static int i=0;
-	i += 20;
+	i += 10;
 	if (i >= 360)i = 0;
-	DrawRotaGraph(playerX, playerY, 3, i, graph[0], false, false);
+	DrawRotaGraph(playerX, playerY, 3, i*M_PI/180, graph[0], TRUE);
 }

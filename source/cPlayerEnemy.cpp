@@ -7,6 +7,7 @@ using namespace std;
 #include "cBaseEnemy.h"
 #include "cGreenEnemy.h"
 #include "cPlayerEnemy.h"
+#include "InGameMgr.h"
 #include "DxLib.h"
 #include "Struct.h"
 #include "shot.h"
@@ -54,7 +55,8 @@ int cPlayerEnemy::Draw() {
 	//else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[0], TRUE, TRUE);
 	*/
 	sOBJPos tmpPlayer = cPlayer::Instance()->GetPlayer(0);
-	DrawRotaGraph(tmpPlayer.pos.x, tmpPlayer.pos.y,3,0, graph[0],false);
+
+	if (cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::Instance()->eInGame)DrawRotaGraph(tmpPlayer.pos.x, tmpPlayer.pos.y, 3, 0, graph[0], false);
 	return 0;
 }
 
