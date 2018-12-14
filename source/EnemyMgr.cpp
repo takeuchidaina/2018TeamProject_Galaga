@@ -157,6 +157,9 @@ void cEnemyMgr::Update() {
 	phaseFlagCount = 0;
 	wavecount = 0;
 	onActiveCount = 0;
+
+
+
 	if (Phaseflag == 0) {
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 			if (enemy[i].wave == wave) {
@@ -324,6 +327,15 @@ void cEnemyMgr::Shifted(sEnemy& ene1, sEnemy& ene2) {
 	ene1.pos.x += cos(ene1.angle + 90 * 3.1415 / 180 * ene1.RLflag) * 30;
 	ene1.pos.y += sin(ene1.angle + 90 * 3.1415 / 180 * ene1.RLflag) * 30;
 }
+
+/*****************************************************
+ŠÖ”–¼Fvoid Scalings(sEnemy& )
+à–¾F“G‚ªUŒ‚‘Ò‹@’†‚É‘å‚«‚­‚È‚Á‚½‚è¬‚³‚­‚È‚Á‚½‚è‚·‚é
+ˆø”FsEnemyŒ^ enemy
+–ß‚è’lF‚È‚µ
+******************************************************/
+
+
 
 
 //•`ŽÊˆ—

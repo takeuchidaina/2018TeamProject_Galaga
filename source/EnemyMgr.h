@@ -4,6 +4,8 @@
 #define INGAME_MGR_INCLUDE_
 
 #include "cBaseEnemy.h"
+#include "cPlayerEnemy.h"
+
 #include "Singleton.h"
 #include "WinBox.h"
 #include "Score.h"
@@ -77,8 +79,10 @@ private:
 	cBaseEnemy* enemies[40];         //cBaseEnemyの敵配列
 
 	void Scaling(sEnemy&);    //秋の新作関数
-	bool ScalingFlag;         //敵の収縮処理用のフラグ true:1 false:-1
+	int  ScalingFlag;         //敵の収縮処理用のフラグ true:1 false:-1
+	
 	void Sliding(sEnemy&);    //冬の新作関数
+	int  SlidingFlag;         //敵の横移動処理用のフラグ true:1 false:-1
 
 	int phaseFlagCount;       //入場が終了している敵の数
 	int onActiveCount;        //入場時にonActiveがtrueになっている敵の数
@@ -88,6 +92,9 @@ private:
 
 	int EnemyAttackFlag;      //攻撃フラグ   0:攻撃を行わない状態 1:攻撃を行う状態 ※bool化予定
 	int EnemyDeathCount;      //死亡カウント
+
+	cPlayerEnemy* pEnemy;      //敵になったプレイヤーのアドレス 
+
 
 public:
 	//~cEnemyMgr();
@@ -158,6 +165,27 @@ public:
 
 	int GetEnemyDeathCount(){
 		return EnemyDeathCount;
+	}
+
+	/*****************************************************
+	関数名：cPlayerEnemy PushPlayerEnemy()
+	説明：トラクタービームが当たったプレイヤーを敵配列に加える
+	引数：cPlayerEnemy型 pEnemy
+	戻り値：プッシュ先のアドレス
+	******************************************************/
+	cPlayerEnemy PushPlayerEnemy() {
+		pEnemy = new cPlayerEnemy();
+		return *pEnemy;
+	}
+
+	/*****************************************************
+	関数名：void DeletePlayerEnemy()
+	説明：敵配列に加えたプレイヤーのデータをデリートする
+	引数：cPlayerEnemy型 pEnemy
+	戻り値：プッシュ先のアドレス
+	******************************************************/
+	void DeletePlayerEnemy() {
+		delete pEnemy;
 	}
 
 	/*****************************************************
