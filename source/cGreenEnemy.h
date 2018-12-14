@@ -17,7 +17,7 @@ private:
 	double tmpx, tmpy;
 	double tracotr;
 	bool hit;
-	//cPlayerEnemy &traitPlayer;
+	cPlayerEnemy *traitPlayer;
 public:
 	cGreenEnemy(double, double, double, int, double, double, int, int*);
 	virtual void Move();
@@ -30,6 +30,6 @@ public:
 	}
 
 	virtual void AnimationCount() { AnimationCnt++; TractorCnt++; };
-//	int GetHp() { return hp; };
+	void SetTraitPlayer(cPlayerEnemy *point) { traitPlayer = point; };
 };
 #endif // !REDENEMY_INCLUDE

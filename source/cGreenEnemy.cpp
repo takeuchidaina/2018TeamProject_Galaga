@@ -204,7 +204,7 @@ int cGreenEnemy::Update() {
 void cGreenEnemy::TractorUpdate() {
 	if (tractorHitFlg == false &&TractorNum > 8 && TractorNum < 13) {
 		//‚±‚±‚Åtractor‚Ì‚Í‘«‚è”»’è‚ð“Ç‚ñ‚Å‚¢‚é
-		tractorHitFlg =tractor::Instance()->TractorHit(&enemy);
+		tractorHitFlg =tractor::Instance()->TractorHit(this);
 	}
 	if (enemy.count < 0)enemy.count = 0;
 	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
@@ -286,7 +286,12 @@ void cGreenEnemy::TractorUpdate() {
 
 int cGreenEnemy::Draw() {
 
-
+	if (tractorHitFlg == true) {
+		traitPlayer = tractor::Instance()->GetAdress();
+		traitPlayer->Update(enemy);
+		traitPlayer->Move();
+		traitPlayer->Draw();
+	}
 
 	if (AnimationCnt > 60) {
 		AnimationCnt = 0;
@@ -309,7 +314,6 @@ int cGreenEnemy::Draw() {
 					//cSE::Instance()->selectSE(tractor_beam);
 					TractorCnt = 0;
 					TractorNum++;
-					if (TractorNum > 22)
 					if (TractorNum > 22) {
 						TractorNum = 0;
 						if (tractorHitFlg == false)enemy.moveflg++;

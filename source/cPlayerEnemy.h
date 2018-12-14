@@ -5,6 +5,8 @@
 #include "cBaseEnemy.h"
 
 class cPlayerEnemy : public cBaseEnemy {
+private:
+	int graph[4];
 public:
 	cPlayerEnemy(/*double, double, double, int, double, double, int, int*/);
 	virtual void Move();

@@ -18,7 +18,7 @@ public:
 	int BeforeSceneUpdate();
 	int BeforeSceneDraw();
 	//ƒvƒŒƒCƒ„[€–S
-	int PlayerDeath();
+	int PlayerDeath(int);
 	int PlayerDeathUpdate();
 	int PlayerDeathDraw();
 

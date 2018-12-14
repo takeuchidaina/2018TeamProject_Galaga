@@ -19,7 +19,9 @@ private:
 	double tractorX;
 	double tractorWidth;
 	double playerX, playerY;
-	
+	cPlayerEnemy *TraitPlayer;
+	sEnemy enemy;
+
 	int graph[2];
 
 public:
@@ -28,7 +30,11 @@ public:
 	引数 エネミー構造体
 	戻り値　なし
 	************************************/
-	bool TractorHit(sEnemy*);
+	bool TractorHit(cGreenEnemy*);
+
+	cPlayerEnemy* GetAdress(){
+		return TraitPlayer;
+	}
 	void	draw();
 
 

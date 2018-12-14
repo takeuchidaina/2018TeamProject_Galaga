@@ -273,7 +273,8 @@ void cPlayer::Break(int judgeBreak ,int machineNum)
 		if (player[eLeftMachine].onActive == FALSE && player[eRightMachine].onActive == FALSE)
 		{
 			//インゲームコントローラーでHPを管理して復活かゲームオーバー
-			cInGameController::Instance()->PlayerDeath();
+			//引数として　0 通常死亡 1トラクターとしました by滝
+			cInGameController::Instance()->PlayerDeath(0);
 		}
 
 	}
@@ -282,6 +283,32 @@ void cPlayer::Break(int judgeBreak ,int machineNum)
 	{
 		//シーンの変更
 		//トラクタービーム
+
+		//プレイヤーのHPを減少
+		playerHP--;
+		cUI::Instance()->UI_SetPlayerHP(playerHP);
+
+		//撃破された方を非アクティブに
+		if (machineNum == eLeftMachine)
+		{
+			player[eLeftMachine].onActive = FALSE;
+		}
+		else
+		{
+			player[eRightMachine].onActive = FALSE;
+		}
+
+		isDoubleFlg = FALSE;
+
+		//二機とも撃破されたら
+		if (player[eLeftMachine].onActive == FALSE && player[eRightMachine].onActive == FALSE)
+		{
+			//インゲームコントローラーでHPを管理して復活かゲームオーバー
+			//引数として　0 通常死亡 1トラクターとしました by滝
+			cInGameController::Instance()->PlayerDeath(1);
+		}
+	
+
 	}
 
 }
