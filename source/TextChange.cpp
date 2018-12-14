@@ -10,10 +10,7 @@ cTextChange::cTextChange()
 	LoadDivGraph("../resource/Image/AC_Classic_LBlue.png", 40, 8, 5, 16, 16, textImgLB);
 	LoadDivGraph("../resource/Image/AC_Classic_Yellow.png", 40, 8, 5, 16, 16, textImgYL);
 	LoadDivGraph("../resource/Image/AC_Classic_White.png", 40, 8, 5, 16, 16, textImgWH);
-	imgColor[48] = { 0 };
-	//hue = 0;			//色相[0～360]
-	//saturation = 0;		//彩度[-255～100]
-	//bright = 0;			//輝度[-255～255]
+	imgColor[40] = { 0 };
 	magX = 0;			//画像を拡大する際のx
 	magY = 0;			//画像を拡大する際のy
 	
@@ -48,37 +45,21 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 	case eRed:
 		//ImgColorに赤色を代入
 		memcpy(imgColor, textImgRD, sizeof(textImgRD));
-
-		//hue = 360;
-		//saturation = 0;
-		//bright = 0;
 		break;
 
 	case eYellow:
 		//ImgColorに黄色を代入
 		memcpy(imgColor, textImgYL, sizeof(textImgYL));
-
-		//hue = 60;
-		//saturation = 0;
-		//bright = 0;
 		break;
 
 	case eLBlue:
 		//ImgColorに水色を代入
 		memcpy(imgColor, textImgLB, sizeof(textImgLB));
-
-		//hue = 187;
-		//saturation = 0;
-		//bright = 0;
 		break;
 
 	case eWhite:
 		//ImgColorに白色を代入
 		memcpy(imgColor, textImgWH, sizeof(textImgWH));
-
-		//hue = 0;
-		//saturation = 90;
-		//bright = 10;
 		break;
 
 	default:
@@ -86,7 +67,6 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 
 		//ImgColorに白色を代入
 		memcpy(imgColor, textImgWH, sizeof(textImgWH));
-
 		break;
 	}
 
@@ -121,26 +101,36 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 			//文字が0～9なら
 			if (text[j] >= '0' && text[j] <= '9')
 			{
-				//色相変化
-				//GraphFilter(textImg[text[j]-'0'], DX_GRAPH_FILTER_HSB, 1, hue, saturation, bright);
 				//描画
 				DrawExtendGraph(x+(j*mag), y,magX+(j*mag),magY, imgColor[text[j] - '0'], TRUE);
 			}
 			//文字がA～Zなら
 			else if (text[j] >= 'A' && text[j] <= 'Z')
 			{
-				//色相変化
-				//GraphFilter(textImg[text[j] - 'A'+10], DX_GRAPH_FILTER_HSB, 1, hue, saturation, bright);
 				//描画(+10するのは0～9の番号を含めないようにするため)
 				DrawExtendGraph(x+(j*mag), y, magX + (j * mag), magY, imgColor[text[j] - 'A'+10], TRUE);
 			}
-			//文字がスペースなら
-			else if(text[j] == ' ')
+			//記号
+			else
 			{
-				//記号
-				DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, imgColor[38], TRUE);
-			}
+				switch (text[j]) 
+				{
+				case '.':  //ドット
+					DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, imgColor[36], TRUE);
+					break;
+				case '/':  //著作権の c のやつが無かったので代用
+					DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, imgColor[37], TRUE);
+					break;
+				case ' ':  //スペース
+					DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, imgColor[38], TRUE);
+					break;
+				default :  //スペース
+					DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, imgColor[40], TRUE);
+					break;
 
+				}
+
+			}
 	}
 	
 	return 0;

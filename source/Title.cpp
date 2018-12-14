@@ -25,11 +25,13 @@ cTitle::~cTitle()
 
 int cTitle::Draw()
 {
-	
-	for (int i = 0; i < 4;i++) 
+	//タイトルロゴ
+	DrawExtendGraph(125, 50, 125 + 666, 50 + 376, TitleIcon, TRUE);
+
+	for (int i = 0; i < 5;i++) 
 	{
-		//左にあるプレイヤーの画像
-		if (i != 0) {
+		//左にあるプレイヤーの画像 
+		if (i > 0 && i < 4) {
 			DrawExtendGraph(TTextPos[i].x - 50, TTextPos[i].y, TTextPos[i].x - 50 + IMAGEMAG, TTextPos[i].y + IMAGEMAG, TitleHandle[0], TRUE);
 		}
 		//文字
@@ -37,23 +39,7 @@ int cTitle::Draw()
 			TTextPos[i].color, TTextPos[i].mag);
 	}
 
-	//DrawGraph(-30, -70, TitleIcon,TRUE);
-	DrawExtendGraph(125,50,125+666,50+376,TitleIcon,TRUE);
-	
-	/*
-	cTextChange::Instance()->DrawTextImage(TTextPos[0].x, TTextPos[0].y, TTextPos[0].text,
-		TTextPos[0].color, TTextPos[0].mag);
-	cTextChange::Instance()->DrawTextImage(TTextPos[1].x, TTextPos[1].y, TTextPos[1].text,
-		TTextPos[1].color, TTextPos[1].mag);
-	cTextChange::Instance()->DrawTextImage(TTextPos[2].x, TTextPos[2].y, TTextPos[2].text,
-		TTextPos[2].color, TTextPos[2].mag);
-	cTextChange::Instance()->DrawTextImage(TTextPos[3].x, TTextPos[3].y, TTextPos[3].text,
-		TTextPos[3].color, TTextPos[3].mag);
-	cTextChange::Instance()->DrawTextImage(TTextPos[4].x, TTextPos[4].y, TTextPos[4].text,
-		TTextPos[4].color, TTextPos[4].mag);
-		*/
-	//cTextChange::Instance()->DrawTextImage(TTextPos[5].x, TTextPos[5].y, TTextPos[5].text,
-		//TTextPos[5].color, TTextPos[5].mag);
+
 	
 	return 0;
 }

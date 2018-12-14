@@ -30,7 +30,7 @@ private:
 		{ 100,550,"1ST BONUS FOR 20000 PTS",eYellow,eMag48 },
 		{ 100,650,"2ND BONUS FOR 70000 PTS",eYellow,eMag48 },
 		{ 100,750,"AND FOR EVERY 70000 PTS",eYellow,eMag48 },
-		//{ 150,650,"C 1981 1995 NAMCO LTD",eWhite,eMag48},
+		{ 100,850,"/ 1981 1995 NAMCO LTD",eWhite,eMag48},
 
 	};
 	int TitleHandle[2];
