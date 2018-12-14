@@ -13,11 +13,11 @@ class cTextChange : public cSingleton<cTextChange>
 
 private:
 
-	int textImgRD[40];	//画像ハンドル 赤
-	int textImgLB[40];	//画像ハンドル 水
-	int textImgYL[40];	//画像ハンドル 黄
-	int textImgWH[40];	//画像ハンドル 白
-	int imgColor[40];//画像ハンドル代入用
+	int textImgRD[41];	//画像ハンドル 赤
+	int textImgLB[41];	//画像ハンドル 水
+	int textImgYL[41];	//画像ハンドル 黄
+	int textImgWH[41];	//画像ハンドル 白
+	int imgColor[41];//画像ハンドル代入用  41はスペース用
 	int magX;			//画像倍率用のx
 	int magY;			//画像倍率用のy
 

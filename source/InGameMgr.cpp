@@ -6,7 +6,8 @@
 #include "hit.h"
 #include "EnemyMgr.h"
 #include "UI.h"
-#include"tractor.h"
+#include "tractor.h"
+#include "Score.h"
 
 //コンストラクタ
 cInGameMgr::cInGameMgr() {
@@ -139,6 +140,7 @@ void cInGameMgr::Update() {
 		cEnemyMgr::Instance()->Update();
 		//EnemyMgr.Update();
 		cHit::Instance()->Update();
+		cScore::Instance()->Update();
 
 		//
 		break;
