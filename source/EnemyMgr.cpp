@@ -278,7 +278,7 @@ void cEnemyMgr::Update() {
 			//再抽選
 				//再抽選フラグがTRUEになっているもしくは敵が死んでいる場合は敵の再抽選を行う
 			if (ReChoiceFlag == 1 && ChoiseOrderFlag == TRUE) {
-				int debug = 0;
+				int debug = 0;		
 				while (1) {
 					debug++;
 					int tmp = GetRand(39);

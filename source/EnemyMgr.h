@@ -68,24 +68,26 @@ private:
 	char StageFilePath[256];  //読み込むファイルの名前を入れる配列
 	int  n, num;              //n,num
 	int  Phaseflag;           //移動段階フラグ
-	int  EnemyGraph[20];      //敵の画像 20体分よみこむ
-	int  Stayflag;            //敵が入場後に動いていないか 0:動いている 1:動いていない
+	int  EnemyGraph[20];      //敵の画像 20体分よみこむ ※enum化予定
+	int  Stayflag;            //敵が入場後に動いていないか 0:動いている 1:動いていない ※bool化予定
 
-							  //関数のプロトタイプ宣言
-							  //void Join(sEnemy&);
-	void Move(sEnemy&);
-	void Shifted(sEnemy&, sEnemy&);
-	cBaseEnemy* enemies[40];
+    //関数のプロトタイプ宣言
+	void Move(sEnemy&);              //敵の入場を行う関数
+	void Shifted(sEnemy&, sEnemy&);  //敵を二列に表示させる関数
+	cBaseEnemy* enemies[40];         //cBaseEnemyの敵配列
+
+	void Scaling(sEnemy&);    //秋の新作関数
+	bool ScalingFlag;         //敵の収縮処理用のフラグ true:1 false:-1
+	void Sliding(sEnemy&);    //冬の新作関数
 
 	int phaseFlagCount;       //入場が終了している敵の数
 	int onActiveCount;        //入場時にonActiveがtrueになっている敵の数
 	   
-	int ChoiseOrderFlag;      //外部で操作可能な再抽選フラグ TRUE:抽選可能。抽選を行う  FALSE:抽選不可。抽選を行わない
-	int ReChoiceFlag;         //再抽選フラグ 0:抽選を行わない状態 1:抽選を行う状態
+	int ChoiseOrderFlag;      //外部で操作可能な再抽選フラグ TRUE:抽選可能。抽選を行う  FALSE:抽選不可。抽選を行わない ※bool化予定
+	int ReChoiceFlag;         //再抽選フラグ 0:抽選を行わない状態 1:抽選を行う状態 ※bool化予定
 
-	int EnemyAttackFlag;      //攻撃フラグ   0:攻撃を行わない状態 1:攻撃を行う状態
-	//int EnemyDeathFlag;       //死亡フラグ   0:生きてる 1:死んでる　ごみ
-	int EnemyDeathCount;       //死亡カウント
+	int EnemyAttackFlag;      //攻撃フラグ   0:攻撃を行わない状態 1:攻撃を行う状態 ※bool化予定
+	int EnemyDeathCount;      //死亡カウント
 
 public:
 	//~cEnemyMgr();
@@ -111,7 +113,7 @@ public:
 
 	}
 
-	/*hitに情報をわたす用関数*/
+	/*hitに情報をわたす用の関数*/
 	
 	//敵の最大数
 	int GetMaxEnemy() {
@@ -158,12 +160,12 @@ public:
 		return EnemyDeathCount;
 	}
 
-	/***************************************
+	/*****************************************************
 	関数名：void SetEnemyDeath(int num)
 	説明：この関数が呼ばれたとき、敵の死亡処理を行う
 	引数：int型 num
-	戻り値：なしお
-	***************************************/
+	戻り値：なし
+	******************************************************/
 	void SetEnemyDeath(int num) {
 		//敵の破壊処理を行う
 		enemies[num]->Break();
@@ -172,13 +174,6 @@ public:
 		EnemyDeathCount++;
 		cScore::Instance()->AddScore(100);
 	}
-
-	/*
-	//敵の死亡判定フラグ 0:生きてる 1:死んでる
-	void SetEnemyDeathFlag() {
-		EnemyDeathFlag = true;
-	}
-	*/
 
 	/*
 	入場後敵が何も動いていない状態を獲得する
