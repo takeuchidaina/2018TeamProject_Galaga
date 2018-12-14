@@ -7,6 +7,7 @@ using namespace std;
 #include "cBaseEnemy.h"
 #include "cGreenEnemy.h"
 #include "cPlayerEnemy.h"
+#include "InGameMgr.h"
 #include "DxLib.h"
 #include "Struct.h"
 #include "shot.h"
@@ -25,7 +26,7 @@ cPlayerEnemy::cPlayerEnemy(){
 	enemy.mainpos.cy = enemy.mainpos.pos.y + enemy.mainpos.pos.y / 2;
 	enemy.width = 16;
 	enemy.height = 16;
-	LoadDivGraph("../resource/Image/Galaga_OBJ_myMachine1616.png", 12, 4, 3, 16, 16, enemy.graph);
+	LoadDivGraph("../resource/Image/Galaga_OBJ_myMachine1616.png", 12, 4, 3, 16, 16, graph);
 }
 
 void cPlayerEnemy :: Move() {
@@ -52,7 +53,10 @@ int cPlayerEnemy::TractorStart(sEnemy enemy) {
 int cPlayerEnemy::Draw() {
 	/*if (enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * M_PI) / 180), enemy.graph[0], TRUE, TRUE);
 	//else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[0], TRUE, TRUE);
-	*/DrawGraph(100,100, enemy.graph[0 ],false);
+	*/
+	sOBJPos tmpPlayer = cPlayer::Instance()->GetPlayer(0);
+
+	if (cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::Instance()->eInGame)DrawRotaGraph(tmpPlayer.pos.x, tmpPlayer.pos.y, 3, 0, graph[0], false);
 	return 0;
 }
 

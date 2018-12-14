@@ -36,12 +36,15 @@ int cInGameController::BeforeSceneDraw() {
 }
 
 //ƒvƒŒƒCƒ„[Ž€–S
-int cInGameController::PlayerDeath() {
+int cInGameController::PlayerDeath(int type) {
 	if (cPlayer::Instance()->GetPlayerHP() < 0) {
 		cInGameMgr::Instance()->ChangeScene(cInGameMgr::eResult);
 	}
-	else {
+	else if(type == 0){
 		cInGameMgr::Instance()->ChangeScene(cInGameMgr::eDeath);
+	}
+	else {
+		cInGameMgr::Instance()->ChangeScene(cInGameMgr::eTractor);
 	}
 	cEnemyMgr::Instance()->SetChoiseOrderFlag(false);
 	cShotMgr::Instance()->SetShotFlg(false);
