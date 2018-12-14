@@ -150,7 +150,6 @@ public:
 
 	//敵の攻撃判定を行うためのフラグ
 	int GetEnemyonActive(int num) {
-		//
 		return enemies[num]->GetEnemyOnActive() == 1 ? false:true;
 	}
 	
@@ -170,7 +169,7 @@ public:
 	/*****************************************************
 	関数名：cPlayerEnemy PushPlayerEnemy()
 	説明：トラクタービームが当たったプレイヤーを敵配列に加える
-	引数：cPlayerEnemy型 pEnemy
+	引数：なし
 	戻り値：プッシュ先のアドレス
 	******************************************************/
 	cPlayerEnemy PushPlayerEnemy() {
@@ -180,9 +179,9 @@ public:
 
 	/*****************************************************
 	関数名：void DeletePlayerEnemy()
-	説明：敵配列に加えたプレイヤーのデータをデリートする
-	引数：cPlayerEnemy型 pEnemy
-	戻り値：プッシュ先のアドレス
+	説明：敵配列に加えたプレイヤーのデータを消去する
+	引数：なし
+	戻り値：なし
 	******************************************************/
 	void DeletePlayerEnemy() {
 		delete pEnemy;
