@@ -85,6 +85,7 @@ int cShotMgr::Update() {
 					player2Shot[i].Set_ShotRad(M_PI * 270 / 180);//ã
 					totalShot++;
 					shotRate = 6;
+					cSE::Instance()->selectSE(fighter_shot);
 				}
 			}
 		}
