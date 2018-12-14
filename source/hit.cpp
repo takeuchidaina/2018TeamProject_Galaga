@@ -130,6 +130,7 @@ void cHit::PlayerShot_Enemy() {
 		E_cx = cEnemyMgr::Instance()->GetEnemyPosX(i);
 		E_cy = cEnemyMgr::Instance()->GetEnemyPosY(i);
 		E_r = cEnemyMgr::Instance()->GetEnemyPosR(i);
+		
 
 		if (E_onActive == FALSE) continue;
 
@@ -147,8 +148,11 @@ void cHit::PlayerShot_Enemy() {
 				double len = (S_cx - E_cx)*(S_cx - E_cx) + (S_cy - E_cy)*(S_cy - E_cy);
 
 				if (len <= ((E_r + S_r)*(E_r + S_r))) {
+					//ŸŽè‚É’Ç‰Á•ª@by‘ê
+					cEnemyMgr::Instance()->DamageEnemyHp(i);
+					int E_hp = cEnemyMgr::Instance()->GetEnemyHP(i);
+					if(E_hp<=0)cEnemyMgr::Instance()->SetEnemyDeath(i);
 					cShotMgr::Instance()->Break(PLAYER, k);
-					cEnemyMgr::Instance()->SetEnemyDeath(i);
 				}
 
 			}

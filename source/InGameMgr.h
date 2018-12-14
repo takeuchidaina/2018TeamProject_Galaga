@@ -51,6 +51,11 @@ public:
 	void Update();
 	void Draw();
 	void ChangeScene(eInGameScene scene);
+	
+	//Ÿè‚É’Ç‰Á•ª@by‘ê
+	 int GetSceneFlg() {
+		return sceneflag;
+	}
 
 
 };

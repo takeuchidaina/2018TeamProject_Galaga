@@ -95,7 +95,7 @@ int cInGameController::HitToTractor() {
 	return 0;
 }
 int cInGameController::OutToTractor() {
-	cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
+	cInGameMgr::Instance()->ChangeScene(cInGameMgr::eDeath);
 	return 0;
 }
 int cInGameController::TractorSceneUpdate(){

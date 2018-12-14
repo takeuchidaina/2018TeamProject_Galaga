@@ -6,6 +6,7 @@
 #include "hit.h"
 #include "EnemyMgr.h"
 #include "UI.h"
+#include"tractor.h"
 
 //コンストラクタ
 cInGameMgr::cInGameMgr() {
@@ -154,6 +155,10 @@ void cInGameMgr::Update() {
 		//
 		break;
 	case eTractor://きゃとられ中
+		cEnemyMgr::Instance()->Update();
+		//EnemyMgr.Update();
+		cHit::Instance()->Update();
+		cInGameController::Instance()->PlayerDeathUpdate();
 		//
 		break;
 	case ePReturn://プレイヤー帰還
@@ -216,6 +221,10 @@ void cInGameMgr::Draw() {
 		//
 		break;
 	case eTractor://きゃとられ中
+		cPlayer::Instance()->Draw();
+		cEnemyMgr::Instance()->Draw();
+		tractor::Instance()->draw();
+		DrawFormatString(0, 20, GetColor(255, 255, 255), "eTractor");
 		//
 		break;
 	case ePReturn://プレイヤー帰還

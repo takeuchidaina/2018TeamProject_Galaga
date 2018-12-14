@@ -14,10 +14,13 @@
 class tractor : public cSingleton<tractor>
 {
 	friend cSingleton<tractor>;
-protected:
-
+private:
+	 tractor();
 	double tractorX;
 	double tractorWidth;
+	double playerX, playerY;
+	
+	int graph[2];
 
 public:
 	/************************************
@@ -26,6 +29,8 @@ public:
 	ñﬂÇËílÅ@Ç»Çµ
 	************************************/
 	bool TractorHit(sEnemy*);
+	void	draw();
+
 
 };
 

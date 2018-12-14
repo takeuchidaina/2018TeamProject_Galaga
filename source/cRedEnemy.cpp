@@ -10,6 +10,8 @@ using namespace std;
 #include "UI.h"
 #include "shot.h"
 #include "shotMgr.h"
+#include "InGameMgr.h"
+
 
 
 cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double ang, int flg, int*graph) : cBaseEnemy(x, y, r, cnt, spd, ang, flg, graph) {
@@ -64,7 +66,7 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 
 void cRedEnemy::Move() {
 
-	
+
 	enemy.mainpos.cx = enemy.mainpos.pos.x + enemy.width / 2;
 	enemy.mainpos.cy = enemy.mainpos.pos.y + enemy.hight / 2;
 
@@ -92,6 +94,8 @@ void cRedEnemy::Move() {
 
 
 int cRedEnemy::Update() {
+	int tmp = cInGameMgr::Instance()->GetSceneFlg();
+	int	 EnemyDeathCount = cEnemyMgr::Instance()->GetEnemyDeathCount();
 	if (enemy.count < 0)enemy.count = 0;
 	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = ReadyStart;
 	if (enemy.attackflg == true && enemy.mainpos.onActive != NoActive) {
@@ -144,20 +148,29 @@ int cRedEnemy::Update() {
 			}
 			break;
 		case 7:
+
 			enemy.ang = atan2(enemy.target.y - enemy.mainpos.pos.y, enemy.target.x - enemy.mainpos.pos.x);
 			if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
 				(enemy.target.y - enemy.mainpos.pos.y)*(enemy.target.y - enemy.mainpos.pos.y) <=
 				(enemy.mainpos.r / 5 + enemy.targetr)*(enemy.mainpos.r / 5 + enemy.targetr)) {
-
-				enemy.moveflg++;
-				enemy.count = 0;
-				enemy.mainpos.onActive = SetPos;
-
+				/*if (EnemyDeathCount >= 30 && tmp != 2) {
+					enemy.attackflg = true;
+					enemy.mainpos.onActive = YesActive;
+					enemy.count = 0;
+					if (enemy.moveflg == 7)enemy.moveflg = 0;
+				}
+				else {*/
+					enemy.moveflg++;
+					enemy.count = 0;
+					enemy.mainpos.onActive = SetPos;
+				//}
+				
 			}
 			break;
 		case 9:
+			
 			enemy.count = 0;
-			enemy.moveflg = 0;
+			
 			enemy.ang = -90 * M_PI / 180;
 			if (enemy.mainpos.pos.x <= 430) {
 				enemy.dir = 1;
@@ -168,8 +181,11 @@ int cRedEnemy::Update() {
 			//“GÀ•W‚ð–Ú“I’n‚ÉŒÅ’è
 			enemy.mainpos.pos.x = enemy.target.x;
 			enemy.mainpos.pos.y = enemy.target.y;
-			enemy.attackflg = false;
-			enemy.mainpos.onActive = ReadyStart;
+			
+				enemy.attackflg = false;
+				enemy.mainpos.onActive = ReadyStart;
+				enemy.moveflg = 0;
+			
 			break;
 
 		}
