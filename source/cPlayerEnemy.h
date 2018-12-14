@@ -9,6 +9,10 @@ public:
 	cPlayerEnemy(/*double, double, double, int, double, double, int, int*/);
 	virtual void Move();
 	virtual int Update();
+	//トラクターされた際の最初の移動をする関数
+	 int TractorStart(sEnemy);
+	 //トラクターされいてる間の移動
+	// int Tracting(sEnemy);
 	virtual int Draw();
 
 

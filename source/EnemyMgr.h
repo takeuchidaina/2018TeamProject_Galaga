@@ -137,6 +137,7 @@ public:
 		return enemies[num]->GetEnemyR();
 	}
 	
+	
 
 	//敵の攻撃判定を行うためのフラグ
 	int GetEnemyonActive(int num) {
@@ -144,6 +145,18 @@ public:
 		return enemies[num]->GetEnemyOnActive() == 1 ? false:true;
 	}
 	
+	//勝手に追加分 by滝
+	int GetEnemyHP(int num) {
+		return enemies[num]->GetHp();
+	}
+
+	void DamageEnemyHp(int num) {
+		enemies[num]->DamageHp();
+	}
+
+	int GetEnemyDeathCount(){
+		return EnemyDeathCount;
+	}
 
 	/***************************************
 	関数名：void SetEnemyDeath(int num)

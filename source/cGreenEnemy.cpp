@@ -12,6 +12,7 @@ using namespace std;
 #include "shot.h"
 #include "shotMgr.h"
 #include "tractor.h"
+#include"cPlayerEnemy.h"
 //‚™674‚©‚çƒr[ƒ€•`‰æ
 
 cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, double ang, int flg, int *graph) : cBaseEnemy(x, y, r, cnt, spd, ang, flg, graph) {
@@ -24,7 +25,7 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 	enemy.mainpos.onActive = flg;
 
 	enemy.moveflg = 0;
-	tractorflg = true;
+	tractorflg = false;
 
 	enemy.vct.x = 0;
 	enemy.vct.y = 0;
@@ -73,12 +74,12 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 	LoadDivGraph("../resource/Image/Galaga_OBJ_effect.png", 15, 5, 3, 50, 82, tractor);
 
 
-
+	 hit = false;
 }
 
 
 void cGreenEnemy::Move() {
-	
+
 
 	enemy.mainpos.cx = enemy.mainpos.pos.x + enemy.width / 2;
 	enemy.mainpos.cy = enemy.mainpos.pos.y + enemy.hight / 2;
@@ -106,6 +107,7 @@ void cGreenEnemy::Move() {
 
 
 int cGreenEnemy::Update() {
+	//if (tractorflg == true) cPlayerEnemy::Instance()->Update();
 	if (enemy.count < 0)enemy.count = 0;
 	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = ReadyStart;
 	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
@@ -197,15 +199,16 @@ int cGreenEnemy::Update() {
 
 
 void cGreenEnemy::TractorUpdate() {
-	if (TractorNum > 8 && TractorNum < 13)tractor::Instance()->TractorHit(&enemy);
-
+	if (TractorNum > 8 && TractorNum < 13) {
+		hit =tractor::Instance()->TractorHit(&enemy);
+	}
 	if (enemy.count < 0)enemy.count = 0;
 	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 	/*enemy.target.x = 500;
 	enemy.target.y = 300;*/
-	DrawLine(tmpx, 0, tmpx, 900, GetColor(0, 255, 255), false);
-	DrawLine(tmpx + 48, 0, tmpx + 48, 900, GetColor(0, 255, 255), false);
+	/*DrawLine(tmpx, 0, tmpx, 900, GetColor(0, 255, 255), false);
+	DrawLine(tmpx + 48, 0, tmpx + 48, 900, GetColor(0, 255, 255), false);*/
 
 	if (tractorflg != 0 && enemy.mainpos.onActive != NoActive && enemy.attackflg == true) {
 		enemy.count++;
@@ -283,7 +286,14 @@ int cGreenEnemy::Draw() {
 	if (AnimationCnt > 60) {
 		AnimationCnt = 0;
 		AnimationNum++;
-		if (AnimationNum > 11)AnimationNum = 10;
+		if (enemy.hp == 2) {
+			if (AnimationNum > 11)AnimationNum = 10;
+		}
+		else {
+			if (AnimationNum < 15)AnimationNum = 15;
+			if (AnimationNum > 16)AnimationNum = 15;
+
+		}
 	}
 	if (enemy.mainpos.onActive != NoActive) {
 		if (enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * M_PI) / 180), enemy.graph[AnimationNum], TRUE, TRUE);
@@ -293,10 +303,10 @@ int cGreenEnemy::Draw() {
 				if (TractorCnt > 20) {
 					TractorCnt = 0;
 					TractorNum++;
-					//     tractor::Instance()->TractorHit(enemy);
+
 					if (TractorNum > 22) {
 						TractorNum = 0;
-						enemy.moveflg++;
+						if (hit == false)enemy.moveflg++;
 					}
 				}
 				DrawExtendGraph((int)enemy.mainpos.pos.x - 96 / 2, (int)enemy.mainpos.pos.y + enemy.hight, (int)enemy.mainpos.pos.x + 90 - 1, (int)enemy.mainpos.pos.y + enemy.hight + 160 - 1, tractor[tractorAnimation[TractorNum]], TRUE);
@@ -324,4 +334,4 @@ int cGreenEnemy::Draw() {
 
 
 	return 0;
-}
+	}

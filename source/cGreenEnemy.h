@@ -15,6 +15,7 @@ private:
 	sOBJPos tmpplayer;
 	double tmpx, tmpy;
 	double tracotr;
+	bool hit;
 	
 public:
 	cGreenEnemy(double, double, double, int, double, double, int, int*);
