@@ -153,6 +153,10 @@ void cHit::PlayerShot_Enemy() {
 					int E_hp = cEnemyMgr::Instance()->GetEnemyHP(i);
 					if(E_hp<=0)cEnemyMgr::Instance()->SetEnemyDeath(i);
 					cShotMgr::Instance()->Break(PLAYER, k);
+
+					//Ÿè‚É’Ç‰Á•ª by’|“à
+					totalHit++;
+					
 				}
 
 			}
