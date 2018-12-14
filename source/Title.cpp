@@ -39,7 +39,5 @@ int cTitle::Draw()
 			TTextPos[i].color, TTextPos[i].mag);
 	}
 
-
-	
 	return 0;
 }
