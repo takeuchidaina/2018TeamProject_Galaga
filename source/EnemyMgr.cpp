@@ -30,7 +30,13 @@ void cEnemyMgr::Init() {
 	onActiveCount = 0;
 	Stayflag = 0;
 	EnemyAttackFlag = 1;     //攻撃フラグ 0:攻撃を行わない状態 1:攻撃を行う状態
-	ChoiseOrderFlag = TRUE;  //攻撃命令が出されているか判断するフラグ
+	ChoiseOrderFlag = TRUE;
+	
+	ScalingFlag = 1;
+	ScalingCount = 0;
+
+	SlidingFlag = 1;
+	SlidingCount = 120;
 
 
 	//Stage_1.csv
@@ -157,11 +163,13 @@ void cEnemyMgr::Update() {
 	phaseFlagCount = 0;
 	wavecount = 0;
 	onActiveCount = 0;
-
-
+	SlidingCount++;
+	ScalingCount++;
 
 	if (Phaseflag == 0) {
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+			//敵の横移動処理
+			Sliding(enemy[i]);
 			if (enemy[i].wave == wave) {
 				//毎フレームカウントを増やす
 				enemy[i].count++;
@@ -215,6 +223,9 @@ void cEnemyMgr::Update() {
 
 			if (enemy[i].moveflag == 11) {
 
+				enemy[i].pos.x = enemy[i].target.x;
+				//enemy[i].pos.y = enemy[i].target.y;
+
 				//入場行動が終了している敵の数をカウントする
 				phaseFlagCount++;
 				//ウェーブ内で入場行動が終了している敵の数をカウントする
@@ -232,8 +243,9 @@ void cEnemyMgr::Update() {
 			enemies[i]->SetEnemyX(enemy[i].pos.x);
 			enemies[i]->SetEnemyY(enemy[i].pos.y);
 			enemies[i]->SetEnemyAngle(enemy[i].angle);
-		}//配列数分の敵動作終了
 
+		}//配列数分の敵動作終了
+		
 		 //敵が動いていないフラグをonにする
 		Stayflag = 1;
 	}
@@ -258,13 +270,27 @@ void cEnemyMgr::Update() {
 	if (Phaseflag == 2) {
 		Stayflag = 0;
 		ReChoiceFlag = 1;
+
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+
+			Scaling(enemy[i]);
+
+			if (enemies[i]->GetEnemyAttackflg() != 1) {
+				enemy[i].pos.x = enemy[i].target.x;
+				enemy[i].pos.y = enemy[i].target.y;
+				enemies[i]->SetEnemyX(enemy[i].pos.x);
+				enemies[i]->SetEnemyY(enemy[i].pos.y);
+			}
+
 			//敵が非表示もしくは攻撃中ではないときもしくは敵が死んでいるときは以下の処理を飛ばす
-			if (enemy[i].onactive != TRUE || enemies[i]->GetEnemyAttackflg() != 1||enemy[i].deathflag==TRUE)continue;
+			if (enemy[i].onactive != TRUE || enemies[i]->GetEnemyAttackflg() != 1 || enemy[i].deathflag == TRUE) {
+
+				continue;
+			}
 			enemies[i]->Update();
 			enemies[i]->Move();
 			enemies[i]->TractorUpdate();
-
+		
 		}
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 			if (enemy[i].onactive != TRUE || enemies[i]->GetEnemyChoiseOrder() != 1 || enemy[i].deathflag == TRUE)continue;
@@ -329,24 +355,44 @@ void cEnemyMgr::Shifted(sEnemy& ene1, sEnemy& ene2) {
 }
 
 /*****************************************************
-関数名：void Scaling(sEnemy& enemy)
+関数名：void Scalings(sEnemy& enemy)
 説明：敵が攻撃待機中に大きくなったり小さくなったりする
 引数：sEnemy型 enemy
 戻り値：なし
 ******************************************************/
-void Scaliing(sEnemy& enemy) {
-	;
+void cEnemyMgr::Scaling(sEnemy& enemy) {
+
+	if (ScalingCount >=480 ) {
+		ScalingFlag *= -1;
+		ScalingCount = 0;
+	}
+
+	if (ScalingCount % 60 == 0) {
+		enemy.target.x += 10 * ScalingFlag;
+		enemy.target.y += 10 * ScalingFlag;
+	}
+
 }
 
 /*****************************************************
-関数名：void Sliding(sEnemy& )
-説明：敵が攻撃待機中に大きくなったり小さくなったりする
+関数名：void Slidings(sEnemy& enemy)
+説明：敵が入場待機中に横移動する
 引数：sEnemy型 enemy
 戻り値：なし
 ******************************************************/
-void Sliding(sEnemy& enemy) {
-	;
+void cEnemyMgr::Sliding(sEnemy& enemy) {
+
+	if (SlidingCount >= 240) {
+		SlidingFlag *= -1;
+		SlidingCount = 0;
+	}
+
+	if (SlidingCount % 60 == 0) {
+		enemy.target.x += 10 * SlidingFlag;
+	}
 }
+
+
 
 
 
@@ -363,7 +409,7 @@ void cEnemyMgr::Draw() {
 	}
 
 	//
-	DrawFormatString(0, 120, GetColor(255, 255, 255), "再抽選フラグ:%d", ReChoiceFlag);
-	DrawFormatString(0, 140, GetColor(255, 255, 255), "敵死亡フラグ:%d", enemy[1].deathflag);
+	DrawFormatString(0, 120, GetColor(255, 255, 255), "enemy[0]:%lf", enemy[0].target.x);
+	DrawFormatString(0, 140, GetColor(255, 255, 255), "enemy[2]:%lf", enemy[2].target.x);
 
 }

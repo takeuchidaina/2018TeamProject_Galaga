@@ -80,9 +80,11 @@ private:
 
 	void Scaling(sEnemy&);    //秋の新作関数
 	int  ScalingFlag;         //敵の収縮処理用のフラグ true:1 false:-1
+	int  ScalingCount;          //収縮カウント
 	
 	void Sliding(sEnemy&);    //冬の新作関数
 	int  SlidingFlag;         //敵の横移動処理用のフラグ true:1 false:-1
+	int  SlidingCount;          //横移動カウント
 
 	int phaseFlagCount;       //入場が終了している敵の数
 	int onActiveCount;        //入場時にonActiveがtrueになっている敵の数
@@ -150,6 +152,7 @@ public:
 
 	//敵の攻撃判定を行うためのフラグ
 	int GetEnemyonActive(int num) {
+		//
 		return enemies[num]->GetEnemyOnActive() == 1 ? false:true;
 	}
 	
@@ -166,22 +169,24 @@ public:
 		return EnemyDeathCount;
 	}
 
+
+
 	/*****************************************************
 	関数名：cPlayerEnemy PushPlayerEnemy()
 	説明：トラクタービームが当たったプレイヤーを敵配列に加える
-	引数：なし
+	引数：cPlayerEnemy型 pEnemy
 	戻り値：プッシュ先のアドレス
 	******************************************************/
-	cPlayerEnemy* PushPlayerEnemy() {
+	cPlayerEnemy PushPlayerEnemy() {
 		pEnemy = new cPlayerEnemy();
-		return pEnemy;
+		return *pEnemy;
 	}
 
 	/*****************************************************
 	関数名：void DeletePlayerEnemy()
-	説明：敵配列に加えたプレイヤーのデータを消去する
-	引数：なし
-	戻り値：なし
+	説明：敵配列に加えたプレイヤーのデータをデリートする
+	引数：cPlayerEnemy型 pEnemy
+	戻り値：プッシュ先のアドレス
 	******************************************************/
 	void DeletePlayerEnemy() {
 		delete pEnemy;
