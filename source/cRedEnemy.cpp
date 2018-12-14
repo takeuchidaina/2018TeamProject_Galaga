@@ -11,7 +11,7 @@ using namespace std;
 #include "shot.h"
 #include "shotMgr.h"
 #include "InGameMgr.h"
-
+#include"SE.h"
 
 
 cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double ang, int flg, int*graph) : cBaseEnemy(x, y, r, cnt, spd, ang, flg, graph) {
@@ -68,7 +68,7 @@ void cRedEnemy::Move() {
 
 
 	enemy.mainpos.cx = enemy.mainpos.pos.x + enemy.width / 2;
-	enemy.mainpos.cy = enemy.mainpos.pos.y + enemy.hight / 2;
+	enemy.mainpos.cy = enemy.mainpos.pos.y + enemy.height / 2;
 
 	if (enemy.mainpos.onActive == StartMove) {
 		enemy.vct.x = cos(enemy.ang);
@@ -112,6 +112,7 @@ int cRedEnemy::Update() {
 		switch (enemy.moveflg)
 		{
 		case 0:
+			if (CheckSoundFile() == 0)cSE::Instance()->selectSE(alien_flying);
 			if (enemy.count < 3)enemy.ang = 180 * M_PI / 180;
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {

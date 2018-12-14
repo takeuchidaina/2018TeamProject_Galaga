@@ -24,7 +24,7 @@ typedef struct {
 	int* graph;		 //マネージャーからもらう画像のアドレス用
 	int dir = 1;         //1　右　-1　左
 	int width;           //幅
-	int hight;         //高さ
+	int height;         //高さ
 	int count; //移動カウント
 	int moveflg; //移動制御フラグ 
 	int attackflg;//攻撃フラグ
@@ -87,7 +87,7 @@ public:
 		//エネミーマネージャーで使う移動
 		virtual void Update2() {
 			enemy.mainpos.cx = enemy.mainpos.pos.x + (enemy.width / 2);
-			enemy.mainpos.cy = enemy.mainpos.pos.y + (enemy.hight / 2);
+			enemy.mainpos.cy = enemy.mainpos.pos.y + (enemy.height / 2);
 		}
 		//ここら辺から自分の情報を返す関数
 		//情報を自分に代入する関数
@@ -174,7 +174,7 @@ public:
 		}
 
 		virtual void SettractorHitFlg() {
-			 tractorHitFlg = false;
+			 tractorHitFlg = true;
 		}
 
 		virtual	int GetHp() { return enemy.hp; };

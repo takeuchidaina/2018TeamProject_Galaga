@@ -14,9 +14,17 @@ using namespace std;
 
 
 cPlayerEnemy::cPlayerEnemy(){
-	sOBJPos tmpPlayer = cPlayer::Instance()->GetPlayer(0);
+	sOBJPos tmpPlayer;
+	for (int i = 0; i < 2; i++) {
+		tmpPlayer = cPlayer::Instance()->GetPlayer(i);
+		if (tmpPlayer.onActive == false)continue;
+	}
 	enemy.mainpos.pos.x = tmpPlayer.pos.x;
 	enemy.mainpos.pos.y = tmpPlayer.pos.y;
+	enemy.mainpos.cx = enemy.mainpos.pos.x + enemy.mainpos.pos.x / 2;
+	enemy.mainpos.cy = enemy.mainpos.pos.y + enemy.mainpos.pos.y / 2;
+	enemy.width = 16;
+	enemy.height = 16;
 	LoadDivGraph("../resource/Image/Galaga_OBJ_myMachine1616.png", 12, 4, 3, 16, 16, enemy.graph);
 }
 
@@ -26,19 +34,25 @@ void cPlayerEnemy :: Move() {
 	enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
 	enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
 }
-int cPlayerEnemy::Update() {
+int cPlayerEnemy::Update(sEnemy tmpenemy) {
+	enemy.mainpos.pos.x = tmpenemy.mainpos.pos.x;
+	enemy.mainpos.pos.y = tmpenemy.mainpos.pos.y-tmpenemy.height;
+	enemy.mainpos.cx = enemy.mainpos.pos.x + enemy.mainpos.pos.x / 2;
+	enemy.mainpos.cy = enemy.mainpos.pos.y + enemy.mainpos.pos.y / 2;
+	enemy.ang = tmpenemy.ang;
 	return 0;
 }
 
 int cPlayerEnemy::TractorStart(sEnemy enemy) {
 	sOBJPos tmpPlayer = cPlayer::Instance()->GetPlayer(0);
-	enemy.ang = atan2(enemy.mainpos.pos.y+enemy.hight - enemy.mainpos.pos.y, enemy.target.x - enemy.mainpos.pos.x);
+	enemy.ang = atan2(enemy.mainpos.pos.y+enemy.height - enemy.mainpos.pos.y, enemy.target.x - enemy.mainpos.pos.x);
 	return 0;
 }
 
 int cPlayerEnemy::Draw() {
-	if (enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * M_PI) / 180), enemy.graph[AnimationNum], TRUE, TRUE);
-	else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[AnimationNum], TRUE, TRUE);
+	/*if (enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * M_PI) / 180), enemy.graph[0], TRUE, TRUE);
+	//else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[0], TRUE, TRUE);
+	*/DrawGraph(100,100, enemy.graph[0 ],false);
 	return 0;
 }
 

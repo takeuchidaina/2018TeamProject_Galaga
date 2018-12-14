@@ -3,6 +3,7 @@
 #define GREENENEMY_INCLUDE
 
 #include "cBaseEnemy.h"
+#include "cPlayerEnemy.h"
 
 
 class cGreenEnemy : public cBaseEnemy {
@@ -16,7 +17,7 @@ private:
 	double tmpx, tmpy;
 	double tracotr;
 	bool hit;
-	
+	//cPlayerEnemy &traitPlayer;
 public:
 	cGreenEnemy(double, double, double, int, double, double, int, int*);
 	virtual void Move();
