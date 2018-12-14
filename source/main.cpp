@@ -2,6 +2,7 @@
 #include "Interface.h"
 #include "SceneMgr.h"
 #include "Fps.h"
+#include "Debug.h"
 
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -19,6 +20,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//Interfase.Update();
 		cFps::Instance()->Update();
 
+		Debug::Instance()->Update();
 		cInterface::Instance()->Update();
 
 		cSceneMgr::Instance()->Update();
