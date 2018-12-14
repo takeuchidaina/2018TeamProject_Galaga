@@ -10,7 +10,7 @@ cTextChange::cTextChange()
 	LoadDivGraph("../resource/Image/AC_Classic_LBlue.png", 40, 8, 5, 16, 16, textImgLB);
 	LoadDivGraph("../resource/Image/AC_Classic_Yellow.png", 40, 8, 5, 16, 16, textImgYL);
 	LoadDivGraph("../resource/Image/AC_Classic_White.png", 40, 8, 5, 16, 16, textImgWH);
-	imgColor[40] = { 0 };
+	imgColor[41] = { 0 };
 	magX = 0;			//画像を拡大する際のx
 	magY = 0;			//画像を拡大する際のy
 	
@@ -118,11 +118,14 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 				case '.':  //ドット
 					DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, imgColor[36], TRUE);
 					break;
-				case '/':  //著作権の c のやつが無かったので代用
+				case '%':  // % 
 					DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, imgColor[37], TRUE);
 					break;
-				case ' ':  //スペース
+				case '-':  // スペース
 					DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, imgColor[38], TRUE);
+					break;
+				case '@' :  // コピーライトの代わり
+					DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, imgColor[39], TRUE);
 					break;
 				default :  //スペース
 					DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, imgColor[40], TRUE);
