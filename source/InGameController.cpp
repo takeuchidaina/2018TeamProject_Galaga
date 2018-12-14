@@ -5,6 +5,7 @@
 #include "Interface.h"
 #include "SceneMgr.h"
 #include "TextChange.h"
+#include "Score.h"
 
 cInGameController::cInGameController() {}
 
@@ -123,9 +124,7 @@ int cInGameController::ResultUpdate() {
 	return 0;
 }
 int cInGameController::ResultDraw() {
-	DrawFormatString(400, 400, GetColor(255, 0, 0), "RESULT");
-	DrawFormatString(400, 440, GetColor(255, 255, 255), "調節中");
-	DrawFormatString(400, 460, GetColor(255, 255, 255), "スペースキーでタイトルへ戻るだけ");
+	cScore::Instance()->Result();
 	return 0;
 }
 

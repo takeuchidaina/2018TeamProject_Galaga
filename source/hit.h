@@ -40,6 +40,8 @@ private:
 	double beemR;
 	double len;
 
+	int totalHit;
+
 protected:
 
 public:
@@ -47,6 +49,10 @@ public:
 	void Update();	//計算処理
 	void Draw();	//描写処理
 	void BeemHit(int); //トラクタービーム当たり判定
+
+	int GetTotalHit() {
+		return totalHit;
+	}
 
 };
 

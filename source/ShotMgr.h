@@ -75,6 +75,11 @@ public:
 		return enemyShot[num].Get_OnActive();
 	}
 
+	//totalShot‚ÌŽó‚¯“n‚µ
+	int GetTotalShot() {
+		return totalShot;
+	}
+		
 
 
 	/*
