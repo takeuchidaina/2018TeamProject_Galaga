@@ -52,6 +52,7 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 	AnimationCnt = 0;
 	AnimationNum = 0;
 	enemy.hp = 1;
+	tractingEnemy = false;
 }
 
 //ベクトルと速度をもらって移動する

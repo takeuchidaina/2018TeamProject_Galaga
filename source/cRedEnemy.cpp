@@ -61,6 +61,7 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 	AnimationCnt = 0;
 	AnimationNum = 5;
 	enemy.hp = 1;
+	tractingEnemy = false;
 }
 
 

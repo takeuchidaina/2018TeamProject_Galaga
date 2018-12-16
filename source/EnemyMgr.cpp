@@ -352,6 +352,13 @@ void Sliding(sEnemy& enemy) {
 
 //•`ŽÊˆ—
 void cEnemyMgr::Draw() {
+	//ŸŽè‚É’Ç‰Á•ª@by‘ê@
+	//PlayerEnemy‚ª¶¬‚³‚ê‚Ä‚¢‚½Žž‚¾‚¯•\Ž¦
+	if (pEnemy !=NULL) {
+		if (pEnemy->GetEnemyOnActive() != 1) {
+			pEnemy->Draw();
+		}
+	}
 
 	for (int i = 0; i < sizeof(enemy) / sizeof(*enemy); i++) {
 		if (enemies[i]->GetEnemyOnActive() == 1)continue;
