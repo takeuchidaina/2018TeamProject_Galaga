@@ -7,10 +7,8 @@ cUI::cUI()
 
 	iconX = DISP_SIZE + 250;
 	iconY = 700;
-
 	stageNo = cInGameController::Instance()->GetNowStageNum();
 	playerHP = cPlayer::Instance()->GetPlayerHP();
-
 	blinkCnt = 0;  
 	blinkFlg = FALSE;
 
@@ -45,28 +43,19 @@ int cUI::UI_Draw()
 
 	int i, j;
 
-	//UIを表示する灰色の部分の描画
+	// UIを表示する灰色の部分の描画
 	DrawBox(DISP_SIZE, 0, DISP_SIZE + UI_SIZE, 960, GetColor(80, 80, 80), TRUE);
 
-	//テキスト類の表示
-	/*
-	for (i = 0; i<sizeof(textPos) / sizeof(textPos[0]); i++);
-	{
-		cTextChange::Instance()->DrawTextImage(textPos[i].x, textPos[i].y, textPos[i].text);
-		//iではなく実数を要素数にやると出力される
-	}
-	*/
+	// HIGH SCORE
 	cTextChange::Instance()->DrawTextImage(UItextPos[0].x, UItextPos[0].y, UItextPos[0].text, UItextPos[0].color, eMag48);
-	//cTextChange::Instance()->DrawTextImage(UItextPos[1].x, UItextPos[1].y, UItextPos[1].text, UItextPos[1].color, eMag48);
 
-	// 1UPの点滅
+	// 1UPの表示と点滅
 	blinkCnt++;
 	if (blinkCnt >= 20)
 	{
 		blinkCnt = 0;
 		blinkFlg = !blinkFlg;
 	}
-
 	if (blinkFlg)
 	{
 		cTextChange::Instance()->DrawTextImage(UItextPos[1].x, UItextPos[1].y, UItextPos[1].text, UItextPos[1].color, eMag48);
@@ -134,7 +123,7 @@ int cUI::UI_StgSelectIcon(int stageNo)
 
 	*/
 
-	fiveFlg = FALSE;
+	
 
 #ifdef UI_ICON_DEBUG
 
@@ -153,10 +142,8 @@ int cUI::UI_StgSelectIcon(int stageNo)
 	DrawFormatString(iconX - 200, iconY + 190, UI_COLOR, "tmp3:%d", tmp3);
 
 #endif
-	
 
-
-
+	fiveFlg = FALSE;	//5のアイコンが表示されていない
 
 	//ステージが5で割り切れないなら
 	if (stageNo % 5 != 0)

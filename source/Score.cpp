@@ -28,7 +28,7 @@ void cScore::Update() {
 		scoreX = 1002;
 	}
 
-	//•Ï”‚ğ•¶š—ñ‚É•ÏŠ·
+	//score‚ğ•¶š—ñ‚É•ÏŠ·
 	snprintf(snScore, 30, "%d", score);
 
 }

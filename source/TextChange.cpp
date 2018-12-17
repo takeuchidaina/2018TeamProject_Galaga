@@ -46,25 +46,19 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 		//ImgColor‚ÉÔF‚ð‘ã“ü
 		memcpy(imgColor, textImgRD, sizeof(textImgRD));
 		break;
-
 	case eYellow:
 		//ImgColor‚É‰©F‚ð‘ã“ü
 		memcpy(imgColor, textImgYL, sizeof(textImgYL));
 		break;
-
 	case eLBlue:
 		//ImgColor‚É…F‚ð‘ã“ü
 		memcpy(imgColor, textImgLB, sizeof(textImgLB));
 		break;
-
 	case eWhite:
 		//ImgColor‚É”’F‚ð‘ã“ü
 		memcpy(imgColor, textImgWH, sizeof(textImgWH));
 		break;
-
-	default:
-		//eNone
-
+	default:	//eNone
 		//ImgColor‚É”’F‚ð‘ã“ü
 		memcpy(imgColor, textImgWH, sizeof(textImgWH));
 		break;
@@ -78,20 +72,20 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 		magY = y + 16;
 		mag = 16;  //•¶ŽšŠÔŠu‚Ì’²®•K—v
 		break;
-
 	case eMag32:
 		magX = x + 32;
 		magY = y + 32;
 		mag = 32;  //•¶ŽšŠÔŠu‚Ì’²®•K—v
 		break;
-
 	case eMag48:
 		magX = x + 48;
 		magY = y + 48;
 		mag = 32;
 		break;
-
-	default:
+	default:	//eMag48
+		magX = x + 48;
+		magY = y + 48;
+		mag = 32;
 		break;
 	}
 
@@ -101,13 +95,12 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 			//•¶Žš‚ª0`9‚È‚ç
 			if (text[j] >= '0' && text[j] <= '9')
 			{
-				//•`‰æ
 				DrawExtendGraph(x+(j*mag), y,magX+(j*mag),magY, imgColor[text[j] - '0'], TRUE);
 			}
 			//•¶Žš‚ªA`Z‚È‚ç
 			else if (text[j] >= 'A' && text[j] <= 'Z')
 			{
-				//•`‰æ(+10‚·‚é‚Ì‚Í0`9‚Ì”Ô†‚ðŠÜ‚ß‚È‚¢‚æ‚¤‚É‚·‚é‚½‚ß)
+				//+10‚·‚é‚Ì‚Í0`9‚Ì”Ô†‚ðŠÜ‚ß‚È‚¢‚æ‚¤‚É‚·‚é‚½‚ß
 				DrawExtendGraph(x+(j*mag), y, magX + (j * mag), magY, imgColor[text[j] - 'A'+10], TRUE);
 			}
 			//‹L†
@@ -132,7 +125,6 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 					break;
 
 				}
-
 			}
 	}
 	
