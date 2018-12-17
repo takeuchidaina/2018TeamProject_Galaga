@@ -64,6 +64,7 @@ void cHit::Player_EnemyShot() {
 					cShotMgr::Instance()->Break(ENEMY, j);
 				}
 
+				cSE::Instance()->selectSE(miss);
 				cEffectMgr::Instance()->Blowup(PLAYER, Player.cx, Player.cy);
 			}
 		}
@@ -110,6 +111,7 @@ void cHit::Player_Enemy() {
 					cEnemyMgr::Instance()->SetEnemyDeath(j);
 				}
 
+				cSE::Instance()->selectSE(miss);
 				cEffectMgr::Instance()->Blowup(PLAYER, Player.cx, Player.cy);
 			}
 		}

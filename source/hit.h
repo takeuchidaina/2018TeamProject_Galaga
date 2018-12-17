@@ -19,6 +19,7 @@
 #include "EnemyMgr.h"
 #include "cBaseEnemy.h"
 #include "EffectMgr.h"
+#include "SE.h"
 
 class cHit: public cSingleton<cHit>
 {
