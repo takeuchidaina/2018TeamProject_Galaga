@@ -20,10 +20,10 @@ private:
 	double tractorWidth;
 	double playerX, playerY;
 	cPlayerEnemy *TraitPlayer;
-	sEnemy enemy;
+	sEnemy *enemy;
 
 	int graph[2];
-
+	int i = 0;
 public:
 	/************************************
 	トラクタービームのあたり判定
@@ -36,7 +36,8 @@ public:
 		return TraitPlayer;
 	}
 	void	draw();
-
+	void TractorStart(sEnemy);
+	void Move();
 
 };
 

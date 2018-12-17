@@ -226,7 +226,6 @@ void cInGameMgr::Draw() {
 	case eTractor://‚«‚á‚Æ‚ç‚ê’†
 		cPlayer::Instance()->Draw();
 		cEnemyMgr::Instance()->Draw();
-		tractor::Instance()->draw();
 		DrawFormatString(0, 20, GetColor(255, 255, 255), "eTractor");
 		//
 		break;

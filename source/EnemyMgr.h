@@ -172,6 +172,18 @@ public:
 
 
 	/*****************************************************
+	関数名：cPlayerEnemy GetPlayerEnemyAdress()
+	説明：敵配列に加えたプレイヤーのアドレスを与える
+	引数：なし
+	戻り値：敵配列に加えたプレイヤーのアドレス
+	******************************************************/
+	cPlayerEnemy* GetPlayerEnemyAdress() {
+		return pEnemy;
+	}
+
+
+
+	/*****************************************************
 	関数名：cPlayerEnemy PushPlayerEnemy()
 	説明：トラクタービームが当たったプレイヤーを敵配列に加える
 	引数：cPlayerEnemy型 pEnemy

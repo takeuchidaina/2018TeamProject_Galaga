@@ -41,6 +41,7 @@ protected:
     int TractorCnt ,TractorNum;
 	sEnemy enemy;
 	bool tractorHitFlg;
+	bool tractingEnemy;
 
 public:
 
@@ -92,8 +93,8 @@ public:
 		//‚±‚±‚ç•Ó‚©‚ç©•ª‚Ìî•ñ‚ğ•Ô‚·ŠÖ”
 		//î•ñ‚ğ©•ª‚É‘ã“ü‚·‚éŠÖ”
 
-		virtual	sEnemy GetEnemy(){
-			return enemy;
+		virtual	sEnemy* GetEnemy(){
+			return &enemy;
 	 }
 
 		// x
