@@ -30,7 +30,7 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 
 
 	enemy.moveflg = 0;
-	tractorflg = false;
+	enemy.tractorflg = false;
 
 	enemy.vct.x = 0;
 	enemy.vct.y = 0;
@@ -113,7 +113,7 @@ void cGreenEnemy::Move() {
 
 
 int cGreenEnemy::Update() {
-	
+
 	if (enemy.count < 0)enemy.count = 0;
 	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = ReadyStart;
 	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
@@ -122,7 +122,7 @@ int cGreenEnemy::Update() {
 	/*enemy.target.x = 500;
 	enemy.target.y = 300;*/
 
-	if (tractorflg == 0 && enemy.attackflg == true) {
+	if (enemy.tractorflg == 0 && enemy.attackflg == true) {
 		enemy.count++;
 
 		if (enemy.count > 0) {
@@ -132,7 +132,7 @@ int cGreenEnemy::Update() {
 		switch (enemy.moveflg)
 		{
 		case 0:
-			if (enemy.tractingEnemy == true &&traitPlayer !=NULL) {
+			if (enemy.tractingEnemy == true && traitPlayer != NULL) {
 				traitPlayer->Update(&enemy);
 				traitPlayer->Move();
 			}
@@ -196,11 +196,10 @@ int cGreenEnemy::Update() {
 				(enemy.mainpos.r / 5 + enemy.targetr)*(enemy.mainpos.r / 5 + enemy.targetr)) {
 				//“GÀ•W‚ð–Ú“I’n‚ÉŒÅ’è
 				enemy.mainpos.pos.x = enemy.target.x;
-				enemy.mainpos.pos.y = enemy.target.y;
-				enemy.moveflg++;
+				enemy.mainpos.pos.y = enemy.target.y;		
 				enemy.count = 0;
 				enemy.mainpos.onActive = SetPos;
-
+				enemy.moveflg++;
 			}
 			break;
 		case 9:
@@ -221,7 +220,7 @@ int cGreenEnemy::Update() {
 			}
 			enemy.attackflg = false;
 			enemy.mainpos.onActive = ReadyStart;
-			tractorflg = true;
+			enemy.tractorflg = false;//‚±‚±
 			enemy.moveflg = 0;
 			break;
 		}
@@ -250,7 +249,7 @@ int cGreenEnemy::TractorUpdate() {
 	/*DrawLine(tmpx, 0, tmpx, 900, GetColor(0, 255, 255), false);
 	DrawLine(tmpx + 48, 0, tmpx + 48, 900, GetColor(0, 255, 255), false);*/
 
-	if (tractorflg != 0 && enemy.mainpos.onActive != NoActive && enemy.attackflg == true) {
+ 	if (enemy.tractorflg != 0 && enemy.attackflg == true ) {
 		enemy.count++;
 
 		if (enemy.count > 0) {
@@ -258,8 +257,9 @@ int cGreenEnemy::TractorUpdate() {
 		}
 
 
-		if (enemy.tractorHitFlg == true)traitPlayer = tractor::Instance()->GetAdress();
-
+		if (enemy.tractorHitFlg == true) {
+			traitPlayer = tractor::Instance()->GetAdress();
+		}
 
 		switch (enemy.moveflg)
 		{
@@ -340,6 +340,13 @@ int cGreenEnemy::TractorUpdate() {
 			}
 			break;
 		case 5:
+			if (enemy.mainpos.pos.x <= 430) {
+				enemy.dir = 1;
+			}
+			else {
+				enemy.dir = -1;
+			}
+
 			enemy.mainpos.onActive = ReadyStart;
 			if (enemy.tractingEnemy == true && traitPlayer != NULL) {
 				traitPlayer->Update(&enemy);
@@ -348,27 +355,32 @@ int cGreenEnemy::TractorUpdate() {
 			enemy.mainpos.pos.x = enemy.target.x;
 			enemy.mainpos.pos.y = enemy.target.y;
 			enemy.ang = -90 * M_PI / 180;
-			tractorflg = FALSE;
+
 			if (enemy.tractorHitFlg == true) {
 				enemy.tractorHitFlg = true;
+				enemy.tractorflg = TRUE;
 			}
 			else {
 				enemy.tractorHitFlg = false;
+				enemy.tractorflg = FALSE;
 			}
 			enemy.attackflg = FALSE;
-			
+
 			enemy.count = 0;
 			enemy.moveflg = 0;
 
 			break;
 		}
 	}
+	else {
+		this->Update();
+	}
 	return 0;
 }
 
 
 int cGreenEnemy::Draw() {
-	
+
 
 
 	if (AnimationCnt > 60) {
@@ -387,7 +399,7 @@ int cGreenEnemy::Draw() {
 		if (enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * M_PI) / 180), enemy.graph[AnimationNum], TRUE, TRUE);
 		else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[AnimationNum], TRUE, TRUE);
 
-		if (tractorflg == 1 && enemy.moveflg == 2) {
+		if (enemy.tractorflg == 1 && enemy.moveflg == 2) {
 			if (TractorCnt > 20) {
 				//cSE::Instance()->selectSE(tractor_beam);
 				TractorCnt = 0;
@@ -395,7 +407,10 @@ int cGreenEnemy::Draw() {
 				if (TractorNum > 22) {
 					TractorNum = 0;
 
-					if (enemy.tractorHitFlg == true) TractorCnt-=2;
+					if (enemy.tractorHitFlg == true) {
+						TractorNum -= 2;
+						if (TractorNum < 0)enemy.moveflg++;
+					}
 					else enemy.moveflg += 2;
 				}
 			}

@@ -18,7 +18,7 @@ public:
 	 int TractorStart(sEnemy);
 	 //トラクターされいてる間の移動
 	// int Tracting(sEnemy);
-
+	// void EternalUpdate();
 	virtual int Draw();
 
 

@@ -15,6 +15,7 @@
 
 
 typedef struct {
+	bool tractorflg;
 	bool tractorHitFlg; //トラクターが当たったかの判定
 	bool tractingEnemy; //捕まえている敵の捕捉用flg
 	sPos vct;               // ベクトル用x y
@@ -169,6 +170,13 @@ public:
 		}
 		virtual	void SetEnemyCy(double cy) {
 			enemy.mainpos.cy = cy;
+		}
+
+		virtual bool GetTractorfFlg(){
+			return enemy.tractorflg;
+		}
+		virtual void SetTractorfFlg() {
+			 enemy.tractorflg = true;
 		}
 
 		virtual bool GetTractorHitFlg(){
