@@ -120,6 +120,7 @@ int cInGameController::ResultUpdate() {
 		cSceneMgr::Instance()->ChangeScene(eStartMenu);
 		nowStageNum = 1;
 		cScore::Instance()->ResetScore();
+		cEnemyMgr::Instance()->EndIt();
 		cEnemyMgr::Instance()->Init();
 		cPlayer::Instance()->Init();
 		cShotMgr::Instance()->Init();
