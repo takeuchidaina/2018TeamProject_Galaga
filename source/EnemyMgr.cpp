@@ -24,8 +24,8 @@ void cEnemyMgr::Init() {
 	fileEndFlag = 0;
 	n = 0;
 	num = 0;
-	snprintf(StageFilePath, 255, "../resource/MAP/Stage_%d.csv", cInGameController::Instance()->GetNowStageNum());
-	//strcpy(StageFilePath, "../resource/MAP/Stage_2.csv");
+	//snprintf(StageFilePath, 255, "../resource/MAP/Stage_%d.csv", cInGameController::Instance()->GetNowStageNum());
+	strcpy(StageFilePath, "../resource/MAP/Stage_2.csv");
 	Phaseflag = 0;
 	onActiveCount = 0;
 	Stayflag = 0;
@@ -276,8 +276,10 @@ void cEnemyMgr::Update() {
 			Scaling(enemy[i]);
 
 			if (enemies[i]->GetEnemyAttackflg() != 1) {
+
 				enemy[i].pos.x = enemy[i].target.x;
 				enemy[i].pos.y = enemy[i].target.y;
+
 				enemies[i]->SetEnemyX(enemy[i].pos.x);
 				enemies[i]->SetEnemyY(enemy[i].pos.y);
 			}
