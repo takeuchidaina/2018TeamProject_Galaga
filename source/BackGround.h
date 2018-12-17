@@ -7,16 +7,17 @@
 #include "UI.h"
 #include "InGameMgr.h"
 
-#define MAXSTAR 50
+#define MAXSTAR 200
 #define TRUE 1
-#define FALSE -1
+
 
 typedef struct {
 
-	double x, y;
-	double speed;
+	int x, y, r;
+	int speed;
 	int blinkFlg;
 	double blinkCnt, blinkNum;
+	int color;
 
 } sStar;
 
@@ -28,11 +29,11 @@ private:
 	sStar starArray[MAXSTAR];
 	int image;
 
+	void Init(int);			//‰Šú‰»ˆ—
+
 public:
-	void Init(int);	//‰Šú‰»ˆ—
-	void Update();	//ŒvZˆ—
-	void Draw();	//•`Êˆ—
-	int Rand(int,int);		//ƒ‰ƒ“ƒ_ƒ€ŠÖ”
+	void Update();			//ŒvZˆ—
+	void Draw();			//•`Êˆ—
 
 };
 #endif
