@@ -10,7 +10,6 @@ cBackGround::cBackGround() {
 
 	srand((unsigned int)time(NULL)); // 現在時刻の情報で初期化
 
-	image = LoadGraph("../resource/Image/Star.png");
 }
 
 /* デストラクタ 
@@ -24,9 +23,12 @@ void cBackGround::Update() {
 
 		/* 星を流す */
 		starArray[i].y += starArray[i].speed;
-		if (starArray[i].y >= DISP_SIZE + 50) {
-			starArray[i].y = (rand() % 100) - 100;
+
+		if (starArray[i].y >= DISP_SIZE + 50) {		//下まで行ったら再生成
+			starArray[i].y = (rand() % 150) - 150;
 			starArray[i].x = rand() % DISP_SIZE;
+			starArray[i].r = (rand() % 2) + 1;
+			starArray[i].color = GetColor(rand() % 255, rand() % 255, rand() % 255);
 		}
 
 		/* 星を点滅 */
@@ -43,10 +45,11 @@ void cBackGround::Draw() {
 
 	for (int i = 0; i < MAXSTAR; i++) {
 		if (starArray[i].blinkFlg == TRUE) {
-			DrawGraph((int)starArray[i].x, (int)starArray[i].y,
-				image, TRUE);
+			//星描画(円)
+			DrawCircle((int)starArray[i].x, (int)starArray[i].y, starArray[i].r, starArray[i].color, TRUE);
 		}
 	}
+
 }
 
 /***************************************************************
@@ -58,10 +61,12 @@ void cBackGround::Draw() {
 void cBackGround::Init(int i) {
 
 	starArray[i].x = rand() % DISP_SIZE;			//ｘ座標
-	starArray[i].y = (rand() % DISP_SIZE) - 100;	//ｙ座標
-	starArray[i].speed = 2;							//移動速度
+	starArray[i].y = (rand() % DISP_SIZE+100) - 200;	//ｙ座標
+	starArray[i].r = (rand() % 2) + 1;				//半径
+	starArray[i].speed = 1;							//移動速度
 	starArray[i].blinkCnt = 0;						//点滅カウント用
 	starArray[i].blinkNum = (rand() % 100) +10;		//点滅タイミング
 	starArray[i].blinkFlg = TRUE;					//TRUE：表示　FALSE：非表示
+	starArray[i].color = GetColor(rand() % 255, rand() % 255, rand() % 255);	//色設定
 
 }
