@@ -18,7 +18,7 @@
 #include "Shot.h"
 #include "EnemyMgr.h"
 #include "cBaseEnemy.h"
-#include "SE.h"
+#include "EffectMgr.h"
 
 class cHit: public cSingleton<cHit>
 {

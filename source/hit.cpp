@@ -64,7 +64,7 @@ void cHit::Player_EnemyShot() {
 					cShotMgr::Instance()->Break(ENEMY, j);
 				}
 
-				cSE::Instance()->selectSE(miss);	// SE
+				cEffectMgr::Instance()->Blowup(PLAYER, Player.cx, Player.cy);
 			}
 		}
 	}
@@ -110,7 +110,7 @@ void cHit::Player_Enemy() {
 					cEnemyMgr::Instance()->SetEnemyDeath(j);
 				}
 
-				cSE::Instance()->selectSE(miss);	// SE
+				cEffectMgr::Instance()->Blowup(PLAYER, Player.cx, Player.cy);
 			}
 		}
 	}
@@ -162,6 +162,8 @@ void cHit::PlayerShot_Enemy() {
 					totalHit++;
 					
 				}
+
+				cEffectMgr::Instance()->Blowup(ENEMY, E_cx, E_cy);
 			}
 		}
 	}
@@ -193,7 +195,7 @@ void cHit::BeemHit(int cntEnemy) {
  関数：void cHit::Debug
  説明：デバッグ用
 
-**********************************************************/
+**********************************************************
 void cHit::Debug() {
 
 	unsigned int Cr;
@@ -201,11 +203,11 @@ void cHit::Debug() {
 
 	static int maxEnemy = cEnemyMgr::Instance()->GetMaxEnemy();
 
-	/* Player */
+	// Player
 	Player = cPlayer::Instance()->GetPlayer(0);
 	DrawCircle(Player.cx+1.0, Player.cy+5.0, Player.r, Cr, TRUE);
 
-	/* Shot */
+	// Shot
 	for (int j = 0; j < ENEMYSHOTNUM; j++) {
 
 		S_onActive = cShotMgr::Instance()->GetEnemyShotOnActive(j);
@@ -234,7 +236,7 @@ void cHit::Debug() {
 		}
 	}
 
-	/* Enemy */
+	// Enemy
 	for (int j = 0; j < maxEnemy; j++) {
 
 		E_onActive = cEnemyMgr::Instance()->GetEnemyonActive(j);
