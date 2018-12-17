@@ -30,20 +30,39 @@ cEffectMgr::~cEffectMgr() {
 
 int cEffectMgr::Update() {
 	for (int i = 0; i < BLOWUPNUM; i++) {
-		BlowupArray[i].Update();
+		if (BlowupArray[i].Get_Type() == PLAYER) {
+			BlowupArray[i].Update(PblowupOrders);
+		}
+		else if (BlowupArray[i].Get_Type() == ENEMY) {
+			BlowupArray[i].Update(EblowupOrders);
+		}
 	}
 	return 0;
 }
 
 int cEffectMgr::Draw() {
 	for (int i = 0; i < BLOWUPNUM; i++) {
-		BlowupArray[i].Draw(PBlowupGrHandle);
+		if (BlowupArray[i].Get_Type() == PLAYER) {
+			BlowupArray[i].Draw(PBlowupGrHandle);
+		}
+		else if (BlowupArray[i].Get_Type() == ENEMY) {
+			BlowupArray[i].Draw(EBlowupGrHandle);
+		}
 	}
 	return 0;
 }
 
 //”š•—”­¶‚³‚¹‚éŠÖ” ˆø”(Player(0)‚©Enemy(1)‚©,cx,cy)
 int cEffectMgr::Blowup(int type, int cx, int cy) {
+	for (int i = 0; i < BLOWUPNUM; i++) {
+		if (BlowupArray[i].Get_OnActive() == FALSE) {
+			BlowupArray[i].Set_OnActive(TRUE);
+			BlowupArray[i].Set_Type(type);
+			BlowupArray[i].Set_CX(cx);
+			BlowupArray[i].Set_CY(cy);
+			break;
+		}
+	}
 	return 0;
 }
 
