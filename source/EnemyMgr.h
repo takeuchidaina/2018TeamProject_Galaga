@@ -190,9 +190,9 @@ public:
 	引数：cPlayerEnemy型 pEnemy
 	戻り値：プッシュ先のアドレス
 	******************************************************/
-	cPlayerEnemy PushPlayerEnemy() {
+	cPlayerEnemy* PushPlayerEnemy() {
 		pEnemy = new cPlayerEnemy();
-		return *pEnemy;
+		return pEnemy;
 	}
 
 	/*****************************************************
