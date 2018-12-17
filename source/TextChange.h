@@ -20,6 +20,7 @@ private:
 	int imgColor[41];	//画像ハンドル代入用  41はスペース用
 	int magX;			//画像倍率用のx
 	int magY;			//画像倍率用のy
+	int spacing;		//文字間隔
 
 public:
 
@@ -27,8 +28,8 @@ public:
 	 　関数: int DrawTextImage
 	 　説明: 引数の座標に指定の色と倍率で文字を表示します、アルファベットの大文字と記号です。
 	       　対応記号 : [.] [%] [-] [@]←コピーライト
-	 　引数: (int x, int y, char *文字列, int 色, int 倍率)
-			　色と倍率はenum(下記に記述)
+	 　引数: (int x, int y, char *文字列, eColor, eMag)
+			  eColorとeMagは下記記述
 	 戻り値: 無し
 	 *************************************************************************/
 	int DrawTextImage(int, int, const char *,int,int);
@@ -51,6 +52,6 @@ typedef enum
 	eMag32,		//32x32
 	eMag48,		//48x48
 
-}eMagnification;
+}eMag;
 
 #endif
