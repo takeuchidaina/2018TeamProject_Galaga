@@ -12,7 +12,7 @@ typedef struct
 	int x, y;
 	char text[30];
 	eColor color;
-	eMagnification mag;
+	eMag mag;
 
 }sTitleTextPos;
 

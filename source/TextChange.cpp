@@ -5,21 +5,23 @@
 cTextChange::cTextChange()
 {
 	//テキストの画像の読み込み
-	//LoadDivGraph("../resource/Image/AC_Classic.png", 40, 8, 5, 16, 16, textImg);
 	LoadDivGraph("../resource/Image/AC_Classic_Red.png", 40, 8, 5, 16, 16, textImgRD);
 	LoadDivGraph("../resource/Image/AC_Classic_LBlue.png", 40, 8, 5, 16, 16, textImgLB);
 	LoadDivGraph("../resource/Image/AC_Classic_Yellow.png", 40, 8, 5, 16, 16, textImgYL);
 	LoadDivGraph("../resource/Image/AC_Classic_White.png", 40, 8, 5, 16, 16, textImgWH);
-	imgColor[41] = { 0 };
-	magX = 0;			//画像を拡大する際のx
-	magY = 0;			//画像を拡大する際のy
+
+	//変数の初期化
+	imgColor[IMAGE_NUM] = { 0 };
+	magX = 0;
+	magY = 0;
+	spacing = 0;
 	
 }
 
 //デストラクタ
 cTextChange::~cTextChange() 
 {
-	for (int i = 0; i < 48; i++) 
+	for (int i = 0; i < IMAGE_NUM; i++) 
 	{
 		DeleteGraph(textImgRD[i]);
 		DeleteGraph(textImgLB[i]);
@@ -58,7 +60,7 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 		//ImgColorに白色を代入
 		memcpy(imgColor, textImgWH, sizeof(textImgWH));
 		break;
-	default:	//eNone
+	default:
 		//ImgColorに白色を代入
 		memcpy(imgColor, textImgWH, sizeof(textImgWH));
 		break;
@@ -68,24 +70,24 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 	switch (mag)
 	{
 	case eMag16:
-		magX = x + 16;
-		magY = y + 16;
-		mag = 16;  //文字間隔の調整必要
+		magX = x + MAG16;
+		magY = y + MAG16;
+		spacing = 8;
 		break;
 	case eMag32:
-		magX = x + 32;
-		magY = y + 32;
-		mag = 32;  //文字間隔の調整必要
+		magX = x + MAG32;
+		magY = y + MAG32;
+		spacing = 16;
 		break;
 	case eMag48:
-		magX = x + 48;
-		magY = y + 48;
-		mag = 32;
+		magX = x + MAG48;
+		magY = y + MAG48;
+		spacing = 32;
 		break;
 	default:	//eMag48
-		magX = x + 48;
-		magY = y + 48;
-		mag = 32;
+		magX = x + MAG48;
+		magY = y + MAG48;
+		spacing = 32;
 		break;
 	}
 
@@ -95,13 +97,13 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 			//文字が0～9なら
 			if (text[j] >= '0' && text[j] <= '9')
 			{
-				DrawExtendGraph(x+(j*mag), y,magX+(j*mag),magY, imgColor[text[j] - '0'], TRUE);
+				DrawExtendGraph(x+(j*spacing), y,magX+(j*spacing),magY, imgColor[text[j] - '0'], TRUE);
 			}
 			//文字がA～Zなら
 			else if (text[j] >= 'A' && text[j] <= 'Z')
 			{
+				DrawExtendGraph(x+(j*spacing), y, magX + (j * spacing), magY, imgColor[text[j] - 'A'+10], TRUE);	
 				//+10するのは0～9の番号を含めないようにするため
-				DrawExtendGraph(x+(j*mag), y, magX + (j * mag), magY, imgColor[text[j] - 'A'+10], TRUE);
 			}
 			//記号
 			else
@@ -109,19 +111,19 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 				switch (text[j]) 
 				{
 				case '.':  //ドット
-					DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, imgColor[36], TRUE);
+					DrawExtendGraph(x + (j*spacing), y, magX + (j * spacing), magY, imgColor[36], TRUE);
 					break;
-				case '%':  // % 
-					DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, imgColor[37], TRUE);
+				case '%':  // パーセント
+					DrawExtendGraph(x + (j*spacing), y, magX + (j * spacing), magY, imgColor[37], TRUE);
 					break;
-				case '-':  // スペース
-					DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, imgColor[38], TRUE);
+				case '-':  // ハイフン
+					DrawExtendGraph(x + (j*spacing), y, magX + (j * spacing), magY, imgColor[38], TRUE);
 					break;
 				case '@' :  // コピーライトの代わり
-					DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, imgColor[39], TRUE);
+					DrawExtendGraph(x + (j*spacing), y, magX + (j * spacing), magY, imgColor[39], TRUE);
 					break;
 				default :  //スペース
-					DrawExtendGraph(x + (j*mag), y, magX + (j * mag), magY, imgColor[40], TRUE);
+					DrawExtendGraph(x + (j*spacing), y, magX + (j * spacing), magY, imgColor[40], TRUE);
 					break;
 
 				}
