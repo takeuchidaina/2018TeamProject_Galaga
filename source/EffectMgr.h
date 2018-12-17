@@ -3,6 +3,8 @@
 #ifndef _EFFECTMGR_INCLUDE_
 #define _EFFECTMGR_INCLUDE_
 #define BLOWUPNUM 10
+#define PLAYER 0
+#define ENEMY 1
 
 #include "Singleton.h"
 #include "Winbox.h"
@@ -29,11 +31,11 @@ private:
 	cEffect *BlowupArray;
 	int BlowupCnt;
 	//Player
-	int PBlowupGrHandle[3];
+	int PBlowupGrHandle[8];
 	int PcheckGr;
 	int PblowupOrders[6] = {0,0,1,1,2,2};
 	//Enemy
-	int EBlowupGrHandle[3];
+	int EBlowupGrHandle[40];
 	int EcheckGr;
 	int EblowupOrders[6] = {0,0,1,1,2,2};
 	
