@@ -32,6 +32,8 @@ void cEnemyMgr::Init() {
 	EnemyAttackFlag = 1;     //攻撃フラグ 0:攻撃を行わない状態 1:攻撃を行う状態
 	ChoiseOrderFlag = TRUE;
 	
+	EnemyDeathCount = 0;
+
 	ScalingFlag = -1;
 	ScalingCount = 120;
 
