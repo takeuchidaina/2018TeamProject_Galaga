@@ -11,17 +11,17 @@ cTextChange::cTextChange()
 	LoadDivGraph("../resource/Image/AC_Classic_White.png", 40, 8, 5, 16, 16, textImgWH);
 
 	//変数の初期化
-	imgColor[41] = { 0 };
+	imgColor[IMAGE_NUM] = { 0 };
 	magX = 0;
 	magY = 0;
-	spacing = 32;
+	spacing = 0;
 	
 }
 
 //デストラクタ
 cTextChange::~cTextChange() 
 {
-	for (int i = 0; i < 41; i++) 
+	for (int i = 0; i < IMAGE_NUM; i++) 
 	{
 		DeleteGraph(textImgRD[i]);
 		DeleteGraph(textImgLB[i]);
@@ -60,7 +60,7 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 		//ImgColorに白色を代入
 		memcpy(imgColor, textImgWH, sizeof(textImgWH));
 		break;
-	default:	//eNone
+	default:
 		//ImgColorに白色を代入
 		memcpy(imgColor, textImgWH, sizeof(textImgWH));
 		break;
@@ -70,23 +70,23 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 	switch (mag)
 	{
 	case eMag16:
-		magX = x + 16;
-		magY = y + 16;
+		magX = x + MAG16;
+		magY = y + MAG16;
 		spacing = 8;
 		break;
 	case eMag32:
-		magX = x + 32;
-		magY = y + 32;
+		magX = x + MAG32;
+		magY = y + MAG32;
 		spacing = 16;
 		break;
 	case eMag48:
-		magX = x + 48;
-		magY = y + 48;
+		magX = x + MAG48;
+		magY = y + MAG48;
 		spacing = 32;
 		break;
 	default:	//eMag48
-		magX = x + 48;
-		magY = y + 48;
+		magX = x + MAG48;
+		magY = y + MAG48;
 		spacing = 32;
 		break;
 	}
@@ -102,8 +102,8 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 			//文字がA～Zなら
 			else if (text[j] >= 'A' && text[j] <= 'Z')
 			{
+				DrawExtendGraph(x+(j*spacing), y, magX + (j * spacing), magY, imgColor[text[j] - 'A'+10], TRUE);	
 				//+10するのは0～9の番号を含めないようにするため
-				DrawExtendGraph(x+(j*spacing), y, magX + (j * spacing), magY, imgColor[text[j] - 'A'+10], TRUE);
 			}
 			//記号
 			else
@@ -113,10 +113,10 @@ int cTextChange::DrawTextImage(int x,int y,const char *text,int color,int mag)
 				case '.':  //ドット
 					DrawExtendGraph(x + (j*spacing), y, magX + (j * spacing), magY, imgColor[36], TRUE);
 					break;
-				case '%':  // % 
+				case '%':  // パーセント
 					DrawExtendGraph(x + (j*spacing), y, magX + (j * spacing), magY, imgColor[37], TRUE);
 					break;
-				case '-':  // スペース
+				case '-':  // ハイフン
 					DrawExtendGraph(x + (j*spacing), y, magX + (j * spacing), magY, imgColor[38], TRUE);
 					break;
 				case '@' :  // コピーライトの代わり

@@ -9,7 +9,6 @@
 cPlayer::cPlayer()
 {
 
-
 	//画像の読み込みと分割
 	LoadDivGraph("../resource/Image/Galaga_OBJ_dualFighter.png", 2, 2, 1, 16, 16, image);
 	if (image == NULL)   //error
@@ -17,6 +16,8 @@ cPlayer::cPlayer()
 		DrawFormatString(200, 200, GetColor(255, 0, 0), "画像が読み込めませんでした");
 		WaitKey();
 	}
+
+	//機体の初期化
 	Init();
 
 }
@@ -35,8 +36,8 @@ void cPlayer::Init() {
 	player[eRightMachine].r = IMAGEMAG / 2;
 	player[eRightMachine].cx = player[eRightMachine].pos.x + (IMAGEMAG / 2);
 	player[eRightMachine].cy = player[eRightMachine].pos.y + (IMAGEMAG / 2);
-
 	player[eRightMachine].onActive = FALSE;
+
 	//二機時のフラグ  0:一機 1:二機
 	isDoubleFlg = FALSE;
 
@@ -63,7 +64,6 @@ void cPlayer::Update()
 {
 	//移動と壁との当たり判定
 	cPlayer::Instance()->Move();
-			
 }
 
 /*************************************************************************
@@ -78,10 +78,8 @@ void cPlayer::Move()
 	for (int i = 0; i < MAXMACHINE; i++)
 	{
 		//アクティブ状態ではないなら次へ
-		if (player[i].onActive == FALSE)
-		{
-			continue;
-		}
+		if (player[i].onActive == FALSE)continue;
+
 
 		// 右
 		if (cInterface::Instance()->Get_Input(InRIGHT) != 0)
@@ -114,7 +112,7 @@ void cPlayer::Move()
 				//一機のみアクティブ状態なら
 				else
 				{
-					player[i].pos.x = 100;
+					player[i].pos.x = WALL;
 				}
 
 			}
@@ -138,7 +136,7 @@ void cPlayer::Move()
 		}
 	}
 
-#ifdef PLAYER_BREAK_DEBUG
+#ifndef PLAYER_BREAK_DEBUG
 	//キー
 	if (Debug::Instance()->Get_Input(Key1) == 1)
 	{
@@ -170,12 +168,13 @@ void cPlayer::Draw()
 	//機体の描画
 	if(player[0].onActive == TRUE)
 	{
-		DrawExtendGraph((int)player[0].pos.x, (int)player[0].pos.y, (int)player[0].pos.x + IMAGEMAG, (int)player[0].pos.y + IMAGEMAG, image[0], TRUE);
+		DrawExtendGraph((int)player[0].pos.x, (int)player[0].pos.y, (int)player[0].pos.x + IMAGEMAG, (int)player[0].pos.y + IMAGEMAG, image[eLeftMachine], TRUE);
 	}
 	if(player[1].onActive == TRUE)
 	{
-		DrawExtendGraph((int)player[1].pos.x, (int)player[1].pos.y, (int)player[1].pos.x + IMAGEMAG, (int)player[1].pos.y + IMAGEMAG, image[1], TRUE);
+		DrawExtendGraph((int)player[1].pos.x, (int)player[1].pos.y, (int)player[1].pos.x + IMAGEMAG, (int)player[1].pos.y + IMAGEMAG, image[eRightMachine], TRUE);
 	}
+
 #ifdef PLAYER_POS_DEBUG
 
 	//座標の表示
