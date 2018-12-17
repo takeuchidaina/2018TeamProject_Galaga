@@ -53,7 +53,7 @@ public:
 	void ChangeScene(eInGameScene scene);
 	
 	//Ÿè‚É’Ç‰Á•ª@by‘ê
-	 int GetSceneFlg() {
+	eInGameScene GetSceneFlg() {
 		return sceneflag;
 	}
 

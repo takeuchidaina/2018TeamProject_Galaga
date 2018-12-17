@@ -63,3 +63,10 @@ void cScore::Result() {
 	cTextChange::Instance()->DrawTextImage(150, 750, snRatio, eWhite, eMag48);
 
 }
+void cScore::ResetScore() {
+	score = 0;			  //スコア
+	totalShot = 0;		  //弾を撃った数
+	totalHit = 0;		  //弾を当てた数
+	oneShotRatio = 0;  //弾一発の割合
+	hitMissRatio = 0;  //弾を外した割合
+}

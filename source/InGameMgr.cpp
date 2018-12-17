@@ -7,8 +7,7 @@
 #include "EnemyMgr.h"
 #include "UI.h"
 #include "tractor.h"
-#include "Score.h"
-#include"BackGround.h"
+//#include "Score.h"
 #include "Debug.h"
 #include "EffectMgr.h"
 
@@ -138,7 +137,6 @@ void cInGameMgr::Update() {
 		//
 		break;
 	case eInGame://ゲーム画面[
-		cBackGround::Instance()->Update();
 		cPlayer::Instance()->Update();
 		cShotMgr::Instance()->Update();
 		cEnemyMgr::Instance()->Update();
@@ -147,7 +145,7 @@ void cInGameMgr::Update() {
 		cScore::Instance()->Update();
 		cEffectMgr::Instance()->Update();
 
-		if (Debug::Instance()->Get_Input(Key0)) {
+		if (Debug::Instance()->Get_Input(Key0) == 1) {
 			for (int i = 0; i < cEnemyMgr::Instance()->GetMaxEnemy(); i++) {
 				cEnemyMgr::Instance()->SetEnemyDeath(i);
 			}
@@ -156,7 +154,7 @@ void cInGameMgr::Update() {
 		//
 		break;
 	case eDeath://プレイヤー死亡
-		cBackGround::Instance()->Update();
+		
 		cShotMgr::Instance()->Update();
 		cEnemyMgr::Instance()->Update();
 		cInGameController::Instance()->PlayerDeathUpdate();
@@ -170,7 +168,6 @@ void cInGameMgr::Update() {
 		//
 		break;
 	case eTractor://きゃとられ中
-		cBackGround::Instance()->Update();
 		cEnemyMgr::Instance()->Update();
 		//EnemyMgr.Update();
 		cHit::Instance()->Update();
@@ -209,7 +206,6 @@ void cInGameMgr::Draw() {
 		//
 		break;
 	case eInGame://ゲーム画面
-		cBackGround::Instance()->Draw();
 		cPlayer::Instance()->Draw();
 		cEnemyMgr::Instance()->Draw();
 		cShotMgr::Instance()->Draw();
@@ -219,7 +215,6 @@ void cInGameMgr::Draw() {
 		//
 		break;
 	case eDeath://プレイヤー死亡
-		cBackGround::Instance()->Draw();
 		cPlayer::Instance()->Draw();
 		cEnemyMgr::Instance()->Draw();
 		cShotMgr::Instance()->Draw();
@@ -232,7 +227,6 @@ void cInGameMgr::Draw() {
 		//
 		break;
 	case ePause://ポーズ画面
-		cBackGround::Instance()->Draw();
 		cPlayer::Instance()->Draw();
 		cEnemyMgr::Instance()->Draw();
 		cShotMgr::Instance()->Draw();
@@ -244,7 +238,6 @@ void cInGameMgr::Draw() {
 		//
 		break;
 	case eTractor://きゃとられ中
-		cBackGround::Instance()->Draw();
 		cPlayer::Instance()->Draw();
 		cEnemyMgr::Instance()->Draw();
 		cEffectMgr::Instance()->Draw();

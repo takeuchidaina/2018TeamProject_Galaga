@@ -2,6 +2,7 @@
 #include "DxLib.h"
 #include "SceneMgr.h"
 #include "Interface.h"
+#include "BackGround.h"
 
 #include "Template.h"
 //改良予定
@@ -75,7 +76,7 @@ void cSceneMgr::Update() {
 		next_Sceneflag = eSceneNone;
 		Init_Module(sceneflag);
 	}
-
+	cBackGround::Instance()->Update();
 	switch (sceneflag) {
 	case eStartMenu:
 		//スタートメニュー
@@ -102,6 +103,7 @@ void cSceneMgr::Update() {
 
 //描画処理
 void cSceneMgr::Draw() {
+	cBackGround::Instance()->Draw();
 	switch (sceneflag) {
 	case eStartMenu:
 		//スタートメニュー

@@ -120,6 +120,7 @@ int cInGameController::ResultUpdate() {
 		cSceneMgr::Instance()->ChangeScene(eStartMenu);
 		nowStageNum = 1;
 		cScore::Instance()->ResetScore();
+		cHit::Instance()->ResetHit();
 		cEnemyMgr::Instance()->EndIt();
 		cEnemyMgr::Instance()->Init();
 		cPlayer::Instance()->Init();
@@ -135,6 +136,10 @@ int cInGameController::ResultDraw() {
 
 //次のステージへ
 int cInGameController::NextStage() {
+	if (cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::eDeath) {
+
+	}
+
 	nowStageNum++;
 	cInGameMgr::Instance()->ChangeScene(cInGameMgr::eBefore);
 	return 0;

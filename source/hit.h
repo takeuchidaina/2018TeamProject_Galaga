@@ -56,6 +56,8 @@ public:
 		return totalHit;
 	}
 
+	void ResetHit() { totalHit = 0; }
+
 };
 
 
