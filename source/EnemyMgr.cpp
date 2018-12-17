@@ -18,7 +18,7 @@ cEnemyMgr::cEnemyMgr() {
 }
 
 void cEnemyMgr::Init() {
-	delete[] enemies[40];	//Ç±ÇÍÇ≈Ç¢Ç¢ÇÃÇ©ïsñæÅB
+	delete[] enemies[40];
 	memset(waveflag, 0x00, sizeof(waveflag));
 	wave = 1;
 	fileEndFlag = 0;
