@@ -330,8 +330,14 @@ void cEnemyMgr::Update() {
 	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 		enemies[i]->AnimationCount();
 	}
-
+	/*
+	if (pEnemy != NULL) {
+	pEnemy->Update();
+	pEnemy->Move();
+	}*/
 }
+
+
 
 void cEnemyMgr::Move(sEnemy& enemy) {
 	//Šp“x‚©‚ç“®‚­•ûŒü‚ÌÀ•W‚ğŒvZ‚·‚é
