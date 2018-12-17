@@ -10,6 +10,7 @@
 #include "Score.h"
 #include"BackGround.h"
 #include "Debug.h"
+#include "EffectMgr.h"
 
 //コンストラクタ
 cInGameMgr::cInGameMgr() {
@@ -144,6 +145,7 @@ void cInGameMgr::Update() {
 		//EnemyMgr.Update();
 		cHit::Instance()->Update();
 		cScore::Instance()->Update();
+		cEffectMgr::Instance()->Update();
 
 		if (Debug::Instance()->Get_Input(Key0)) {
 			for (int i = 0; i < cEnemyMgr::Instance()->GetMaxEnemy(); i++) {
@@ -158,6 +160,7 @@ void cInGameMgr::Update() {
 		cShotMgr::Instance()->Update();
 		cEnemyMgr::Instance()->Update();
 		cInGameController::Instance()->PlayerDeathUpdate();
+		cEffectMgr::Instance()->Update();
 		//
 		break;
 	case eRevival://プレイヤー復活
@@ -171,6 +174,7 @@ void cInGameMgr::Update() {
 		cEnemyMgr::Instance()->Update();
 		//EnemyMgr.Update();
 		cHit::Instance()->Update();
+		cEffectMgr::Instance()->Update();
 		//
 		break;
 	case ePReturn://プレイヤー帰還
@@ -209,6 +213,7 @@ void cInGameMgr::Draw() {
 		cPlayer::Instance()->Draw();
 		cEnemyMgr::Instance()->Draw();
 		cShotMgr::Instance()->Draw();
+		cEffectMgr::Instance()->Draw();
 		//EnemyMgr.Draw();
 		DrawFormatString(0, 20, GetColor(255, 255, 255), "eInGame");
 		//
@@ -218,6 +223,7 @@ void cInGameMgr::Draw() {
 		cPlayer::Instance()->Draw();
 		cEnemyMgr::Instance()->Draw();
 		cShotMgr::Instance()->Draw();
+		cEffectMgr::Instance()->Draw();
 		cInGameController::Instance()->PlayerDeathDraw();
 		DrawFormatString(0, 20, GetColor(255, 255, 255), "eDeath");
 		//
@@ -230,6 +236,7 @@ void cInGameMgr::Draw() {
 		cPlayer::Instance()->Draw();
 		cEnemyMgr::Instance()->Draw();
 		cShotMgr::Instance()->Draw();
+		cEffectMgr::Instance()->Draw();
 		tractor::Instance()->draw();
 		DrawFormatString(0, 20, GetColor(255, 255, 255), "ePause");
 		//DrawFormatString(420, 400, GetColor(100, 255, 255), "PAUSE");
@@ -240,6 +247,7 @@ void cInGameMgr::Draw() {
 		cBackGround::Instance()->Draw();
 		cPlayer::Instance()->Draw();
 		cEnemyMgr::Instance()->Draw();
+		cEffectMgr::Instance()->Draw();
 		DrawFormatString(0, 20, GetColor(255, 255, 255), "eTractor");
 		//
 		break;

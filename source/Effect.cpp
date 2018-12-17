@@ -24,7 +24,7 @@ int cEffect::Update(int* order) {
 	if (OnActive == TRUE) {
 		static int cnt = 0;
 		cnt++;
-		if (cnt > 30) {
+		if (cnt > 15) {
 			cnt = 0;
 			i++;
 		};
@@ -43,6 +43,16 @@ int cEffect::Draw(int* GrHandle) {
 		case 0:
 			if (type == PLAYER) {
 				DrawExtendGraph((int)cx - IMAGEMAG / 2 - adjust, (int)cy - IMAGEMAG / 2,
+					(int)cx + IMAGEMAG / 2 - adjust, (int)cy + IMAGEMAG / 2, *(GrHandle + 5), TRUE);
+			}
+			else if (type == ENEMY) {
+				DrawExtendGraph((int)cx - IMAGEMAG / 2 - adjust, (int)cy - IMAGEMAG / 2,
+					(int)cx + IMAGEMAG / 2 - adjust, (int)cy + IMAGEMAG / 2, *(GrHandle + 33), TRUE);
+			}
+			break;
+		case 1:
+			if (type == PLAYER) {
+				DrawExtendGraph((int)cx - IMAGEMAG / 2 - adjust, (int)cy - IMAGEMAG / 2,
 					(int)cx + IMAGEMAG / 2 - adjust, (int)cy + IMAGEMAG / 2, *(GrHandle + 6), TRUE);
 			}
 			else if (type == ENEMY) {
@@ -50,7 +60,7 @@ int cEffect::Draw(int* GrHandle) {
 					(int)cx + IMAGEMAG / 2 - adjust, (int)cy + IMAGEMAG / 2, *(GrHandle + 34), TRUE);
 			}
 			break;
-		case 1:
+		case 2:
 			if (type == PLAYER) {
 				DrawExtendGraph((int)cx - IMAGEMAG / 2 - adjust, (int)cy - IMAGEMAG / 2,
 					(int)cx + IMAGEMAG / 2 - adjust, (int)cy + IMAGEMAG / 2, *(GrHandle + 7), TRUE);
@@ -58,16 +68,6 @@ int cEffect::Draw(int* GrHandle) {
 			else if (type == ENEMY) {
 				DrawExtendGraph((int)cx - IMAGEMAG / 2 - adjust, (int)cy - IMAGEMAG / 2,
 					(int)cx + IMAGEMAG / 2 - adjust, (int)cy + IMAGEMAG / 2, *(GrHandle + 35), TRUE);
-			}
-			break;
-		case 2:
-			if (type == PLAYER) {
-				DrawExtendGraph((int)cx - IMAGEMAG / 2 - adjust, (int)cy - IMAGEMAG / 2,
-					(int)cx + IMAGEMAG / 2 - adjust, (int)cy + IMAGEMAG / 2, *(GrHandle + 8), TRUE);
-			}
-			else if (type == ENEMY) {
-				DrawExtendGraph((int)cx - IMAGEMAG / 2 - adjust, (int)cy - IMAGEMAG / 2,
-					(int)cx + IMAGEMAG / 2 - adjust, (int)cy + IMAGEMAG / 2, *(GrHandle + 36), TRUE);
 			}
 			break;
 		default:
