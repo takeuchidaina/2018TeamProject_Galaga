@@ -18,7 +18,6 @@ cEnemyMgr::cEnemyMgr() {
 }
 
 void cEnemyMgr::Init() {
-	//delete[] enemies[40];
 	memset(waveflag, 0x00, sizeof(waveflag));
 	wave = 1;
 	fileEndFlag = 0;
@@ -308,12 +307,7 @@ void cEnemyMgr::Update() {
 			ReChoiceFlag = 0;
 		
 		}
-		if (EnemyDeathCount == GetMaxEnemy()) {
-			cInGameController::Instance()->NextStage();//InGameControllerの全滅報告関数を呼び出す(水野さん,関数の作成よろしくお願いいたします。)しました。
-			Init();
-			return;
-		}
-		else {
+
 			//再抽選
 				//再抽選フラグがTRUEになっているもしくは敵が死んでいる場合は敵の再抽選を行う
 			if (ReChoiceFlag == 1 && ChoiseOrderFlag == TRUE) {
@@ -329,17 +323,39 @@ void cEnemyMgr::Update() {
 						ErrBox("えねみーまねーじゃー\n無限ループってこわくね");
 						break;
 					}
+
+					int tmpcount = 0;
+					for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+						if (enemy[i].deathflag == true)tmpcount++;
+					}
+
+					if (tmpcount == sizeof(enemy) / sizeof*(enemy)) {
+						cInGameController::Instance()->NextStage();
+						EndIt();
+						Init();
+						return;
+					}
+
 				}
 			}
 			else if (ReChoiceFlag == 1 && ChoiseOrderFlag == FALSE) {
 				Stayflag = 1;
 			}
-		}
+		
 	}
 
 	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 		enemies[i]->AnimationCount();
 	}
+
+	if (EnemyDeathCount == GetMaxEnemy()) {
+		//InGameControllerの全滅報告関数を呼び出す
+		cInGameController::Instance()->NextStage();
+		EndIt();
+		Init();
+		return;
+	}
+
 }
 
 
