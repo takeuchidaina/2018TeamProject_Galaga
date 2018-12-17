@@ -26,7 +26,7 @@ typedef enum {
 	InDECISION,	//決定	スペースキー
 	InCANCEL,	//キャンセル	バックスペースキー
 	InSTRAT,	//スタートポーズ	Ｐキー
-
+	InENTER,	//リザルト抜け出す用　エンターキー
 	InNONE
 }eInput;
 

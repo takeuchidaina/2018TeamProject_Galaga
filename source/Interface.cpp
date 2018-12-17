@@ -22,6 +22,7 @@ void cInterface::Update() {
 		buff[InDECISION] = tmpKey.Keyboard_Get(KEY_INPUT_SPACE);
 		buff[InCANCEL] = tmpKey.Keyboard_Get(KEY_INPUT_BACK);
 		buff[InSTRAT] = tmpKey.Keyboard_Get(KEY_INPUT_P);
+		buff[InENTER] = tmpKey.Keyboard_Get(KEY_INPUT_RETURN);
 	}
 	else if (inputType == InGamepad) {
 
