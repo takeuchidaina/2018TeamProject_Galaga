@@ -9,6 +9,7 @@
 #include "tractor.h"
 #include "Score.h"
 #include"BackGround.h"
+#include "Debug.h"
 
 //コンストラクタ
 cInGameMgr::cInGameMgr() {
@@ -143,6 +144,12 @@ void cInGameMgr::Update() {
 		//EnemyMgr.Update();
 		cHit::Instance()->Update();
 		cScore::Instance()->Update();
+
+		if (Debug::Instance()->Get_Input(Key0)) {
+			for (int i = 0; i < cEnemyMgr::Instance()->GetMaxEnemy(); i++) {
+				cEnemyMgr::Instance()->SetEnemyDeath(i);
+			}
+		}
 
 		//
 		break;
