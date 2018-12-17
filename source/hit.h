@@ -18,6 +18,7 @@
 #include "Shot.h"
 #include "EnemyMgr.h"
 #include "cBaseEnemy.h"
+#include "SE.h"
 
 class cHit: public cSingleton<cHit>
 {
