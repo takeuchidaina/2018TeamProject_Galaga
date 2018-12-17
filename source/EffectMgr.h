@@ -2,6 +2,7 @@
 
 #ifndef _EFFECTMGR_INCLUDE_
 #define _EFFECTMGR_INCLUDE_
+#define BLOWUPNUM 10
 
 #include "Singleton.h"
 #include "Winbox.h"
@@ -30,11 +31,11 @@ private:
 	//Player
 	int PBlowupGrHandle[3];
 	int PcheckGr;
-	int PblowupOrders;
+	int PblowupOrders[6] = {0,0,1,1,2,2};
 	//Enemy
 	int EBlowupGrHandle[3];
 	int EcheckGr;
-	int EblowupOrders;
+	int EblowupOrders[6] = {0,0,1,1,2,2};
 	
 protected:
 
@@ -42,6 +43,8 @@ public:
 	void Init();//‰Šú‰»ˆ—
 	int Update();	//ŒvZˆ—
 	int Draw();		//•`Êˆ—
+
+	int Blowup(int,int,int);
 /*
 //éŒ¾—á
 private:

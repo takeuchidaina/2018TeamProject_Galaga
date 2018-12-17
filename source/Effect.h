@@ -17,7 +17,8 @@ void Swap(TYPE& a, TYPE& b) {
 
 class cEffect {
 private:
-	
+	double x, y, cx, cy, w, h;
+	int OnActive, adjust;
 protected:
 
 public:
@@ -25,7 +26,7 @@ public:
 	~cEffect();
 	void Init();//‰Šú‰»ˆ—
 	int Update();	//ŒvZˆ—
-	int Draw();		//•`Êˆ—
+	int Draw(int*);		//•`Êˆ—
 /*
 //éŒ¾—á
 private:
