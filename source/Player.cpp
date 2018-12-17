@@ -3,6 +3,7 @@
 #include "Interface.h"
 #include "InGameMgr.h"
 #include "InGameController.h"
+#include "Debug.h"
 
 //コンストラクタ
 cPlayer::cPlayer()
@@ -102,34 +103,34 @@ void cPlayer::Move()
 		{
 
 			//左壁
-			if (player[j].pos.x <= 0)
+			if (player[j].pos.x <= WALL)
 			{
 				//二機ともアクティブ状態なら
 				if (isDoubleFlg == TRUE)
 				{
-					player[eLeftMachine].pos.x = 0;
-					player[eRightMachine].pos.x = 0 + IMAGEMAG;
+					player[eLeftMachine].pos.x = WALL;
+					player[eRightMachine].pos.x = WALL + IMAGEMAG;
 				}
 				//一機のみアクティブ状態なら
 				else
 				{
-					player[i].pos.x = 0;
+					player[i].pos.x = 100;
 				}
 
 			}
 			//右壁
-			if (player[j].pos.x + IMAGEMAG >= DISP_SIZE)
+			if (player[j].pos.x + IMAGEMAG >= DISP_SIZE - WALL)
 			{
 				//二機ともアクティブ状態なら
 				if (player[eLeftMachine].onActive == TRUE && player[eRightMachine].onActive == TRUE)
 				{
-					player[eLeftMachine].pos.x = DISP_SIZE - IMAGEMAG * 2;
-					player[eRightMachine].pos.x = DISP_SIZE - IMAGEMAG;
+					player[eLeftMachine].pos.x = DISP_SIZE - IMAGEMAG * 2 - WALL;
+					player[eRightMachine].pos.x = DISP_SIZE - IMAGEMAG - WALL;
 				}
 				//一機のみアクティブ状態なら
 				else
 				{
-					player[i].pos.x = DISP_SIZE - IMAGEMAG;
+					player[i].pos.x = DISP_SIZE - IMAGEMAG - WALL;
 				}
 
 			}
@@ -139,15 +140,15 @@ void cPlayer::Move()
 
 #ifdef PLAYER_BREAK_DEBUG
 	//キー
-	if (cInterface::Instance()->Get_Input(DEBUG1) == 1)
+	if (Debug::Instance()->Get_Input(Key1) == 1)
 	{
 		cPlayer::Double();		// 二機になる
 	}
-	else if (cInterface::Instance()->Get_Input(DEBUG2) == 1)
+	else if (Debug::Instance()->Get_Input(Key2) == 1)
 	{
 		cPlayer::Break(eDeath, eLeftMachine);	// 左が破壊
 	}
-	else if (cInterface::Instance()->Get_Input(DEBUG3) == 1)
+	else if (Debug::Instance()->Get_Input(Key3) == 1)
 	{
 		cPlayer::Break(eDeath, eRightMachine);	// 右が破壊
 	}
@@ -250,12 +251,13 @@ void cPlayer::Double()
 *************************************************************************/
 void cPlayer::Break(int judgeBreak ,int machineNum)
 {
+	//プレイヤーのHPを減少
+	playerHP--;
+	cUI::Instance()->UI_SetPlayerHP(playerHP);
+
 	//機体が破壊されたら
 	if (judgeBreak == eDeath)
 	{
-		//プレイヤーのHPを減少
-		playerHP--;
-		cUI::Instance()->UI_SetPlayerHP(playerHP);
 
 		//撃破された方を非アクティブに
 		if (machineNum == eLeftMachine)
@@ -284,10 +286,6 @@ void cPlayer::Break(int judgeBreak ,int machineNum)
 		//シーンの変更
 		//トラクタービーム
 
-		//プレイヤーのHPを減少
-		playerHP--;
-		cUI::Instance()->UI_SetPlayerHP(playerHP);
-
 		//撃破された方を非アクティブに
 		if (machineNum == eLeftMachine)
 		{
@@ -307,7 +305,6 @@ void cPlayer::Break(int judgeBreak ,int machineNum)
 			//引数として　0 通常死亡 1トラクターとしました by滝
 			cInGameController::Instance()->PlayerDeath(1);
 		}
-	
 
 	}
 
