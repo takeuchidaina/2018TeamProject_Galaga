@@ -289,7 +289,9 @@ void cEnemyMgr::Update() {
 			}
 			enemies[i]->Update();
 			enemies[i]->Move();
-			enemies[i]->TractorUpdate();
+			if (enemies[i]->GetTractorfFlg() == true) {
+				enemies[i]->TractorUpdate();
+			}
 		
 		}
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {

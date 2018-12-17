@@ -42,6 +42,16 @@ cPlayerEnemy::cPlayerEnemy() {
 	LoadDivGraph("../resource/Image/Galaga_OBJ_myMachine1616.png", 12, 4, 3, 16, 16, graph);
 }
 
+/*
+void cPlayerEnemy::EternalUpdate() {
+	sEnemy TmpEnemy;
+	TmpEnemy =
+	enemy.mainpos.pos.x = TmpEnemy->mainpos.pos.x + 22;
+	enemy.mainpos.pos.y = TmpEnemy->mainpos.pos.y + 50;
+	enemy.ang = TmpEnemy->ang;
+}
+*/
+
 void cPlayerEnemy::Move() {
 	enemy.mainpos.cx = enemy.mainpos.pos.x + enemy.mainpos.pos.x / 2;
 	enemy.mainpos.cy = enemy.mainpos.pos.y + enemy.mainpos.pos.y / 2;
@@ -68,7 +78,6 @@ int cPlayerEnemy::Update(sEnemy* TmpEnemy) {
 		}
 		break;
 	case 1:
-		rotecnt = 0;
 
 		enemy.ang = atan2((TmpEnemy->mainpos.pos.y + 48) - enemy.mainpos.pos.y, TmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x);
 		if (enemy.count > 200) {
@@ -78,13 +87,13 @@ int cPlayerEnemy::Update(sEnemy* TmpEnemy) {
 			TmpEnemy->moveflg++;
 		}
 		cTextChange::Instance()->DrawTextImage(100, 450, "PLAYER", eRed, eMag32);
-		cTextChange::Instance()->DrawTextImage(120, 450, "CAPTURE", eRed, eMag32);
+		cTextChange::Instance()->DrawTextImage(150, 450, "CAPTURE", eRed, eMag32);
 		break;
 	case 2:
 
 		enemy.mainpos.pos.x = TmpEnemy->mainpos.pos.x + 22;
 		enemy.mainpos.pos.y = TmpEnemy->mainpos.pos.y + 50;
-		enemy.ang = TmpEnemy->ang;
+		enemy.ang = TmpEnemy->ang;	
 		if (enemy.count > 50) {
 			//if (TmpEnemy->mainpos.onActive == ReadyStart)
 			enemy.moveflg++;
@@ -98,6 +107,7 @@ int cPlayerEnemy::Update(sEnemy* TmpEnemy) {
 			enemy.mainpos.pos.x = TmpEnemy->mainpos.pos.x + 22;
 			enemy.mainpos.pos.y = TmpEnemy->mainpos.pos.y - 30;
 			enemy.ang = TmpEnemy->ang;
+
 			if (cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::Instance()->eTractor)
 				cInGameController::Instance()->OutToTractor();
 		}
@@ -121,8 +131,8 @@ int cPlayerEnemy::Draw() {
 	//else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[0], TRUE, TRUE);
 	*/
 
-	DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, rotecnt, graph[playerNum], TRUE);
-
+	if(enemy.moveflg == 0)DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, rotecnt, graph[playerNum], TRUE);
+	else DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, enemy.ang*M_PI/180, graph[playerNum], TRUE);
 
 #ifndef DEBUG
 	DrawFormatString(120, 885, GetColor(255, 255, 255), "%d", enemy.moveflg);

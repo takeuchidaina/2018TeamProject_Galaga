@@ -62,6 +62,8 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 	AnimationNum = 5;
 	enemy.hp = 1;
 	enemy.tractingEnemy = false;
+
+
 }
 
 
@@ -95,6 +97,9 @@ void cRedEnemy::Move() {
 
 
 int cRedEnemy::Update() {
+
+
+
 	int tmp = cInGameMgr::Instance()->GetSceneFlg();
 	int	 EnemyDeathCount = cEnemyMgr::Instance()->GetEnemyDeathCount();
 	if (enemy.count < 0)enemy.count = 0;
@@ -114,7 +119,7 @@ int cRedEnemy::Update() {
 		{
 		case 0:
 			if (CheckSoundFile() == 0)cSE::Instance()->selectSE(alien_flying);
-			if (enemy.count < 3)enemy.ang = 180 * M_PI / 180;
+			if (enemy.count < 2)enemy.ang = 180 * M_PI / 180;
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
