@@ -52,7 +52,7 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 	AnimationCnt = 0;
 	AnimationNum = 0;
 	enemy.hp = 1;
-	tractingEnemy = false;
+	enemy.tractingEnemy = false;
 }
 
 //ベクトルと速度をもらって移動する
@@ -147,18 +147,19 @@ int cBlueEnemy::Update() {
 			break;
 		case 8:
 			enemy.count = 0;
-			enemy.moveflg = 0;
+			
 			enemy.ang = -90 * M_PI / 180;
 			if (enemy.mainpos.pos.x <= 430) {
-				enemy.dir = 1;
+				enemy.dir = -1;
 			}
 			else {
-				enemy.dir = -1;
+				enemy.dir = 1;
 			}
 			enemy.mainpos.pos.x = enemy.target.x;
 			enemy.mainpos.pos.y = enemy.target.y;
 			enemy.attackflg = false;
 			enemy.mainpos.onActive = ReadyStart;
+			enemy.moveflg = 0;
 			break;
 
 		}

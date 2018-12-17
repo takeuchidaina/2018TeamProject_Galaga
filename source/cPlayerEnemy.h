@@ -8,6 +8,8 @@ class cPlayerEnemy : public cBaseEnemy {
 private:
 	int graph[4];
 	sOBJPos tmpPlayer;
+	double rotecnt;
+	int playerNum;
 public:
 	cPlayerEnemy(/*double, double, double, int, double, double, int, int*/);
 	virtual void Move();

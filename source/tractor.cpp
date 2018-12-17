@@ -43,6 +43,7 @@ bool tractor::TractorHit(cGreenEnemy* Tmpenemy) {
 			TraitPlayer = cEnemyMgr::Instance()->PushPlayerEnemy();
 			cPlayer::Instance()->Break(eTractorBeam,i);
 			enemy->moveflg++;
+			enemy->tractingEnemy = true;
 			
     
 			//if (enemy.count >= 120) {

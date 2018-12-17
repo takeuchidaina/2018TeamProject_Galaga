@@ -61,7 +61,7 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 	AnimationCnt = 0;
 	AnimationNum = 5;
 	enemy.hp = 1;
-	tractingEnemy = false;
+	enemy.tractingEnemy = false;
 }
 
 
@@ -175,10 +175,10 @@ int cRedEnemy::Update() {
 			
 			enemy.ang = -90 * M_PI / 180;
 			if (enemy.mainpos.pos.x <= 430) {
-				enemy.dir = 1;
+				enemy.dir = -1;
 			}
 			else {
-				enemy.dir = -1;
+				enemy.dir = 1;
 			}
 			//“GÀ•W‚ð–Ú“I’n‚ÉŒÅ’è
 			enemy.mainpos.pos.x = enemy.target.x;

@@ -15,6 +15,8 @@
 
 
 typedef struct {
+	bool tractorHitFlg; //トラクターが当たったかの判定
+	bool tractingEnemy; //捕まえている敵の捕捉用flg
 	sPos vct;               // ベクトル用x y
 	sOBJPos mainpos ;//メインのx y r onActive
 	sPos target;          //定位置
@@ -40,8 +42,7 @@ protected:
 	int AnimationCnt, AnimationNum;
     int TractorCnt ,TractorNum;
 	sEnemy enemy;
-	bool tractorHitFlg;
-	bool tractingEnemy;
+	
 
 public:
 
@@ -59,7 +60,7 @@ public:
 		トラクター用の関数　緑以外ではよんでもなにもない
 		引数なし : 戻り値なし
 		****************************************/
-		virtual void TractorUpdate();
+		virtual int TractorUpdate();
 		/***********************************
 		エネミーの破壊関数　
 		引数なし : 戻り値なし
@@ -171,11 +172,11 @@ public:
 		}
 
 		virtual bool GetTractorHitFlg(){
-			return tractorHitFlg;
+			return enemy.tractorHitFlg;
 		}
 
 		virtual void SettractorHitFlg() {
-			 tractorHitFlg = true;
+			enemy. tractorHitFlg = true;
 		}
 
 		virtual	int GetHp() { return enemy.hp; };
