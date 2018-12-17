@@ -136,6 +136,9 @@ int cShotMgr::EnemyShot(double tmpEX, double tmpEY) {
 	sOBJPos tmpPlayer;
 	double rad;
 	tmpPlayer = cPlayer::Instance()->GetPlayer(0);
+	if(tmpPlayer.onActive==FALSE){
+		tmpPlayer = cPlayer::Instance()->GetPlayer(1);
+	}
 	//ˆ—
 	for (int i = 0; i < ENEMYSHOTNUM; i++) {
 		if (enemyShot[i].Get_OnActive() == FALSE) {

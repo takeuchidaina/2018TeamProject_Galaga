@@ -20,7 +20,7 @@ cEffectMgr::cEffectMgr(){
 //初期化
 void cEffectMgr::Init() {
 	delete[] BlowupArray;
-	BlowupArray = new cEffect[10];
+	BlowupArray = new cEffect[BLOWUPNUM];
 }
 
 //デストラクタ
@@ -29,12 +29,24 @@ cEffectMgr::~cEffectMgr() {
 }
 
 int cEffectMgr::Update() {
+	for (int i = 0; i < BLOWUPNUM; i++) {
+		BlowupArray[i].Update();
+	}
 	return 0;
 }
 
 int cEffectMgr::Draw() {
+	for (int i = 0; i < BLOWUPNUM; i++) {
+		BlowupArray[i].Draw(PBlowupGrHandle);
+	}
 	return 0;
 }
+
+//爆風発生させる関数 引数(Player(0)かEnemy(1)か,cx,cy)
+int cEffectMgr::Blowup(int type, int cx, int cy) {
+	return 0;
+}
+
 
 
 

@@ -20,7 +20,7 @@ int cEffect::Update() {
 	return 0;
 }
 
-int cEffect::Draw() {
+int cEffect::Draw(int* GrHandle) {
 	return 0;
 }
 
