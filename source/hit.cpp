@@ -63,6 +63,8 @@ void cHit::Player_EnemyShot() {
 					cPlayer::Instance()->Break(eDeath, i);
 					cShotMgr::Instance()->Break(ENEMY, j);
 				}
+
+				cSE::Instance()->selectSE(miss);	// SE
 			}
 		}
 	}
@@ -107,6 +109,8 @@ void cHit::Player_Enemy() {
 					cPlayer::Instance()->Break(eDeath, i);
 					cEnemyMgr::Instance()->SetEnemyDeath(j);
 				}
+
+				cSE::Instance()->selectSE(miss);	// SE
 			}
 		}
 	}
@@ -158,7 +162,6 @@ void cHit::PlayerShot_Enemy() {
 					totalHit++;
 					
 				}
-
 			}
 		}
 	}
