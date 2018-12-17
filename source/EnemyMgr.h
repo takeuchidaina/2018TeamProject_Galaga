@@ -33,6 +33,7 @@ private:
 		int targetr;          //目標位置の半径(当たり判定に利用)
 		int wave;             //ウェーブ番号  
 		int etype;            //敵の種類(3種分)
+		sPos shaft;           //敵の列番号
 		double moveangle[3];  //角度設定の配列
 		int countflag[3];     //特定のフレーム数をあれする配列
 		int onactive;         //表示・非表示の判定
@@ -50,6 +51,7 @@ private:
 		int targetr;          //目標位置の半径(当たり判定に利用)
 		int wave;             //ウェーブ番号  
 		int etype;            //敵の種類(3種分)
+		sPos shaft;           //敵の列番号
 		double moveangle[3];  //角度設定の配列
 		int countflag[3];     //特定のフレーム数をあれする配列
 		int deathflag;        //敵の死亡フラグ 0:生きてる 1:死んでる
@@ -224,11 +226,13 @@ public:
 	/*****************************************************
 	関数名：void EndIt()
 	説明：この関数が呼ばれたとき、敵の配列を消去する
-	引数：なしお
+	引数：なし
 	戻り値：なし
 	******************************************************/
 	void EndIt() {
-		delete[] enemies;
+		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+			delete enemies[i];
+		}
 	}
 
 

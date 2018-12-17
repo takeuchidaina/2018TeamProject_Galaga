@@ -18,7 +18,6 @@ cEnemyMgr::cEnemyMgr() {
 }
 
 void cEnemyMgr::Init() {
-	delete[] enemies[40];
 	memset(waveflag, 0x00, sizeof(waveflag));
 	wave = 1;
 	fileEndFlag = 0;
@@ -32,8 +31,10 @@ void cEnemyMgr::Init() {
 	EnemyAttackFlag = 1;     //攻撃フラグ 0:攻撃を行わない状態 1:攻撃を行う状態
 	ChoiseOrderFlag = TRUE;
 	
-	ScalingFlag = 1;
-	ScalingCount = 0;
+	EnemyDeathCount = 0;
+
+	ScalingFlag = -1;
+	ScalingCount = 120;
 
 	SlidingFlag = 1;
 	SlidingCount = 120;
@@ -84,12 +85,14 @@ void cEnemyMgr::Init() {
 		case 10:tmpEnemy.targetr = atoi(inputc); break;
 		case 11:tmpEnemy.wave = atoi(inputc); break;
 		case 12:tmpEnemy.etype = atoi(inputc); break;
-		case 13:tmpEnemy.moveangle[0] = atof(inputc); break;
-		case 14:tmpEnemy.countflag[0] = atoi(inputc); break;
-		case 15:tmpEnemy.moveangle[1] = atof(inputc); break;
-		case 16:tmpEnemy.countflag[1] = atoi(inputc); break;
-		case 17:tmpEnemy.moveangle[2] = atof(inputc); break;
-		case 18:tmpEnemy.countflag[2] = atoi(inputc); break;
+		case 13:tmpEnemy.shaft.x = atoi(inputc); break;
+		case 14:tmpEnemy.shaft.y = atoi(inputc); break;
+		case 15:tmpEnemy.moveangle[0] = atof(inputc); break;
+		case 16:tmpEnemy.countflag[0] = atoi(inputc); break;
+		case 17:tmpEnemy.moveangle[1] = atof(inputc); break;
+		case 18:tmpEnemy.countflag[1] = atoi(inputc); break;
+		case 19:tmpEnemy.moveangle[2] = atof(inputc); break;
+		case 20:tmpEnemy.countflag[2] = atoi(inputc); break;
 		}
 
 		switch (num) {
@@ -106,12 +109,14 @@ void cEnemyMgr::Init() {
 		case 10:enemy[n].targetr = atoi(inputc); break;
 		case 11:enemy[n].wave = atoi(inputc); break;
 		case 12:enemy[n].etype = atoi(inputc); break;
-		case 13:enemy[n].moveangle[0] = atof(inputc); break;
-		case 14:enemy[n].countflag[0] = atoi(inputc); break;
-		case 15:enemy[n].moveangle[1] = atof(inputc); break;
-		case 16:enemy[n].countflag[1] = atoi(inputc); break;
-		case 17:enemy[n].moveangle[2] = atof(inputc); break;
-		case 18:enemy[n].countflag[2] = atoi(inputc); break;
+		case 13:enemy[n].shaft.x = atoi(inputc); break;
+		case 14:enemy[n].shaft.y = atoi(inputc); break;
+		case 15:enemy[n].moveangle[0] = atof(inputc); break;
+		case 16:enemy[n].countflag[0] = atoi(inputc); break;
+		case 17:enemy[n].moveangle[1] = atof(inputc); break;
+		case 18:enemy[n].countflag[1] = atoi(inputc); break;
+		case 19:enemy[n].moveangle[2] = atof(inputc); break;
+		case 20:enemy[n].countflag[2] = atoi(inputc); break;
 		}
 
 		//同じ値で初期化する変数
@@ -122,7 +127,7 @@ void cEnemyMgr::Init() {
 		enemy[n].deathflag = FALSE;
 
 		num++;
-		if (num == 19) {
+		if (num == 21) {
 			num = 0;
 			/*switch文でtypeをみて,結果に合わせてtmpEnemyのデータをそれぞれのcbaseEnemyにいれる*/
 			switch (tmpEnemy.etype) {
@@ -302,12 +307,7 @@ void cEnemyMgr::Update() {
 			ReChoiceFlag = 0;
 		
 		}
-		if (EnemyDeathCount == GetMaxEnemy()) {
-			cInGameController::Instance()->NextStage();//InGameControllerの全滅報告関数を呼び出す(水野さん,関数の作成よろしくお願いいたします。)しました。
-			Init();
-			return;
-		}
-		else {
+
 			//再抽選
 				//再抽選フラグがTRUEになっているもしくは敵が死んでいる場合は敵の再抽選を行う
 			if (ReChoiceFlag == 1 && ChoiseOrderFlag == TRUE) {
@@ -323,22 +323,39 @@ void cEnemyMgr::Update() {
 						ErrBox("えねみーまねーじゃー\n無限ループってこわくね");
 						break;
 					}
+
+					int tmpcount = 0;
+					for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+						if (enemy[i].deathflag == true)tmpcount++;
+					}
+
+					if (tmpcount == sizeof(enemy) / sizeof*(enemy)) {
+						cInGameController::Instance()->NextStage();
+						EndIt();
+						Init();
+						return;
+					}
+
 				}
 			}
 			else if (ReChoiceFlag == 1 && ChoiseOrderFlag == FALSE) {
 				Stayflag = 1;
 			}
-		}
+		
 	}
 
 	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 		enemies[i]->AnimationCount();
 	}
-	/*
-	if (pEnemy != NULL) {
-	pEnemy->Update();
-	pEnemy->Move();
-	}*/
+
+	if (EnemyDeathCount == GetMaxEnemy()) {
+		//InGameControllerの全滅報告関数を呼び出す
+		cInGameController::Instance()->NextStage();
+		EndIt();
+		Init();
+		return;
+	}
+
 }
 
 
@@ -372,14 +389,14 @@ void cEnemyMgr::Shifted(sEnemy& ene1, sEnemy& ene2) {
 ******************************************************/
 void cEnemyMgr::Scaling(sEnemy& enemy) {
 
-	if (ScalingCount >=480 ) {
+	if (ScalingCount >=180 ) {
 		ScalingFlag *= -1;
 		ScalingCount = 0;
 	}
 
-	if (ScalingCount % 60 == 0) {
-		enemy.target.x += 10 * ScalingFlag;
-		enemy.target.y += 10 * ScalingFlag;
+	if (ScalingCount % 30 == 0) {
+		enemy.target.x += enemy.shaft.x * 2 * ScalingFlag;
+		enemy.target.y += enemy.shaft.y * 2 * ScalingFlag;
 	}
 
 }
