@@ -21,7 +21,7 @@ private:
 public:
 	cGreenEnemy(double, double, double, int, double, double, int, int*);
 	virtual void Move();
-	void TractorUpdate();
+	int TractorUpdate();
 	virtual int Update();
 	virtual int Draw();
 	

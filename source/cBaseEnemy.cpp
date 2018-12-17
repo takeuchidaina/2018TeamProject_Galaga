@@ -83,8 +83,8 @@ int cBaseEnemy::Draw() {
 
 
  
-void cBaseEnemy::TractorUpdate() {
-	;
+int cBaseEnemy::TractorUpdate() {
+	return 0;
 }
 
 

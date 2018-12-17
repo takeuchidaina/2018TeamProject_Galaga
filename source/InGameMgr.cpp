@@ -8,6 +8,7 @@
 #include "UI.h"
 #include "tractor.h"
 #include "Score.h"
+#include"BackGround.h"
 
 //コンストラクタ
 cInGameMgr::cInGameMgr() {
@@ -134,7 +135,8 @@ void cInGameMgr::Update() {
 		cInGameController::Instance()->BeforeSceneUpdate();
 		//
 		break;
-	case eInGame://ゲーム画面
+	case eInGame://ゲーム画面[
+		cBackGround::Instance()->Update();
 		cPlayer::Instance()->Update();
 		cShotMgr::Instance()->Update();
 		cEnemyMgr::Instance()->Update();
@@ -145,6 +147,7 @@ void cInGameMgr::Update() {
 		//
 		break;
 	case eDeath://プレイヤー死亡
+		cBackGround::Instance()->Update();
 		cShotMgr::Instance()->Update();
 		cEnemyMgr::Instance()->Update();
 		cInGameController::Instance()->PlayerDeathUpdate();
@@ -157,10 +160,10 @@ void cInGameMgr::Update() {
 		//
 		break;
 	case eTractor://きゃとられ中
+		cBackGround::Instance()->Update();
 		cEnemyMgr::Instance()->Update();
 		//EnemyMgr.Update();
 		cHit::Instance()->Update();
-		cInGameController::Instance()->PlayerDeathUpdate();
 		//
 		break;
 	case ePReturn://プレイヤー帰還
@@ -195,6 +198,7 @@ void cInGameMgr::Draw() {
 		//
 		break;
 	case eInGame://ゲーム画面
+		cBackGround::Instance()->Draw();
 		cPlayer::Instance()->Draw();
 		cEnemyMgr::Instance()->Draw();
 		cShotMgr::Instance()->Draw();
@@ -203,6 +207,7 @@ void cInGameMgr::Draw() {
 		//
 		break;
 	case eDeath://プレイヤー死亡
+		cBackGround::Instance()->Draw();
 		cPlayer::Instance()->Draw();
 		cEnemyMgr::Instance()->Draw();
 		cShotMgr::Instance()->Draw();
@@ -214,6 +219,7 @@ void cInGameMgr::Draw() {
 		//
 		break;
 	case ePause://ポーズ画面
+		cBackGround::Instance()->Draw();
 		cPlayer::Instance()->Draw();
 		cEnemyMgr::Instance()->Draw();
 		cShotMgr::Instance()->Draw();
@@ -224,6 +230,7 @@ void cInGameMgr::Draw() {
 		//
 		break;
 	case eTractor://きゃとられ中
+		cBackGround::Instance()->Draw();
 		cPlayer::Instance()->Draw();
 		cEnemyMgr::Instance()->Draw();
 		DrawFormatString(0, 20, GetColor(255, 255, 255), "eTractor");
