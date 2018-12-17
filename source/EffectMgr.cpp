@@ -44,7 +44,7 @@ int cEffectMgr::Draw() {
 
 //”š•—”­¶‚³‚¹‚éŠÖ” ˆø”(Player(0)‚©Enemy(1)‚©,cx,cy)
 int cEffectMgr::Blowup(int type, int cx, int cy) {
-
+	return 0;
 }
 
 
