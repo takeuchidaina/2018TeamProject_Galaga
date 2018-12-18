@@ -24,11 +24,11 @@ int cEffect::Update(int* order) {
 	if (OnActive == TRUE) {
 		static int cnt = 0;
 		cnt++;
-		if (cnt > 15) {
+		if (cnt > 5) {
 			cnt = 0;
 			i++;
 		};
-		if (i > 6) {
+		if (i >= 6) {
 			OnActive = FALSE;
 			i = 0;
 		}
