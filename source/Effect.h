@@ -35,9 +35,9 @@ public:
 	void Set_OnActive(int tmp) { OnActive = tmp; }
 	inline int Get_Type() { return type; }
 	void Set_Type(int tmp) { type = tmp; }
-	inline int Get_CX() { return cx; }
+	inline int Get_CX() { return (int)cx; }
 	void Set_CX(int tmp) { cx = tmp; }
-	inline int Get_CY() { return cy; }
+	inline int Get_CY() { return (int)cy; }
 	void Set_CY(int tmp) { cy = tmp; }
 /*
 //éŒ¾—á
