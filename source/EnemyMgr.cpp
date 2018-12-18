@@ -8,6 +8,7 @@
 #include "cGreenEnemy.h"
 #include "Struct.h"
 #include "InGameController.h"
+#include "Debug.h"
 
 //ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 cEnemyMgr::cEnemyMgr() {
@@ -291,7 +292,6 @@ void cEnemyMgr::Update() {
 
 			//“G‚ª”ñ•\Ž¦‚à‚µ‚­‚ÍUŒ‚’†‚Å‚Í‚È‚¢‚Æ‚«‚à‚µ‚­‚Í“G‚ªŽ€‚ñ‚Å‚¢‚é‚Æ‚«‚ÍˆÈ‰º‚Ìˆ—‚ð”ò‚Î‚·
 			if (enemy[i].onactive != TRUE || enemies[i]->GetEnemyAttackflg() != 1 || enemy[i].deathflag == TRUE) {
-
 				continue;
 			}
 			enemies[i]->Update();
@@ -354,6 +354,14 @@ void cEnemyMgr::Update() {
 		EndIt();
 		Init();
 		return;
+	}
+
+	if (Debug::Instance()->Get_Input(Key8) == 1) {
+		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+			if (enemy[i].etype != 2) {
+				SetEnemyDeath(i);
+			}
+		}
 	}
 
 }
