@@ -30,7 +30,6 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 
 
 	enemy.moveflg = 0;
-	enemy.tractorflg = false;
 
 	enemy.vct.x = 0;
 	enemy.vct.y = 0;
@@ -79,8 +78,10 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 	LoadDivGraph("../resource/Image/Galaga_OBJ_effect.png", 15, 5, 3, 50, 82, tractor);
 
 
-	enemy.tractorHitFlg = false;
 	enemy.tractingEnemy = false;
+	tractedFlg = false;
+	enemy.tractorflg = false;
+	enemy.tractorHitFlg = false;
 }
 
 
@@ -122,7 +123,11 @@ int cGreenEnemy::Update() {
 	/*enemy.target.x = 500;
 	enemy.target.y = 300;*/
 
-	if (enemy.tractorflg == 0 && enemy.attackflg == true) {
+	/*if (enemy.tractorflg == true && traitPlayer != NULL && tractedFlg == true && enemy.moveflg == 0) {
+		return 0;
+	}*/
+
+	if ( enemy.attackflg == true  && enemy.tractorflg == false ) {
 		enemy.count++;
 
 		if (enemy.count > 0) {
@@ -196,7 +201,7 @@ int cGreenEnemy::Update() {
 				(enemy.mainpos.r / 5 + enemy.targetr)*(enemy.mainpos.r / 5 + enemy.targetr)) {
 				//“GÀ•W‚ð–Ú“I’n‚ÉŒÅ’è
 				enemy.mainpos.pos.x = enemy.target.x;
-				enemy.mainpos.pos.y = enemy.target.y;		
+				enemy.mainpos.pos.y = enemy.target.y;
 				enemy.count = 0;
 				enemy.mainpos.onActive = SetPos;
 				enemy.moveflg++;
@@ -218,9 +223,10 @@ int cGreenEnemy::Update() {
 			else {
 				enemy.dir = -1;
 			}
+			enemy.tractorHitFlg = false;
 			enemy.attackflg = false;
 			enemy.mainpos.onActive = ReadyStart;
-			enemy.tractorflg = false;//‚±‚±
+			enemy.tractorflg = true;//‚±‚±
 			enemy.moveflg = 0;
 			break;
 		}
@@ -230,36 +236,36 @@ int cGreenEnemy::Update() {
 
 
 int cGreenEnemy::TractorUpdate() {
-	/*if (tractorflg == true) {
-		this->Update();
-		this->Move();
-		return 1;
-	}
-	*/
-	if (enemy.tractorHitFlg == false && TractorNum > 8 && TractorNum < 13) {
-		//‚±‚±‚Åtractor‚Ì‚Í‘«‚è”»’è‚ð“Ç‚ñ‚Å‚¢‚é
-		enemy.tractorHitFlg = tractor::Instance()->TractorHit(this);
-	}
+	
+
+	traitPlayer = tractor::Instance()->GetAdress();
+	if (traitPlayer != NULL)tractedFlg = true;
+	else tractedFlg = false;
+
 
 	if (enemy.count < 0)enemy.count = 0;
+
 	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
-	/*enemy.target.x = 500;
-	enemy.target.y = 300;*/
-	/*DrawLine(tmpx, 0, tmpx, 900, GetColor(0, 255, 255), false);
-	DrawLine(tmpx + 48, 0, tmpx + 48, 900, GetColor(0, 255, 255), false);*/
 
- 	if (enemy.tractorflg != 0 && enemy.attackflg == true ) {
+	if (enemy.attackflg ==  true && tractedFlg == true && enemy.moveflg == 0) {
+		enemy.tractorflg = false;
+		return 0;
+	}
+
+	if (enemy.tractorflg != false && enemy.attackflg == true) {
 		enemy.count++;
 
+		
+
+		if (enemy.tractorHitFlg == false && TractorNum > 8 && TractorNum < 13) {
+			//‚±‚±‚Åtractor‚Ì‚Í‘«‚è”»’è‚ð“Ç‚ñ‚Å‚¢‚é
+			enemy.tractorHitFlg = tractor::Instance()->TractorHit(this);
+		}
 		if (enemy.count > 0) {
 			enemy.mainpos.onActive = YesActive;
 		}
 
-
-		if (enemy.tractorHitFlg == true) {
-			traitPlayer = tractor::Instance()->GetAdress();
-		}
 
 		switch (enemy.moveflg)
 		{
@@ -314,9 +320,12 @@ int cGreenEnemy::TractorUpdate() {
 			if (enemy.tractingEnemy == true) {
 				enemy.mainpos.pos.x = tmpx;
 				enemy.mainpos.pos.y = tmpy - 160;
-
-				traitPlayer->Update(&enemy);
-				traitPlayer->Move();
+				if (traitPlayer != NULL) {
+					traitPlayer->Update(&enemy);
+					traitPlayer->Move();
+				}
+				enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+				enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 				//	traitPlayer->TractorStart(enemy);
 				//	traitPlayer->Move();
 				//	traitPlayer->Draw();
@@ -340,6 +349,14 @@ int cGreenEnemy::TractorUpdate() {
 			}
 			break;
 		case 5:
+			if (traitPlayer != NULL)tractedFlg = true;
+			else tractedFlg = false;
+
+			if (enemy.tractingEnemy == true && traitPlayer != NULL) {
+				traitPlayer->Update(&enemy);
+				traitPlayer->Move();
+			}
+
 			if (enemy.mainpos.pos.x <= 430) {
 				enemy.dir = 1;
 			}
@@ -348,22 +365,21 @@ int cGreenEnemy::TractorUpdate() {
 			}
 
 			enemy.mainpos.onActive = ReadyStart;
-			if (enemy.tractingEnemy == true && traitPlayer != NULL) {
-				traitPlayer->Update(&enemy);
-				traitPlayer->Move();
-			}
 			enemy.mainpos.pos.x = enemy.target.x;
 			enemy.mainpos.pos.y = enemy.target.y;
 			enemy.ang = -90 * M_PI / 180;
 
-			if (enemy.tractorHitFlg == true) {
-				enemy.tractorHitFlg = true;
-				enemy.tractorflg = TRUE;
+
+			if (enemy.tractingEnemy == true) {
+				enemy.tractingEnemy = true;
 			}
 			else {
-				enemy.tractorHitFlg = false;
-				enemy.tractorflg = FALSE;
+				enemy.tractingEnemy = false;
 			}
+
+
+			enemy.tractorHitFlg = false;
+			enemy.tractorflg = FALSE;
 			enemy.attackflg = FALSE;
 
 			enemy.count = 0;
@@ -372,9 +388,7 @@ int cGreenEnemy::TractorUpdate() {
 			break;
 		}
 	}
-	else {
-		this->Update();
-	}
+
 	return 0;
 }
 
@@ -399,7 +413,7 @@ int cGreenEnemy::Draw() {
 		if (enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * M_PI) / 180), enemy.graph[AnimationNum], TRUE, TRUE);
 		else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[AnimationNum], TRUE, TRUE);
 
-		if (enemy.tractorflg == 1 && enemy.moveflg == 2) {
+		if (enemy.tractorflg == true && enemy.moveflg == 2) {
 			if (TractorCnt > 20) {
 				//cSE::Instance()->selectSE(tractor_beam);
 				TractorCnt = 0;

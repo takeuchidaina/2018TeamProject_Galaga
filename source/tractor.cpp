@@ -11,23 +11,23 @@ using namespace std;
 #include "tractor.h"
 #include "winBox.h"
 #include "InGameController.h"
- 
- tractor::tractor() {
+
+tractor::tractor() {
 	LoadDivGraph("../resource/Image/Galaga_OBJ_dualFighter.png", 2, 2, 1, 16, 16, graph);
 	//enemy.targetr = 3;
-	
-	
+
+
 }
 
 bool tractor::TractorHit(cGreenEnemy* Tmpenemy) {
-	
-	enemy= Tmpenemy->GetEnemy();
+
+	enemy = Tmpenemy->GetEnemy();
 	tractorX = enemy->mainpos.pos.x - 96 / 2;
 	tractorWidth = enemy->mainpos.pos.x + 90 - 1;
 
 	for (int i = 0; i < 1; i++) {
 		sOBJPos TmpPlayer;
-		TmpPlayer= cPlayer::Instance()->GetPlayer(i);
+		TmpPlayer = cPlayer::Instance()->GetPlayer(i);
 		if (TmpPlayer.onActive == false) continue;
 
 		/*DrawLine(tractorX, 900, tractorWidth, 900, GetColor(255, 255, 255), false);
@@ -41,17 +41,17 @@ bool tractor::TractorHit(cGreenEnemy* Tmpenemy) {
 			playerY = TmpPlayer.pos.y;
 			cInGameController::Instance()->HitToTractor();
 			TraitPlayer = cEnemyMgr::Instance()->PushPlayerEnemy();
-			cPlayer::Instance()->Break(eTractorBeam,i);
+			cPlayer::Instance()->Break(eTractorBeam, i);
 			enemy->moveflg++;
 			enemy->tractingEnemy = true;
-			
-    
+
+
 			//if (enemy.count >= 120) {
 			//	enemy.moveflg++;
 			//	enemy.count = 0;
 			//	//cInGameController::Instance()->OutToTractor();
 			//}
-			
+
 			return true;
 		}
 		else {
@@ -85,6 +85,6 @@ bool tractor::TractorHit(cGreenEnemy* Tmpenemy) {
 
 
 void tractor::draw() {
-	
-//	DrawRotaGraph(playerX, playerY, 3, i, graph[0], TRUE);
+
+	//	DrawRotaGraph(playerX, playerY, 3, i, graph[0], TRUE);
 }
