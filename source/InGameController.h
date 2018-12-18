@@ -35,7 +35,9 @@ public:
 	int TractorSceneDraw();
 	//プレイヤー帰還
 
-
+	int InToRevive();
+	int OutToRevive();
+	int ReviveSceneUpdate();
 
 	//リザルト画面
 	int ResultUpdate();

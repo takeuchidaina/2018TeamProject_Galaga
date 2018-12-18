@@ -127,7 +127,7 @@ int cGreenEnemy::Update() {
 		return 0;
 	}*/
 
-	if ( enemy.attackflg == true  && enemy.tractorflg == false ) {
+	if (enemy.attackflg == true && enemy.tractorflg == false) {
 		enemy.count++;
 
 		if (enemy.count > 0) {
@@ -195,6 +195,9 @@ int cGreenEnemy::Update() {
 				traitPlayer->Update(&enemy);
 				traitPlayer->Move();
 			}
+
+			enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+			enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 			enemy.ang = atan2(enemy.target.y - enemy.mainpos.pos.y, enemy.target.x - enemy.mainpos.pos.x);
 			if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
 				(enemy.target.y - enemy.mainpos.pos.y)*(enemy.target.y - enemy.mainpos.pos.y) <=
@@ -236,7 +239,7 @@ int cGreenEnemy::Update() {
 
 
 int cGreenEnemy::TractorUpdate() {
-	
+
 
 	traitPlayer = tractor::Instance()->GetAdress();
 	if (traitPlayer != NULL)tractedFlg = true;
@@ -248,7 +251,7 @@ int cGreenEnemy::TractorUpdate() {
 	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 
-	if (enemy.attackflg ==  true && tractedFlg == true && enemy.moveflg == 0) {
+	if (enemy.attackflg == true && tractedFlg == true && enemy.moveflg == 0) {
 		enemy.tractorflg = false;
 		return 0;
 	}
@@ -256,7 +259,7 @@ int cGreenEnemy::TractorUpdate() {
 	if (enemy.tractorflg != false && enemy.attackflg == true) {
 		enemy.count++;
 
-		
+
 
 		if (enemy.tractorHitFlg == false && TractorNum > 8 && TractorNum < 13) {
 			//ここでtractorのは足り判定を読んでいる
@@ -296,7 +299,7 @@ int cGreenEnemy::TractorUpdate() {
 			enemy.ang = atan2(tmpy - 160 - enemy.mainpos.pos.y, (tmpx - enemy.mainpos.pos.x)*enemy.dir);
 			if ((tmpx - enemy.mainpos.pos.x)*(tmpx - enemy.mainpos.pos.x) +
 				(tmpy - 160 - enemy.mainpos.pos.y)*(tmpy - 160 - enemy.mainpos.pos.y) <=
-				(enemy.mainpos.r - 1 + enemy.targetr)*(enemy.mainpos.r - 1 + enemy.targetr)) {
+				(enemy.mainpos.r / 5 + enemy.targetr)*(enemy.mainpos.r / 5 + enemy.targetr)) {
 				//敵座標を目的地に固定
 
 				enemy.mainpos.pos.x = tmpx;
@@ -337,10 +340,12 @@ int cGreenEnemy::TractorUpdate() {
 				traitPlayer->Update(&enemy);
 				traitPlayer->Move();
 			}
+			enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+			enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 			enemy.ang = atan2(enemy.target.y - enemy.mainpos.pos.y, (enemy.target.x - enemy.mainpos.pos.x)*enemy.dir);
 			if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
 				(enemy.target.y - enemy.mainpos.pos.y)*(enemy.target.y - enemy.mainpos.pos.y) <=
-				(enemy.mainpos.r - 1 + enemy.targetr)*(enemy.mainpos.r - 1 + enemy.targetr)) {
+				(enemy.mainpos.r / 5 + enemy.targetr)*(enemy.mainpos.r / 5 + enemy.targetr)) {
 				//敵座標を目的地に固定
 				enemy.mainpos.pos.x = enemy.target.x;
 				enemy.mainpos.pos.y = enemy.target.y;

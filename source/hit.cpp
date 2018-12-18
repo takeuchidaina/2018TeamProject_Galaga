@@ -50,7 +50,7 @@ void cHit::Player_EnemyShot() {
 
 			if (S_onActive == FALSE) continue;
 
- 			len = ((S_cx - Player.cx) * (S_cx - Player.cx)) + ((S_cy - Player.cy)*(S_cy - Player.cy));
+			len = ((S_cx - Player.cx) * (S_cx - Player.cx)) + ((S_cy - Player.cy)*(S_cy - Player.cy));
 
 			if (len <= ((S_r + Player.r) * (S_r + Player.r))) {
 
@@ -77,7 +77,7 @@ void cHit::Player_EnemyShot() {
  説明：自機と敵機の当たり判定
 
 ************************************************************/
-void cHit::Player_Enemy() {	
+void cHit::Player_Enemy() {
 
 	static int maxEnemy = cEnemyMgr::Instance()->GetMaxEnemy();	// 敵機の数取得
 
@@ -97,7 +97,7 @@ void cHit::Player_Enemy() {
 
 			if (E_onActive == FALSE) continue;
 
-			len = (E_cx - Player.cx)*(E_cx - Player.cx) + (E_cy - Player.cy+5.0)*(E_cy - Player.cy+5.0);
+			len = (E_cx - Player.cx)*(E_cx - Player.cx) + (E_cy - Player.cy + 5.0)*(E_cy - Player.cy + 5.0);
 
 			if (len <= ((E_r + Player.r)*(E_r + Player.r))) {
 
@@ -126,7 +126,7 @@ void cHit::Player_Enemy() {
 
 ************************************************************/
 void cHit::PlayerShot_Enemy() {
-
+	bool E_TractingFlg;
 	static int maxEnemy = cEnemyMgr::Instance()->GetMaxEnemy();	// 敵機の数取得
 
 	for (int i = 0; i < maxEnemy; i++) {	// 表示中の敵機を調べる
@@ -136,7 +136,7 @@ void cHit::PlayerShot_Enemy() {
 		E_cx = cEnemyMgr::Instance()->GetEnemyPosX(i);
 		E_cy = cEnemyMgr::Instance()->GetEnemyPosY(i);
 		E_r = cEnemyMgr::Instance()->GetEnemyPosR(i);
-		
+		E_TractingFlg = cEnemyMgr::Instance()->GetTractingFlg(i);
 
 		if (E_onActive == FALSE) continue;
 
@@ -157,14 +157,24 @@ void cHit::PlayerShot_Enemy() {
 					//勝手に追加分　by滝
 					cEnemyMgr::Instance()->DamageEnemyHp(i);
 					int E_hp = cEnemyMgr::Instance()->GetEnemyHP(i);
-					if(E_hp<=0)cEnemyMgr::Instance()->SetEnemyDeath(i);
+
+
+					if (E_hp <= 0) {
+						if (E_TractingFlg == true) {
+							cInGameController::Instance()->InToRevive();
+							cEnemyMgr::Instance()->SetEnemyDeath(i);
+						}
+						else {
+							cEnemyMgr::Instance()->SetEnemyDeath(i);
+						}
+					}
 					cShotMgr::Instance()->Break(PLAYER, k);
 
 					//勝手に追加分 by竹内
 					totalHit++;
 
 					cEffectMgr::Instance()->Blowup(ENEMY, E_cx, E_cy);
-					
+
 				}
 			}
 		}

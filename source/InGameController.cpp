@@ -86,8 +86,41 @@ int cInGameController::PlayerDeathDraw() {
 
 
 //プレイヤー復活
+int cInGameController::InToRevive() {
+	cInGameMgr::Instance()->ChangeScene(cInGameMgr::eRevival);
+	return 0;
+}
+int cInGameController::OutToRevive() {
+	cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
+	return 0;
+}
 
+int cInGameController::ReviveSceneUpdate() {
+	//エフェクトを出す
+	//エフェクトが出終わったらREADY表示
+	//プレイヤーを再配置
+	cEnemyMgr::Instance()->SetChoiseOrderFlag(false);
+	//全てのエネミーが移動が終わっているかを獲得
+	if (cEnemyMgr::Instance()->GetEnemyStay() == 0) {
+		cEnemyMgr::Instance()->Update();
+	}
+	else {
+		cPlayerEnemy *TmpPlayer = 0x00;
+		TmpPlayer=cEnemyMgr::Instance()->GetPlayerEnemyAdress();
+		if (TmpPlayer == NULL) ErrBox("errer コントローラー");
+		count++;
+		if (count < 120) {
+			TmpPlayer->ReviveUpdate();
+		}
+			if (count > 120) {
+			cShotMgr::Instance()->SetShotFlg(true);
+			//cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
+			count = 0;
+		}
+	}
 
+	return 0;
+}
 
 //ポーズ画面
 
@@ -139,7 +172,6 @@ int cInGameController::NextStage() {
 	if (cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::eDeath) {
 
 	}
-
 	nowStageNum++;
 	cInGameMgr::Instance()->ChangeScene(cInGameMgr::eBefore);
 	return 0;

@@ -294,6 +294,12 @@ void cEnemyMgr::Update() {
 
 				continue;
 			}
+			if (pEnemy != NULL) {
+				for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+					if (enemies[i]->GetTractedFlg() == false)continue;
+					pEnemy->Update(enemies[i]->GetEnemy());
+				}
+			}
 			enemies[i]->Update();
 			enemies[i]->Move();
 			if (enemies[i]->GetTractorfFlg() == true) {
