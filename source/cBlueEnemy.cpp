@@ -52,7 +52,11 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 	AnimationCnt = 0;
 	AnimationNum = 0;
 	enemy.hp = 1;
+
 	enemy.tractingEnemy = false;
+	tractedFlg = false;
+	enemy.tractorflg = false;
+	enemy.tractorHitFlg = false;
 }
 
 //ベクトルと速度をもらって移動する
@@ -85,6 +89,7 @@ int cBlueEnemy::Update() {
 	if (enemy.count < 0)enemy.count = 0;
 	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = ReadyStart;
 	if (enemy.attackflg == 1 && enemy.mainpos.onActive != NoActive) {
+
 		enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 		enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 		/*enemy.target.x = 230;
@@ -98,7 +103,7 @@ int cBlueEnemy::Update() {
 		switch (enemy.moveflg)
 		{
 		case 0:
-			if(CheckSoundFile()==0) cSE::Instance()->selectSE(alien_flying);
+			if (CheckSoundFile() == 0) cSE::Instance()->selectSE(alien_flying);
 			if (enemy.count < 3)enemy.ang = 180 * M_PI / 180;
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
@@ -147,7 +152,7 @@ int cBlueEnemy::Update() {
 			break;
 		case 8:
 			enemy.count = 0;
-			
+			enemy.tractorflg = false;
 			enemy.ang = -90 * M_PI / 180;
 			if (enemy.mainpos.pos.x <= 430) {
 				enemy.dir = -1;

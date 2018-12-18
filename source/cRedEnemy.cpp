@@ -61,8 +61,11 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 	AnimationCnt = 0;
 	AnimationNum = 5;
 	enemy.hp = 1;
-	enemy.tractingEnemy = false;
 
+	enemy.tractingEnemy = false;
+	tractedFlg = false;
+	enemy.tractorflg = false;
+	enemy.tractorHitFlg = false;
 
 }
 
@@ -104,6 +107,8 @@ int cRedEnemy::Update() {
 	int	 EnemyDeathCount = cEnemyMgr::Instance()->GetEnemyDeathCount();
 	if (enemy.count < 0)enemy.count = 0;
 	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = ReadyStart;
+
+
 	if (enemy.attackflg == true && enemy.mainpos.onActive != NoActive) {
 		enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 		enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
@@ -167,17 +172,17 @@ int cRedEnemy::Update() {
 					if (enemy.moveflg == 7)enemy.moveflg = 0;
 				}
 				else {*/
-					enemy.moveflg++;
-					enemy.count = 0;
-					enemy.mainpos.onActive = SetPos;
+				enemy.moveflg++;
+				enemy.count = 0;
+				enemy.mainpos.onActive = SetPos;
 				//}
-				
+
 			}
 			break;
 		case 9:
-			
+			enemy.tractorflg = false;
 			enemy.count = 0;
-			
+
 			enemy.ang = -90 * M_PI / 180;
 			if (enemy.mainpos.pos.x <= 430) {
 				enemy.dir = -1;
@@ -188,11 +193,11 @@ int cRedEnemy::Update() {
 			//“GÀ•W‚ð–Ú“I’n‚ÉŒÅ’è
 			enemy.mainpos.pos.x = enemy.target.x;
 			enemy.mainpos.pos.y = enemy.target.y;
-			
-				enemy.attackflg = false;
-				enemy.mainpos.onActive = ReadyStart;
-				enemy.moveflg = 0;
-			
+
+			enemy.attackflg = false;
+			enemy.mainpos.onActive = ReadyStart;
+			enemy.moveflg = 0;
+
 			break;
 
 		}
