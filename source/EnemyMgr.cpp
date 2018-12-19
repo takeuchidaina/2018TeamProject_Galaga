@@ -24,8 +24,8 @@ void cEnemyMgr::Init() {
 	fileEndFlag = 0;
 	n = 0;
 	num = 0;
-	//snprintf(StageFilePath, 255, "../resource/MAP/Stage_%d.csv", cInGameController::Instance()->GetNowStageNum());
-	strcpy(StageFilePath, "../resource/MAP/Stage_2.csv");
+	snprintf(StageFilePath, 255, "../resource/MAP/Stage_%d.csv", cInGameController::Instance()->GetNowStageNum());
+	//strcpy(StageFilePath, "../resource/MAP/Stage_2.csv");
 	Phaseflag = 0;
 	onActiveCount = 0;
 	Stayflag = 0;
