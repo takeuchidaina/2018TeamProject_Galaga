@@ -162,9 +162,8 @@ void cHit::PlayerShot_Enemy() {
 
 					//ŸŽè‚É’Ç‰Á•ª by’|“à
 					totalHit++;
-
-					cEffectMgr::Instance()->Blowup(ENEMY, E_cx, E_cy);
 					
+					cEffectMgr::Instance()->Blowup(ENEMY, E_cx, E_cy);
 				}
 			}
 		}
