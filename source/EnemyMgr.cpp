@@ -8,6 +8,7 @@
 #include "cGreenEnemy.h"
 #include "Struct.h"
 #include "InGameController.h"
+#include"Debug.h"
 
 //コンストラクタ
 cEnemyMgr::cEnemyMgr() {
@@ -23,8 +24,8 @@ void cEnemyMgr::Init() {
 	fileEndFlag = 0;
 	n = 0;
 	num = 0;
-	//snprintf(StageFilePath, 255, "../resource/MAP/Stage_%d.csv", cInGameController::Instance()->GetNowStageNum());
-	strcpy(StageFilePath, "../resource/MAP/Stage_2.csv");
+	snprintf(StageFilePath, 255, "../resource/MAP/Stage_%d.csv", cInGameController::Instance()->GetNowStageNum());
+	//strcpy(StageFilePath, "../resource/MAP/Stage_2.csv");
 	Phaseflag = 0;
 	onActiveCount = 0;
 	Stayflag = 0;
@@ -302,10 +303,7 @@ void cEnemyMgr::Update() {
 			}
 			enemies[i]->Update();
 			enemies[i]->Move();
-			if (enemies[i]->GetTractorfFlg() == true) {
-				enemies[i]->TractorUpdate();
-			}
-		
+			enemies[i]->TractorUpdate();
 		}
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 			if (enemy[i].onactive != TRUE || enemies[i]->GetEnemyChoiseOrder() != 1 || enemy[i].deathflag == TRUE)continue;
@@ -361,6 +359,14 @@ void cEnemyMgr::Update() {
 		Init();
 		return;
 	}
+	if (Debug::Instance()->Get_Input(Key8) == 1) {
+		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+			if (enemy[i].etype != 2) {
+				SetEnemyDeath(i);
+			}
+		}
+	}
+
 
 }
 
@@ -449,7 +455,7 @@ void cEnemyMgr::Draw() {
 	}
 
 	//
-	DrawFormatString(0, 120, GetColor(255, 255, 255), "enemy[0]:%lf", enemy[0].target.x);
-	DrawFormatString(0, 140, GetColor(255, 255, 255), "enemy[2]:%lf", enemy[2].target.x);
+	/*DrawFormatString(0, 120, GetColor(255, 255, 255), "enemy[0]:%lf", enemy[0].target.x);
+	DrawFormatString(0, 140, GetColor(255, 255, 255), "enemy[2]:%lf", enemy[2].target.x);*/
 
 }
