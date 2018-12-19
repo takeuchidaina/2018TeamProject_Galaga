@@ -12,14 +12,12 @@ private:
 	int playerNum;
 public:
 	cPlayerEnemy(/*double, double, double, int, double, double, int, int*/);
+	virtual ~cPlayerEnemy();
 	virtual void Move();
 	virtual int Update(sEnemy*);
 	int ReviveUpdate();
 	//トラクターされた際の最初の移動をする関数
-	 int TractorStart(sEnemy);
 	 //トラクターされいてる間の移動
-	// int Tracting(sEnemy);
-	// void EternalUpdate();
 	virtual int Draw();
 
 

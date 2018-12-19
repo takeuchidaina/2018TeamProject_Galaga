@@ -48,7 +48,7 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 
 	enemy.target.x = x;
 	enemy.target.y = y;
-	enemy.targetr = 5;
+	enemy.targetr = 1;
 	AnimationCnt = 0;
 	AnimationNum = 0;
 	enemy.hp = 1;
@@ -86,12 +86,13 @@ void cBlueEnemy::Move() {
 
 //移動カウントと方向変更で移動ベクトルを決める
 int cBlueEnemy::Update() {
+	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 	if (enemy.count < 0)enemy.count = 0;
 	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = ReadyStart;
 	if (enemy.attackflg == 1 && enemy.mainpos.onActive != NoActive) {
 
-		enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
-		enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
+		
 		/*enemy.target.x = 230;
 		enemy.target.y = 230;*/
 		enemy.count++;
@@ -103,12 +104,20 @@ int cBlueEnemy::Update() {
 		switch (enemy.moveflg)
 		{
 		case 0:
-			if (CheckSoundFile() == 0) cSE::Instance()->selectSE(alien_flying);
-			if (enemy.count < 3)enemy.ang = 180 * M_PI / 180;
-			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
-			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
-				enemy.moveflg++;
-				enemy.count = 0;
+			if (enemy.moveflg < 3) {
+				if (enemy.mainpos.pos.x <= 430) {
+					enemy.dir = 1;
+				}
+				else {
+					enemy.dir = -1;
+				}
+				//if (CheckSoundFile() == 0) cSE::Instance()->selectSE(alien_flying);
+				if (enemy.count < 3)enemy.ang = 180 * M_PI / 180;
+				enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+				if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+					enemy.moveflg++;
+					enemy.count = 0;
+				}
 			}
 			break;
 		case 1:
@@ -157,10 +166,10 @@ int cBlueEnemy::Update() {
 			enemy.tractorflg = false;
 			enemy.ang = -90 * M_PI / 180;
 			if (enemy.mainpos.pos.x <= 430) {
-				enemy.dir = -1;
+				enemy.dir = 1;
 			}
 			else {
-				enemy.dir = 1;
+				enemy.dir = -1;
 			}
 			enemy.mainpos.pos.x = enemy.target.x;
 			enemy.mainpos.pos.y = enemy.target.y;

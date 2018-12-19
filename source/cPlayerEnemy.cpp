@@ -13,6 +13,7 @@ using namespace std;
 #include "shot.h"
 #include "Player.h"
 #include"TextChange.h"
+#include"cBaseEnemy.h"
 
 
 cPlayerEnemy::cPlayerEnemy() {
@@ -53,6 +54,11 @@ void cPlayerEnemy::EternalUpdate() {
 }
 */
 
+cPlayerEnemy::~cPlayerEnemy() {
+	;
+}
+
+
 void cPlayerEnemy::Move() {
 	enemy.mainpos.cx = enemy.mainpos.pos.x + enemy.mainpos.pos.x / 2;
 	enemy.mainpos.cy = enemy.mainpos.pos.y + enemy.mainpos.pos.y / 2;
@@ -65,63 +71,52 @@ int cPlayerEnemy::Update(sEnemy* TmpEnemy) {
 	enemy.count++;
 
 
-	if (cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::Instance()->eRevival) {
-		enemy.moveflg++;
-		this->ReviveUpdate();
-		return 0;
-	}
-	else {
-		switch (enemy.moveflg)
-		{
-		case 0:
-			rotecnt += 0.3;
-			enemy.ang = atan2((TmpEnemy->mainpos.pos.y + 48) - enemy.mainpos.pos.y, TmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x);
-			if ((TmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x)*(TmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x) +
-				((TmpEnemy->mainpos.pos.y + 48) - enemy.mainpos.pos.y)*((TmpEnemy->mainpos.pos.y + 48) - enemy.mainpos.pos.y) <=
-				(TmpEnemy->mainpos.r / 5 + enemy.targetr)*(TmpEnemy->mainpos.r / 5 + enemy.targetr)) {
-				if (rotecnt > 30) {
-					playerNum = 4;
-					enemy.moveflg++;
-				}
-			}
-			break;
-		case 1:
-			enemy.ang = atan2((TmpEnemy->mainpos.pos.y + 48) - enemy.mainpos.pos.y, TmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x);
-			if (enemy.count > 200) {
 
-				enemy.count = 0;
-				enemy.moveflg++;
-				TmpEnemy->moveflg++;
-			}
-			cTextChange::Instance()->DrawTextImage(100, 450, "PLAYER", eRed, eMag32);
-			cTextChange::Instance()->DrawTextImage(200, 450, "CAPTURE", eRed, eMag32);
-			break;
-		case 2:
-			enemy.mainpos.pos.x = TmpEnemy->mainpos.pos.x + 22;
-			enemy.mainpos.pos.y = TmpEnemy->mainpos.pos.y + 50;
-			enemy.ang = TmpEnemy->ang;
-			if (enemy.count > 50) {
-				//if (TmpEnemy->mainpos.onActive == ReadyStart)
+	switch (enemy.moveflg)
+	{
+	case 0:
+		rotecnt += 0.3;
+		enemy.ang = atan2((TmpEnemy->mainpos.pos.y + 48) - enemy.mainpos.pos.y, TmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x);
+		if ((TmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x)*(TmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x) +
+			((TmpEnemy->mainpos.pos.y + 48) - enemy.mainpos.pos.y)*((TmpEnemy->mainpos.pos.y + 48) - enemy.mainpos.pos.y) <=
+			(TmpEnemy->mainpos.r / 5 + enemy.targetr)*(TmpEnemy->mainpos.r / 5 + enemy.targetr)) {
+			if (rotecnt > 30) {
+				playerNum = 4;
 				enemy.moveflg++;
 			}
-			break;
-		case 3:
-			enemy.ang = atan2((TmpEnemy->mainpos.pos.y - 30) - enemy.mainpos.pos.y, TmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x);
-			if ((TmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x)*(TmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x) +
-				((TmpEnemy->mainpos.pos.y - 30) - enemy.mainpos.pos.y)*((TmpEnemy->mainpos.pos.y - 30) - enemy.mainpos.pos.y) <=
-				(TmpEnemy->mainpos.r / 5 + enemy.targetr)*(TmpEnemy->mainpos.r / 5 + enemy.targetr)) {
-				enemy.mainpos.pos.x = TmpEnemy->mainpos.pos.x + 22;
-				enemy.mainpos.pos.y = TmpEnemy->mainpos.pos.y - 30;
-				enemy.ang = TmpEnemy->ang;
-
-				if (cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::Instance()->eTractor)
-					cInGameController::Instance()->OutToTractor();
-			}
-			break;
 		}
-		return 0;
+		break;
+	case 1:
+		enemy.ang = atan2((TmpEnemy->mainpos.pos.y + 48) - enemy.mainpos.pos.y, TmpEnemy->mainpos.pos.x + 25 - enemy.mainpos.pos.x);
+		if (enemy.count > 200) {
+
+			enemy.count = 0;
+			enemy.moveflg++;
+			TmpEnemy->moveflg++;
+		}
+		cTextChange::Instance()->DrawTextImage(300, 400, "FIGHTER", eRed, eMag32);
+		cTextChange::Instance()->DrawTextImage(400, 400, "CAPTURE", eRed, eMag32);
+		break;
+	case 2:
+		enemy.mainpos.pos.x = TmpEnemy->mainpos.pos.x + 22;
+		enemy.mainpos.pos.y = TmpEnemy->mainpos.pos.y + 50;
+		enemy.ang = TmpEnemy->ang;
+		if (enemy.count > 50) {
+			enemy.moveflg++;
+		}
+		break;
+	case 3:
+		enemy.mainpos.pos.x = TmpEnemy->mainpos.pos.x + 25;
+		enemy.mainpos.pos.y = TmpEnemy->mainpos.pos.y - 30;
+		enemy.ang = TmpEnemy->ang;
+
+		if (cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::Instance()->eTractor)
+			cInGameController::Instance()->OutToTractor();
+		break;
 	}
+	return 0;
 }
+
 
 int cPlayerEnemy::ReviveUpdate() {
 	sOBJPos TmpPlayer;
@@ -143,6 +138,7 @@ int cPlayerEnemy::ReviveUpdate() {
 		<= (TmpPlayer.r - 1 + enemy.mainpos.r)*(TmpPlayer.r - 1 + enemy.mainpos.r)) {
 		cPlayer::Instance()->Double();
 		cEnemyMgr::Instance()->DeletePlayerEnemy();
+		cInGameController::Instance()->OutToRevive();
 	}
 	return 0;
 }
@@ -152,8 +148,8 @@ int cPlayerEnemy::Draw() {
 	//else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[0], TRUE, TRUE);
 	*/
 
-	//if (enemy.moveflg == 0)DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, rotecnt, graph[playerNum], TRUE);
-	/*else*/ DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, enemy.ang*M_PI / 180, graph[playerNum], TRUE);
+	if (enemy.moveflg == 0)DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, rotecnt, graph[playerNum], TRUE);
+	else DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, enemy.ang*M_PI / 180, graph[playerNum], TRUE);
 
 #ifndef DEBUG
 	DrawFormatString(120, 885, GetColor(255, 255, 255), "%d", enemy.moveflg);

@@ -46,45 +46,20 @@ bool tractor::TractorHit(cGreenEnemy* Tmpenemy) {
 			enemy->tractingEnemy = true;
 
 
-			//if (enemy.count >= 120) {
-			//	enemy.moveflg++;
-			//	enemy.count = 0;
-			//	//cInGameController::Instance()->OutToTractor();
-			//}
-
 			return true;
 		}
 		else {
 			return false;
 		}
+
 	}
 }
 //
-//void tractor::Move() {
-//	enemy.vct.x = cos(enemy.ang);
-//	enemy.vct.y = sin(enemy.ang);
-//	playerX += enemy.vct.x*enemy.spd;
-//	playerY += enemy.vct.y*enemy.spd;
-//	i += 10;
-//	if (i >= 360)i = 0;
-//}
-//
-//
-//void tractor::TractorStart(sEnemy Tmpenemy) {
-//	enemy.ang = atan2((Tmpenemy.mainpos.pos.y+Tmpenemy.height) - playerY, Tmpenemy.mainpos.pos.x -  playerX);
-//	if ((Tmpenemy.mainpos.pos.x - playerX)*(Tmpenemy.mainpos.pos.x - playerX) +
-//		((Tmpenemy.mainpos.pos.y + Tmpenemy.height) - playerY)*((Tmpenemy.mainpos.pos.y + Tmpenemy.height) - playerY) <=
-//		(Tmpenemy.mainpos.r - 1 + enemy.targetr)*(Tmpenemy.mainpos.r - 1 + enemy.targetr)) {
-//		playerX = Tmpenemy.mainpos.pos.x;
-//		playerY = Tmpenemy.mainpos.pos.y + Tmpenemy.height;
-//		i = 0;
-//		Tmpenemy.moveflg++;
-//	}
-//
-//}
+void tractor::Move() {
+	;
+}
 
 
 void tractor::draw() {
-
-	//	DrawRotaGraph(playerX, playerY, 3, i, graph[0], TRUE);
+	;
 }
