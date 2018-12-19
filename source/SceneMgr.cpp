@@ -107,7 +107,7 @@ void cSceneMgr::Draw() {
 	switch (sceneflag) {
 	case eStartMenu:
 		//スタートメニュー
-		DrawFormatString(0, 0, GetColor(255, 255, 255), "SceneMgr StartMenu");
+//		DrawFormatString(0, 0, GetColor(255, 255, 255), "SceneMgr StartMenu");
 		//DrawFormatString(300, 400, GetColor(255, 255, 255), "Please press Space key");
 		cTitle::Instance()->Draw();
 //		test->Draw();
@@ -116,7 +116,7 @@ void cSceneMgr::Draw() {
 		//ゲーム画面
 //		InGameMgr->Draw();
 		cInGameMgr::Instance()->Draw();
-		DrawFormatString(0, 0, GetColor(255, 255, 255), "SceneMgr InGame");
+//		DrawFormatString(0, 0, GetColor(255, 255, 255), "SceneMgr InGame");
 		break;
 	case eGameMenu:
 		//ゲームメニュー

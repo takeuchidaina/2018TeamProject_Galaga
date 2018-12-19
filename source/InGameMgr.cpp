@@ -202,7 +202,7 @@ void cInGameMgr::Draw() {
 	switch (sceneflag) {
 	case eBefore://実際ゲームが始まる前のあれ
 		cInGameController::Instance()->BeforeSceneDraw();
-		DrawFormatString(0, 20, GetColor(255, 255, 255), "eBefore");
+//		DrawFormatString(0, 20, GetColor(255, 255, 255), "eBefore");
 		//
 		break;
 	case eInGame://ゲーム画面
@@ -211,7 +211,7 @@ void cInGameMgr::Draw() {
 		cShotMgr::Instance()->Draw();
 		cEffectMgr::Instance()->Draw();
 		//EnemyMgr.Draw();
-		DrawFormatString(0, 20, GetColor(255, 255, 255), "eInGame");
+//		DrawFormatString(0, 20, GetColor(255, 255, 255), "eInGame");
 		//
 		break;
 	case eDeath://プレイヤー死亡
@@ -220,7 +220,7 @@ void cInGameMgr::Draw() {
 		cShotMgr::Instance()->Draw();
 		cEffectMgr::Instance()->Draw();
 		cInGameController::Instance()->PlayerDeathDraw();
-		DrawFormatString(0, 20, GetColor(255, 255, 255), "eDeath");
+//		DrawFormatString(0, 20, GetColor(255, 255, 255), "eDeath");
 		//
 		break;
 	case eRevival://プレイヤー復活
@@ -232,7 +232,7 @@ void cInGameMgr::Draw() {
 		cShotMgr::Instance()->Draw();
 		cEffectMgr::Instance()->Draw();
 		tractor::Instance()->draw();
-		DrawFormatString(0, 20, GetColor(255, 255, 255), "ePause");
+//		DrawFormatString(0, 20, GetColor(255, 255, 255), "ePause");
 		//DrawFormatString(420, 400, GetColor(100, 255, 255), "PAUSE");
 		cTextChange::Instance()->DrawTextImage(370, 600, "PAUSE", eLBlue, eMag48);
 		//
@@ -241,7 +241,7 @@ void cInGameMgr::Draw() {
 		cPlayer::Instance()->Draw();
 		cEnemyMgr::Instance()->Draw();
 		cEffectMgr::Instance()->Draw();
-		DrawFormatString(0, 20, GetColor(255, 255, 255), "eTractor");
+//		DrawFormatString(0, 20, GetColor(255, 255, 255), "eTractor");
 		//
 		break;
 	case ePReturn://プレイヤー帰還
@@ -249,7 +249,7 @@ void cInGameMgr::Draw() {
 		break;
 	case eResult://リザルト画面
 		cInGameController::Instance()->ResultDraw();
-		DrawFormatString(0, 20, GetColor(255, 255, 255), "eResult");
+//		DrawFormatString(0, 20, GetColor(255, 255, 255), "eResult");
 		 //
 		break;
 	case eNextStage://次のステージへ
