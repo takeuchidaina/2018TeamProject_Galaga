@@ -5,7 +5,7 @@
 
 class cKeyboard {
 private:
-	int m_Key[256];  // キーの入力状態格納用変数
+	int Key[256];  // キーの入力状態格納用変数
 public:
 	cKeyboard() {}
 	void Keyboard_Update();

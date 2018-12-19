@@ -9,11 +9,13 @@ eInputType cInterface::inputType;
 
 cInterface::cInterface() {
 	inputType = InKeyboard;
+	//inputType = InGamepad;
 }
 
 //ééçÏ configÇ≈ëŒâûÇ≥ÇπÇÈ
 void cInterface::Update() {
 	tmpKey.Keyboard_Update();
+	tmpPad.Joypad_Update();
 	if (inputType == InKeyboard) {
 		buff[InUP] = tmpKey.Keyboard_Get(KEY_INPUT_UP);
 		buff[InRIGHT] = tmpKey.Keyboard_Get(KEY_INPUT_RIGHT);
@@ -25,6 +27,14 @@ void cInterface::Update() {
 		buff[InENTER] = tmpKey.Keyboard_Get(KEY_INPUT_RETURN);
 	}
 	else if (inputType == InGamepad) {
+		buff[InUP] = tmpPad.Joypad_Get(cJoypad::Up);
+		buff[InRIGHT] = tmpPad.Joypad_Get(cJoypad::Right);
+		buff[InDOWN] = tmpPad.Joypad_Get(cJoypad::Down);
+		buff[InLEFT] = tmpPad.Joypad_Get(cJoypad::Left);
+		buff[InDECISION] = tmpPad.Joypad_Get(cJoypad::button1);
+		buff[InCANCEL] = tmpPad.Joypad_Get(cJoypad::button2);
+		buff[InSTRAT] = tmpPad.Joypad_Get(cJoypad::button3);
+		buff[InENTER] = tmpPad.Joypad_Get(cJoypad::button4);
 
 	}
 }

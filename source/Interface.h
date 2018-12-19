@@ -5,6 +5,7 @@
 
 #include "Singleton.h"
 #include "Keyboard.h"
+#include "Joypad.h"
 /*
 Interfaseの呼び方（使い方）
 １、使いたいソースの先頭で"Interface.h"をインクルードする
@@ -43,6 +44,7 @@ private:
 	static int buff[InNONE];
 	static eInputType inputType;
 	cKeyboard tmpKey;
+	cJoypad tmpPad;
 
 
 public:
