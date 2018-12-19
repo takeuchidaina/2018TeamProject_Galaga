@@ -20,12 +20,12 @@ int cInGameController::BeforeSceneUpdate() {
 }
 
 int cInGameController::BeforeSceneDraw() {
-	DrawFormatString(0, 40, GetColor(255,255,255),"%d",count);
+	//DrawFormatString(0, 40, GetColor(255, 255, 255), "%d", count);
 	if (count < 90 && count > 0) {
 		char tmp[256];
 		snprintf(tmp, 255, "STAGE %d", nowStageNum);
 		cTextChange::Instance()->DrawTextImage(350, 400, tmp, eLBlue, eMag48);
-		
+
 		//DrawFormatString(400, 400, GetColor(255, 255, 255), "Stage %d", nowStageNum);
 	}
 	else {
@@ -40,7 +40,7 @@ int cInGameController::PlayerDeath(int type) {
 	if (cPlayer::Instance()->GetPlayerHP() < 0) {
 		cInGameMgr::Instance()->ChangeScene(cInGameMgr::eResult);
 	}
-	else if(type == 0){
+	else if (type == 0) {
 		cInGameMgr::Instance()->ChangeScene(cInGameMgr::eDeath);
 	}
 	else {
@@ -86,8 +86,40 @@ int cInGameController::PlayerDeathDraw() {
 
 
 //プレイヤー復活
+int cInGameController::InToRevive() {
+	cInGameMgr::Instance()->ChangeScene(cInGameMgr::eRevival);
+	return 0;
+}
+int cInGameController::OutToRevive() {
+	cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
+	return 0;
+}
 
+int cInGameController::ReviveSceneUpdate() {
+	//エフェクトを出す
+	//エフェクトが出終わったらREADY表示
+	//プレイヤーを再配置
+	
+	//全てのエネミーが移動が終わっているかを獲得
+	cPlayerEnemy *TmpPlayer = 0x00;
+	TmpPlayer = cEnemyMgr::Instance()->GetPlayerEnemyAdress();
+	if (TmpPlayer != NULL)TmpPlayer->ReviveUpdate();
+	
+	if (cEnemyMgr::Instance()->GetEnemyStay() == 0) {
+		cEnemyMgr::Instance()->Update();
+	}
+	else {
+		count++;
+		if (count > 120) {
+			cShotMgr::Instance()->SetShotFlg(true);
+			cEnemyMgr::Instance()->SetChoiseOrderFlag(true);
+			//cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
+			count = 0;
+		}
+	}
 
+	return 0;
+}
 
 //ポーズ画面
 
@@ -102,7 +134,7 @@ int cInGameController::OutToTractor() {
 	cInGameMgr::Instance()->ChangeScene(cInGameMgr::eDeath);
 	return 0;
 }
-int cInGameController::TractorSceneUpdate(){
+int cInGameController::TractorSceneUpdate() {
 	return 0;
 }
 int cInGameController::TractorSceneDraw() {
@@ -139,7 +171,6 @@ int cInGameController::NextStage() {
 	if (cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::eDeath) {
 
 	}
-
 	nowStageNum++;
 	cInGameMgr::Instance()->ChangeScene(cInGameMgr::eBefore);
 	return 0;

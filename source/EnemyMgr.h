@@ -254,5 +254,9 @@ public:
 		ChoiseOrderFlag = flag;
 	}
 
+	bool GetTractingFlg(int num) {
+	return enemies[num]->GetTractingFlg();
+	}
+
 };
 #endif // !_INGAME_MGR_INCLUDE_

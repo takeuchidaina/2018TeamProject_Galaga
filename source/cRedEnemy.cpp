@@ -57,7 +57,7 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 
 	enemy.target.x = x;
 	enemy.target.y = y;
-	enemy.targetr = 5;
+	enemy.targetr = 1;
 	AnimationCnt = 0;
 	AnimationNum = 5;
 	enemy.hp = 1;
@@ -101,7 +101,8 @@ void cRedEnemy::Move() {
 
 int cRedEnemy::Update() {
 
-
+	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 
 	int tmp = cInGameMgr::Instance()->GetSceneFlg();
 	int	 EnemyDeathCount = cEnemyMgr::Instance()->GetEnemyDeathCount();
@@ -110,8 +111,7 @@ int cRedEnemy::Update() {
 
 
 	if (enemy.attackflg == true && enemy.mainpos.onActive != NoActive) {
-		enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
-		enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
+
 		/*enemy.target.x = 280;
 		enemy.target.y = 130;*/
 		enemy.count++;
@@ -123,7 +123,7 @@ int cRedEnemy::Update() {
 		switch (enemy.moveflg)
 		{
 		case 0:
-			if (CheckSoundFile() == 0)cSE::Instance()->selectSE(alien_flying);
+			//if (CheckSoundFile() == 0)cSE::Instance()->selectSE(alien_flying);
 			if (enemy.count < 2)enemy.ang = 180 * M_PI / 180;
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
@@ -160,23 +160,16 @@ int cRedEnemy::Update() {
 			}
 			break;
 		case 7:
-
+			enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+			enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 			enemy.ang = atan2(enemy.target.y - enemy.mainpos.pos.y, enemy.target.x - enemy.mainpos.pos.x);
 			if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
 				(enemy.target.y - enemy.mainpos.pos.y)*(enemy.target.y - enemy.mainpos.pos.y) <=
 				(enemy.mainpos.r / 5 + enemy.targetr)*(enemy.mainpos.r / 5 + enemy.targetr)) {
-				/*if (EnemyDeathCount >= 30 && tmp != 2) {
-					enemy.attackflg = true;
-					enemy.mainpos.onActive = YesActive;
-					enemy.count = 0;
-					if (enemy.moveflg == 7)enemy.moveflg = 0;
-				}
-				else {*/
+
 				enemy.moveflg++;
 				enemy.count = 0;
 				enemy.mainpos.onActive = SetPos;
-				//}
-
 			}
 			break;
 		case 9:
@@ -197,7 +190,6 @@ int cRedEnemy::Update() {
 			enemy.attackflg = false;
 			enemy.mainpos.onActive = ReadyStart;
 			enemy.moveflg = 0;
-
 			break;
 
 		}
@@ -225,13 +217,16 @@ int cRedEnemy::Draw() {
 #ifdef DEBUG
 	//DrawCircle(enemy.target.x, enemy.target.y, enemy.targetr, GetColor(0, 255, 0), true);
 	//DrawCircle((int)enemy.target.x, (int)enemy.target.y, enemy.targetr, GetColor(255, 0, 0), true);
-	DrawFormatString(60, 755, GetColor(255, 255, 255), "enemy.count%d", enemy.count);
-	DrawFormatString(60, 770, GetColor(255, 255, 255), "enemy.attackflg%d", enemy.attackflg);
+	//DrawFormatString(60, 755, GetColor(255, 255, 255), "enemy.count%d", enemy.count);
+	//DrawFormatString(60, 770, GetColor(255, 255, 255), "enemy.attackflg%d", enemy.attackflg);
+	//DrawFormatString(60, 785, GetColor(255, 255, 255), "enemy.moveflg%d", enemy.moveflg);
+	//DrawFormatString(60, 800, GetColor(255, 255, 255), "enemy.mainpos.pos.x%.2lf", enemy.mainpos.pos.x);
+	//DrawFormatString(60, 815, GetColor(255, 255, 255), "enemy.mainpos.pos.y%.2lf", enemy.mainpos.pos.y);
+	//DrawFormatString(60, 835, GetColor(255, 255, 255), "enemy.dir%d", enemy.dir);
+	//DrawFormatString(60, 855, GetColor(255, 255, 255), "enemy.ang%.2lf", enemy.ang);
+	DrawFormatString(60, 755, GetColor(255, 255, 255), " enemy.target.x%lf", enemy.target.x);
+	DrawFormatString(60, 855, GetColor(255, 255, 255), " enemy.target.y%lf", enemy.target.y);
 	DrawFormatString(60, 785, GetColor(255, 255, 255), "enemy.moveflg%d", enemy.moveflg);
-	DrawFormatString(60, 800, GetColor(255, 255, 255), "enemy.mainpos.pos.x%.2lf", enemy.mainpos.pos.x);
-	DrawFormatString(60, 815, GetColor(255, 255, 255), "enemy.mainpos.pos.y%.2lf", enemy.mainpos.pos.y);
-	DrawFormatString(60, 835, GetColor(255, 255, 255), "enemy.dir%d", enemy.dir);
-	DrawFormatString(60, 855, GetColor(255, 255, 255), "enemy.ang%.2lf", enemy.ang);
 #endif // DEBUG
 
 	return 0;

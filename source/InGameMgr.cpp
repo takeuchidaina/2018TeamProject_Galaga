@@ -162,6 +162,9 @@ void cInGameMgr::Update() {
 		//
 		break;
 	case eRevival://プレイヤー復活
+		//cEnemyMgr::Instance()->Update();
+		cInGameController::Instance()->ReviveSceneUpdate();
+		cEffectMgr::Instance()->Update();
 		//
 		break;
 	case ePause://ポーズ画面
@@ -224,6 +227,12 @@ void cInGameMgr::Draw() {
 		//
 		break;
 	case eRevival://プレイヤー復活
+		cPlayer::Instance()->Draw();
+		cEnemyMgr::Instance()->Draw();
+		cShotMgr::Instance()->Draw();
+		cEffectMgr::Instance()->Draw();
+		cInGameController::Instance()->PlayerDeathDraw();
+		DrawFormatString(0, 20, GetColor(255, 255, 255), "eRevival");
 		//
 		break;
 	case ePause://ポーズ画面
