@@ -157,13 +157,15 @@ void cHit::PlayerShot_Enemy() {
 					//ŸŽè‚É’Ç‰Á•ª@by‘ê
 					cEnemyMgr::Instance()->DamageEnemyHp(i);
 					int E_hp = cEnemyMgr::Instance()->GetEnemyHP(i);
-					if(E_hp<=0)cEnemyMgr::Instance()->SetEnemyDeath(i);
+					if (E_hp <= 0) {
+						cEnemyMgr::Instance()->SetEnemyDeath(i);
+						cEffectMgr::Instance()->Blowup(ENEMY, E_cx, E_cy);
+					}
 					cShotMgr::Instance()->Break(PLAYER, k);
 
 					//ŸŽè‚É’Ç‰Á•ª by’|“à
 					totalHit++;
 					
-					cEffectMgr::Instance()->Blowup(ENEMY, E_cx, E_cy);
 				}
 			}
 		}
