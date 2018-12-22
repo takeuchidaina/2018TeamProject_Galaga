@@ -57,6 +57,33 @@ private:
 		int deathflag;        //敵の死亡フラグ 0:生きてる 1:死んでる
 	}sEnemyMgrData;
 
+	/*csvから読み込むデータの番号
+	　新しくデータを追加した場合は、moveangle[0]より前に変数を追加すること
+	*/
+	enum eLoadData {
+		Posx,            //x座標
+		Posy,            //y座標
+		Radius,          //半径
+		Count,           //カウント
+		Angle,           //角度ド
+		Speed,           //速ドドド
+		Maxmove,         //移動切り替えの最大数
+		RLflag,          //左右を判別するフラグ
+		Targetx,         //目標地点のx座標
+		Targety,         //目標地点のy座標
+		Targetr,         //目標地点の半径
+		Wave,            //入場番号
+		Etype,           //敵の種類
+		Shaftx,          //yの各台数
+		Shafty,          //xの拡大数
+		FirstMoveangle,  //移動する角度１
+		FirstCountflag,  //移動方向を切り替えるカウント１
+		SecondMoveangle, //移動する角度２
+		SecondCountflag, //移動方向を切り替えるカウント２
+		ThirdMoveangle,  //移動する角度３
+		ThirdCountflag   //移動方向を切り替えるカウント３
+	};
+
 
 	sEnemy enemy[40];         //構造体変数だっけの宣言
 	sEnemy tmpEnemy;          //一時的に敵データを格納する場所

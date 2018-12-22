@@ -73,51 +73,51 @@ void cEnemyMgr::Init() {
 		//ファイル終了処理フラグが立っている場合は以下の処理を行わない
 		if (fileEndFlag == 1)break;
 		switch (num) {
-		case 0: tmpEnemy.pos.x = atof(inputc); break;
-		case 1: tmpEnemy.pos.y = atof(inputc); break;
-		case 2: tmpEnemy.r = atoi(inputc); break;
-		case 3: tmpEnemy.count = atoi(inputc); break;
-		case 4: tmpEnemy.angle = atof(inputc)* M_PI / 180; break;
-		case 5: tmpEnemy.speed = atoi(inputc); break;
-		case 6: tmpEnemy.maxmove = atoi(inputc); break;
-		case 7:tmpEnemy.RLflag = atoi(inputc); break;
-		case 8:tmpEnemy.target.x = atof(inputc); break;
-		case 9:tmpEnemy.target.y = atof(inputc); break;
-		case 10:tmpEnemy.targetr = atoi(inputc); break;
-		case 11:tmpEnemy.wave = atoi(inputc); break;
-		case 12:tmpEnemy.etype = atoi(inputc); break;
-		case 13:tmpEnemy.shaft.x = atoi(inputc); break;
-		case 14:tmpEnemy.shaft.y = atoi(inputc); break;
-		case 15:tmpEnemy.moveangle[0] = atof(inputc); break;
-		case 16:tmpEnemy.countflag[0] = atoi(inputc); break;
-		case 17:tmpEnemy.moveangle[1] = atof(inputc); break;
-		case 18:tmpEnemy.countflag[1] = atoi(inputc); break;
-		case 19:tmpEnemy.moveangle[2] = atof(inputc); break;
-		case 20:tmpEnemy.countflag[2] = atoi(inputc); break;
+		case Posx: tmpEnemy.pos.x = atof(inputc); break;
+		case Posy: tmpEnemy.pos.y = atof(inputc); break;
+		case Radius: tmpEnemy.r = atoi(inputc); break;
+		case Count: tmpEnemy.count = atoi(inputc); break;
+		case Angle: tmpEnemy.angle = atof(inputc)* M_PI / 180; break;
+		case Speed: tmpEnemy.speed = atoi(inputc); break;
+		case Maxmove: tmpEnemy.maxmove = atoi(inputc); break;
+		case RLflag:tmpEnemy.RLflag = atoi(inputc); break;
+		case Targetx:tmpEnemy.target.x = atof(inputc); break;
+		case Targety:tmpEnemy.target.y = atof(inputc); break;
+		case Targetr:tmpEnemy.targetr = atoi(inputc); break;
+		case Wave:tmpEnemy.wave = atoi(inputc); break;
+		case Etype:tmpEnemy.etype = atoi(inputc); break;
+		case Shaftx:tmpEnemy.shaft.x = atoi(inputc); break;
+		case Shafty:tmpEnemy.shaft.y = atoi(inputc); break;
+		case FirstMoveangle:tmpEnemy.moveangle[0] = atof(inputc); break;
+		case FirstCountflag:tmpEnemy.countflag[0] = atoi(inputc); break;
+		case SecondMoveangle:tmpEnemy.moveangle[1] = atof(inputc); break;
+		case SecondCountflag:tmpEnemy.countflag[1] = atoi(inputc); break;
+		case ThirdMoveangle:tmpEnemy.moveangle[2] = atof(inputc); break;
+		case ThirdCountflag:tmpEnemy.countflag[2] = atoi(inputc); break;
 		}
 
 		switch (num) {
-		case 0: enemy[n].pos.x = atof(inputc); break;
-		case 1: enemy[n].pos.y = atof(inputc); break;
-		case 2: enemy[n].r = atoi(inputc); break;
-		case 3: enemy[n].count = atoi(inputc); break;
-		case 4: enemy[n].angle = atof(inputc) *M_PI / 180; break;
-		case 5: enemy[n].speed = atoi(inputc); break;
-		case 6: enemy[n].maxmove = atoi(inputc); break;
-		case 7:enemy[n].RLflag = atoi(inputc); break;
-		case 8:enemy[n].target.x = atof(inputc); break;
-		case 9:enemy[n].target.y = atof(inputc); break;
-		case 10:enemy[n].targetr = atoi(inputc); break;
-		case 11:enemy[n].wave = atoi(inputc); break;
-		case 12:enemy[n].etype = atoi(inputc); break;
-		case 13:enemy[n].shaft.x = atoi(inputc); break;
-		case 14:enemy[n].shaft.y = atoi(inputc); break;
-		case 15:enemy[n].moveangle[0] = atof(inputc); break;
-		case 16:enemy[n].countflag[0] = atoi(inputc); break;
-		case 17:enemy[n].moveangle[1] = atof(inputc); break;
-		case 18:enemy[n].countflag[1] = atoi(inputc); break;
-		case 19:enemy[n].moveangle[2] = atof(inputc); break;
-		case 20:enemy[n].countflag[2] = atoi(inputc); break;
+		case Posx: enemy[n].pos.x = atof(inputc); break;
+		case Posy: enemy[n].pos.y = atof(inputc); break;
+		case Radius: enemy[n].r = atoi(inputc); break;
+		case Count: enemy[n].count = atoi(inputc); break;
+		case Angle: enemy[n].angle = atof(inputc) *M_PI / 180; break;
+		case Speed: enemy[n].speed = atoi(inputc); break;
+		case Maxmove: enemy[n].maxmove = atoi(inputc); break;
+		case RLflag:enemy[n].RLflag = atoi(inputc); break;
+		case Targetx:enemy[n].target.x = atof(inputc); break;
+		case Targety:enemy[n].target.y = atof(inputc); break;
+		case Targetr:enemy[n].targetr = atoi(inputc); break;
+		case Wave:enemy[n].wave = atoi(inputc); break;
+		case Etype:enemy[n].etype = atoi(inputc); break;
+		case Shaftx:enemy[n].shaft.x = atoi(inputc); break;
+		case Shafty:enemy[n].shaft.y = atoi(inputc); break;
+		case FirstMoveangle:enemy[n].moveangle[0] = atof(inputc); break;
+		case FirstCountflag:enemy[n].countflag[0] = atoi(inputc); break;
+		case SecondMoveangle:enemy[n].moveangle[1] = atof(inputc); break;
+		case SecondCountflag:enemy[n].countflag[1] = atoi(inputc); break;
+		case ThirdMoveangle:enemy[n].moveangle[2] = atof(inputc); break;
+		case ThirdCountflag:enemy[n].countflag[2] = atoi(inputc); break;
 		}
 
 		//同じ値で初期化する変数
