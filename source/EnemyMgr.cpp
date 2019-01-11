@@ -364,6 +364,13 @@ void cEnemyMgr::Update() {
 		}
 	}
 
+	if (Debug::Instance()->Get_Input(Key9) == 1) {
+		for (int i = 1; i < sizeof(enemy) / sizeof*(enemy); i++) {
+				SetEnemyDeath(i);
+				Phaseflag = 2;
+		}
+	}
+
 }
 
 
