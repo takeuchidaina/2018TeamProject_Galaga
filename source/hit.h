@@ -20,6 +20,7 @@
 #include "cBaseEnemy.h"
 #include "EffectMgr.h"
 #include "SE.h"
+#include "cGreenEnemy.h"
 
 class cHit: public cSingleton<cHit>
 {
@@ -27,11 +28,29 @@ class cHit: public cSingleton<cHit>
 	friend cSingleton< cHit >;
 private:
 
-	//void Hit();		//当たり判定
+	/************************************************************
+	 関数：void cHit::Player_EnemyShot
+	 説明：自機と敵弾の当たり判定
+	 引数：なし
+	 戻り値：なし
+	************************************************************/
+	void Player_EnemyShot();
 
-	void Player_EnemyShot();	//自機と敵弾の当たり判定
-	void Player_Enemy();		//自機と敵機の当たり判定
-	void PlayerShot_Enemy();	//自弾と敵機の当たり判定
+	/************************************************************
+	 関数：void cHit::Player_Enemy
+	 説明：自機と敵機の当たり判定
+	 引数：なし
+	 戻り値：なし
+	************************************************************/
+	void Player_Enemy();
+
+	/************************************************************
+	 関数：void cHit::PlayerShot_Enemy
+	 説明：自弾と敵機の当たり判定
+	 引数：なし
+	 戻り値：なし
+	************************************************************/
+	void PlayerShot_Enemy();
 
 	void Debug();				//デバッグ用関数				
 
@@ -39,7 +58,13 @@ private:
 	double S_onActive, S_cx, S_cy, S_r;		//弾
 	double E_onActive, E_cx, E_cy, E_r;		//敵
 	
-	double beemR;
+	// トラクタービーム用
+	sEnemy *enemy;				//敵情報
+	cPlayerEnemy *TraitPlayer;	//敵プレイヤー
+	double player_x, player_y;	//プレイヤー座標
+	double tractorX;			//トラクターx座標
+	double tractorWidth;		//トラクター幅
+
 	double len;
 
 	int totalHit;
@@ -50,7 +75,22 @@ public:
 
 	void Update();	//計算処理
 	void Draw();	//描写処理
-	void BeemHit(int); //トラクタービーム当たり判定
+
+	/************************************************************
+	 関数：bool TractorHit
+	 説明：トラクタービーム当たり判定
+	 引数：cGreenEnemy* Enemy
+	 戻り値：なし
+	************************************************************/
+	bool TractorHit(cGreenEnemy*);
+
+	/************************************************************
+	 関数：void TractingEnemyHit
+	 説明：EnemyPlayerを持ったボスギャラガの移動中の当たり判定
+	 引数：tractingEnemy
+	 戻り値：なし
+	************************************************************/
+	void TractingEnemyHit();
 
 	int GetTotalHit() {
 		return totalHit;
