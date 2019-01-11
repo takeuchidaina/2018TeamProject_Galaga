@@ -20,7 +20,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//Interfase.Update();
 		cFps::Instance()->Update();
 
-		//Debug::Instance()->Update();
+		Debug::Instance()->Update();
 		cInterface::Instance()->Update();
 
 		cSceneMgr::Instance()->Update();
@@ -28,7 +28,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		cFps::Instance()->Draw();
 
-		cFps::Instance()->Wait();
+		//cFps::Instance()->Wait();
 
 
 		//SceneMgr.Update();
