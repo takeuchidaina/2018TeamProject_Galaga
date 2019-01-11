@@ -11,6 +11,16 @@ cInGameController::cInGameController() {}
 
 //ゲームが始まる前のあのシーン
 int cInGameController::BeforeSceneUpdate() {
+	int deathcount = 0;
+	for (int i = 0; i < MAXMACHINE; i++) {	// 表示中のプレイヤーを調べる
+		sOBJPos tmp = cPlayer::Instance()->GetPlayer(i);	// プレイヤー情報受取
+		if (tmp.onActive == FALSE) deathcount++;
+	}
+	if (deathcount == MAXMACHINE) {
+		cPlayer::Instance()->PlayerRevive();
+		cEnemyMgr::Instance()->SetChoiseOrderFlag(true);
+		cShotMgr::Instance()->SetShotFlg(true);
+	}
 	count++;
 	if (count > 180) {
 		cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
