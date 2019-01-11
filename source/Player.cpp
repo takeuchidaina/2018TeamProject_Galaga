@@ -150,6 +150,12 @@ void cPlayer::Move()
 	{
 		cPlayer::Break(eDeath, eRightMachine);	// 右が破壊
 	}
+
+	//トラクタームーブ
+	if (Debug::Instance()->Get_Input(Key4) >= 1)
+	{
+		cPlayer::PlayerTractorMove();	//中央へ移動
+	}
 #endif
 
 	//DEBUGに使用する場合はInterface.hのenumにDEBUG1,2,3と
@@ -340,17 +346,28 @@ void cPlayer::PlayerRevive()
   引数: 無し
 戻り値: 無し
 *************************************************************************/
-void PlayerTractorMove() 
+void cPlayer::PlayerTractorMove()
 {
-    //どっちの機体がアクティブか判断し代入
-	//アクティブなら値を代入
-	//アクティブじゃないならcontinue
+	
+	for (int i = 0; i < MAXMACHINE; i++) {
+		//アクティブじゃないならcontinue
+		if (player[i].onActive == FALSE)
+			continue;
 
-	//プレイヤーの位置をセンターラインと比較し判断
-	//if
-	//else
+		//目的の座標に着いていたらループを抜ける
+		if (player[i].pos.x == DISP_CENTERLINE - IMAGEMAG)
+			break;
 
-	//プレイヤーを中央へ移動させる
+		//プレイヤーの位置をセンターラインと比較し判断→移動
+		if (player[i].pos.x < DISP_CENTERLINE - IMAGEMAG) {   //左
+			player[i].pos.x++;
+		}
+		else {	//右
+			player[i].pos.x--;
+		}
 
+	}
+
+	//x 407
 }
 
