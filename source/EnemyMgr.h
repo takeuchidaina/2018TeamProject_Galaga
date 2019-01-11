@@ -60,7 +60,7 @@ private:
 	/*csvから読み込むデータの番号
 	　新しくデータを追加した場合は、moveangle[0]より前に変数を追加すること
 	*/
-	enum eLoadData {
+	typedef enum{
 		Posx,            //x座標
 		Posy,            //y座標
 		Radius,          //半径
@@ -82,7 +82,7 @@ private:
 		SecondCountflag, //移動方向を切り替えるカウント２
 		ThirdMoveangle,  //移動する角度３
 		ThirdCountflag   //移動方向を切り替えるカウント３
-	};
+	}eLoadData;
 
 
 	sEnemy enemy[40];         //構造体変数だっけの宣言
