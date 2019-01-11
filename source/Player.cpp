@@ -150,6 +150,12 @@ void cPlayer::Move()
 	{
 		cPlayer::Break(eDeath, eRightMachine);	// 右が破壊
 	}
+
+	//トラクタームーブ
+	if (Debug::Instance()->Get_Input(Key4) >= 1)
+	{
+		cPlayer::PlayerTractorMove();	//中央へ移動
+	}
 #endif
 
 	//DEBUGに使用する場合はInterface.hのenumにDEBUG1,2,3と
@@ -332,5 +338,36 @@ void cPlayer::PlayerRevive()
 	player[eLeftMachine].cx = player[eLeftMachine].pos.x + (IMAGEMAG / 2);
 	player[eLeftMachine].cy = player[eLeftMachine].pos.y + (IMAGEMAG / 2);
 	player[eLeftMachine].onActive = TRUE;
+}
+
+/*************************************************************************
+　関数: void PlayerTractorMove();
+  説明: プレイヤーの位置を中央へ移動させる
+  引数: 無し
+戻り値: 無し
+*************************************************************************/
+void cPlayer::PlayerTractorMove()
+{
+	
+	for (int i = 0; i < MAXMACHINE; i++) {
+		//アクティブじゃないならcontinue
+		if (player[i].onActive == FALSE)
+			continue;
+
+		//目的の座標に着いていたらループを抜ける
+		if (player[i].pos.x == DISP_CENTERLINE - IMAGEMAG)
+			break;
+
+		//プレイヤーの位置をセンターラインと比較し判断→移動
+		if (player[i].pos.x < DISP_CENTERLINE - IMAGEMAG) {   //左
+			player[i].pos.x++;
+		}
+		else {	//右
+			player[i].pos.x--;
+		}
+
+	}
+
+	//x 407
 }
 
