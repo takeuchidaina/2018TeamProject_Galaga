@@ -35,6 +35,11 @@ private:
 	int checkGr;
 	int ShotFlg;
 
+	//トラクター関係
+	int tractorGrHandle[12];
+	int tractorOnActive;
+	int tractorCnt;
+
 protected:
 
 public:
@@ -43,6 +48,7 @@ public:
 	void Init();
 	int Break(int,int);    //弾を消す関数
 	int EnemyShot(double,double);
+	int TractorShot(sOBJPos*);
 
 	//ShotFlgの関数(TRUE FALSE)
 	void SetShotFlg(int num) { ShotFlg = num; }

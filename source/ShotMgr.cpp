@@ -13,9 +13,11 @@ cShotMgr::cShotMgr() {
 	//player2Shot = new cShot[PLAYERSHOTNUM];
 	//LoadDivGraph("../resource/Image/Galaga_OBJ_dualFighter.png", 4, 4, 1, 16, 16, ShotGrHandle);
 	checkGr = LoadDivGraph("../resource/Image/Galaga_OBJ_bullet.png", 4, 4, 1, 10, 12, ShotGrHandle);
-	if (checkGr == -1) {
-		ErrBox("Shot画像読み込みエラー");
-	}
+	if (checkGr == -1) ErrBox("Shot画像読み込みエラー");
+
+	checkGr = LoadDivGraph("../resource/Image/Galaga_OBJ_effect.png", 15, 5, 3, 50, 82, tractorGrHandle);
+	if (checkGr == -1) ErrBox("Tractor画像読み込みエラー");
+
 	Init();
 	//ErrBox("めう");
 }
@@ -31,6 +33,8 @@ void cShotMgr::Init() {
 	shotRate = 0;
 	ShotFlg = 1;
 
+	tractorCnt = 0;
+	tractorOnActive = FALSE;
 }
 
 cShotMgr::~cShotMgr() {
@@ -153,6 +157,15 @@ int cShotMgr::EnemyShot(double tmpEX, double tmpEY) {
 	return 0;
 }
 
+int cShotMgr::TractorShot(sOBJPos* tmp) {
+
+
+
+	/*DrawExtendGraph((int)tmp->pos.x - 96 / 2, (int)tmp->pos.y + 48 * 3,
+		(int)tmp->pos.x + 90 - 1, (int)tmp->pos.y + 48 + 160 - 1,
+		tractorGrHandle[tractorCnt], TRUE);*/
+	return 0;
+}
 
 
 /*
