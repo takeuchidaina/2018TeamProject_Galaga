@@ -9,6 +9,7 @@
 
 #define DISP_SIZE ((1280 / 4 * 3) - 50)
 #define UI_SIZE (1280 - DISP_SIZE)
+#define DISP_CENTERLINE ( DISP_SIZE / 2 )
 #define IMAGEMAG 48		//‰æ‘œ”{—¦
 #define ICONMAG 32      //ƒAƒCƒRƒ“‚Ì‰æ‘œ”{—¦
 
