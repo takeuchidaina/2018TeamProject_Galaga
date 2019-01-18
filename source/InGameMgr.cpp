@@ -134,6 +134,7 @@ void cInGameMgr::Update() {
 	case eBefore://実際ゲームが始まる前のあれ
 				
 		cInGameController::Instance()->BeforeSceneUpdate();
+		cEffectMgr::Instance()->Update();
 		//
 		break;
 	case eInGame://ゲーム画面[
