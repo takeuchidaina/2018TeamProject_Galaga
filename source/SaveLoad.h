@@ -5,6 +5,8 @@
 
 #include "Singleton.h"
 #include "Debug.h"
+#include "TextChange.h"
+#include "Score.h"
 
 class cSaveLoad : public cSingleton<cSaveLoad>
 {
@@ -13,14 +15,18 @@ class cSaveLoad : public cSingleton<cSaveLoad>
 	friend cSingleton< cSaveLoad >;
 
 private:
-	int highScore;
+	char characterHighScore[256];
+	int highScoreFileHandole;
+	int newScore;
 
+	int integerHighScore;
 
 protected:
 
 public:
-	void update();
-	void draw();
+	void Save();
+	void Load();
+	void Draw();
 
 };
 
