@@ -126,6 +126,8 @@ private:
 
 	cPlayerEnemy* pEnemy;      //敵になったプレイヤーのアドレス 
 
+	int DrawScoreFlag;         //スコア描画フラグ 0:かかない 1:核
+
 
 public:
 	//~cEnemyMgr();
@@ -235,6 +237,17 @@ public:
 	}
 
 	/*****************************************************
+	関数名：cBaseEnemy* GetArrayEnemy()
+	説明：
+	引数：cBaseEnemy型 enemies
+	戻り値：プッシュ先のアドレス
+	******************************************************/
+	cBaseEnemy* GetArrayEnemy(){
+		return *enemies;
+	}
+
+
+	/*****************************************************
 	関数名：void SetEnemyDeath(int num)
 	説明：この関数が呼ばれたとき、敵の死亡処理を行う
 	引数：int型 num
@@ -258,6 +271,7 @@ public:
 		if (enemy[num].etype==2 && enemy[num].moveflag < 10 || enemies[num]->GetEnemyAttackflg()==1) {
 			//スコアを400加算する
 			cScore::Instance()->AddScore(400);
+			cTextChange::Instance()->DrawTextImage(enemy[0].pos.x, 100, "400", eRed, eMag48);
 		}
 		/*
 		//プレイヤーエネミーを連れているボスギャラガを倒した場合
