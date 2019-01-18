@@ -34,6 +34,7 @@ void cShotMgr::Init() {
 	ShotFlg = 1;
 
 	tractorCnt = 0;
+	tmpCnt = 0;
 	tractorOnActive = FALSE;
 }
 
@@ -158,13 +159,25 @@ int cShotMgr::EnemyShot(double tmpEX, double tmpEY) {
 }
 
 int cShotMgr::TractorShot(sOBJPos* tmp) {
+	tractorOnActive = TRUE;
+	tmpCnt++;
+	if (tmpCnt >= 20) {
+		tractorCnt++;
+		tmpCnt = 0;
+	}
+	if (tractorAnimation[tractorCnt] > 8 && tractorAnimation[tractorCnt] < 13) {
+		//“–‚½‚è”»’èŒÄ‚Ô
+	}
 
-
-
-	/*DrawExtendGraph((int)tmp->pos.x - 96 / 2, (int)tmp->pos.y + 48 * 3,
+	DrawExtendGraph((int)tmp->pos.x - 96 / 2, (int)tmp->pos.y/* + 48 * 3*/,
 		(int)tmp->pos.x + 90 - 1, (int)tmp->pos.y + 48 + 160 - 1,
-		tractorGrHandle[tractorCnt], TRUE);*/
-	return 0;
+		tractorGrHandle[tractorAnimation[tractorCnt]], TRUE);
+	//DrawFormatString(20, 500, GetColor(255, 0, 255), "tractorCnt:%d", tractorCnt);
+	if (tractorCnt == 23) {
+		tractorCnt = 0;
+		tractorOnActive = FALSE;
+		return 1;
+	}else return 0;
 }
 
 
