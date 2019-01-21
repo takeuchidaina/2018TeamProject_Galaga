@@ -5,7 +5,7 @@
 /* コンストラクタ */
 cHit::cHit() {
 
-	beemR = 10.0;
+	TractorHitFlg = false;
 
 }
 
@@ -26,12 +26,7 @@ void cHit::Draw() {
 	//cHit::Debug();
 }
 
-/************************************************************
 
- 関数：void cHit::Player_EnemyShot
- 説明：自機と敵弾の当たり判定
-
-************************************************************/
 void cHit::Player_EnemyShot() {
 
 	for (int i = 0; i < MAXMACHINE; i++) {	// 表示中のプレイヤーを調べる
@@ -71,12 +66,7 @@ void cHit::Player_EnemyShot() {
 	}
 }
 
-/************************************************************
 
- 関数：void cHit::Player_Enemy
- 説明：自機と敵機の当たり判定
-
-************************************************************/
 void cHit::Player_Enemy() {	
 
 	static int maxEnemy = cEnemyMgr::Instance()->GetMaxEnemy();	// 敵機の数取得
@@ -119,12 +109,6 @@ void cHit::Player_Enemy() {
 
 }
 
-/************************************************************
-
- 関数：void cHit::PlayerShot_Enemy
- 説明：自弾と敵機の当たり判定
-
-************************************************************/
 void cHit::PlayerShot_Enemy() {
 
 	static int maxEnemy = cEnemyMgr::Instance()->GetMaxEnemy();	// 敵機の数取得
@@ -172,33 +156,50 @@ void cHit::PlayerShot_Enemy() {
 	}
 }
 
-/************************************************************
 
- 関数：void cHit::BeemHit
- 説明：トラクタービームの当たり判定
- 引数：トラクタービームを撃った敵
+void cHit::TractorHit(double enemyX) {
 
-************************************************************
-void cHit::BeemHit(int cntEnemy) {
+	tractorX = enemyX - 96 / 2;
+	tractorWidth = enemyX + 90 - 1;
 
 	for (int i = 0; i < MAXMACHINE; i++) {	// 表示中のプレイヤーを調べる
 
 		Player = cPlayer::Instance()->GetPlayer(i);
-		E_cx = cEnemyMgr::Instance()->GetEnemyPosX(cntEnemy);
+		if (Player.onActive == false) continue;
+		
+		if (Player.pos.x + 48 >= tractorX && Player.pos.x <= tractorWidth) {
 
-		if (((E_cx - beemR) <= Player.cx+Player.r) && ((E_cx + beemR) >= Player.cx-Player.r)) {
-			cInGameMgr::Instance()->ChangeScene(eTractor);
+			//ErrBox("当たったよ");
+
+			player_x = Player.pos.x;
+			player_y = Player.pos.y;
+
+			TractorHitFlg = true;
+
+			cInGameController::Instance()->HitToTractor();
+			TraitPlayer = cEnemyMgr::Instance()->PushPlayerEnemy();
+			cPlayer::Instance()->Break(eTractorBeam, i);
+
+			//enemy->moveflg++;
+			//enemy->tractingEnemy = true;
+
 		}
 
 	}
+
+}
+
+void TractingEnemyHit() {
+
+	/*
+	enemyすべてにtractingFlgをもたせればいいのではないかと
+	*/
 }
 
 /**********************************************************
-
  関数：void cHit::Debug
  説明：デバッグ用
-
-**********************************************************
+**********************************************************/
 void cHit::Debug() {
 
 	unsigned int Cr;
@@ -253,114 +254,4 @@ void cHit::Debug() {
 
 	}
 }
-
-
-
-
-
-
-
-
-
-
-/************************************************************
-関数：void cHit::Hit
-説明：(自機と敵弾) (自機と敵機) (自弾と敵機) の当たり判定
-引数：なし
-呼び出す関数：
-　cPlayer::Instance()->Break("プレイヤーの状態", "どっちのプレイヤーか")
- cShotMgr::Instance()->Break("どっちの弾か", "どの弾か")
- cBaseEnemy::Break("どの敵か")
- ************************************************************
- void cHit::Hit() {
-
- sOBJPos Player[2];
- cShot *tmpEShot[20];
- cShot *tmpPShot[2];
- sEnemy tmpEnemy[20];
-
- tmpPShot[0] = cShotMgr::Instance()->GetShot(PLAYER);
- tmpEShot[0] = cShotMgr::Instance()->GetShot(ENEMY);
-
- static int maxEnemy = cEnemyMgr::Instance()->GetMaxEnemy();
-
-
- /* 自機と敵弾 *
- for (int i = 0; i < MAXMACHINE; i++) {
-
- if (Player.onActive == FALSE) continue;
-
- for (int j = 0; j < sizeof(tmpEShot); j++) {
-
- if (tmpEShot[j]->Get_OnActive() == FALSE) continue;
-
- double len = ( (S_cx - Player.cx) * (S_cx - Player.cx) ) + ( (S_cy - Player.cy)*(S_cy - Player.cy) );
-
- if ( len <= ((S_r + Player.r) * (S_r + Player.r)) ) {
-
- if (Player[eLeftMachine].onActive == TRUE && Player[eRightMachine].onActive == TRUE) {
- cPlayer::Instance()->Break(eDeath, i);
- cShotMgr::Instance()->Break(ENEMY, j);
- }
-
- else {
- cPlayer::Instance()->Break(eDeath, i);
- cShotMgr::Instance()->Break(ENEMY, j);
- }
- }
- }
- }
-
- /* 自機と敵機　*
- for (int i = 0; i < MAXMACHINE; i++) {
-
- if (Player.onActive == FALSE) continue;
-
- for (int j = 0; j < maxEnemy; j++) {
-
- //if (tmpEnemy[j].mainpos.onActive == FALSE) continue;
-
- double E_cx = cEnemyMgr::Instance()->GetEnemyPosX(j);
- double E_cy = cEnemyMgr::Instance()->GetEnemyPosY(j);
- double E_r = cEnemyMgr::Instance()->GetEnemyPosR(j);
-
- double len = (E_cx - Player.cx)*(E_cx - Player.cx) + (E_cy - Player.cy)*(E_cy - Player.cy);
-
- if (len <= ((E_r + Player.r)*(E_r + Player.r))) {
-
- if (Player[eLeftMachine].onActive == TRUE && Player[eRightMachine].onActive == TRUE) {
- cPlayer::Instance()->Break(eDeath, i);
- cEnemyMgr::Break(j);
- }
-
- else {
- cPlayer::Instance()->Break(eDeath, i);
- cEnemyMgr::Break(j);
- }
- }
- }
- }
-
- /* 自弾と敵機　*
- for (int i = 0; i < maxEnemy; i++) {
-
- //if (E_onActive == FALSE) continue;
-
- double E_cx = cEnemyMgr::Instance()->GetEnemyPosX(i);
- double E_cy = cEnemyMgr::Instance()->GetEnemyPosY(i);
- double E_r = cEnemyMgr::Instance()->GetEnemyPosR(i);
-
- for (int j = 0; j < sizeof(tmpPShot); j++) {
-
- if (S_onActive == FALSE) continue;
-
- double len = (S_cx - E_cx)*(S_cx - E_cx) + (S_cy - E_cy)*(S_cy - E_cy);
-
- if (len <= ((E_r + S_r)*(E_r + S_r)) ) {
- cShotMgr::Instance()->Break(PLAYER, j);
- cEnemyMgr::Break(i);
- }
- }
- }
- }*/
 
