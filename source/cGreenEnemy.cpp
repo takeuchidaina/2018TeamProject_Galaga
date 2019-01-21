@@ -118,7 +118,6 @@ int cGreenEnemy::Update() {
 
 	if (traitPlayer != NULL && enemy.tractingEnemy == true) {
 		tractedFlg = true;
-		traitPlayer->Update(&enemy);
 	}
 
 	if (enemy.count < 0)enemy.count = 0;
@@ -168,6 +167,7 @@ int cGreenEnemy::Update() {
 				enemy.count = 0;
 			}
 			break;
+
 		case 1:
 		case 5:
 		case 8:
@@ -247,11 +247,6 @@ int cGreenEnemy::TractorUpdate() {
 		enemy.tractorflg = false;
 		return 0;
 	}
-
-	if (traitPlayer != NULL && enemy.tractingEnemy == true) {
-		traitPlayer->Update(&enemy);
-	}
-
 
 	if (enemy.count < 0)enemy.count = 0;
 

@@ -36,7 +36,6 @@ public:
 		return TraitPlayer;
 	}
 	void	draw();
-	void TractorStart(sEnemy);
 	void Move();
 
 };
