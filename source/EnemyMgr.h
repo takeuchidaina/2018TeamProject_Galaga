@@ -271,7 +271,9 @@ public:
 		if (enemy[num].etype==2 && enemy[num].moveflag < 10 || enemies[num]->GetEnemyAttackflg()==1) {
 			//スコアを400加算する
 			cScore::Instance()->AddScore(400);
-			cTextChange::Instance()->DrawTextImage(enemy[0].pos.x, 100, "400", eRed, eMag48);
+			//cTextChange::Instance()->DrawTextImage(enemy[0].pos.x, 100, "400", eRed, eMag48);
+			DrawFormatString(100, 100, GetColor(255, 255, 255), "攻撃フェーズ22222222222222");
+			//waitTimer(3000);
 		}
 		/*
 		//プレイヤーエネミーを連れているボスギャラガを倒した場合
