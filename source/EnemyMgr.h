@@ -5,6 +5,7 @@
 
 #include "cBaseEnemy.h"
 #include "cPlayerEnemy.h"
+#include "TextChange.h"
 
 #include "Singleton.h"
 #include "WinBox.h"
@@ -32,7 +33,7 @@ private:
 		sPos target;          //目標位置の座標
 		int targetr;          //目標位置の半径(当たり判定に利用)
 		int wave;             //ウェーブ番号  
-		int etype;            //敵の種類(3種分)
+		int etype;            //敵の種類(3種分) 0:青 1:赤 2:緑
 		sPos shaft;           //敵の列番号
 		double moveangle[3];  //角度設定の配列
 		int countflag[3];     //特定のフレーム数をあれする配列
@@ -50,23 +51,23 @@ private:
 		sPos target;          //目標位置の座標
 		int targetr;          //目標位置の半径(当たり判定に利用)
 		int wave;             //ウェーブ番号  
-		int etype;            //敵の種類(3種分)
+		int etype;            //敵の種類(3種分)0:青 1:赤 2:緑
 		sPos shaft;           //敵の列番号
 		double moveangle[3];  //角度設定の配列
-		int countflag[3];     //特定のフレーム数をあれする配列
+		int countflag[3];     //特定のフレーム数を指定する配列
 		int deathflag;        //敵の死亡フラグ 0:生きてる 1:死んでる
 	}sEnemyMgrData;
 
 	/*csvから読み込むデータの番号
-	　新しくデータを追加した場合は、moveangle[0]より前に変数を追加すること
+	　新しくデータを追加した場合は、moveangle[0]より前に変数を追加する
 	*/
 	typedef enum{
 		Posx,            //x座標
 		Posy,            //y座標
 		Radius,          //半径
 		Count,           //カウント
-		Angle,           //角度ド
-		Speed,           //速ドドド
+		Angle,           //角度
+		Speed,           //速度
 		Maxmove,         //移動切り替えの最大数
 		RLflag,          //左右を判別するフラグ
 		Targetx,         //目標地点のx座標
@@ -74,7 +75,7 @@ private:
 		Targetr,         //目標地点の半径
 		Wave,            //入場番号
 		Etype,           //敵の種類
-		Shaftx,          //yの各台数
+		Shaftx,          //yの拡大数
 		Shafty,          //xの拡大数
 		FirstMoveangle,  //移動する角度１
 		FirstCountflag,  //移動方向を切り替えるカウント１
@@ -84,10 +85,9 @@ private:
 		ThirdCountflag   //移動方向を切り替えるカウント３
 	}eLoadData;
 
-
-	sEnemy enemy[40];         //構造体変数だっけの宣言
+	sEnemy enemy[40];         //構造体
 	sEnemy tmpEnemy;          //一時的に敵データを格納する場所
-						      //int movetype;            //敵の動作タイプ
+	//int movetype;           //敵の動作タイプ
 	int waveflag[10];         //該当ウェーブに敵が何体いるかを管理する
 	int wave;                 //現在のウェーブ数
 	int wavecount;            //該当ウェーブで入場行動が終了している敵の数
@@ -113,7 +113,7 @@ private:
 	
 	void Sliding(sEnemy&);    //冬の新作関数
 	int  SlidingFlag;         //敵の横移動処理用のフラグ true:1 false:-1
-	int  SlidingCount;          //横移動カウント
+	int  SlidingCount;        //横移動カウント
 
 	int phaseFlagCount;       //入場が終了している敵の数
 	int onActiveCount;        //入場時にonActiveがtrueになっている敵の数
@@ -125,6 +125,8 @@ private:
 	int EnemyDeathCount;      //死亡カウント
 
 	cPlayerEnemy* pEnemy;      //敵になったプレイヤーのアドレス 
+
+	int DrawScoreFlag;         //スコア描画フラグ 0:かかない 1:核
 
 
 public:
@@ -235,6 +237,17 @@ public:
 	}
 
 	/*****************************************************
+	関数名：cBaseEnemy* GetArrayEnemy()
+	説明：
+	引数：cBaseEnemy型 enemies
+	戻り値：プッシュ先のアドレス
+	******************************************************/
+	cBaseEnemy* GetArrayEnemy(){
+		return *enemies;
+	}
+
+
+	/*****************************************************
 	関数名：void SetEnemyDeath(int num)
 	説明：この関数が呼ばれたとき、敵の死亡処理を行う
 	引数：int型 num
@@ -243,10 +256,36 @@ public:
 	void SetEnemyDeath(int num) {
 		//敵の破壊処理を行う
 		enemies[num]->Break();
+
+		//敵を非表示にする
 		enemy[num].onactive = FALSE;
+
+		//敵の死亡フラグをTRUEにする
 		enemy[num].deathflag =TRUE;
-		EnemyDeathCount++;
-		cScore::Instance()->AddScore(100);
+
+		//敵の死亡数をカウントする
+		EnemyDeathCount++;	
+		
+		//条件ごとのスコア加算処理
+		//入場中または攻撃してきたボスギャラガを倒した場合
+		if (enemy[num].etype==2 && enemy[num].moveflag < 10 || enemies[num]->GetEnemyAttackflg()==1) {
+			//スコアを400加算する
+			cScore::Instance()->AddScore(400);
+			//cTextChange::Instance()->DrawTextImage(enemy[0].pos.x, 100, "400", eRed, eMag48);
+			DrawFormatString(100, 100, GetColor(255, 255, 255), "攻撃フェーズ22222222222222");
+			//waitTimer(3000);
+		}
+		/*
+		//プレイヤーエネミーを連れているボスギャラガを倒した場合
+		else if (enemy[num].type==2 && enemies[num]->GetEnemyAttackflg()=1 && 敵がプレイヤーエネミーを連れている) {
+		    //スコアを800加算する
+			cScore::Instance()->AddScore(800);
+		}*/
+		else {  //それ以外
+			//スコアを100加算する
+			cScore::Instance()->AddScore(100);
+		}
+		
 	}
 
 
