@@ -166,7 +166,7 @@ int cShotMgr::TractorShot(sEnemy* tmp) {
 		tmpCnt = 0;
 	}
 	if (tractorAnimation[tractorCnt] > 8 && tractorAnimation[tractorCnt] < 13) {
-		cHit::Instance()->TractorHit(tmp->mainpos.pos.x);
+		cHit::Instance()->TractorHit(tmp);
 		//DrawFormatString(20, 500, GetColor(255, 0, 255), "HitOnActive Cnt:", tractorCnt);
 	}
 
