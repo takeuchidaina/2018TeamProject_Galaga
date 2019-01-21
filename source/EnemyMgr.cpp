@@ -313,13 +313,6 @@ void cEnemyMgr::Update() {
 				pEnemy->Move();
 				pEnemy->Update();
 			}
-
-			enemies[i]->Update();
-			enemies[i]->Move();
-			if (enemies[i]->GetTractorfFlg() == true) {
-				enemies[i]->TractorUpdate();
-			}
-		
 		}
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 			if (enemy[i].onactive != TRUE || enemies[i]->GetEnemyChoiseOrder() != 1 || enemy[i].deathflag == TRUE)continue;
