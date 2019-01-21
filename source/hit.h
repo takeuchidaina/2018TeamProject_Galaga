@@ -55,11 +55,12 @@ private:
 	sOBJPos Player;							//プレイヤー
 	double S_onActive, S_cx, S_cy, S_r;		//弾
 	double E_onActive, E_cx, E_cy, E_r;		//敵
-	
+	bool E_tractingFlg, E_moveFlg;								//敵用フラグ
+
 	// トラクタービーム用
 	cPlayerEnemy *TraitPlayer;	//敵プレイヤー
 	double player_x, player_y;	//プレイヤー座標
-	double enemyX;				//敵x座標
+	sEnemy *enemyX;				//敵x座標
 	double tractorX;			//トラクターx座標
 	double tractorWidth;		//トラクター幅
 
@@ -80,7 +81,7 @@ public:
 	 引数：double enemyX	ビームを撃った敵のx座標
 	 戻り値：なし
 	************************************************************/
-	void TractorHit(double);
+	void TractorHit(sEnemy*);
 
 	bool TractorHitFlg;
 

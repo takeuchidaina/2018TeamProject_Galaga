@@ -120,7 +120,8 @@ void cHit::PlayerShot_Enemy() {
 		E_cx = cEnemyMgr::Instance()->GetEnemyPosX(i);
 		E_cy = cEnemyMgr::Instance()->GetEnemyPosY(i);
 		E_r = cEnemyMgr::Instance()->GetEnemyPosR(i);
-		
+		E_tractingFlg = cEnemyMgr::Instance()->GetTractingFlg(i);
+		E_moveFlg = cEnemyMgr::Instance()->GetEnemyonActive(i);
 
 		if (E_onActive == FALSE) continue;
 
@@ -139,11 +140,20 @@ void cHit::PlayerShot_Enemy() {
 
 				if (len <= ((E_r + S_r)*(E_r + S_r))) {
 					//勝手に追加分　by滝
+
 					cEnemyMgr::Instance()->DamageEnemyHp(i);
 					int E_hp = cEnemyMgr::Instance()->GetEnemyHP(i);
 					if (E_hp <= 0) {
 						cEnemyMgr::Instance()->SetEnemyDeath(i);
 						cEffectMgr::Instance()->Blowup(ENEMY, E_cx, E_cy);
+						if (E_tractingFlg == true) {
+							if (E_moveFlg == false) {
+								cInGameController::Instance()->InToRevive();
+							}
+							else {
+								//cPlayerEnemy::Instanse()->Break();
+							}
+						}
 					}
 					cShotMgr::Instance()->Break(PLAYER, k);
 
@@ -157,10 +167,10 @@ void cHit::PlayerShot_Enemy() {
 }
 
 
-void cHit::TractorHit(double enemyX) {
+void cHit::TractorHit(sEnemy* enemy) {
 
-	tractorX = enemyX - 96 / 2;
-	tractorWidth = enemyX + 90 - 1;
+	tractorX = enemy->mainpos.pos.x - 96 / 2;
+	tractorWidth = enemy->mainpos.pos.x + 90 - 1;
 
 	for (int i = 0; i < MAXMACHINE; i++) {	// 表示中のプレイヤーを調べる
 
@@ -178,6 +188,7 @@ void cHit::TractorHit(double enemyX) {
 
 			cInGameController::Instance()->HitToTractor();
 			TraitPlayer = cEnemyMgr::Instance()->PushPlayerEnemy();
+			TraitPlayer -> SetPenemy(enemy);
 			cPlayer::Instance()->Break(eTractorBeam, i);
 
 			//enemy->moveflg++;
