@@ -16,7 +16,7 @@ class cSaveLoad : public cSingleton<cSaveLoad>
 	friend cSingleton< cSaveLoad >;
 
 private:
-	FILE * fp;
+	FILE *fp;
 	char characterHighScore[256];
 	int newScore;
 	int integerHighScore;
