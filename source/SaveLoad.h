@@ -7,6 +7,7 @@
 #include "Debug.h"
 #include "TextChange.h"
 #include "Score.h"
+#include "WinBox.h"
 
 class cSaveLoad : public cSingleton<cSaveLoad>
 {
@@ -15,10 +16,9 @@ class cSaveLoad : public cSingleton<cSaveLoad>
 	friend cSingleton< cSaveLoad >;
 
 private:
+	FILE * fp;
 	char characterHighScore[256];
-	int highScoreFileHandole;
 	int newScore;
-
 	int integerHighScore;
 
 protected:

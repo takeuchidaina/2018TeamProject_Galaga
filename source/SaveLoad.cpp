@@ -1,14 +1,13 @@
 #include <DxLib.h>
+#include <stdio.h>
 #include "SaveLoad.h"
 
-//コンストラクタ
 cSaveLoad::cSaveLoad(){
-	highScoreFileHandole = 0;
 	newScore = 0;
 	integerHighScore = 0;
+	characterHighScore[256] = { 0 };
 }
 
-//デストラクタ
 cSaveLoad::~cSaveLoad(){
 
 }
@@ -24,28 +23,42 @@ void cSaveLoad::Save()
 	integerHighScore = atoi(characterHighScore);
 
 	//スコアの大小を比較
-	if (newScore > integerHighScore) 
+	if (newScore > integerHighScore)
 	{
-		//大きいならスコアをセーブする
+		//値が大きかったらセーブする
+		fp = fopen("../resource/SaveLoad/HighScore", "w");
+		if (fp == NULL)
+		{
+			ErrBox("ファイルが開けませんでした(Save)");
+		}
+
+		fprintf(fp,"%d",integerHighScore);
+
+		fclose(fp);
 	}
-	else 
-	{
-		//セーブしない
-	}
+
 }
 
 //ロード
 //最初に読みこむ
 void cSaveLoad::Load() 
 {
-	//ファイルの読み込み
-	highScoreFileHandole = FileRead_open("../resource/SaveLoad/HighScore");
 
-	//一行読む
-	FileRead_gets(characterHighScore,256, highScoreFileHandole);
+	fp = fopen("../resource/SaveLoad/HighScore","r");
+	if (fp == NULL)
+	{
+		ErrBox("ファイルが開けませんでした(Load)");
+	}
 
-	//ファイルを閉じる
-	FileRead_close(highScoreFileHandole);
+	//ハイスコアの読み出し
+	fgets(characterHighScore,256,fp);
+	if (characterHighScore == NULL)
+	{
+		ErrBox("ファイルから値を読み込みませんでした");
+	}
+
+	fclose(fp);
+
 }
 
 //描画
