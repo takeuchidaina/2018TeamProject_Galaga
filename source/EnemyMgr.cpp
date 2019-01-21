@@ -40,6 +40,8 @@ void cEnemyMgr::Init() {
 	SlidingFlag = 1;
 	SlidingCount = 120;
 
+	DrawScoreFlag = 0;
+
 
 	//Stage_1.csv
 	StageHandle = FileRead_open(StageFilePath);
@@ -156,6 +158,12 @@ void cEnemyMgr::Init() {
 	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 		waveflag[enemy[i].wave]++;
 	}
+
+	if (pEnemy != NULL) {
+		DeletePlayerEnemy();
+		pEnemy = NULL;
+	}
+
 }
 
 //デコンストラクタ
@@ -294,12 +302,17 @@ void cEnemyMgr::Update() {
 			if (enemy[i].onactive != TRUE || enemies[i]->GetEnemyAttackflg() != 1 || enemy[i].deathflag == TRUE) {
 				continue;
 			}
+
 			enemies[i]->Update();
 			enemies[i]->Move();
 			if (enemies[i]->GetTractorfFlg() == true) {
 				enemies[i]->TractorUpdate();
 			}
-		
+
+			if (pEnemy != NULL) {
+				pEnemy->Move();
+				pEnemy->Update();
+			}
 		}
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 			if (enemy[i].onactive != TRUE || enemies[i]->GetEnemyChoiseOrder() != 1 || enemy[i].deathflag == TRUE)continue;
@@ -442,6 +455,7 @@ void cEnemyMgr::Sliding(sEnemy& enemy) {
 void cEnemyMgr::Draw() {
 	//勝手に追加分　by滝　
 	//PlayerEnemyが生成されていた時だけ表示
+
 	if (pEnemy !=NULL) {
 		if (pEnemy->GetEnemyOnActive() != 1) {
 			pEnemy->Draw();
@@ -456,7 +470,7 @@ void cEnemyMgr::Draw() {
 	if (Phaseflag == 2) {
 		DrawFormatString(100, 100, GetColor(255, 255, 255), "攻撃フェーズ");
 	}
-
+	
 	/*
 	DrawFormatString(0, 120, GetColor(255, 255, 255), "enemy[0]:%lf", enemy[0].target.x);
 	DrawFormatString(0, 140, GetColor(255, 255, 255), "enemy[2]:%lf", enemy[2].target.x);
