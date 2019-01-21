@@ -5,6 +5,8 @@
 /* コンストラクタ */
 cHit::cHit() {
 
+	TractorHitFlg = false;
+
 }
 
 /* デストラクタ *
@@ -155,11 +157,10 @@ void cHit::PlayerShot_Enemy() {
 }
 
 
-bool cHit::TractorHit(cGreenEnemy* Enemy) {
+void cHit::TractorHit(double enemyX) {
 
-	enemy = Enemy->GetEnemy();
-	tractorX = enemy->mainpos.pos.x - 96 / 2;
-	tractorWidth = enemy->mainpos.pos.x + 90 - 1;
+	tractorX = enemyX - 96 / 2;
+	tractorWidth = enemyX + 90 - 1;
 
 	for (int i = 0; i < MAXMACHINE; i++) {	// 表示中のプレイヤーを調べる
 
@@ -167,24 +168,25 @@ bool cHit::TractorHit(cGreenEnemy* Enemy) {
 		if (Player.onActive == false) continue;
 		
 		if (Player.pos.x + 48 >= tractorX && Player.pos.x <= tractorWidth) {
-			ErrBox("当たったよ");
-			//scene処理 playerでやるかも
+
+			//ErrBox("当たったよ");
+
 			player_x = Player.pos.x;
 			player_y = Player.pos.y;
+
+			TractorHitFlg = true;
+
 			cInGameController::Instance()->HitToTractor();
 			TraitPlayer = cEnemyMgr::Instance()->PushPlayerEnemy();
 			cPlayer::Instance()->Break(eTractorBeam, i);
-			enemy->moveflg++;
-			enemy->tractingEnemy = true;
 
+			//enemy->moveflg++;
+			//enemy->tractingEnemy = true;
 
-			return true;
-		}
-		else {
-			return false;
 		}
 
 	}
+
 }
 
 void TractingEnemyHit() {

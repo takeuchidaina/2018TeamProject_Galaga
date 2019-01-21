@@ -5,8 +5,6 @@
 #ifndef _HIT_INCLUDE_
 #define _HIT_INCLUDE_
 
-#define MAXMACHINE 2
-
 #define PLAYER 0
 #define ENEMY 1
 
@@ -59,9 +57,9 @@ private:
 	double E_onActive, E_cx, E_cy, E_r;		//敵
 	
 	// トラクタービーム用
-	sEnemy *enemy;				//敵情報
 	cPlayerEnemy *TraitPlayer;	//敵プレイヤー
 	double player_x, player_y;	//プレイヤー座標
+	double enemyX;				//敵x座標
 	double tractorX;			//トラクターx座標
 	double tractorWidth;		//トラクター幅
 
@@ -77,12 +75,14 @@ public:
 	void Draw();	//描写処理
 
 	/************************************************************
-	 関数：bool TractorHit
+	 関数：void TractorHit
 	 説明：トラクタービーム当たり判定
-	 引数：cGreenEnemy* Enemy
+	 引数：double enemyX	ビームを撃った敵のx座標
 	 戻り値：なし
 	************************************************************/
-	bool TractorHit(cGreenEnemy*);
+	void TractorHit(double);
+
+	bool TractorHitFlg;
 
 	/************************************************************
 	 関数：void TractingEnemyHit
@@ -94,6 +94,10 @@ public:
 
 	int GetTotalHit() {
 		return totalHit;
+	}
+
+	bool GetTractorHitFlg() {
+		return TractorHitFlg;
 	}
 
 	void ResetHit() { totalHit = 0; }
