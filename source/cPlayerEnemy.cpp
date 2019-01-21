@@ -72,8 +72,8 @@ void cPlayerEnemy::Move() {
 	}
 }
 int cPlayerEnemy::Update() {
-	cTextChange::Instance()->DrawTextImage(300, 400, "FIGHTER", eRed, eMag32);
-	cTextChange::Instance()->DrawTextImage(450, 400, "CAPTURE", eRed, eMag32);
+	cTextChange::Instance()->DrawTextImage(250, 400, "FIGHTER", eRed, eMag48);
+	cTextChange::Instance()->DrawTextImage(500, 400, "CAPTURE", eRed, eMag48);
 
 
 	//pEnemy‚Ì‚Æ‚±‚ë‚ğpEnemy‚É‹A‚ê‚Î“G‚Ì‰º‚Ü‚Ås‚­
