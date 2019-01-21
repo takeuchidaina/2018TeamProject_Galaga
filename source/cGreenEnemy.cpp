@@ -65,7 +65,7 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 
 	enemy.target.x = x;
 	enemy.target.y = y;
-	enemy.targetr = 1;
+	enemy.targetr = 3;
 
 	tmpx = 0;
 	tmpy = 0;
@@ -105,7 +105,7 @@ void cGreenEnemy::Move() {
 				enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
 			}
 			else {
-				enemy.vct.x = cos(enemy.ang)*enemy.dir;;
+				enemy.vct.x = cos(enemy.ang);
 				enemy.vct.y = sin(enemy.ang);
 			}
 		}
@@ -114,6 +114,11 @@ void cGreenEnemy::Move() {
 
 
 int cGreenEnemy::Update() {
+
+
+	if (traitPlayer != NULL && enemy.tractingEnemy == true) {
+		tractedFlg = true;
+	}
 
 	if (enemy.count < 0)enemy.count = 0;
 	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = ReadyStart;
@@ -134,19 +139,26 @@ int cGreenEnemy::Update() {
 		if (enemy.count > 0) {
 			enemy.mainpos.onActive = YesActive;
 		}
+		DrawFormatString(0, 0, GetColor(255, 255, 255), "%lf", enemy.target.x);
+		DrawFormatString(0, 50, GetColor(255, 255, 255), "%lf", enemy.target.y);
+		DrawFormatString(0, 100, GetColor(255, 255, 255), "%lf", enemy.mainpos.pos.x);
+		DrawFormatString(0, 125, GetColor(255, 255, 255), "%lf", enemy.mainpos.pos.y);
+		DrawFormatString(0, 150, GetColor(255, 255, 255), "%d", enemy.targetr);
+		DrawFormatString(0, 175, GetColor(255, 255, 255), "%lf", enemy.mainpos.r);
 
+		DrawFormatString(0, 200, GetColor(255, 255, 255), "%d", enemy.moveflg);
 		switch (enemy.moveflg)
 		{
 		case 0:
 			if (enemy.count < 2)enemy.ang = 180 * M_PI / 180;
-		//	if (CheckSoundFile() == 0) cSE::Instance()->selectSE(alien_flying);
+			//	if (CheckSoundFile() == 0) cSE::Instance()->selectSE(alien_flying);
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
 				enemy.count = 0;
 			}
 			break;
-		
+
 		case 3:
 			if (enemy.count == 5 || enemy.count == 25)cShotMgr::Instance()->EnemyShot(enemy.mainpos.pos.x, enemy.mainpos.pos.y);
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
@@ -155,6 +167,7 @@ int cGreenEnemy::Update() {
 				enemy.count = 0;
 			}
 			break;
+
 		case 1:
 		case 5:
 		case 8:
@@ -193,9 +206,11 @@ int cGreenEnemy::Update() {
 				//“GÀ•W‚ð–Ú“I’n‚ÉŒÅ’è
 				enemy.mainpos.pos.x = enemy.target.x;
 				enemy.mainpos.pos.y = enemy.target.y;
-				enemy.count = 0;
-				enemy.mainpos.onActive = SetPos;
 				enemy.moveflg++;
+				enemy.count = 0;
+				enemy.mainpos.onActive = ReadyStart;
+				;
+
 			}
 			break;
 		case 9:
@@ -224,22 +239,25 @@ int cGreenEnemy::Update() {
 
 int cGreenEnemy::TractorUpdate() {
 
-	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = ReadyStart;
+
+
 	traitPlayer = tractor::Instance()->GetAdress();
 
-	if (traitPlayer != NULL)tractedFlg = true;
-	else tractedFlg = false;
-
+	if (enemy.tractorflg == true && enemy.moveflg == 0 && traitPlayer != NULL) {
+		enemy.tractorflg = false;
+		return 0;
+	}
 
 	if (enemy.count < 0)enemy.count = 0;
 
 	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
-
-	if (enemy.attackflg == true && tractedFlg == true/* && enemy.moveflg == 0*/) {
-		enemy.tractorflg = false;
-		return 0;
-	}
+//
+////	if (enemy.attackflg == true && tractedFlg == true/* && enemy.moveflg == 0*/) {
+//	//if(enemy.tractorflg == true){
+//		enemy.tractorflg = false;
+//		return 0;
+//	}
 
 	if (enemy.tractorflg != false && enemy.attackflg == true) {
 		enemy.count++;
@@ -275,7 +293,7 @@ int cGreenEnemy::TractorUpdate() {
 					break;
 				}
 			}
-			enemy.ang = atan2(tmpplayer.pos.y - 160 - enemy.mainpos.pos.y, (tmpplayer.pos.x- enemy.mainpos.pos.x)*enemy.dir);
+			enemy.ang = atan2(tmpplayer.pos.y - 160 - enemy.mainpos.pos.y, (tmpplayer.pos.x - enemy.mainpos.pos.x)*enemy.dir);
 			if ((tmpplayer.pos.x - enemy.mainpos.pos.x)*(tmpplayer.pos.x - enemy.mainpos.pos.x) +
 				(tmpplayer.pos.y - 160 - enemy.mainpos.pos.y)*(tmpplayer.pos.y - 160 - enemy.mainpos.pos.y) <=
 				(enemy.mainpos.r / 5 + enemy.targetr)*(enemy.mainpos.r / 5 + enemy.targetr)) {
@@ -299,9 +317,10 @@ int cGreenEnemy::TractorUpdate() {
 
 			enemy.mainpos.pos.x = tmpplayer.pos.x;
 			enemy.mainpos.pos.y = tmpplayer.pos.y - 160;
+		
 			enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 			enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
-			///enemy.moveflg++;
+			//enemy.moveflg++;
 			break;
 		case 4:
 
@@ -325,7 +344,7 @@ int cGreenEnemy::TractorUpdate() {
 			else {
 				tractedFlg = false;
 			}
-	
+
 			if (enemy.mainpos.pos.x <= 430) {
 				enemy.dir = 1;
 			}
@@ -379,7 +398,7 @@ int cGreenEnemy::Draw() {
 	if (enemy.mainpos.onActive != NoActive) {
 		if (enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * M_PI) / 180), enemy.graph[AnimationNum], TRUE, TRUE);
 		else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[AnimationNum], TRUE, TRUE);
-		if (enemy.tractorflg == true && (enemy.moveflg == 2 ||enemy.moveflg ==3) ){
+		if (enemy.tractorflg == true && (enemy.moveflg == 2 || enemy.moveflg == 3)) {
 			if (TractorCnt > 20) {
 				//cSE::Instance()->selectSE(tractor_beam);
 				TractorCnt = 0;
@@ -416,4 +435,4 @@ int cGreenEnemy::Draw() {
 
 
 	return 0;
-}
+	}

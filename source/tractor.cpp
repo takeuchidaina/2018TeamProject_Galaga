@@ -41,6 +41,7 @@ bool tractor::TractorHit(cGreenEnemy* Tmpenemy) {
 			playerY = TmpPlayer.pos.y;
 			cInGameController::Instance()->HitToTractor();
 			TraitPlayer = cEnemyMgr::Instance()->PushPlayerEnemy();
+			TraitPlayer->SetPenemy(enemy);
 			cPlayer::Instance()->Break(eTractorBeam, i);
 			enemy->moveflg++;
 			enemy->tractingEnemy = true;
