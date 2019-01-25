@@ -161,9 +161,17 @@ int cShotMgr::EnemyShot(double tmpEX, double tmpEY) {
 int cShotMgr::TractorShot(sEnemy* tmp) {
 	tractorOnActive = TRUE;
 	tmpCnt++;
+	if (tractorOnActive==TRUE&&tractorCnt == 0) {
+		cSE::Instance()->selectSE(tractor_beam);
+	}
 	if (tmpCnt >= 20) {
 		tractorCnt++;
-		tmpCnt = 0;
+		tmpCnt = 0;	
+		if (tractorCnt == 23) {
+			tractorOnActive = FALSE;
+			tractorCnt = 0;
+			return 1;
+		}
 	}
 	if (tractorAnimation[tractorCnt] > 8 && tractorAnimation[tractorCnt] < 13) {
 		cHit::Instance()->TractorHit(tmp);
@@ -173,12 +181,8 @@ int cShotMgr::TractorShot(sEnemy* tmp) {
 	DrawExtendGraph((int)tmp->mainpos.pos.x - 96 / 2, (int)tmp->mainpos.pos.y + 48 /* * 3*/,
 		(int)tmp->mainpos.pos.x + 90 - 1, (int)tmp->mainpos.pos.y + 48 + 160 - 1,
 		tractorGrHandle[tractorAnimation[tractorCnt]], TRUE);
-	//DrawFormatString(20, 500, GetColor(255, 0, 255), "tractorCnt:%d", tractorCnt);
-	if (tractorCnt == 23) {
-		tractorCnt = 0;
-		tractorOnActive = FALSE;
-		return 1;
-	}else return 0;
+	DrawFormatString(20, 500, GetColor(255, 0, 255), "tractorCnt:%d", tractorCnt);
+	return 0;
 }
 
 
