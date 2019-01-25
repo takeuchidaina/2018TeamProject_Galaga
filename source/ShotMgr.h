@@ -52,7 +52,7 @@ public:
 	void Init();
 	int Break(int,int);    //’e‚ğÁ‚·ŠÖ”
 	int EnemyShot(double,double);
-	int TractorShot(sOBJPos*);
+	int TractorShot(sEnemy*);
 
 	//ShotFlg‚ÌŠÖ”(TRUE FALSE)
 	void SetShotFlg(int num) { ShotFlg = num; }
