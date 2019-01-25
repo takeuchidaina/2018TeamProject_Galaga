@@ -76,13 +76,8 @@ void cRedEnemy::Move() {
 	enemy.mainpos.cx = enemy.mainpos.pos.x + enemy.width / 2;
 	enemy.mainpos.cy = enemy.mainpos.pos.y + enemy.height / 2;
 
-	if (enemy.mainpos.onActive == StartMove) {
-		enemy.vct.x = cos(enemy.ang);
-		enemy.vct.y = sin(enemy.ang);
-		enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
-		enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
-	}
-	else  if (enemy.mainpos.onActive == YesActive) {
+	
+  if (enemy.mainpos.onActive == YesActive) {
 		if (enemy.attackflg == TRUE) {
 			if (enemy.moveflg != 8) {
 				enemy.vct.x = cos(enemy.ang)* enemy.dir;

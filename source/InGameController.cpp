@@ -111,7 +111,7 @@ int cInGameController::ReviveSceneUpdate() {
 	//プレイヤーを再配置
 	
 	//全てのエネミーが移動が終わっているかを獲得
-	cPlayerEnemy *TmpPlayer = 0x00;
+	 static cPlayerEnemy *TmpPlayer = NULL;
 	TmpPlayer = cEnemyMgr::Instance()->GetPlayerEnemyAdress();
 	if (TmpPlayer != NULL)TmpPlayer->ReviveUpdate();
 	

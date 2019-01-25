@@ -45,18 +45,13 @@ cPlayerEnemy::cPlayerEnemy() {
 	LoadDivGraph("../resource/Image/Galaga_OBJ_myMachine1616.png", 12, 4, 3, 16, 16, graph);
 }
 
-/*
-void cPlayerEnemy::EternalUpdate() {
-	sEnemy pEnemy;
-	pEnemy =
-	enemy.mainpos.pos.x = pEnemy->mainpos.pos.x + 22;
-	enemy.mainpos.pos.y = pEnemy->mainpos.pos.y + 50;
-	enemy.ang = pEnemy->ang;
-}
-*/
+
 
 cPlayerEnemy::~cPlayerEnemy() {
-	;
+	if (this != NULL) {
+		cEnemyMgr::Instance()->DeletePlayerEnemy();
+		pEnemy = NULL;
+	}
 }
 
 
@@ -72,8 +67,8 @@ void cPlayerEnemy::Move() {
 	}
 }
 int cPlayerEnemy::Update() {
-	cTextChange::Instance()->DrawTextImage(300, 400, "FIGHTER", eRed, eMag32);
-	cTextChange::Instance()->DrawTextImage(450, 400, "CAPTURE", eRed, eMag32);
+	cTextChange::Instance()->DrawTextImage(250, 400, "FIGHTER", eRed, eMag48);
+	cTextChange::Instance()->DrawTextImage(500, 400, "CAPTURE", eRed, eMag48);
 
 
 	//pEnemyÇÃÇ∆Ç±ÇÎÇpEnemyÇ…ãAÇÍÇŒìGÇÃâ∫Ç‹Ç≈çsÇ≠
@@ -145,27 +140,27 @@ int cPlayerEnemy::Update() {
 
 
 int cPlayerEnemy::ReviveUpdate() {
-	sOBJPos TmpPlayer;
-
-	for (int i = 0; i < 2; i++) {
-		TmpPlayer = cPlayer::Instance()->GetPlayer(i);
-		if (TmpPlayer.onActive == false) continue;
-		if (i == 0) {
-			TmpPlayer.pos.x + 48;
-		}
-		else {
-			TmpPlayer.pos.x - 48;
-		}
-	}
+	pEnemy->moveflg = 0;
 	rotecnt += 0.3;
-	enemy.ang = atan2(TmpPlayer.pos.y - enemy.mainpos.pos.y, TmpPlayer.pos.x - enemy.mainpos.pos.x);
-	if ((TmpPlayer.pos.y - enemy.mainpos.pos.y)*(TmpPlayer.pos.y - enemy.mainpos.pos.y) +
-		(TmpPlayer.pos.x - enemy.mainpos.pos.x)*(TmpPlayer.pos.x - enemy.mainpos.pos.x)
-		<= (TmpPlayer.r - 1 + enemy.mainpos.r)*(TmpPlayer.r - 1 + enemy.mainpos.r)) {
-		cPlayer::Instance()->Double();
-		cEnemyMgr::Instance()->DeletePlayerEnemy();
-		cInGameController::Instance()->OutToRevive();
+	if (rotecnt > 30) rotecnt = 0;
+	enemy.ang = atan2(pEnemy->mainpos.pos.y  - pEnemy->mainpos.pos.y, pEnemy->mainpos.pos.x  -450 );
+	if (pEnemy->mainpos.pos.x == 450) {
+		pEnemy->moveflg=1;
+		enemy.ang = atan2(pEnemy->mainpos.pos.y - tmpPlayer.pos.y, pEnemy->mainpos.pos.x - tmpPlayer.pos.x);
+		if ((pEnemy->mainpos.pos.x - tmpPlayer.pos.x)*(pEnemy->mainpos.pos.x - tmpPlayer.pos.x) +
+			(pEnemy->mainpos.pos.y - tmpPlayer.pos.y)*(pEnemy->mainpos.pos.y - tmpPlayer.pos.y) <=
+			(pEnemy->mainpos.r / 5 + pEnemy->mainpos.r / 5)*(pEnemy->mainpos.r / 5 + pEnemy->mainpos.r / 5)) {
+			pEnemy->moveflg = 0;
+			if (this != NULL) {
+				cEnemyMgr::Instance()->DeletePlayerEnemy();
+				pEnemy = NULL;
+			}
+			cPlayer::Instance()->Double();
+			cInGameController::Instance()->OutToRevive();
+		}
 	}
+		
+	
 	return 0;
 }
 

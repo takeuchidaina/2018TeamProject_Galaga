@@ -84,22 +84,28 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 	enemy.tractorHitFlg = false;
 }
 
+cGreenEnemy::~cGreenEnemy() {
+	enemy.tractingEnemy = false;
+	tractedFlg = false;
+	enemy.tractorflg = false;
+	enemy.tractorHitFlg = false;
+}
 
 void cGreenEnemy::Move() {
 
 
 	enemy.mainpos.cx = enemy.mainpos.pos.x + enemy.width / 2;
 	enemy.mainpos.cy = enemy.mainpos.pos.y + enemy.height / 2;
-	if (enemy.mainpos.onActive == StartMove) {
-		enemy.vct.x = cos(enemy.ang);
-		enemy.vct.y = sin(enemy.ang);
-		enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
-		enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
-	}
-	else if (enemy.mainpos.onActive == YesActive) {
+	
+	 if (enemy.mainpos.onActive == YesActive) {
 		if (enemy.attackflg == TRUE) {
 			if (enemy.moveflg != 8) {
 				enemy.vct.x = cos(enemy.ang)*enemy.dir;
+				enemy.vct.y = sin(enemy.ang);
+				enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
+				enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
+			}else if (enemy.moveflg == 7) {
+				enemy.vct.x = cos(enemy.ang);
 				enemy.vct.y = sin(enemy.ang);
 				enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
 				enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
@@ -243,7 +249,7 @@ int cGreenEnemy::TractorUpdate() {
 
 	traitPlayer = tractor::Instance()->GetAdress();
 
-	if (enemy.tractorflg == true && enemy.moveflg == 0 && traitPlayer != NULL) {
+	if ( cPlayer::Instance()->GetDoubleFlg() == true || enemy.tractorflg == true && enemy.moveflg == 0 && traitPlayer != NULL) {
 		enemy.tractorflg = false;
 		return 0;
 	}
@@ -252,12 +258,7 @@ int cGreenEnemy::TractorUpdate() {
 
 	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
-//
-////	if (enemy.attackflg == true && tractedFlg == true/* && enemy.moveflg == 0*/) {
-//	//if(enemy.tractorflg == true){
-//		enemy.tractorflg = false;
-//		return 0;
-//	}
+
 
 	if (enemy.tractorflg != false && enemy.attackflg == true) {
 		enemy.count++;
@@ -309,9 +310,10 @@ int cGreenEnemy::TractorUpdate() {
 			enemy.mainpos.pos.x = tmpplayer.pos.x;
 			enemy.mainpos.pos.y = tmpplayer.pos.y - 160;
 			enemy.ang = 90 * M_PI / 180;
-			if (enemy.tractorHitFlg == true) {
+			ScShotMgr::Instance()->TractorShot(enemy);
+			/*if (enemy.tractorHitFlg == true) {
 				enemy.moveflg++;
-			}
+			}*/
 			break;
 		case 3:
 
