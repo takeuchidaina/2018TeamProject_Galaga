@@ -270,10 +270,10 @@ int cGreenEnemy::TractorUpdate() {
 
 
 
-		if (enemy.tractorHitFlg == false && TractorNum > 8 && TractorNum < 13) {
-			//‚±‚±‚Åtractor‚Ì‚Í‘«‚è”»’è‚ð“Ç‚ñ‚Å‚¢‚é
-			enemy.tractorHitFlg = tractor::Instance()->TractorHit(this);
-		}
+		//if (enemy.tractorHitFlg == false && TractorNum > 8 && TractorNum < 13) {
+		//	//‚±‚±‚Åtractor‚Ì‚Í‘«‚è”»’è‚ð“Ç‚ñ‚Å‚¢‚é
+		//	enemy.tractorHitFlg = tractor::Instance()->TractorHit(this);
+		//}
 
 		if (enemy.count > 0) {
 			enemy.mainpos.onActive = YesActive;
@@ -315,9 +315,10 @@ int cGreenEnemy::TractorUpdate() {
 			enemy.mainpos.pos.x = tmpplayer.pos.x;
 			enemy.mainpos.pos.y = tmpplayer.pos.y - 160;
 			enemy.ang = 90 * M_PI / 180;
-			if (enemy.tractorHitFlg == true) {
+			cShotMgr::Instance()->TractorShot(enemy);
+			/*if (enemy.tractorHitFlg == true) {
 				enemy.moveflg++;
-			}
+			}*/
 			break;
 		case 3:
 
