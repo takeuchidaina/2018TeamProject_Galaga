@@ -1,5 +1,6 @@
 #include <DxLib.h>
 #include"hit.h"
+#include "WinBox.h"
 
 
 /* コンストラクタ */
@@ -19,6 +20,8 @@ void cHit::Update() {
 	cHit::Player_EnemyShot();	//自機と敵弾の当たり判定
 	cHit::Player_Enemy();		//自機と敵機の当たり判定
 	cHit::PlayerShot_Enemy();	//自弾と敵機の当たり判定
+	cHit::PlayerShot_EnemyPlayer();
+	cHit::Player_EnemyPlayer();
 
 }
 
@@ -45,7 +48,7 @@ void cHit::Player_EnemyShot() {
 
 			if (S_onActive == FALSE) continue;
 
- 			len = ((S_cx - Player.cx) * (S_cx - Player.cx)) + ((S_cy - Player.cy)*(S_cy - Player.cy));
+			len = ((S_cx - Player.cx) * (S_cx - Player.cx)) + ((S_cy - Player.cy)*(S_cy - Player.cy));
 
 			if (len <= ((S_r + Player.r) * (S_r + Player.r))) {
 
@@ -67,7 +70,7 @@ void cHit::Player_EnemyShot() {
 }
 
 
-void cHit::Player_Enemy() {	
+void cHit::Player_Enemy() {
 
 	static int maxEnemy = cEnemyMgr::Instance()->GetMaxEnemy();	// 敵機の数取得
 
@@ -87,7 +90,7 @@ void cHit::Player_Enemy() {
 
 			if (E_onActive == FALSE) continue;
 
-			len = (E_cx - Player.cx)*(E_cx - Player.cx) + (E_cy - Player.cy+5.0)*(E_cy - Player.cy+5.0);
+			len = (E_cx - Player.cx)*(E_cx - Player.cx) + (E_cy - Player.cy + 5.0)*(E_cy - Player.cy + 5.0);
 
 			if (len <= ((E_r + Player.r)*(E_r + Player.r))) {
 
@@ -159,7 +162,7 @@ void cHit::PlayerShot_Enemy() {
 
 					//勝手に追加分 by竹内
 					totalHit++;
-					
+
 				}
 			}
 		}
@@ -176,7 +179,7 @@ void cHit::TractorHit(sEnemy* enemy) {
 
 		Player = cPlayer::Instance()->GetPlayer(i);
 		if (Player.onActive == false) continue;
-		
+
 		if (Player.pos.x + 48 >= tractorX && Player.pos.x <= tractorWidth) {
 
 			//ErrBox("当たったよ");
@@ -188,11 +191,11 @@ void cHit::TractorHit(sEnemy* enemy) {
 
 			cInGameController::Instance()->HitToTractor();
 			TraitPlayer = cEnemyMgr::Instance()->PushPlayerEnemy();
-			TraitPlayer -> SetPenemy(enemy);
+			TraitPlayer->SetPenemy(enemy);
 			cPlayer::Instance()->Break(eTractorBeam, i);
 
-			//enemy->moveflg++;
-			//enemy->tractingEnemy = true;
+			enemy->moveflg++;
+			enemy->tractingEnemy = true;
 
 		}
 
@@ -200,11 +203,79 @@ void cHit::TractorHit(sEnemy* enemy) {
 
 }
 
-void TractingEnemyHit() {
+void cHit::PlayerShot_EnemyPlayer() {
 
-	/*
-	enemyすべてにtractingFlgをもたせればいいのではないかと
-	*/
+	pEnemy = cEnemyMgr::Instance()->GetPlayerEnemyAdress();
+	if (pEnemy != NULL) {
+		E_cx = pEnemy->GetEnemyX();
+		E_cy = pEnemy->GetEnemyY();
+		E_r = pEnemy->GetEnemyR();
+
+		unsigned int Cr;
+		Cr = GetColor(255, 0, 0);
+		DrawCircle(E_cx, E_cy, E_r, Cr, TRUE);
+	}
+
+	for (int j = 0; j < PLAYERSHOTNUM; j++) {	// 弾を撃ったプレイヤー
+		for (int k = 0; k < 2; k++) {	// プレイヤーの弾を調べる
+
+		//自機弾の情報受取
+			S_onActive = cShotMgr::Instance()->GetPlayerShotOnActive(j, k);
+			S_cx = cShotMgr::Instance()->GetPlayerShotCX(j, k);
+			S_cy = cShotMgr::Instance()->GetPlayerShotCY(j, k);
+			S_r = cShotMgr::Instance()->GetPlayerShotR(j, k);
+
+			if (S_onActive == FALSE) continue;
+
+			double len = (S_cx - E_cx)*(S_cx - E_cx) + (S_cy - E_cy)*(S_cy - E_cy);
+
+			if (len <= ((E_r + S_r)*(E_r + S_r))) {
+				//ErrBox("当たったよ");
+				cEnemyMgr::Instance()->DeletePlayerEnemy();
+				cEffectMgr::Instance()->Blowup(ENEMY, E_cx, E_cy);
+			}
+
+		}
+
+	}
+}
+
+void cHit::Player_EnemyPlayer() {
+
+	pEnemy = cEnemyMgr::Instance()->GetPlayerEnemyAdress();
+	if (pEnemy != NULL) {
+		E_cx = pEnemy->GetEnemyX();
+		E_cy = pEnemy->GetEnemyY();
+		E_r = pEnemy->GetEnemyR();
+	}
+
+	for (int i = 0; i < MAXMACHINE; i++) {	// 表示中のプレイヤーを調べる
+
+		Player = cPlayer::Instance()->GetPlayer(i);	// プレイヤー情報受取
+
+		if (Player.onActive == FALSE) continue;
+
+		len = (E_cx - Player.cx)*(E_cx - Player.cx) + (E_cy - Player.cy + 5.0)*(E_cy - Player.cy + 5.0);
+
+		if (len <= ((E_r + Player.r)*(E_r + Player.r))) {
+
+			//ErrBox("当たったよ");
+
+			if (cPlayer::Instance()->GetDoubleFlg() == TRUE) {
+				cPlayer::Instance()->Break(eDeath, i);
+				cEnemyMgr::Instance()->DeletePlayerEnemy();
+			}
+
+			else {
+				cPlayer::Instance()->Break(eDeath, i);
+				cEnemyMgr::Instance()->DeletePlayerEnemy();
+			}
+
+			cSE::Instance()->selectSE(miss);
+			cEffectMgr::Instance()->Blowup(PLAYER, Player.cx, Player.cy);
+		}
+
+	}
 }
 
 /**********************************************************
@@ -220,7 +291,7 @@ void cHit::Debug() {
 
 	// Player
 	Player = cPlayer::Instance()->GetPlayer(0);
-	DrawCircle(Player.cx+1.0, Player.cy+5.0, Player.r, Cr, TRUE);
+	DrawCircle(Player.cx + 1.0, Player.cy + 5.0, Player.r, Cr, TRUE);
 
 	// Shot
 	for (int j = 0; j < ENEMYSHOTNUM; j++) {

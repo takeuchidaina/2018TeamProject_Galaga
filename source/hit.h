@@ -50,12 +50,29 @@ private:
 	************************************************************/
 	void PlayerShot_Enemy();
 
+	/************************************************************
+	 関数：void cHit::PlayerShot_EnemyPlayer
+	 説明：自弾ときゃとられた自機の当たり判定
+	 引数：なし
+	 戻り値：なし
+	************************************************************/
+	void PlayerShot_EnemyPlayer();
+
+	/************************************************************
+	関数：void cHit::Player_EnemyPlayer
+	説明：自機ときゃとられた自機の当たり判定
+	引数：なし
+	戻り値：なし
+	************************************************************/
+	void Player_EnemyPlayer();
+
 	void Debug();				//デバッグ用関数				
 
 	sOBJPos Player;							//プレイヤー
+	cPlayerEnemy* pEnemy;					//プレイヤーエネミー
 	double S_onActive, S_cx, S_cy, S_r;		//弾
 	double E_onActive, E_cx, E_cy, E_r;		//敵
-	bool E_tractingFlg, E_moveFlg;								//敵用フラグ
+	bool E_tractingFlg, E_moveFlg;			//敵用フラグ
 
 	// トラクタービーム用
 	cPlayerEnemy *TraitPlayer;	//敵プレイヤー
