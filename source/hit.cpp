@@ -191,8 +191,9 @@ void cHit::TractorHit(sEnemy* enemy) {
 			TraitPlayer -> SetPenemy(enemy);
 			cPlayer::Instance()->Break(eTractorBeam, i);
 
-			//enemy->moveflg++;
-			//enemy->tractingEnemy = true;
+			enemy->moveflg++;
+			enemy->tractingEnemy = true;
+			enemy->tractorHitFlg = true;
 
 		}
 

@@ -164,12 +164,13 @@ int cShotMgr::TractorShot(sEnemy* tmp) {
 	if (tractorOnActive==TRUE&&tractorCnt == 0) {
 		cSE::Instance()->selectSE(tractor_beam);
 	}
-	if (tmpCnt >= 20) {
+	if (tmpCnt > 20) {
 		tractorCnt++;
 		tmpCnt = 0;	
-		if (tractorCnt == 23) {
+		if (tractorCnt > 23) {
 			tractorOnActive = FALSE;
 			tractorCnt = 0;
+			tmp->moveflg++;
 			return 1;
 		}
 	}
