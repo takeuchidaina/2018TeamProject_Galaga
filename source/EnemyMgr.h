@@ -6,6 +6,7 @@
 #include "cBaseEnemy.h"
 #include "cPlayerEnemy.h"
 #include "TextChange.h"
+#include "FlightText.h"
 
 #include "Singleton.h"
 #include "WinBox.h"
@@ -85,6 +86,14 @@ private:
 		ThirdCountflag   //移動方向を切り替えるカウント３
 	}eLoadData;
 
+	typedef struct {
+		int x, y;
+		int onActive;
+		int count;
+		int score;
+	}sScoreText;
+
+
 	sEnemy enemy[40];         //構造体
 	sEnemy tmpEnemy;          //一時的に敵データを格納する場所
 	//int movetype;           //敵の動作タイプ
@@ -126,8 +135,7 @@ private:
 
 	cPlayerEnemy* pEnemy;      //敵になったプレイヤーのアドレス 
 
-	int DrawScoreFlag;         //スコア描画フラグ 0:かかない 1:核
-
+	sScoreText scoreText;      //特殊スコアを表示させる構造体
 
 public:
 	//~cEnemyMgr();
@@ -272,9 +280,11 @@ public:
 		if (enemy[num].etype==2 && enemy[num].moveflag < 10 || enemies[num]->GetEnemyAttackflg()==1) {
 			//スコアを400加算する
 			cScore::Instance()->AddScore(400);
-			//cTextChange::Instance()->DrawTextImage(enemy[0].pos.x, 100, "400", eRed, eMag48);
-			DrawFormatString(100, 100, GetColor(255, 255, 255), "攻撃フェーズ22222222222222");
-			//waitTimer(3000);
+			scoreText.x=GetEnemyPosX(num);
+			scoreText.y = GetEnemyPosY(num);
+			scoreText.score = 400000;
+			scoreText.onActive = 1;
+			scoreText.count =0;
 		}
 		/*
 		//プレイヤーエネミーを連れているボスギャラガを倒した場合
