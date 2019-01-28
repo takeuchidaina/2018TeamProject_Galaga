@@ -1,11 +1,18 @@
 #include "FlightText.h"
 
 //コンストラクタ
-FlightText::FlightText()
+cFlightText::cFlightText()
 {
+
 }
 
 //デストラクタ
-FlightText::~FlightText()
+cFlightText::~cFlightText()
 {
+}
+
+void cFlightText::ScoreDraw(int x, int y, int score) {
+
+	DrawFormatString(x, y, GetColor(255, 0,0), "%d", score);
+	
 }
