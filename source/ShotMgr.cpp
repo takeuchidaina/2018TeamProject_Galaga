@@ -13,9 +13,11 @@ cShotMgr::cShotMgr() {
 	//player2Shot = new cShot[PLAYERSHOTNUM];
 	//LoadDivGraph("../resource/Image/Galaga_OBJ_dualFighter.png", 4, 4, 1, 16, 16, ShotGrHandle);
 	checkGr = LoadDivGraph("../resource/Image/Galaga_OBJ_bullet.png", 4, 4, 1, 10, 12, ShotGrHandle);
-	if (checkGr == -1) {
-		ErrBox("Shot画像読み込みエラー");
-	}
+	if (checkGr == -1) ErrBox("Shot画像読み込みエラー");
+
+	checkGr = LoadDivGraph("../resource/Image/Galaga_OBJ_effect.png", 15, 5, 3, 50, 82, tractorGrHandle);
+	if (checkGr == -1) ErrBox("Tractor画像読み込みエラー");
+
 	Init();
 	//ErrBox("めう");
 }
@@ -31,6 +33,9 @@ void cShotMgr::Init() {
 	shotRate = 0;
 	ShotFlg = 1;
 
+	tractorCnt = 0;
+	tmpCnt = 0;
+	tractorOnActive = FALSE;
 }
 
 cShotMgr::~cShotMgr() {
@@ -153,6 +158,33 @@ int cShotMgr::EnemyShot(double tmpEX, double tmpEY) {
 	return 0;
 }
 
+int cShotMgr::TractorShot(sEnemy* tmp) {
+	tractorOnActive = TRUE;
+	tmpCnt++;
+	if (tractorOnActive==TRUE&&tractorCnt == 0) {
+		cSE::Instance()->selectSE(tractor_beam);
+	}
+	if (tmpCnt > 20) {
+		tractorCnt++;
+		tmpCnt = 0;	
+		if (tractorCnt > 23) {
+			tractorOnActive = FALSE;
+			tractorCnt = 0;
+			tmp->moveflg++;
+			return 1;
+		}
+	}
+	if (tractorAnimation[tractorCnt] > 8 && tractorAnimation[tractorCnt] < 13) {
+		cHit::Instance()->TractorHit(tmp);
+		//DrawFormatString(20, 500, GetColor(255, 0, 255), "HitOnActive Cnt:", tractorCnt);
+	}
+
+	DrawExtendGraph((int)tmp->mainpos.pos.x - 96 / 2, (int)tmp->mainpos.pos.y + 48 /* * 3*/,
+		(int)tmp->mainpos.pos.x + 90 - 1, (int)tmp->mainpos.pos.y + 48 + 160 - 1,
+		tractorGrHandle[tractorAnimation[tractorCnt]], TRUE);
+	DrawFormatString(20, 500, GetColor(255, 0, 255), "tractorCnt:%d", tractorCnt);
+	return 0;
+}
 
 
 /*
