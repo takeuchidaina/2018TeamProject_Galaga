@@ -6,18 +6,11 @@
 
 class cPlayerEnemy : public cBaseEnemy {
 private:
-
-	sEnemy* tmpEnemy;//自分を今連れているグリーンのアドレスを入れる者
-	
-	 int graph[4];
-
+	 sEnemy* pEnemy;
+	int graph[4];
 	sOBJPos tmpPlayer;
-
-	double rotecnt;//グルグル回るときに使うカウント
-	
-	int playerGraphNum;//機体の色を変更するときに使う
-	
-	int reMoveFlg;//リヴァイブ用の移動フラグ
+	double rotecnt;
+	int playerNum;
 public:
 	cPlayerEnemy(/*double, double, double, int, double, double, int, int*/);
 	virtual ~cPlayerEnemy();
@@ -34,7 +27,7 @@ public:
 	戻り値: 無し
 	*************************************************************************/
 	void SetPenemy(sEnemy* tmp) {
-		tmpEnemy = tmp;
+		pEnemy = tmp;
 	}
 
 };

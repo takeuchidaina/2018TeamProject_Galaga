@@ -47,6 +47,7 @@ protected:
 
 
 public:
+	bool tractedFlg;      //トラクターをしたかどうかのフラグ
 	cBaseEnemy();//コンストラクタ
 	cBaseEnemy(double, double, double, int, double, double, int, int*);//引数付きコンストラクター	
 	virtual ~cBaseEnemy();//デストラクタ
@@ -187,6 +188,12 @@ public:
 		enemy.tractorHitFlg = true;
 	}
 
+	virtual bool GetTractedFlg() {
+		return tractedFlg;
+	}
+	virtual void SetTractedFlg() {
+		tractedFlg = true;
+	}
 
 	virtual bool GetTractingFlg() {
 		return enemy.tractingEnemy;

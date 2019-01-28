@@ -40,7 +40,7 @@ void cEnemyMgr::Init() {
 	SlidingFlag = 1;
 	SlidingCount = 120;
 
-	//ScoreCount = 0;
+	DrawScoreFlag = 0;
 
 
 	//Stage_1.csv
@@ -179,7 +179,6 @@ void cEnemyMgr::Update() {
 	onActiveCount = 0;
 	SlidingCount++;
 	ScalingCount++;
-	//ScoreCount++;
 
 	if (Phaseflag == 0) {
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
@@ -385,10 +384,6 @@ void cEnemyMgr::Update() {
 		}
 	}
 
-	if (scoreText.count >= 60) {
-		scoreText.onActive = 0;
-	}
-
 }
 
 
@@ -453,6 +448,9 @@ void cEnemyMgr::Sliding(sEnemy& enemy) {
 }
 
 
+
+
+
 //描写処理
 void cEnemyMgr::Draw() {
 	//勝手に追加分　by滝　
@@ -472,12 +470,7 @@ void cEnemyMgr::Draw() {
 	if (Phaseflag == 2) {
 		DrawFormatString(100, 100, GetColor(255, 255, 255), "攻撃フェーズ");
 	}
-
-	if (scoreText.onActive == 1) {
-		cFlightText::Instance()->ScoreDraw(scoreText.x,scoreText.y, scoreText.score);
-		scoreText.count++;
-	}
-
+	
 	/*
 	DrawFormatString(0, 120, GetColor(255, 255, 255), "enemy[0]:%lf", enemy[0].target.x);
 	DrawFormatString(0, 140, GetColor(255, 255, 255), "enemy[2]:%lf", enemy[2].target.x);

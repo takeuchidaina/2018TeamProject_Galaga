@@ -7,8 +7,6 @@
 #include "Player.h"
 #include "Struct.h"
 #include "Winbox.h"
-#include "hit.h"
-
 #define PLAYER 0
 #define ENEMY 1
 #define PLAYERSHOTNUM 2
@@ -37,13 +35,6 @@ private:
 	int checkGr;
 	int ShotFlg;
 
-	//トラクター関係
-	int tractorGrHandle[12];
-	int tractorOnActive;
-	int tractorCnt;
-	int tmpCnt;
-	int tractorAnimation[23] = { 0,1,2,3,4,5,6,7,8,9,10,11,10,9,8,7,6,5,4,3,2,1,0 };
-
 protected:
 
 public:
@@ -52,7 +43,6 @@ public:
 	void Init();
 	int Break(int,int);    //弾を消す関数
 	int EnemyShot(double,double);
-	int TractorShot(sEnemy*);
 
 	//ShotFlgの関数(TRUE FALSE)
 	void SetShotFlg(int num) { ShotFlg = num; }

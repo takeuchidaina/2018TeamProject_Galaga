@@ -20,7 +20,6 @@ private:
 	cPlayerEnemy *traitPlayer;
 public:
 	cGreenEnemy(double, double, double, int, double, double, int, int*);
-	virtual ~cGreenEnemy();
 	virtual void Move();
 	int TractorUpdate();
 	virtual int Update();

@@ -54,6 +54,7 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 	enemy.hp = 1;
 
 	enemy.tractingEnemy = false;
+	tractedFlg = false;
 	enemy.tractorflg = false;
 	enemy.tractorHitFlg = false;
 }
