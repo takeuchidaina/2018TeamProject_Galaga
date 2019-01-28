@@ -79,27 +79,31 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 
 
 	enemy.tractingEnemy = false;
-	tractedFlg = false;
 	enemy.tractorflg = false;
 	enemy.tractorHitFlg = false;
 }
 
+cGreenEnemy::~cGreenEnemy() {
+	enemy.tractingEnemy = false;
+	enemy.tractorflg = false;
+	enemy.tractorHitFlg = false;
+}
 
 void cGreenEnemy::Move() {
 
 
 	enemy.mainpos.cx = enemy.mainpos.pos.x + enemy.width / 2;
 	enemy.mainpos.cy = enemy.mainpos.pos.y + enemy.height / 2;
-	if (enemy.mainpos.onActive == StartMove) {
-		enemy.vct.x = cos(enemy.ang);
-		enemy.vct.y = sin(enemy.ang);
-		enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
-		enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
-	}
-	else if (enemy.mainpos.onActive == YesActive) {
+	
+	 if (enemy.mainpos.onActive == YesActive) {
 		if (enemy.attackflg == TRUE) {
 			if (enemy.moveflg != 8) {
 				enemy.vct.x = cos(enemy.ang)*enemy.dir;
+				enemy.vct.y = sin(enemy.ang);
+				enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
+				enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
+			}else if (enemy.moveflg == 7) {
+				enemy.vct.x = cos(enemy.ang);
 				enemy.vct.y = sin(enemy.ang);
 				enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
 				enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
@@ -116,9 +120,6 @@ void cGreenEnemy::Move() {
 int cGreenEnemy::Update() {
 
 
-	if (traitPlayer != NULL && enemy.tractingEnemy == true) {
-		tractedFlg = true;
-	}
 
 	if (enemy.count < 0)enemy.count = 0;
 	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = ReadyStart;
@@ -197,8 +198,8 @@ int cGreenEnemy::Update() {
 			}
 			break;
 		case 7:
-			enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
-			enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
+		/*	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+			enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);*/
 			enemy.ang = atan2(enemy.target.y - enemy.mainpos.pos.y, enemy.target.x - enemy.mainpos.pos.x);
 			if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
 				(enemy.target.y - enemy.mainpos.pos.y)*(enemy.target.y - enemy.mainpos.pos.y) <=
@@ -207,10 +208,8 @@ int cGreenEnemy::Update() {
 				enemy.mainpos.pos.x = enemy.target.x;
 				enemy.mainpos.pos.y = enemy.target.y;
 				enemy.moveflg++;
-				enemy.count = 0;
+ 				enemy.count = 0;
 				enemy.mainpos.onActive = ReadyStart;
-				;
-
 			}
 			break;
 		case 9:
@@ -243,7 +242,7 @@ int cGreenEnemy::TractorUpdate() {
 
 	traitPlayer = tractor::Instance()->GetAdress();
 
-	if (enemy.tractorflg == true && enemy.moveflg == 0 && traitPlayer != NULL) {
+	if ( enemy.moveflg == 0 && cEnemyMgr::Instance()->GetPlayerEnemyAdress() != NULL  || cPlayer::Instance()->GetDoubleFlg() == true  ) {
 		enemy.tractorflg = false;
 		return 0;
 	}
@@ -252,22 +251,17 @@ int cGreenEnemy::TractorUpdate() {
 
 	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
-//
-////	if (enemy.attackflg == true && tractedFlg == true/* && enemy.moveflg == 0*/) {
-//	//if(enemy.tractorflg == true){
-//		enemy.tractorflg = false;
-//		return 0;
-//	}
+
 
 	if (enemy.tractorflg != false && enemy.attackflg == true) {
 		enemy.count++;
 
 
 
-		if (enemy.tractorHitFlg == false && TractorNum > 8 && TractorNum < 13) {
-			//‚±‚±‚Åtractor‚Ì‚Í‘«‚è”»’è‚ð“Ç‚ñ‚Å‚¢‚é
-			enemy.tractorHitFlg = tractor::Instance()->TractorHit(this);
-		}
+		//if (enemy.tractorHitFlg == false && TractorNum > 8 && TractorNum < 13) {
+		//	//‚±‚±‚Åtractor‚Ì‚Í‘«‚è”»’è‚ð“Ç‚ñ‚Å‚¢‚é
+		//	enemy.tractorHitFlg = tractor::Instance()->TractorHit(this);
+		//}
 
 		if (enemy.count > 0) {
 			enemy.mainpos.onActive = YesActive;
@@ -309,15 +303,16 @@ int cGreenEnemy::TractorUpdate() {
 			enemy.mainpos.pos.x = tmpplayer.pos.x;
 			enemy.mainpos.pos.y = tmpplayer.pos.y - 160;
 			enemy.ang = 90 * M_PI / 180;
-			if (enemy.tractorHitFlg == true) {
+			cShotMgr::Instance()->TractorShot(&enemy);
+			/*if (enemy.tractorHitFlg == true) {
 				enemy.moveflg++;
-			}
+			}*/
 			break;
 		case 3:
 
 			enemy.mainpos.pos.x = tmpplayer.pos.x;
 			enemy.mainpos.pos.y = tmpplayer.pos.y - 160;
-		
+			cShotMgr::Instance()->TractorShot(&enemy);
 			enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 			enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 			//enemy.moveflg++;
@@ -338,12 +333,7 @@ int cGreenEnemy::TractorUpdate() {
 			}
 			break;
 		case 5:
-			if (traitPlayer != NULL) {
-				tractedFlg = true;
-			}
-			else {
-				tractedFlg = false;
-			}
+
 
 			if (enemy.mainpos.pos.x <= 430) {
 				enemy.dir = 1;
@@ -399,18 +389,18 @@ int cGreenEnemy::Draw() {
 		if (enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * M_PI) / 180), enemy.graph[AnimationNum], TRUE, TRUE);
 		else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[AnimationNum], TRUE, TRUE);
 		if (enemy.tractorflg == true && (enemy.moveflg == 2 || enemy.moveflg == 3)) {
-			if (TractorCnt > 20) {
-				//cSE::Instance()->selectSE(tractor_beam);
-				TractorCnt = 0;
-				TractorNum++;
-				if (TractorNum > 22) {
-					if (enemy.tractorHitFlg == false) {
-						enemy.moveflg += 2;
-					}
-					TractorNum = 0;
-				}
-			}
-			DrawExtendGraph((int)enemy.mainpos.pos.x - 96 / 2, (int)enemy.mainpos.pos.y + enemy.height * 3, (int)enemy.mainpos.pos.x + 90 - 1, (int)enemy.mainpos.pos.y + enemy.height + 160 - 1, tractor[tractorAnimation[TractorNum]], TRUE);
+			//if (TractorCnt > 20) {
+			//	//cSE::Instance()->selectSE(tractor_beam);
+			//	TractorCnt = 0;
+			//	TractorNum++;
+			//	if (TractorNum > 22) {
+			//		if (enemy.tractorHitFlg == false) {
+			//			enemy.moveflg += 2;
+			//		}
+			//		TractorNum = 0;
+			//	}
+			//}
+			//DrawExtendGraph((int)enemy.mainpos.pos.x - 96 / 2, (int)enemy.mainpos.pos.y + enemy.height * 3, (int)enemy.mainpos.pos.x + 90 - 1, (int)enemy.mainpos.pos.y + enemy.height + 160 - 1, tractor[tractorAnimation[TractorNum]], TRUE);
 			DrawFormatString(0, 800, GetColor(255, 255, 255), "%d", (int)enemy.mainpos.pos.x - 96 / 2, false);
 			DrawFormatString(0, 900, GetColor(255, 255, 255), "%d", (int)enemy.mainpos.pos.x + 90 - 1, false);
 

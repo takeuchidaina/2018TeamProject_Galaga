@@ -157,7 +157,7 @@ void cInGameMgr::Update() {
 	case eDeath://ƒvƒŒƒCƒ„[Ž€–S
 		
 		cShotMgr::Instance()->Update();
-		cEnemyMgr::Instance()->Update();
+		//cEnemyMgr::Instance()->Update();
 		cInGameController::Instance()->PlayerDeathUpdate();
 		cEffectMgr::Instance()->Update();
 		//
