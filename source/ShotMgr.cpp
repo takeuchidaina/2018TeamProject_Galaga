@@ -36,6 +36,7 @@ void cShotMgr::Init() {
 	tractorCnt = 0;
 	tmpCnt = 0;
 	tractorOnActive = FALSE;
+	hitFlg = FALSE;
 }
 
 cShotMgr::~cShotMgr() {
@@ -161,28 +162,39 @@ int cShotMgr::EnemyShot(double tmpEX, double tmpEY) {
 int cShotMgr::TractorShot(sEnemy* tmp) {
 	tractorOnActive = TRUE;
 	tmpCnt++;
-	if (tractorOnActive==TRUE&&tractorCnt == 0) {
+	if (tractorOnActive==TRUE&&tractorCnt == 1) {
 		cSE::Instance()->selectSE(tractor_beam);
 	}
-	if (tmpCnt > 20) {
+	if (tmpCnt >= 20) {
 		tractorCnt++;
 		tmpCnt = 0;	
-		if (tractorCnt > 23) {
+		if (tractorCnt == 23) {//トラクターが終わるとき
+			if(hitFlg==TRUE){
+				cSE::Instance()->selectSE(capture);
+			}
+			else if(hitFlg==FALSE){
+				cSE::Instance()->selectSE(mistake_12);
+			}
 			tractorOnActive = FALSE;
+			hitFlg = FALSE;
 			tractorCnt = 0;
-			tmp->moveflg++;
 			return 1;
 		}
 	}
 	if (tractorAnimation[tractorCnt] > 8 && tractorAnimation[tractorCnt] < 13) {
-		cHit::Instance()->TractorHit(tmp);
+		//当たったかの戻り値を受けとってSEを選別
+		hitFlg = cHit::Instance()->TractorHit(tmp);
 		//DrawFormatString(20, 500, GetColor(255, 0, 255), "HitOnActive Cnt:", tractorCnt);
 	}
-
+	if (tractorAnimation[tractorCnt] > 14 && tractorAnimation[tractorCnt] < 22 && hitFlg == TRUE) {
+		cSE::Instance()->selectSE(tractor_beam_capture);
+	}
 	DrawExtendGraph((int)tmp->mainpos.pos.x - 96 / 2, (int)tmp->mainpos.pos.y + 48 /* * 3*/,
 		(int)tmp->mainpos.pos.x + 90 - 1, (int)tmp->mainpos.pos.y + 48 + 160 - 1,
 		tractorGrHandle[tractorAnimation[tractorCnt]], TRUE);
 	DrawFormatString(20, 500, GetColor(255, 0, 255), "tractorCnt:%d", tractorCnt);
+	DrawFormatString(20, 525, GetColor(255, 0, 255), "HitOnActive:%d", hitFlg);
+
 	return 0;
 }
 
