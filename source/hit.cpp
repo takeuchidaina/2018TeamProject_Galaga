@@ -164,7 +164,7 @@ void cHit::PlayerShot_Enemy() {
 }
 
 
-void cHit::TractorHit(sEnemy* enemy) {
+int cHit::TractorHit(sEnemy* enemy) {
 
 	tractorX = enemy->mainpos.pos.x - 96 / 2;
 	tractorWidth = enemy->mainpos.pos.x + 90 - 1;
@@ -190,11 +190,15 @@ void cHit::TractorHit(sEnemy* enemy) {
 
 			enemy->moveflg++;
 			enemy->tractingEnemy = true;
+			enemy->tractorHitFlg = true;
+
+			return TRUE;
 
 		}
 
 	}
 
+	return FALSE;
 }
 
 void cHit::PlayerShot_EnemyPlayer() {

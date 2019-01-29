@@ -98,7 +98,7 @@ public:
 	引数：double enemyX	ビームを撃った敵のx座標
 	戻り値：なし
 	************************************************************/
-	void TractorHit(sEnemy*);
+	int TractorHit(sEnemy*);
 
 	bool TractorHitFlg;
 
