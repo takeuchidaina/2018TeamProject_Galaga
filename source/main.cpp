@@ -3,9 +3,12 @@
 #include "SceneMgr.h"
 #include "Fps.h"
 #include "Debug.h"
+//#include "Resource.h"
 
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+	SetMainWindowText("2018進級制作 チームA ギャラガ");
+	SetWindowIconID(101);
 	SetWindowSize(1280, 960);
 	SetGraphMode(1280, 960, 32);
 	ChangeWindowMode(TRUE), DxLib_Init(), SetDrawScreen(DX_SCREEN_BACK); //ウィンドウモード変更と初期化と裏画面設定
