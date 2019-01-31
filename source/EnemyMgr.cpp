@@ -274,7 +274,8 @@ void cEnemyMgr::Update() {
 		    //UŒ‚ƒtƒF[ƒY‚ÉˆÚs
 		    Phaseflag = 2;
 
-			int randtmp =GetRand(39);
+			//int randtmp =GetRand(39);
+			int randtmp = 14;
 
 			//1‘Ì–Ú‚Ì“G‚ğƒ‰ƒ“ƒ_ƒ€‚É’Š‘I‚µUŒ‚‚³‚¹‚é
 			if(enemy[randtmp].etype==2){
@@ -362,7 +363,8 @@ void cEnemyMgr::Update() {
 					debug++;
 
 					//“G1‘Ì•ª‚ÌÄ’Š‘I‚ğs‚¤
-					int tmp = GetRand(39);
+					//int tmp = GetRand(39);
+					int tmp = 8;
 			
 					//1‘Ì–Ú‚Ì“G‚ğƒ‰ƒ“ƒ_ƒ€‚É’Š‘I‚µUŒ‚‚³‚¹‚é
 					if (enemy[tmp].deathflag != TRUE && enemy[tmp].etype == 2) {
@@ -543,39 +545,51 @@ void cEnemyMgr::Follow(int tmp) {
 	int enemyCount=0;  //ƒ{ƒX‚ÌüˆÍ‚É‚¢‚éÔ“G‚Ì”
 	int followEnemy[3] = { 0 };  //üˆÍ‚É‚¢‚éÔ“G‚Ì”Ô†‚ğ•Û‘¶‚·‚é”z—ñ
 
-	for (int i = 0; i < sizeof(enemy) / sizeof(*enemy); i++) {
+
+	//ƒ{ƒX‚ÌüˆÍ‚É‚¢‚éÔ“G‚ğ’T‚·
+	//“G40‘Ì•ª‚Ìˆ—
+	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 
 		//“G‚Ì”Ô†‚ª¶‚«‚Ä‚¢‚éÔ“G‚ÌÒ‚É‚È‚é‚Ü‚Åˆ—‚ğ”ò‚Î‚·
-		if (enemy[i].etype != 1 || enemy[tmp].deathflag == TRUE)continue;
+		if (enemy[i].etype != 1 || enemy[i].deathflag == TRUE)continue;
 
 		int x1 = enemy[tmp].target.x;  //ƒ{ƒXƒMƒƒƒ‰ƒK‚ÌxÀ•W
 		int y1 = enemy[tmp].target.y;  //ƒ{ƒXƒMƒƒƒ‰ƒK‚ÌyÀ•W
 
 		int x2 = enemy[i].target.x;  //Ô“G‚ÌxÀ•W
 		int y2 = enemy[i].target.y;  //Ô“G‚ÌyÀ•W
-		
-		int r1 = 71;  //Å’·‚Ì”¼Œa(5000‚Ì•½•ûª)
-		int r2 = 1;   //“G‚³‚ñ‚Ì“–‚½‚è”»’è
 
+		int r1 = 70;  //Å’·‚Ì”¼Œa
+		int r2 = 1;   //“G‚Ì“–‚½‚è”»’è
+
+		//ƒ{ƒXƒMƒƒƒ‰ƒK‚ÌüˆÍ‚É“G‚ª‚¢‚½ê‡
 		if ((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2) <= (r1 - r2)*(r1 - r2)) {
+			//“G‚Ì”Ô†‚ğ•Û‘¶
 			followEnemy[enemyCount] = i;
 			enemyCount++;
 		}
+	}
 
-		enemies[tmp]->SetEnemyAttackflg();
+	//ƒ{ƒX‚Æ’Ç]“G‚ğ“®‚©‚·ˆ—
+	//ƒ{ƒX‚ğUŒ‚‚³‚¹‚é
+	enemies[tmp]->SetEnemyAttackflg();
 
-		if (enemyCount == 3) {
-			
-			int enemyTmp = GetRand(2);
-			enemies[enemyTmp]->SetEnemyAttackflg();
-		}
-		else {
+	//”­Œ©‚³‚ê‚½“G‚Ì”‚ÉŠî‚Ã‚¢‚ÄUŒ‚‚³‚¹‚éˆ—
+		/*if (enemyCount ==2) {  //“G‚Ì”‚ª3‘Ì‚¾‚Á‚½ê‡
+			//2‘Ì•ª‚Ì’Š‘I‚ğ‚¨‚±‚È‚¤
 			for (int i = 0; i < 2; i++) {
-				enemies[i]->SetEnemyAttackflg();
+				enemyCount = GetRand(2);
+				enemies[enemyCount]->SetEnemyAttackflg();
 			}
 		}
+		else {  //“G‚Ì”‚ª3‘Ì–¢–‚¾‚Á‚½ê‡*/
+			for (enemyCount = 0; enemyCount < 3; enemyCount++) {
+				//2‘Ì•ª‚ÌÔ“G‚ğUŒ‚‚³‚¹‚é
+				enemies[followEnemy[enemyCount]]->SetEnemyAttackflg();
+			}
+		//}
 		
-	}
+	
 }
 
 
