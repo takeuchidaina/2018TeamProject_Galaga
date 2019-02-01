@@ -274,8 +274,8 @@ void cEnemyMgr::Update() {
 		    //UŒ‚ƒtƒF[ƒY‚ÉˆÚs
 		    Phaseflag = 2;
 
-			//int randtmp =GetRand(39);
-			int randtmp = 10;
+			int randtmp =GetRand(39);
+			//int randtmp = 10;
 
 			//1‘Ì–Ú‚Ì“G‚ğƒ‰ƒ“ƒ_ƒ€‚É’Š‘I‚µUŒ‚‚³‚¹‚é
 			if(enemy[randtmp].etype==2){
@@ -575,19 +575,19 @@ void cEnemyMgr::Follow(int tmp) {
 	enemies[tmp]->SetEnemyAttackflg();
 
 	//”­Œ©‚³‚ê‚½“G‚Ì”‚ÉŠî‚Ã‚¢‚ÄUŒ‚‚³‚¹‚éˆ—
-		/*if (enemyCount ==2) {  //“G‚Ì”‚ª3‘Ì‚¾‚Á‚½ê‡
+		if (enemyCount ==3) {  //“G‚Ì”‚ª3‘Ì‚¾‚Á‚½ê‡
 			//2‘Ì•ª‚Ì’Š‘I‚ğ‚¨‚±‚È‚¤
 			for (int i = 0; i < 2; i++) {
-				enemyCount = GetRand(2);
-				enemies[enemyCount]->SetEnemyAttackflg();
+				//enemyCount = GetRand(2);
+				enemies[followEnemy[enemyCount]]->SetEnemyAttackflg();
 			}
 		}	
 		else {  //“G‚Ì”‚ª3‘Ì–¢–‚¾‚Á‚½ê‡*/
-			for (enemyCount = 0; enemyCount < 3; enemyCount++) {
+			for (enemyCount = 0; enemyCount < 2; enemyCount++) {
 				//2‘Ì•ª‚ÌÔ“G‚ğUŒ‚‚³‚¹‚é
 				enemies[followEnemy[enemyCount]]->SetEnemyAttackflg();
 			}
-		//}
+		}
 		
 	
 }
