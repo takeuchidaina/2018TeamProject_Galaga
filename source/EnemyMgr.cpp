@@ -275,7 +275,7 @@ void cEnemyMgr::Update() {
 		    Phaseflag = 2;
 
 			//int randtmp =GetRand(39);
-			int randtmp = 14;
+			int randtmp = 10;
 
 			//1‘Ì–Ú‚Ì“G‚ğƒ‰ƒ“ƒ_ƒ€‚É’Š‘I‚µUŒ‚‚³‚¹‚é
 			if(enemy[randtmp].etype==2){
@@ -363,8 +363,8 @@ void cEnemyMgr::Update() {
 					debug++;
 
 					//“G1‘Ì•ª‚ÌÄ’Š‘I‚ğs‚¤
-					//int tmp = GetRand(39);
-					int tmp = 8;
+					int tmp = GetRand(39);
+					//int tmp = 8;
 			
 					//1‘Ì–Ú‚Ì“G‚ğƒ‰ƒ“ƒ_ƒ€‚É’Š‘I‚µUŒ‚‚³‚¹‚é
 					if (enemy[tmp].deathflag != TRUE && enemy[tmp].etype == 2) {
@@ -568,7 +568,7 @@ void cEnemyMgr::Follow(int tmp) {
 			followEnemy[enemyCount] = i;
 			enemyCount++;
 		}
-	}
+	}	
 
 	//ƒ{ƒX‚Æ’Ç]“G‚ğ“®‚©‚·ˆ—
 	//ƒ{ƒX‚ğUŒ‚‚³‚¹‚é
@@ -581,7 +581,7 @@ void cEnemyMgr::Follow(int tmp) {
 				enemyCount = GetRand(2);
 				enemies[enemyCount]->SetEnemyAttackflg();
 			}
-		}
+		}	
 		else {  //“G‚Ì”‚ª3‘Ì–¢–‚¾‚Á‚½ê‡*/
 			for (enemyCount = 0; enemyCount < 3; enemyCount++) {
 				//2‘Ì•ª‚ÌÔ“G‚ğUŒ‚‚³‚¹‚é
