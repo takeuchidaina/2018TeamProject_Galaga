@@ -81,6 +81,9 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 	enemy.tractingEnemy = false;
 	enemy.tractorflg = false;
 	enemy.tractorHitFlg = false;
+
+	//田島追加
+	endTractorFlg = 0;
 }
 
 cGreenEnemy::~cGreenEnemy() {
@@ -238,7 +241,8 @@ int cGreenEnemy::Update() {
 
 int cGreenEnemy::TractorUpdate() {
 
-
+	//田島追加
+	endTractorFlg = 0;
 
 	traitPlayer = tractor::Instance()->GetAdress();
 
@@ -256,6 +260,7 @@ int cGreenEnemy::TractorUpdate() {
 	if (enemy.tractorflg != false && enemy.attackflg == true) {
 		enemy.count++;
 
+		DrawFormatString(20, 575, GetColor(255, 0, 255), "めうmoveflg:%d", enemy.moveflg);
 
 
 		//if (enemy.tractorHitFlg == false && TractorNum > 8 && TractorNum < 13) {
@@ -303,7 +308,19 @@ int cGreenEnemy::TractorUpdate() {
 			enemy.mainpos.pos.x = tmpplayer.pos.x;
 			enemy.mainpos.pos.y = tmpplayer.pos.y - 160;
 			enemy.ang = 90 * M_PI / 180;
-			cShotMgr::Instance()->TractorShot(&enemy);
+			//田島追加
+			endTractorFlg = cShotMgr::Instance()->TractorShot(&enemy);
+			if (endTractorFlg == 1) {
+				if (cShotMgr::Instance()->GetTractorHit() == TRUE) {
+					enemy.moveflg = 3;
+					endTractorFlg = 0;
+				}
+				else {
+					enemy.moveflg = 4;
+					endTractorFlg = 0;
+				}
+			}
+			//田島追加終わり
 			/*if (enemy.tractorHitFlg == true) {
 				enemy.moveflg++;
 			}*/
@@ -312,10 +329,12 @@ int cGreenEnemy::TractorUpdate() {
 
 			enemy.mainpos.pos.x = tmpplayer.pos.x;
 			enemy.mainpos.pos.y = tmpplayer.pos.y - 160;
-			cShotMgr::Instance()->TractorShot(&enemy);
+			endTractorFlg = cShotMgr::Instance()->TractorShot(&enemy);
 			enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 			enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
-			//enemy.moveflg++;
+			if (endTractorFlg == 1) {
+				enemy.moveflg++;
+			}
 			break;
 		case 4:
 
