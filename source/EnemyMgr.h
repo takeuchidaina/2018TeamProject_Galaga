@@ -133,6 +133,8 @@ private:
 	int EnemyAttackFlag;      //攻撃フラグ   0:攻撃を行わない状態 1:攻撃を行う状態 ※bool化予定
 	int EnemyDeathCount;      //死亡カウント
 
+	void Follow(int);         //ボスの追従をさせる関数
+
 	cPlayerEnemy* pEnemy;      //敵になったプレイヤーのアドレス 
 
 	sScoreText scoreText;      //特殊スコアを表示させる構造体
@@ -145,6 +147,9 @@ public:
 
 	void Init();
 
+
+	/*他のクラスなどに情報をわたす用の関数*/
+
 	double GetTargetX(cBaseEnemy* p) {
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 			if (p == enemies[i]) {
@@ -152,6 +157,7 @@ public:
 			}
 		}
 	}
+
 	double GetTargetY(cBaseEnemy* p) {
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 			if (p == enemies[i]) {
@@ -160,8 +166,6 @@ public:
 		}
 
 	}
-
-	/*hitに情報をわたす用の関数*/
 	
 	//敵の最大数
 	int GetMaxEnemy() {
@@ -242,7 +246,6 @@ public:
 	******************************************************/
 	void DeletePlayerEnemy() {
 		delete pEnemy;
-		pEnemy = NULL;
 	}
 
 	/*****************************************************
@@ -273,24 +276,39 @@ public:
 		enemy[num].deathflag =TRUE;
 
 		//敵の死亡数をカウントする
-		EnemyDeathCount++;	
+		EnemyDeathCount++;
 		
 		//条件ごとのスコア加算処理
-		//入場中または攻撃してきたボスギャラガを倒した場合
-		if (enemy[num].etype==2 && enemy[num].moveflag < 10 || enemies[num]->GetEnemyAttackflg()==1) {
+		//攻撃中のボスギャラガを倒した場合
+		if (enemy[num].etype==2 && enemies[num]->GetEnemyAttackflg()==1) {
 			//スコアを400加算する
 			cScore::Instance()->AddScore(400);
 			scoreText.x=GetEnemyPosX(num);
 			scoreText.y = GetEnemyPosY(num);
-			scoreText.score = 400000;
+			scoreText.score = 400;
 			scoreText.onActive = 1;
 			scoreText.count =0;
+		}	
+		//入場中のボスギャラガを倒した場合
+		else if (enemy[num].etype == 2 && enemy[num].moveflag < 10) {
+			//スコアを400加算する
+			cScore::Instance()->AddScore(400);
+			scoreText.x = GetEnemyPosX(num);
+			scoreText.y = GetEnemyPosY(num);
+			scoreText.score = 400000;
+			scoreText.onActive = 1;
+			scoreText.count = 0;
 		}
 		/*
 		//プレイヤーエネミーを連れているボスギャラガを倒した場合
 		else if (enemy[num].type==2 && enemies[num]->GetEnemyAttackflg()=1 && 敵がプレイヤーエネミーを連れている) {
 		    //スコアを800加算する
 			cScore::Instance()->AddScore(800);
+			scoreText.x = GetEnemyPosX(num);
+			scoreText.y = GetEnemyPosY(num);
+			scoreText.score = 800;
+			scoreText.onActive = 1;
+			scoreText.count = 0;
 		}*/
 		else {  //それ以外
 			//スコアを100加算する
