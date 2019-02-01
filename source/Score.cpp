@@ -35,7 +35,7 @@ void cScore::Update() {
 void cScore::Draw() {
 
 	//UI-ハイスコアの表示
-	cTextChange::Instance()->DrawTextImage(1000, 80, "20000", eWhite, eMag48);
+	//cTextChange::Instance()->DrawTextImage(1000, 80, "20000", eWhite, eMag48);
 
 	//UI-スコアの表示
 	cTextChange::Instance()->DrawTextImage(scoreX, 140, snScore, eWhite, eMag48);

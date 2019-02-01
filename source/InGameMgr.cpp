@@ -10,6 +10,7 @@
 //#include "Score.h"
 #include "Debug.h"
 #include "EffectMgr.h"
+#include "SaveLoad.h"
 
 //コンストラクタ
 cInGameMgr::cInGameMgr() {
@@ -135,6 +136,7 @@ void cInGameMgr::Update() {
 				
 		cInGameController::Instance()->BeforeSceneUpdate();
 		cEffectMgr::Instance()->Update();
+		cSaveLoad::Instance()->Load();
 		//
 		break;
 	case eInGame://ゲーム画面[
@@ -145,7 +147,6 @@ void cInGameMgr::Update() {
 		cHit::Instance()->Update();
 		cScore::Instance()->Update();
 		cEffectMgr::Instance()->Update();
-
 		if (Debug::Instance()->Get_Input(Key0) == 1) {
 			for (int i = 0; i < cEnemyMgr::Instance()->GetMaxEnemy(); i++) {
 				cEnemyMgr::Instance()->SetEnemyDeath(i);
@@ -183,6 +184,7 @@ void cInGameMgr::Update() {
 		break;
 	case eResult://リザルト画面
 		cInGameController::Instance()->ResultUpdate();
+		cSaveLoad::Instance()->Save();
 		//
 		break;
 	case eNextStage://次のステージへ
@@ -214,6 +216,7 @@ void cInGameMgr::Draw() {
 		cEnemyMgr::Instance()->Draw();
 		cShotMgr::Instance()->Draw();
 		cEffectMgr::Instance()->Draw();
+		cSaveLoad::Instance()->Draw();
 		//EnemyMgr.Draw();
 //		DrawFormatString(0, 20, GetColor(255, 255, 255), "eInGame");
 		//
