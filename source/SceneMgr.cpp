@@ -3,6 +3,7 @@
 #include "SceneMgr.h"
 #include "Interface.h"
 #include "BackGround.h"
+#include "SaveLoad.h"
 
 #include "Template.h"
 //‰ü—Ç—\’è
@@ -129,6 +130,7 @@ void cSceneMgr::Draw() {
 	}
 	
 	cUI::Instance()->UI_Draw();
+	cSaveLoad::Instance()->Draw();
 	cScore::Instance()->Draw();
 }
 
