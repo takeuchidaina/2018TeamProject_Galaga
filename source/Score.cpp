@@ -9,13 +9,13 @@ cScore::cScore() {
 	totalHit = 0;
 	oneShotRatio = 0.0;
 	hitMissRatio = 0.0;
-	scoreX = 1130;
+	scoreX = 0;
 }
 
 void cScore::Update() {
 
 	//スコアに応じて座標がずれる(一桁目位置固定)
-	if (score >= 10 && score < 100) {
+	if (score >= 0 && score < 100) {
 		scoreX = 1098;
 	}
 	else if (score >= 100 && score < 1000) {
