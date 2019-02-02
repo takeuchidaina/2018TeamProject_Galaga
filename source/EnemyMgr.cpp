@@ -31,7 +31,7 @@ void cEnemyMgr::Init() {
 	Stayflag = 0;
 	EnemyAttackFlag = 1;     //攻撃フラグ 0:攻撃を行わない状態 1:攻撃を行う状態
 	ChoiseOrderFlag = TRUE;
-	
+
 	EnemyDeathCount = 0;
 
 	ScalingFlag = -1;
@@ -41,6 +41,9 @@ void cEnemyMgr::Init() {
 	SlidingCount = 120;
 
 	//ScoreCount = 0;
+	enemyCount = 0;
+	memset(followEnemy, 0x00, sizeof(followEnemy));
+	memset(followEnemyV, 0x00, sizeof(followEnemyV));
 
 
 	//Stage_1.csv
@@ -225,7 +228,7 @@ void cEnemyMgr::Update() {
 					Move(enemy[i]);
 					if ((enemy[i].target.x - enemy[i].pos.x)*(enemy[i].target.x - enemy[i].pos.x) +
 						(enemy[i].target.y - enemy[i].pos.y)*(enemy[i].target.y - enemy[i].pos.y) <=
-						(enemy[i].r /5 + enemy[i].targetr)*(enemy[i].r /5 + enemy[i].targetr)) {
+						(enemy[i].r / 5 + enemy[i].targetr)*(enemy[i].r / 5 + enemy[i].targetr)) {
 						enemy[i].pos.x = enemy[i].target.x;
 						enemy[i].pos.y = enemy[i].target.y;
 						enemy[i].moveflag++;
@@ -259,7 +262,7 @@ void cEnemyMgr::Update() {
 			enemies[i]->SetEnemyAngle(enemy[i].angle);
 
 		}//配列数分の敵動作終了
-		
+
 		 //敵が動いていないフラグをonにする
 		Stayflag = 1;
 	}
@@ -268,17 +271,17 @@ void cEnemyMgr::Update() {
 		//Phaseflagが1の場合
 		if (Phaseflag == 1) {
 
-     		//待機状態のフラグoff
+			//待機状態のフラグoff
 			Stayflag = 0;
 
-		    //攻撃フェーズに移行
-		    Phaseflag = 2;
+			//攻撃フェーズに移行
+			Phaseflag = 2;
 
-			int randtmp =GetRand(39);
+			int randtmp = GetRand(39);
 			//int randtmp = 10;
 
 			//1体目の敵をランダムに抽選し攻撃させる
-			if(enemy[randtmp].etype==2){
+			if (enemy[randtmp].etype == 2) {
 				/*while (1) {
 					red1 = GetRand(20);
 					red2 = GetRand(20);
@@ -348,74 +351,81 @@ void cEnemyMgr::Update() {
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 			//敵が死んでいるか、再抽選フラグがoffの場合は処理を飛ばす
 			if (enemy[i].onactive != TRUE || enemies[i]->GetEnemyChoiseOrder() != 1 || enemy[i].deathflag == TRUE)continue;
-			
+
 			//再抽選フラグoff
 			ReChoiceFlag = 0;
-		
+
 		}
 
-			//再抽選
-				//再抽選フラグがTRUEになっているもしくは攻撃中の敵が殺された場合、敵の再抽選を行う
-			if (ReChoiceFlag == 1 && ChoiseOrderFlag == TRUE) {
-				int debug = 0;		
-				while (1) {
-					//エラーボックスが表示されるまでのカウントを加算
-					debug++;
+		//再抽選
+			//再抽選フラグがTRUEになっているもしくは攻撃中の敵が殺された場合、敵の再抽選を行う
+		if (ReChoiceFlag == 1 && ChoiseOrderFlag == TRUE) {
+			int debug = 0;
+			while (1) {
+				//エラーボックスが表示されるまでのカウントを加算
+				debug++;
 
-					//敵1体分の再抽選を行う
-					int tmp = GetRand(39);
-					//int tmp = 8;
-			
-					//1体目の敵をランダムに抽選し攻撃させる
-					if (enemy[tmp].deathflag != TRUE && enemy[tmp].etype == 2) {
-						/*while (1) {
-							red1 = GetRand(20);
-							red2 = GetRand(20);
-							if (enemy[red1].etype == 1 && enemy[red2].etype == 1)break;
-						}
-						enemies[red1]->SetEnemyAttackflg();
-						enemies[red2]->SetEnemyAttackflg();
-						enemies[tmp]->SetEnemyAttackflg();
-						break;*/
+				//敵1体分の再抽選を行う
+				//int tmp = GetRand(39);
+				int tmp = 8;
+
+				//1体目の敵をランダムに抽選し攻撃させる
+				if (enemy[tmp].deathflag != TRUE && enemy[tmp].etype == 2) {
+					/*while (1) {
+						red1 = GetRand(20);
+						red2 = GetRand(20);
+						if (enemy[red1].etype == 1 && enemy[red2].etype == 1)break;
+					}
+					enemies[red1]->SetEnemyAttackflg();
+					enemies[red2]->SetEnemyAttackflg();
+					enemies[tmp]->SetEnemyAttackflg();
+					break;*/
+					if (enemies[tmp]->GetTractorfFlg() == false) {
+						followEnemy[0] = tmp;
 						Follow(tmp);
 					}
 					else {
 						enemies[tmp]->SetEnemyAttackflg();
-						break;
 					}
-
-					if (enemy[tmp].deathflag != TRUE) {  //抽選された敵が生きている場合は、攻撃動作を行い処理を抜ける
-						enemies[tmp]->SetEnemyAttackflg();
-						break;
-					}
-					if (debug == 1000) {  //デバッグカウントが1000になったら
-						ErrBox("えねみーまねーじゃー\n無限ループってこわくね");
-						break;
-					}
-
-					int tmpcount = 0;  //敵の死亡数のカウント
-
-					//敵40体分の処理を行う
-					for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-						//敵が死んだ場合は、カウントを加算
-						if (enemy[i].deathflag == true)tmpcount++;
-					}
-
-					//敵が40体死んだら、次のステージに移動
-					if (tmpcount == sizeof(enemy) / sizeof*(enemy)) {
-						cInGameController::Instance()->NextStage();
-						EndIt();
-						Init();
-						return;
-					}
-
+					break;
 				}
+				else {
+					enemies[tmp]->SetEnemyAttackflg();
+					break;
+				}
+
+				if (enemy[tmp].deathflag != TRUE) {  //抽選された敵が生きている場合は、攻撃動作を行い処理を抜ける
+					enemies[tmp]->SetEnemyAttackflg();
+					break;
+				}
+				if (debug == 1000) {  //デバッグカウントが1000になったら
+					ErrBox("えねみーまねーじゃー\n無限ループってこわくね");
+					break;
+				}
+
+				int tmpcount = 0;  //敵の死亡数のカウント
+
+				//敵40体分の処理を行う
+				for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+					//敵が死んだ場合は、カウントを加算
+					if (enemy[i].deathflag == true)tmpcount++;
+				}
+
+				//敵が40体死んだら、次のステージに移動
+				if (tmpcount == sizeof(enemy) / sizeof*(enemy)) {
+					cInGameController::Instance()->NextStage();
+					EndIt();
+					Init();
+					return;
+				}
+
 			}
-			else if (ReChoiceFlag == 1 && ChoiseOrderFlag == FALSE) {  //再抽選フラグonかつ、外部から再抽選を止められている場合
-				//待機中フラグon
-				Stayflag = 1;
-			}
-		
+		}
+		else if (ReChoiceFlag == 1 && ChoiseOrderFlag == FALSE) {  //再抽選フラグonかつ、外部から再抽選を止められている場合
+			//待機中フラグon
+			Stayflag = 1;
+		}
+
 	}
 
 	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
@@ -428,6 +438,16 @@ void cEnemyMgr::Update() {
 		EndIt();
 		Init();
 		return;
+	}
+
+	if (enemies[followEnemy[0]]->GetEnemyAttackflg()== true /*&& enemies[0]->GetEnemyOnActive() == cBaseEnemy::YesActive*/
+//		&& enemies[0]->GetEnemyOnActive() != false
+		) {
+		for (int i = 1; i < enemyCount; i++) {
+			enemies[followEnemy[i]]->SetEnemyX(enemies[followEnemy[0]]->GetEnemyX() + followEnemyV[i].x);
+			enemies[followEnemy[i]]->SetEnemyY(enemies[followEnemy[0]]->GetEnemyY() + followEnemyV[i].y);
+			enemies[followEnemy[i]]->SetEnemyR(enemies[followEnemy[0]]->GetEnemyR());
+		}
 	}
 
 	//デバッグコマンド6:青以外の敵が消滅する
@@ -460,8 +480,8 @@ void cEnemyMgr::Update() {
 	//デバッグコマンド9:敵が残り一体の状態になる
 	if (Debug::Instance()->Get_Input(Key9) == 1) {
 		for (int i = 1; i < sizeof(enemy) / sizeof*(enemy); i++) {
-				SetEnemyDeath(i);
-				Phaseflag = 2;
+			SetEnemyDeath(i);
+			Phaseflag = 2;
 		}
 	}
 
@@ -503,7 +523,7 @@ void cEnemyMgr::Shifted(sEnemy& ene1, sEnemy& ene2) {
 ******************************************************/
 void cEnemyMgr::Scaling(sEnemy& enemy) {
 
-	if (ScalingCount >=180 ) {
+	if (ScalingCount >= 180) {
 		ScalingFlag *= -1;
 		ScalingCount = 0;
 	}
@@ -542,9 +562,7 @@ void cEnemyMgr::Sliding(sEnemy& enemy) {
 ******************************************************/
 void cEnemyMgr::Follow(int tmp) {
 
-	int enemyCount=0;  //ボスの周囲にいる赤敵の数
-	int followEnemy[3] = { 0 };  //周囲にいる赤敵の番号を保存する配列
-
+	enemyCount = 1;
 
 	//ボスの周囲にいる赤敵を探す
 	//敵40体分の処理
@@ -559,37 +577,45 @@ void cEnemyMgr::Follow(int tmp) {
 		int x2 = enemy[i].target.x;  //赤敵のx座標
 		int y2 = enemy[i].target.y;  //赤敵のy座標
 
-		int r1 = 70;  //最長の半径
+		int r1 = 76;  //最長の半径
 		int r2 = 1;   //敵の当たり判定
 
 		//ボスギャラガの周囲に敵がいた場合
 		if ((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2) <= (r1 - r2)*(r1 - r2)) {
 			//敵の番号を保存
+			followEnemyV[enemyCount].x = x2 - x1;
+			followEnemyV[enemyCount].y = y2 - y1;
 			followEnemy[enemyCount] = i;
 			enemyCount++;
 		}
-	}	
+	}
 
 	//ボスと追従敵を動かす処理
 	//ボスを攻撃させる
 	enemies[tmp]->SetEnemyAttackflg();
-
+	/*
 	//発見された敵の数に基づいて攻撃させる処理
-		if (enemyCount ==3) {  //敵の数が3体だった場合
-			//2体分の抽選をおこなう
-			for (int i = 0; i < 2; i++) {
-				//enemyCount = GetRand(2);
-				enemies[followEnemy[enemyCount]]->SetEnemyAttackflg();
-			}
-		}	
-		else {  //敵の数が3体未満だった場合*/
-			for (enemyCount = 0; enemyCount < 2; enemyCount++) {
-				//2体分の赤敵を攻撃させる
-				enemies[followEnemy[enemyCount]]->SetEnemyAttackflg();
-			}
+	if (enemyCount == 3) {  //敵の数が3体だった場合
+		//2体分の抽選をおこなう
+		for (int i = 0; i < 2; i++) {
+			//enemyCount = GetRand(2);
+			enemies[followEnemy[enemyCount]]->SetEnemyAttackflg();
 		}
-		
-	
+	}
+	else {  //敵の数が3体未満だった場合
+		for (enemyCount = 0; enemyCount < 2; enemyCount++) {
+			//2体分の赤敵を攻撃させる
+			enemies[followEnemy[enemyCount]]->SetEnemyAttackflg();
+		}
+	}
+	*/
+	if (enemyCount > 3) enemyCount = 3;
+
+	for (int i = 1; i < enemyCount; i++) {
+		enemies[followEnemy[i]]->SetEnemyAttackflg();
+	}
+
+
 }
 
 
@@ -598,7 +624,7 @@ void cEnemyMgr::Draw() {
 	//勝手に追加分　by滝　
 	//PlayerEnemyが生成されていた時だけ表示
 
-	if (pEnemy !=NULL) {
+	if (pEnemy != NULL) {
 		if (pEnemy->GetEnemyOnActive() != 1) {
 			pEnemy->Draw();
 		}
@@ -614,7 +640,7 @@ void cEnemyMgr::Draw() {
 	}
 
 	if (scoreText.onActive == 1) {
-		cFlightText::Instance()->ScoreDraw(scoreText.x,scoreText.y, scoreText.score);
+		cFlightText::Instance()->ScoreDraw(scoreText.x, scoreText.y, scoreText.score);
 		scoreText.count++;
 	}
 
