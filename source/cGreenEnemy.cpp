@@ -195,6 +195,7 @@ int cGreenEnemy::Update() {
 				enemy.mainpos.pos.x = enemy.target.x;
 				enemy.moveflg++;
 				enemy.count = 0;
+				enemy.mainpos.onActive = EndMove;
 			}
 			break;
 		case 7:

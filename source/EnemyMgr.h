@@ -139,6 +139,11 @@ private:
 
 	sScoreText scoreText;      //特殊スコアを表示させる構造体
 
+	int enemyCount;  //ボスの周囲にいる赤敵の数
+	int followEnemy[3];  //周囲にいる赤敵の番号を保存する配列
+	sPos followEnemyV[3];
+
+
 public:
 	//~cEnemyMgr();
 
@@ -246,6 +251,7 @@ public:
 	******************************************************/
 	void DeletePlayerEnemy() {
 		delete pEnemy;
+		pEnemy = NULL;
 	}
 
 	/*****************************************************

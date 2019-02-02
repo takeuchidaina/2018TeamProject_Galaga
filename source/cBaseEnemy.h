@@ -79,7 +79,8 @@ public:
 		NoActive,  // 破壊時
 		YesActive, //起動時
 		ReadyStart, //移動可能時
-		SetPos //移動終了時
+		SetPos, //移動終了時
+		EndMove
 	};
 
 	//右にいるか左にいるか
