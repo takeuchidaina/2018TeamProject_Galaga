@@ -121,7 +121,7 @@ void cHit::PlayerShot_Enemy() {
 		E_cy = cEnemyMgr::Instance()->GetEnemyPosY(i);
 		E_r = cEnemyMgr::Instance()->GetEnemyPosR(i);
 		E_tractingFlg = cEnemyMgr::Instance()->GetTractingFlg(i);
-		E_moveFlg = cEnemyMgr::Instance()->GetEnemyonActive(i);
+		E_moveFlg = cEnemyMgr::Instance()->GetEnemyStay();
 
 		if (E_onActive == FALSE) continue;
 
@@ -229,6 +229,7 @@ void cHit::PlayerShot_EnemyPlayer() {
 			if (len <= ((E_r + S_r)*(E_r + S_r))) {
 				//ErrBox("“–‚½‚Á‚½");
 				cEnemyMgr::Instance()->DeletePlayerEnemy();
+				pEnemy = NULL;
 				cEffectMgr::Instance()->Blowup(ENEMY, E_cx, E_cy);
 			}
 

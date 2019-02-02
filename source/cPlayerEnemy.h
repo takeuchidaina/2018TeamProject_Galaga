@@ -20,7 +20,6 @@ private:
 	int reMoveFlg;//リヴァイブ用の移動フラグ
 public:
 	cPlayerEnemy(/*double, double, double, int, double, double, int, int*/);
-	virtual ~cPlayerEnemy();
 	virtual void Move();
 	virtual int Update();
 	int ReviveUpdate();

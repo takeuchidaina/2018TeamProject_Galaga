@@ -111,23 +111,30 @@ int cInGameController::ReviveSceneUpdate() {
 	//プレイヤーを再配置
 	
 	//全てのエネミーが移動が終わっているかを獲得
-	 static cPlayerEnemy *TmpPlayer = NULL;
-	TmpPlayer = cEnemyMgr::Instance()->GetPlayerEnemyAdress();
-	if (TmpPlayer != NULL)TmpPlayer->ReviveUpdate();
-	
+	 static cPlayerEnemy *pEnemy = NULL;
+	 
+	 pEnemy = cEnemyMgr::Instance()->GetPlayerEnemyAdress();
+	cEnemyMgr::Instance()->Update();
 	if (cEnemyMgr::Instance()->GetEnemyStay() == 0) {
-		cEnemyMgr::Instance()->Update();
+		cShotMgr::Instance()->SetShotFlg(false);
+		cEnemyMgr::Instance()->SetChoiseOrderFlag(false);
 	}
 	else {
+		cPlayer::Instance()->PlayerTractorMove();
+		if (pEnemy != NULL) {
+			pEnemy->ReviveUpdate();
+		//	pEnemy->Move();
+		}
+		
 		count++;
 		if (count > 120) {
 			cShotMgr::Instance()->SetShotFlg(true);
 			cEnemyMgr::Instance()->SetChoiseOrderFlag(true);
-			//cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
+			if(pEnemy == NULL) cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
 			count = 0;
 		}
 	}
-
+	
 	return 0;
 }
 

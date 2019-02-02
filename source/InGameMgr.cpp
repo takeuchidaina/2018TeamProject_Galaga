@@ -167,6 +167,7 @@ void cInGameMgr::Update() {
 		//cEnemyMgr::Instance()->Update();
 		cInGameController::Instance()->ReviveSceneUpdate();
 		cEffectMgr::Instance()->Update();
+		cShotMgr::Instance()->Update();
 		//
 		break;
 	case ePause://ポーズ画面
@@ -233,9 +234,8 @@ void cInGameMgr::Draw() {
 	case eRevival://プレイヤー復活
 		cPlayer::Instance()->Draw();
 		cEnemyMgr::Instance()->Draw();
-		cShotMgr::Instance()->Draw();
+		//cShotMgr::Instance()->Draw();
 		cEffectMgr::Instance()->Draw();
-		cInGameController::Instance()->PlayerDeathDraw();
 		DrawFormatString(0, 20, GetColor(255, 255, 255), "eRevival");
 		//
 		break;
@@ -244,7 +244,7 @@ void cInGameMgr::Draw() {
 		cEnemyMgr::Instance()->Draw();
 		cShotMgr::Instance()->Draw();
 		cEffectMgr::Instance()->Draw();
-		tractor::Instance()->draw();
+		//tractor::Instance()->draw();
 //		DrawFormatString(0, 20, GetColor(255, 255, 255), "ePause");
 		//DrawFormatString(420, 400, GetColor(100, 255, 255), "PAUSE");
 		cTextChange::Instance()->DrawTextImage(370, 600, "PAUSE", eLBlue, eMag48);
