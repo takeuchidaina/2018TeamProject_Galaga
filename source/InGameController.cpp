@@ -127,7 +127,7 @@ int cInGameController::ReviveSceneUpdate() {
 		}
 		
 		count++;
-		if (count > 120) {
+		if (count > 60) {
 			cShotMgr::Instance()->SetShotFlg(true);
 			cEnemyMgr::Instance()->SetChoiseOrderFlag(true);
 			if(pEnemy == NULL) cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);

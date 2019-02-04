@@ -366,8 +366,8 @@ void cEnemyMgr::Update() {
 				debug++;
 
 				//“G1‘Ì•ª‚ÌÄ’Š‘I‚ðs‚¤
-				//int tmp = GetRand(39);
-				int tmp = 8;
+				int tmp = GetRand(39);
+				//int tmp = 8;
 
 				//1‘Ì–Ú‚Ì“G‚ðƒ‰ƒ“ƒ_ƒ€‚É’Š‘I‚µUŒ‚‚³‚¹‚é
 				if (enemy[tmp].deathflag != TRUE && enemy[tmp].etype == 2) {
@@ -635,9 +635,9 @@ void cEnemyMgr::Draw() {
 		enemies[i]->Update2();
 		enemies[i]->Draw();
 	}
-	if (Phaseflag == 2) {
-		DrawFormatString(100, 100, GetColor(255, 255, 255), "scoreText.count%d", scoreText.count);
-	}
+	//if (Phaseflag == 2) {
+	//	DrawFormatString(100, 100, GetColor(255, 255, 255), "scoreText.count%d", scoreText.count);
+	//}
 
 	if (scoreText.onActive == 1) {
 		cFlightText::Instance()->ScoreDraw(scoreText.x, scoreText.y, scoreText.score);

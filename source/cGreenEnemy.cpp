@@ -140,14 +140,14 @@ int cGreenEnemy::Update() {
 		if (enemy.count > 0) {
 			enemy.mainpos.onActive = YesActive;
 		}
-		DrawFormatString(0, 0, GetColor(255, 255, 255), "%lf", enemy.target.x);
+	/*	DrawFormatString(0, 0, GetColor(255, 255, 255), "%lf", enemy.target.x);
 		DrawFormatString(0, 50, GetColor(255, 255, 255), "%lf", enemy.target.y);
 		DrawFormatString(0, 100, GetColor(255, 255, 255), "%lf", enemy.mainpos.pos.x);
 		DrawFormatString(0, 125, GetColor(255, 255, 255), "%lf", enemy.mainpos.pos.y);
 		DrawFormatString(0, 150, GetColor(255, 255, 255), "%d", enemy.targetr);
 		DrawFormatString(0, 175, GetColor(255, 255, 255), "%lf", enemy.mainpos.r);
 
-		DrawFormatString(0, 200, GetColor(255, 255, 255), "%d", enemy.moveflg);
+		DrawFormatString(0, 200, GetColor(255, 255, 255), "%d", enemy.moveflg);*/
 		switch (enemy.moveflg)
 		{
 		case 0:
@@ -241,7 +241,7 @@ int cGreenEnemy::TractorUpdate() {
 
 
 
-	traitPlayer = tractor::Instance()->GetAdress();
+	//traitPlayer = tractor::Instance()->GetAdress();
 
 	if ( enemy.moveflg == 0 && cEnemyMgr::Instance()->GetPlayerEnemyAdress() != NULL  || cPlayer::Instance()->GetDoubleFlg() == true  ) {
 		enemy.tractorflg = false;
@@ -401,9 +401,9 @@ int cGreenEnemy::Draw() {
 			//		TractorNum = 0;
 			//	}
 			//}
-			//DrawExtendGraph((int)enemy.mainpos.pos.x - 96 / 2, (int)enemy.mainpos.pos.y + enemy.height * 3, (int)enemy.mainpos.pos.x + 90 - 1, (int)enemy.mainpos.pos.y + enemy.height + 160 - 1, tractor[tractorAnimation[TractorNum]], TRUE);
-			DrawFormatString(0, 800, GetColor(255, 255, 255), "%d", (int)enemy.mainpos.pos.x - 96 / 2, false);
-			DrawFormatString(0, 900, GetColor(255, 255, 255), "%d", (int)enemy.mainpos.pos.x + 90 - 1, false);
+			////DrawExtendGraph((int)enemy.mainpos.pos.x - 96 / 2, (int)enemy.mainpos.pos.y + enemy.height * 3, (int)enemy.mainpos.pos.x + 90 - 1, (int)enemy.mainpos.pos.y + enemy.height + 160 - 1, tractor[tractorAnimation[TractorNum]], TRUE);
+			//DrawFormatString(0, 800, GetColor(255, 255, 255), "%d", (int)enemy.mainpos.pos.x - 96 / 2, false);
+			//DrawFormatString(0, 900, GetColor(255, 255, 255), "%d", (int)enemy.mainpos.pos.x + 90 - 1, false);
 
 			//DrawLine((int)enemy.mainpos.pos.x - 96 / 2, 0, (int)enemy.mainpos.pos.x - 96 / 2, 900, GetColor(255, 255, 255), false);
 			//DrawLine((int)enemy.mainpos.pos.x + 90 - 1, 0, (int)enemy.mainpos.pos.x + 90 - 1, 900, GetColor(255, 255, 255), false);

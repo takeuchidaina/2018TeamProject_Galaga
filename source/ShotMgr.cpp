@@ -173,6 +173,7 @@ int cShotMgr::TractorShot(sEnemy* tmp) {
 				cSE::Instance()->selectSE(capture);
 			}
 			else if(hitFlg==FALSE){
+				tmp->moveflg++;
 				cSE::Instance()->selectSE(mistake_12);
 			}
 			tractorOnActive = FALSE;
@@ -192,8 +193,8 @@ int cShotMgr::TractorShot(sEnemy* tmp) {
 	DrawExtendGraph((int)tmp->mainpos.pos.x - 96 / 2, (int)tmp->mainpos.pos.y + 48 /* * 3*/,
 		(int)tmp->mainpos.pos.x + 90 - 1, (int)tmp->mainpos.pos.y + 48 + 160 - 1,
 		tractorGrHandle[tractorAnimation[tractorCnt]], TRUE);
-	DrawFormatString(20, 500, GetColor(255, 0, 255), "tractorCnt:%d", tractorCnt);
-	DrawFormatString(20, 525, GetColor(255, 0, 255), "HitOnActive:%d", hitFlg);
+	/*DrawFormatString(20, 500, GetColor(255, 0, 255), "tractorCnt:%d", tractorCnt);
+	DrawFormatString(20, 525, GetColor(255, 0, 255), "HitOnActive:%d", hitFlg);*/
 
 	return 0;
 }

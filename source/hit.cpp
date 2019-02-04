@@ -211,7 +211,7 @@ void cHit::PlayerShot_EnemyPlayer() {
 
 		unsigned int Cr;
 		Cr = GetColor(255, 0, 0);
-		DrawCircle(E_cx, E_cy, E_r, Cr, TRUE);
+		//DrawCircle(E_cx, E_cy, E_r, Cr, TRUE);
 	}
 
 	for (int j = 0; j < PLAYERSHOTNUM; j++) {
