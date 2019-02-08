@@ -16,7 +16,7 @@ cShotMgr::cShotMgr() {
 	if (checkGr == -1) ErrBox("Shot画像読み込みエラー");
 
 	checkGr = LoadDivGraph("../resource/Image/Galaga_OBJ_effect.png", 15, 5, 3, 50, 82, tractorGrHandle);
-	if (checkGr == -1) ErrBox("Tractor画像読み込みエラー");
+	if (checkGr == -1) ErrBox("Tractor画像読み込みエラー"); 
 
 	Init();
 	//ErrBox("めう");
@@ -61,6 +61,9 @@ int cShotMgr::Update() {
 					//プレイヤーの座標を受け取って座標をセット
 					sOBJPos tmp;
 					tmp = cPlayer::Instance()->GetPlayer(0);
+					if (tmp.onActive == FALSE) {
+						tmp = cPlayer::Instance()->GetPlayer(1);
+					}
 					player1Shot[i].Set_ShotCX(tmp.cx);
 					player1Shot[i].Set_ShotCY(tmp.cy);
 					player1Shot[i].Set_ShotRad(M_PI * 270 / 180);//上
