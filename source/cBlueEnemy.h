@@ -10,6 +10,7 @@ class cBlueEnemy : public cBaseEnemy {
 	virtual void Move();
 	virtual int Update();
 	virtual int Draw();
+	virtual void EndlessUpdate();
 
 
 };

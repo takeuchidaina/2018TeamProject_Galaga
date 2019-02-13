@@ -77,18 +77,24 @@ void cRedEnemy::Move() {
 
 	
   if (enemy.mainpos.onActive == YesActive) {
-		if (enemy.attackflg == TRUE) {
-			if (enemy.moveflg != 8) {
-				enemy.vct.x = cos(enemy.ang)* enemy.dir;
-				enemy.vct.y = sin(enemy.ang);
-				enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
-				enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
-			}
-		}
-		else {
-			enemy.vct.x = cos(enemy.ang)* enemy.dir;
-			enemy.vct.y = sin(enemy.ang);
-		}
+	  if (enemy.attackflg == TRUE) {
+		  if (enemy.moveflg != 8 && enemy.moveflg != 7) {
+			  enemy.vct.x = cos(enemy.ang)* enemy.dir;
+			  enemy.vct.y = sin(enemy.ang);
+			  enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
+			  enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
+		  }
+		  else if (enemy.moveflg == 7) {
+			  enemy.vct.x = cos(enemy.ang);
+			  enemy.vct.y = sin(enemy.ang);
+			  enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
+			  enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
+		  }
+		  else {
+			  enemy.vct.x = cos(enemy.ang)* enemy.dir;
+			  enemy.vct.y = sin(enemy.ang);
+		  }
+	  }
 	}
 }
 
@@ -192,7 +198,9 @@ int cRedEnemy::Update() {
 }
 
 
+void cRedEnemy::EndlessUpdate(){
 
+ }
 
 
 int cRedEnemy::Draw() {

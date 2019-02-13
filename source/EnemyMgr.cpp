@@ -340,13 +340,13 @@ void cEnemyMgr::Update() {
 				enemies[i]->TractorUpdate();
 			}
 
-			//プレイヤーエネミーが存在している場合、動かす
-			if (pEnemy != NULL) {
-				pEnemy->Move();
-				pEnemy->Update();
-			}
+			
 		}
-
+		//プレイヤーエネミーが存在している場合、動かす
+		if (pEnemy != NULL) {
+			pEnemy->Move();
+			pEnemy->Update();
+		}
 		//敵40体分の確認処理を行う
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 			//敵が死んでいるか、再抽選フラグがoffの場合は処理を飛ばす
