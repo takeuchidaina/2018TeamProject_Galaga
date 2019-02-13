@@ -366,9 +366,9 @@ void cEnemyMgr::Update() {
 				debug++;
 
 				//“G1‘Ì•ª‚ÌÄ’Š‘I‚ðs‚¤
-				//int tmp = GetRand(39);
-				int tmp = 8;
-				enemyCount = 1;
+				int tmp = GetRand(39);
+				/*int tmp = 8;
+				enemyCount = 1;*/
 				//1‘Ì–Ú‚Ì“G‚ðƒ‰ƒ“ƒ_ƒ€‚É’Š‘I‚µUŒ‚‚³‚¹‚é
 				if (enemy[tmp].deathflag != TRUE && enemy[tmp].etype == 2 && enemies[tmp]->GetTractorfFlg() == false) {
 					/*while (1) {
