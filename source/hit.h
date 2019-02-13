@@ -102,14 +102,6 @@ public:
 
 	bool TractorHitFlg;
 
-	/************************************************************
-	関数：void TractingEnemyHit
-	説明：EnemyPlayerを持ったボスギャラガの移動中の当たり判定
-	引数：tractingEnemy
-	戻り値：なし
-	************************************************************/
-	void TractingEnemyHit();
-
 	int GetTotalHit() {
 		return totalHit;
 	}

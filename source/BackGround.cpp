@@ -21,7 +21,7 @@ void cBackGround::Update() {
 
 	for (int i = 0; i < MAXSTAR; i++) {
 
-		/* 星を流す */
+		/* 星を流す（通常） */
 		starArray[i].y += starArray[i].speed;
 
 		if (starArray[i].y >= DISP_SIZE + 50) {		//下まで行ったら再生成
@@ -39,6 +39,23 @@ void cBackGround::Update() {
 		}
 
 	}
+}
+
+void cBackGround::TractingUpdate() {
+
+	for (int i = 0; i < MAXSTAR; i++) {
+
+		starArray[i].y -= starArray[i].speed * 5;
+
+		if (starArray[i].y <= -50) {		//下まで行ったら再生成
+			starArray[i].y = (rand() % 150) + (DISP_SIZE);
+			starArray[i].x = rand() % DISP_SIZE;
+			starArray[i].r = (rand() % 2) + 1;
+			starArray[i].color = GetColor(rand() % 255, rand() % 255, rand() % 255);
+		}
+
+	}
+
 }
 
 void cBackGround::Draw() {
