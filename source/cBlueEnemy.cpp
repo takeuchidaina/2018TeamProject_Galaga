@@ -183,6 +183,10 @@ int cBlueEnemy::Update() {
 	return 0;
 }
 
+void cBlueEnemy::EndlessUpdate() {
+
+}
+
 //•`‰æˆ—
 int cBlueEnemy::Draw() {
 

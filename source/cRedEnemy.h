@@ -11,5 +11,6 @@ public:
 	virtual void Move();
 	virtual int Update();
 	virtual int Draw();
+	virtual void EndlessUpdate();
 };
 #endif // !REDENEMY_INCLUDE

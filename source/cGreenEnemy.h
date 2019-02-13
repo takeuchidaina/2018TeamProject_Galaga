@@ -12,7 +12,6 @@ private:
 	double tractormoveang[10];
 	double tractorcountflg[10];
 	int tractor[15];
-	//bool tractorflg;
 	sOBJPos tmpplayer;
 	double tmpx, tmpy;
 	double tracotr;
@@ -29,7 +28,7 @@ public:
 	/*bool GetTractorFlg() {
 		return tractorflg;
 	}*/
-
+	virtual void EndlessUpdate();
 	virtual void AnimationCount() { AnimationCnt++; TractorCnt++; };
 	void SetTraitPlayer(cPlayerEnemy *point) { traitPlayer = point; };
 };

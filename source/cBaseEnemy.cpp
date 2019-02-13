@@ -87,4 +87,6 @@ int cBaseEnemy::TractorUpdate() {
 	return 0;
 }
 
-
+//void cBaseEnemy::EndlessUpdate() {
+//	
+//}
