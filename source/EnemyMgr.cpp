@@ -366,11 +366,11 @@ void cEnemyMgr::Update() {
 				debug++;
 
 				//“G1‘Ì•ª‚ÌÄ’Š‘I‚ğs‚¤
-				int tmp = GetRand(39);
-				//int tmp = 8;
-
+				//int tmp = GetRand(39);
+				int tmp = 8;
+				enemyCount = 1;
 				//1‘Ì–Ú‚Ì“G‚ğƒ‰ƒ“ƒ_ƒ€‚É’Š‘I‚µUŒ‚‚³‚¹‚é
-				if (enemy[tmp].deathflag != TRUE && enemy[tmp].etype == 2) {
+				if (enemy[tmp].deathflag != TRUE && enemy[tmp].etype == 2 && enemies[tmp]->GetTractorfFlg() == false) {
 					/*while (1) {
 						red1 = GetRand(20);
 						red2 = GetRand(20);
@@ -380,20 +380,26 @@ void cEnemyMgr::Update() {
 					enemies[red2]->SetEnemyAttackflg();
 					enemies[tmp]->SetEnemyAttackflg();
 					break;*/
+					followEnemy[0] = tmp;
+					Follow(tmp);
+					break;
+					/*
 					if (enemies[tmp]->GetTractorfFlg() == false) {
 						followEnemy[0] = tmp;
 						Follow(tmp);
+						break;
 					}
 					else {
-						enemies[tmp]->SetEnemyAttackflg();
+						//enemies[tmp]->SetEnemyAttackflg();
 					}
-					break;
+					*/
 				}
+				/*
 				else {
 					enemies[tmp]->SetEnemyAttackflg();
 					break;
 				}
-
+				*/
 				if (enemy[tmp].deathflag != TRUE) {  //’Š‘I‚³‚ê‚½“G‚ª¶‚«‚Ä‚¢‚éê‡‚ÍAUŒ‚“®ì‚ğs‚¢ˆ—‚ğ”²‚¯‚é
 					enemies[tmp]->SetEnemyAttackflg();
 					break;
@@ -442,6 +448,7 @@ void cEnemyMgr::Update() {
 
 	if (enemies[followEnemy[0]]->GetEnemyAttackflg()== true /*&& enemies[0]->GetEnemyOnActive() == cBaseEnemy::YesActive*/
 //		&& enemies[0]->GetEnemyOnActive() != false
+		
 		) {
 		for (int i = 1; i < enemyCount; i++) {
 			enemies[followEnemy[i]]->SetEnemyX(enemies[followEnemy[0]]->GetEnemyX() + followEnemyV[i].x);
@@ -562,7 +569,7 @@ void cEnemyMgr::Sliding(sEnemy& enemy) {
 ******************************************************/
 void cEnemyMgr::Follow(int tmp) {
 
-	enemyCount = 1;
+
 
 	//ƒ{ƒX‚ÌüˆÍ‚É‚¢‚éÔ“G‚ğ’T‚·
 	//“G40‘Ì•ª‚Ìˆ—
