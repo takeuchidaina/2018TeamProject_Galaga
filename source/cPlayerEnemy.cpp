@@ -60,9 +60,8 @@ void cPlayerEnemy::Move() {
 	enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
 	enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
 }
+
 int cPlayerEnemy::Update() {
-
-
 
 	//tmpEnemy‚Ì‚Æ‚±‚ë‚ðtmpEnemy‚É‹A‚ê‚Î“G‚Ì‰º‚Ü‚Ås‚­
 	switch (enemy.moveflg)
@@ -136,18 +135,19 @@ int cPlayerEnemy::Update() {
 		else {
 			enemy.mainpos.pos.x = tmpEnemy->mainpos.pos.x + 25;
 			enemy.mainpos.pos.y = tmpEnemy->mainpos.pos.y - 48;	
+			if (cInGameMgr::Instance()->GetSceneFlg() != 1)cInGameController::Instance()->OutToTractor();
 			enemy.moveflg++;
 		}
 
 		break;
 	case 4:
-		if (cInGameMgr::Instance()->GetSceneFlg() != 1)cInGameController::Instance()->OutToTractor();
+		
 		if (tmpEnemy->moveflg == 3 && (tmpEnemy->count == 5 || tmpEnemy->count == 25))cShotMgr::Instance()->EnemyShot(enemy.mainpos.pos.x, enemy.mainpos.pos.y);
 		enemy.mainpos.pos.x = tmpEnemy->mainpos.pos.x + 25;
 		enemy.mainpos.pos.y = tmpEnemy->mainpos.pos.y - 48;
 		enemy.ang = tmpEnemy->ang;
 		enemy.dir = tmpEnemy->dir;
-		reMoveFlg = 0;
+		
 	}
 	return 0;
 }
@@ -168,6 +168,7 @@ int cPlayerEnemy::ReviveUpdate() {
 		{
 			rotecnt = 0;
 			playerGraphNum = 0;
+			enemy.moveflg = 0;
 			reMoveFlg++;
 		}
 		break;
@@ -208,9 +209,9 @@ int cPlayerEnemy::Draw() {
 	//else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[0], TRUE, TRUE);
 	*/
 
-	if (enemy.moveflg == 0 || reMoveFlg == 0)DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, rotecnt, graph[playerGraphNum], TRUE);
-	else DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, enemy.ang  * (M_PI / 180), graph[playerGraphNum], TRUE);
-
+	if (enemy.moveflg != 0  &&   reMoveFlg != 0) DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, M_PI / 180* enemy.ang  , graph[playerGraphNum], TRUE);
+	else DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, rotecnt, graph[playerGraphNum], TRUE);
+	
 #ifdef DEBUG
 	DrawFormatString(120, 885, GetColor(255, 255, 255), "%d", enemy.moveflg);
 	DrawFormatString(120, 900, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.x);

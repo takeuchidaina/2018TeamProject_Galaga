@@ -342,7 +342,11 @@ void cEnemyMgr::Update() {
 
 			
 		}
-		
+		//プレイヤーエネミーが存在している場合、動かす
+		if (pEnemy != NULL) {
+			pEnemy->Move();
+			pEnemy->Update();
+		}
 		//敵40体分の確認処理を行う
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 			//敵が死んでいるか、再抽選フラグがoffの場合は処理を飛ばす
@@ -351,11 +355,6 @@ void cEnemyMgr::Update() {
 			//再抽選フラグoff
 			ReChoiceFlag = 0;
 
-		}
-		//プレイヤーエネミーが存在している場合、動かす
-		if (pEnemy != NULL) {
-			pEnemy->Move();
-			pEnemy->Update();
 		}
 		//再抽選
 			//再抽選フラグがTRUEになっているもしくは攻撃中の敵が殺された場合、敵の再抽選を行う

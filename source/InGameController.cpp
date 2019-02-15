@@ -114,16 +114,16 @@ int cInGameController::ReviveSceneUpdate() {
 	 static cPlayerEnemy *pEnemy = NULL;
 	 
 	 pEnemy = cEnemyMgr::Instance()->GetPlayerEnemyAdress();
-	cEnemyMgr::Instance()->Update();
+	 cShotMgr::Instance()->SetShotFlg(false);
+	 cEnemyMgr::Instance()->SetChoiseOrderFlag(false);
 	if (cEnemyMgr::Instance()->GetEnemyStay() == 0) {
-		cShotMgr::Instance()->SetShotFlg(false);
-		cEnemyMgr::Instance()->SetChoiseOrderFlag(false);
+		cEnemyMgr::Instance()->Update();
 	}
 	else {
 		cPlayer::Instance()->PlayerTractorMove();
 		if (pEnemy != NULL) {
 			pEnemy->ReviveUpdate();
-		//	pEnemy->Move();
+			//pEnemy->Move();
 		}
 		
 		count++;

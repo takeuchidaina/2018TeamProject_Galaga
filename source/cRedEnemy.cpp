@@ -199,7 +199,7 @@ int cRedEnemy::Update() {
 
 
 void cRedEnemy::EndlessUpdate(){
-
+	;
  }
 
 

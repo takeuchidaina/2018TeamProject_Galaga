@@ -184,7 +184,7 @@ int cBlueEnemy::Update() {
 }
 
 void cBlueEnemy::EndlessUpdate() {
-
+	;
 }
 
 //•`‰æˆ—
