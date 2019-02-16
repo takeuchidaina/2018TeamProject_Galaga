@@ -209,6 +209,8 @@ void cInGameMgr::Draw() {
 	switch (sceneflag) {
 	case eBefore://ŽÀÛƒQ[ƒ€‚ªŽn‚Ü‚é‘O‚Ì‚ ‚ê
 		cInGameController::Instance()->BeforeSceneDraw();
+		cPlayer::Instance()->Draw();
+		cSaveLoad::Instance()->Draw();
 //		DrawFormatString(0, 20, GetColor(255, 255, 255), "eBefore");
 		//
 		break;

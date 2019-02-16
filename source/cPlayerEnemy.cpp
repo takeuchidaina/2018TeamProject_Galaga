@@ -67,7 +67,6 @@ int cPlayerEnemy::Update() {
 	switch (enemy.moveflg)
 	{
 	case 0:
-		reMoveFlg = 1;
 		rotecnt += 0.3;
 		enemy.ang = atan2((tmpEnemy->mainpos.pos.y + 48) - enemy.mainpos.pos.y, tmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x);
 		if ((tmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x)*(tmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x) +
@@ -90,7 +89,7 @@ int cPlayerEnemy::Update() {
 		if ((tmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x)*(tmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x) +
 			((tmpEnemy->mainpos.pos.y + 48) - enemy.mainpos.pos.y)*((tmpEnemy->mainpos.pos.y + 48) - enemy.mainpos.pos.y) <=
 			(tmpEnemy->mainpos.r / 5 + enemy.targetr)*(tmpEnemy->mainpos.r / 5 + enemy.targetr)) {
-			enemy.ang = 0;
+			enemy.ang = 270 * M_PI / 180;
 			enemy.count++;
 			enemy.mainpos.pos.x = tmpEnemy->mainpos.pos.x + 22;
 			enemy.mainpos.pos.y = tmpEnemy->mainpos.pos.y + 48;
@@ -109,27 +108,15 @@ int cPlayerEnemy::Update() {
 	case 2:
 		enemy.mainpos.pos.x = tmpEnemy->mainpos.pos.x + 22;
 		enemy.mainpos.pos.y = tmpEnemy->mainpos.pos.y + 48;
-		enemy.ang = 0;
+		enemy.ang = 270 * M_PI / 180;
 		if (tmpEnemy->mainpos.pos.x == tmpEnemy->target.x  &&  tmpEnemy->mainpos.pos.y == tmpEnemy->target.y) {
 			enemy.moveflg++;
 		}
 		break;
 
 	case 3:
-
-		/*if ((int)enemy.mainpos.pos.y > tmpEnemy->mainpos.pos.y - 48) {
-			enemy.mainpos.pos.y--;
-		}*/
-		if ((int)enemy.mainpos.pos.y > tmpEnemy->mainpos.pos.y - 48) {
-
-			/*	enemy.ang = atan2((tmpEnemy->mainpos.pos.y - 48) - enemy.mainpos.pos.y, tmpEnemy->mainpos.pos.x + 25 - enemy.mainpos.pos.x);
-				if ((tmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x)*(tmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x) +
-					((tmpEnemy->mainpos.pos.y - 48) - enemy.mainpos.pos.y)*((tmpEnemy->mainpos.pos.y - 48) - enemy.mainpos.pos.y) <=
-					(tmpEnemy->mainpos.r / 5 + enemy.targetr)*(tmpEnemy->mainpos.r / 5 + enemy.targetr)) {
-					}
-		*/
+		if ((int)enemy.mainpos.pos.y > tmpEnemy->mainpos.pos.y - 48) {		
 			enemy.mainpos.pos.x = tmpEnemy->mainpos.pos.x + 25;
-			//enemy.mainpos.pos.y = tmpEnemy->mainpos.pos.y - 48;	
 			enemy.mainpos.pos.y--;
 		}
 		else {
@@ -157,10 +144,8 @@ int cPlayerEnemy::ReviveUpdate() {
 	switch (reMoveFlg)
 	{
 	case 0:
-		for (int i = 0; i < 2; i++) {
-			sOBJPos tmpPlayer = cPlayer::Instance()->GetPlayer(i);
-			if (tmpPlayer.onActive == 1)break;
-		}
+		enemy.moveflg = 0;
+		enemy.ang = 270 * M_PI / 180;
 		enemy.vct.x = 0;
 		enemy.vct.y = 0;
 		rotecnt += 0.3;
@@ -209,9 +194,18 @@ int cPlayerEnemy::Draw() {
 	//else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[0], TRUE, TRUE);
 	*/
 
-	if (enemy.moveflg != 0  &&   reMoveFlg != 0) DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, M_PI / 180* enemy.ang  , graph[playerGraphNum], TRUE);
-	else DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, rotecnt, graph[playerGraphNum], TRUE);
-	
+	if (enemy.moveflg == 0 && reMoveFlg == 0) {
+		DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, rotecnt, graph[playerGraphNum], TRUE);
+	}
+	else {
+		if (enemy.dir = RIGHT) {
+			DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, (enemy.ang + (90 * M_PI) / 180), graph[playerGraphNum], TRUE);
+		}
+		else {
+			DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, -(enemy.ang + 90 * M_PI / 180), graph[playerGraphNum], TRUE);
+
+		}
+	}
 #ifdef DEBUG
 	DrawFormatString(120, 885, GetColor(255, 255, 255), "%d", enemy.moveflg);
 	DrawFormatString(120, 900, GetColor(255, 255, 255), "%.2lf", enemy.mainpos.pos.x);

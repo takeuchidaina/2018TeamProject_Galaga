@@ -161,7 +161,7 @@ int cGreenEnemy::Update() {
 			break;
 
 		case 3:
-			if (enemy.count == 5 || enemy.count == 25)cShotMgr::Instance()->EnemyShot(enemy.mainpos.pos.x, enemy.mainpos.pos.y);
+			if (enemy.mainpos.onActive !=NoActive &&  enemy.count == 5 || enemy.count == 25)cShotMgr::Instance()->EnemyShot(enemy.mainpos.pos.x, enemy.mainpos.pos.y);
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
@@ -390,14 +390,7 @@ void cGreenEnemy::EndlessUpdate() {
 		if (enemy.count > 0) {
 			enemy.mainpos.onActive = YesActive;
 		}
-		/*	DrawFormatString(0, 0, GetColor(255, 255, 255), "%lf", enemy.target.x);
-			DrawFormatString(0, 50, GetColor(255, 255, 255), "%lf", enemy.target.y);
-			DrawFormatString(0, 100, GetColor(255, 255, 255), "%lf", enemy.mainpos.pos.x);
-			DrawFormatString(0, 125, GetColor(255, 255, 255), "%lf", enemy.mainpos.pos.y);
-			DrawFormatString(0, 150, GetColor(255, 255, 255), "%d", enemy.targetr);
-			DrawFormatString(0, 175, GetColor(255, 255, 255), "%lf", enemy.mainpos.r);
-
-			DrawFormatString(0, 200, GetColor(255, 255, 255), "%d", enemy.moveflg);*/
+		
 		switch (enemy.moveflg)
 		{
 		case 0:
