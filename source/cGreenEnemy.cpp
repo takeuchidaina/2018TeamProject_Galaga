@@ -305,20 +305,13 @@ int cGreenEnemy::TractorUpdate() {
 			enemy.mainpos.pos.y = tmpplayer.pos.y - 160;
 			enemy.ang = 90 * M_PI / 180;
 			cShotMgr::Instance()->TractorShot(&enemy);
+			enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+			enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 			/*if (enemy.tractorHitFlg == true) {
 				enemy.moveflg++;
 			}*/
 			break;
 		case 3:
-
-			enemy.mainpos.pos.x = tmpplayer.pos.x;
-			enemy.mainpos.pos.y = tmpplayer.pos.y - 160;
-			cShotMgr::Instance()->TractorShot(&enemy);
-			enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
-			enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
-			//enemy.moveflg++;
-			break;
-		case 4:
 
 			enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 			enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
@@ -333,7 +326,7 @@ int cGreenEnemy::TractorUpdate() {
 				enemy.count = 0;
 			}
 			break;
-		case 5:
+		case 4:
 
 
 			if (enemy.mainpos.pos.x <= 430) {
