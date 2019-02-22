@@ -46,7 +46,7 @@ using namespace std;
 	
 	  enemy.graph = graph;
 	  enemy.attackflg = false;
-	 
+	  enemy.endlessFlg = false;
 
 	  AnimationCnt = 0;
 	  AnimationNum = 0;

@@ -37,6 +37,9 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 	enemy.moveang[5] = 0;
 	enemy.moveang[6] = 3;
 
+	enemy.moveang[7] = 2;
+	enemy.moveang[8] = 90;
+
 	memset(enemy.countflg, 0, sizeof(enemy.countflg));
 	enemy.countflg[0] = 40;
 	enemy.countflg[1] = 35;
@@ -45,6 +48,8 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 	enemy.countflg[4] = 30;
 	enemy.countflg[5] = 20;
 	enemy.countflg[6] = 20;
+
+	enemy.countflg[7] = 100;
 
 	enemy.target.x = x;
 	enemy.target.y = y;
@@ -56,6 +61,7 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 	enemy.tractingEnemy = false;
 	enemy.tractorflg = false;
 	enemy.tractorHitFlg = false;
+	enemy.endlessFlg = false;
 }
 
 //ベクトルと速度をもらって移動する
@@ -91,7 +97,7 @@ int cBlueEnemy::Update() {
 	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = ReadyStart;
 	if (enemy.attackflg == 1 && enemy.mainpos.onActive != NoActive) {
 
-		
+
 		/*enemy.target.x = 230;
 		enemy.target.y = 230;*/
 		enemy.count++;
@@ -184,7 +190,116 @@ int cBlueEnemy::Update() {
 }
 
 void cBlueEnemy::EndlessUpdate() {
-	;
+	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
+	if (enemy.count < 0)enemy.count = 0;
+	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = ReadyStart;
+	if (enemy.attackflg == 1 && enemy.mainpos.onActive != NoActive) {
+
+
+		/*enemy.target.x = 400;
+		enemy.target.y = 330;*/
+		enemy.count++;
+
+		if (enemy.count > 0) {
+			enemy.mainpos.onActive = YesActive;
+		}
+
+		switch (enemy.moveflg)
+		{
+		case 0:
+			if (enemy.moveflg < 3) {
+				if (enemy.mainpos.pos.x <= 430) {
+					enemy.dir = 1;
+				}
+				else {
+					enemy.dir = -1;
+				}
+				//if (CheckSoundFile() == 0) cSE::Instance()->selectSE(alien_flying);
+				if (enemy.count < 3)enemy.ang = 180 * M_PI / 180;
+				enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+				if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+					enemy.moveflg++;
+					enemy.count = 0;
+				}
+			}
+			break;
+		case 1:
+			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+			if (enemy.count == 5 || enemy.count == 25)cShotMgr::Instance()->EnemyShot(enemy.mainpos.pos.x, enemy.mainpos.pos.y);
+			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+				enemy.moveflg++;
+				enemy.count = 0;
+			}
+			break;
+		case 2:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+				enemy.moveflg++;
+				enemy.count = 0;
+			}
+			break;
+		case 3:
+			enemy.ang = 0 * M_PI / 180;
+			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+				enemy.moveflg++;
+				enemy.count = 0;
+			}
+			break;
+		case 8:
+			enemy.ang = 0 * M_PI / 180;
+			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+			if (enemy.mainpos.pos.y >= 960) {
+				enemy.mainpos.pos.y = -20;
+				enemy.mainpos.pos.x = enemy.target.x;
+				enemy.moveflg++;
+			}
+			else {
+				enemy.mainpos.pos.y++;
+			}
+			break;
+			//揺れたほうが良いか？
+		case 9:
+			enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+			enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
+			/*enemy.target.x = 400;
+			enemy.target.y = 330;*/
+			enemy.ang = atan2(enemy.target.y - enemy.mainpos.pos.y, enemy.target.x - enemy.mainpos.pos.x);
+			if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
+				(enemy.target.y - enemy.mainpos.pos.y)*(enemy.target.y - enemy.mainpos.pos.y) <=
+				(enemy.mainpos.r / 5 + enemy.targetr)*(enemy.mainpos.r / 5 + enemy.targetr)) {
+				//敵座標を目的地に固定
+				enemy.mainpos.pos.x = enemy.target.x;
+				enemy.mainpos.pos.y = enemy.target.y;
+				enemy.moveflg++;
+				enemy.count = 0;
+				enemy.mainpos.onActive = SetPos;
+			}
+			break;
+		case 10:
+			enemy.count = 0;
+			enemy.tractorflg = false;
+			enemy.ang = -90 * M_PI / 180;
+			if (enemy.mainpos.pos.x <= 430) {
+				enemy.dir = 1;
+			}
+			else {
+				enemy.dir = -1;
+			}
+			enemy.mainpos.pos.x = enemy.target.x;
+			enemy.mainpos.pos.y = enemy.target.y;
+			enemy.attackflg = false;
+			enemy.mainpos.onActive = ReadyStart;
+			enemy.moveflg = 0;
+			break;
+
+		}
+	}
 }
 
 //描画処理

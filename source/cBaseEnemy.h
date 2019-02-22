@@ -34,7 +34,8 @@ typedef struct {
 	int attackflg;//攻撃フラグ
 	double moveang[15];//移動中の方向変化量
 	double countflg[15];//移動のフェーズ切り替えのカウント
-	int hp;
+	int hp;//敵の耐久力
+	bool endlessFlg;//敵の数が少ないときの無限移動用フラグ
 }sEnemy;
 
 class cBaseEnemy {
@@ -224,6 +225,28 @@ public:
 
 	virtual	void DamageHp() { enemy.hp--; };
 	virtual	void SetHp() { enemy.hp = 0; };
+
+	/*************************************************************************
+	関　数: void  SetEndlessFlg()
+	説　明:敵の数が少なくなったら無限移動するためのflgを取得する
+	引　数: 無し
+	戻り値: bool型　enemy.endlessFlg
+	備　考:永遠に動き続ける奴の専用flg
+	*************************************************************************/
+	virtual bool GetEndlessFlg() {
+	return enemy.endlessFlg ;
+	}
+
+	/*************************************************************************
+	関　数: void  SetEndlessFlg()
+	説　明:敵の数が少なくなったら無限移動するためのflgをオンにする
+	引　数: bool型　ture 無限移動開始 false無限移動終了
+	戻り値: 無し
+	備　考:永遠に動き続ける奴の専用flg
+	*************************************************************************/
+	virtual void SetEndlessFlg(bool flg) {
+		enemy.endlessFlg = flg;
+	}
 };
 
 #endif // !_cBaseEnemy_INCLUDE_

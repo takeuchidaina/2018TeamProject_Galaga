@@ -65,6 +65,7 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 	enemy.tractingEnemy = false;
 	enemy.tractorflg = false;
 	enemy.tractorHitFlg = false;
+	enemy.endlessFlg = false;
 
 }
 
@@ -103,6 +104,8 @@ int cRedEnemy::Update() {
 
 	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
+	/*enemy.target.x = 400;
+	enemy.target.y = 80;*/
 
 	int tmp = cInGameMgr::Instance()->GetSceneFlg();
 	int	 EnemyDeathCount = cEnemyMgr::Instance()->GetEnemyDeathCount();
@@ -162,6 +165,8 @@ int cRedEnemy::Update() {
 		case 7:
 			enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 			enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
+			/*enemy.target.x = 400;
+			enemy.target.y = 80;*/
 			enemy.ang = atan2(enemy.target.y - enemy.mainpos.pos.y, enemy.target.x - enemy.mainpos.pos.x);
 			if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
 				(enemy.target.y - enemy.mainpos.pos.y)*(enemy.target.y - enemy.mainpos.pos.y) <=
@@ -198,9 +203,104 @@ int cRedEnemy::Update() {
 }
 
 
-void cRedEnemy::EndlessUpdate(){
-	;
- }
+void cRedEnemy::EndlessUpdate() {
+	enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
+	/*enemy.target.x = 400;
+	enemy.target.y = 330;*/
+
+	int tmp = cInGameMgr::Instance()->GetSceneFlg();
+	int	 EnemyDeathCount = cEnemyMgr::Instance()->GetEnemyDeathCount();
+	if (enemy.count < 0)enemy.count = 0;
+	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = ReadyStart;
+
+
+	if (enemy.attackflg == true && enemy.mainpos.onActive != NoActive && enemy.endlessFlg == true) {
+
+		/*enemy.target.x = 280;
+		enemy.target.y = 130;*/
+		enemy.count++;
+
+		if (enemy.count > 0) {
+			enemy.mainpos.onActive = YesActive;
+		}
+		//enemy.ang = -90 * M_PI / 180;
+		switch (enemy.moveflg)
+		{
+		case 0:
+			//if (CheckSoundFile() == 0)cSE::Instance()->selectSE(alien_flying);
+			if (enemy.count < 2)enemy.ang = 180 * M_PI / 180;
+			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+				enemy.moveflg++;
+				enemy.count = 0;
+			}
+			break;
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		//case 8:
+			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+				enemy.moveflg++;
+				enemy.count = 0;
+			}
+			break;
+		case 1:
+			if (enemy.count == 5 || enemy.count == 25)cShotMgr::Instance()->EnemyShot(enemy.mainpos.pos.x, enemy.mainpos.pos.y);
+			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+				enemy.moveflg++;
+				enemy.count = 0;
+			}
+			break;
+		case 6:
+			enemy.ang = 0;
+			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+			if (enemy.mainpos.pos.y >= 960) {
+				enemy.mainpos.pos.y = -20;
+				enemy.mainpos.pos.x = enemy.target.x;
+				enemy.moveflg++;
+			}
+			break;
+		case 7:
+			enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
+			enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
+		/*	enemy.target.x = 400;
+			enemy.target.y = 80;*/
+			enemy.ang = atan2(enemy.target.y - enemy.mainpos.pos.y, enemy.target.x - enemy.mainpos.pos.x);
+			if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
+				(enemy.target.y - enemy.mainpos.pos.y)*(enemy.target.y - enemy.mainpos.pos.y) <=
+				(enemy.mainpos.r / 5 + enemy.targetr)*(enemy.mainpos.r / 5 + enemy.targetr)) {
+
+				enemy.moveflg++;
+				enemy.count = 0;
+				enemy.mainpos.onActive = SetPos;
+			}
+			break;
+		case 8:
+			enemy.tractorflg = false;
+			enemy.count = 0;
+
+			enemy.ang = 30 * M_PI / 180;
+			if (enemy.mainpos.pos.x <= 430) {
+				enemy.dir = -1;
+			}
+			else {
+				enemy.dir = 1;
+			}
+			//“GÀ•W‚ð–Ú“I’n‚ÉŒÅ’è
+			enemy.mainpos.pos.x = enemy.target.x;
+			enemy.mainpos.pos.y = enemy.target.y;
+
+			enemy.attackflg = true;
+			enemy.mainpos.onActive = ReadyStart;
+			enemy.moveflg = 1;
+			break;
+		}
+	}
+}
 
 
 int cRedEnemy::Draw() {

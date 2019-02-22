@@ -101,7 +101,7 @@ int cPlayerEnemy::Update() {
 
 			enemy.count = 0;
 			enemy.moveflg++;
-			//tmpEnemy->moveflg++;
+			tmpEnemy->moveflg++;
 		}
 
 		break;
@@ -198,13 +198,12 @@ int cPlayerEnemy::Draw() {
 		DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, rotecnt, graph[playerGraphNum], TRUE);
 	}
 	else {
-		if (enemy.dir = RIGHT) {
-			DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, (enemy.ang + (90 * M_PI) / 180), graph[playerGraphNum], TRUE);
-		}
-		else {
-			DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, -(enemy.ang + 90 * M_PI / 180), graph[playerGraphNum], TRUE);
-
-		}
+	
+			DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, (enemy.ang + 90 * M_PI / 180)*enemy.dir, graph[playerGraphNum], TRUE);
+		
+	
+	
+		
 	}
 #ifdef DEBUG
 	DrawFormatString(120, 885, GetColor(255, 255, 255), "%d", enemy.moveflg);
