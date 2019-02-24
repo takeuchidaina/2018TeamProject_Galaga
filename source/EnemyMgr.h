@@ -61,8 +61,8 @@ private:
 
 	/*csvから読み込むデータの番号
 	　新しくデータを追加した場合は、moveangle[0]より前に変数を追加する
-	*/
-	typedef enum{
+	 */
+	typedef enum {
 		Posx,            //x座標
 		Posy,            //y座標
 		Radius,          //半径
@@ -96,7 +96,7 @@ private:
 
 	sEnemy enemy[40];         //構造体
 	sEnemy tmpEnemy;          //一時的に敵データを格納する場所
-	//int movetype;           //敵の動作タイプ
+							  //int movetype;           //敵の動作タイプ
 	int waveflag[10];         //該当ウェーブに敵が何体いるかを管理する
 	int wave;                 //現在のウェーブ数
 	int wavecount;            //該当ウェーブで入場行動が終了している敵の数
@@ -111,7 +111,7 @@ private:
 	int  EnemyGraph[20];      //敵の画像 20体分よみこむ ※enum化予定
 	int  Stayflag;            //敵が入場後に動いていないか 0:動いている 1:動いていない ※bool化予定
 
-    //関数のプロトタイプ宣言
+							  //関数のプロトタイプ宣言
 	void Move(sEnemy&);              //敵の入場を行う関数
 	void Shifted(sEnemy&, sEnemy&);  //敵を二列に表示させる関数
 	cBaseEnemy* enemies[40];         //cBaseEnemyの敵配列
@@ -119,14 +119,14 @@ private:
 	void Scaling(sEnemy&);    //秋の新作関数
 	int  ScalingFlag;         //敵の収縮処理用のフラグ true:1 false:-1
 	int  ScalingCount;          //収縮カウント
-	
+
 	void Sliding(sEnemy&);    //冬の新作関数
 	int  SlidingFlag;         //敵の横移動処理用のフラグ true:1 false:-1
 	int  SlidingCount;        //横移動カウント
 
 	int phaseFlagCount;       //入場が終了している敵の数
 	int onActiveCount;        //入場時にonActiveがtrueになっている敵の数
-	   
+
 	int ChoiseOrderFlag;      //外部で操作可能な再抽選フラグ TRUE:抽選可能。抽選を行う  FALSE:抽選不可。抽選を行わない ※bool化予定
 	int ReChoiceFlag;         //再抽選フラグ 0:抽選を行わない状態 1:抽選を行う状態 ※bool化予定
 
@@ -142,6 +142,9 @@ private:
 	int enemyCount;  //ボスの周囲にいる赤敵の数
 	int followEnemy[3];  //周囲にいる赤敵の番号を保存する配列
 	sPos followEnemyV[3];
+	cBaseEnemy* dummyEnemy;  //ボスの動きの複製用
+
+	int attackNum;  //攻撃する敵の番号
 
 
 public:
@@ -161,6 +164,11 @@ public:
 				return enemy[i].target.x;
 			}
 		}
+
+		if (p == dummyEnemy) {
+			return enemy[attackNum].target.x;
+		}
+
 	}
 
 	double GetTargetY(cBaseEnemy* p) {
@@ -170,8 +178,12 @@ public:
 			}
 		}
 
+		if (p == dummyEnemy) {
+			return enemy[attackNum].target.y;
+		}
+
 	}
-	
+
 	//敵の最大数
 	int GetMaxEnemy() {
 		return 40;
@@ -195,15 +207,15 @@ public:
 	double GetEnemyR(int num) {
 		return enemies[num]->GetEnemyR();
 	}
-	
-	
+
+
 
 	//敵の攻撃判定を行うためのフラグ
 	int GetEnemyonActive(int num) {
 		//
-		return enemies[num]->GetEnemyOnActive() == 1 ? false:true;
+		return enemies[num]->GetEnemyOnActive() == 1 ? false : true;
 	}
-	
+
 	//勝手に追加分 by滝
 	int GetEnemyHP(int num) {
 		return enemies[num]->GetHp();
@@ -213,7 +225,7 @@ public:
 		enemies[num]->DamageHp();
 	}
 
-	int GetEnemyDeathCount(){
+	int GetEnemyDeathCount() {
 		return EnemyDeathCount;
 	}
 
@@ -260,7 +272,7 @@ public:
 	引数：cBaseEnemy型 enemies
 	戻り値：プッシュ先のアドレス
 	******************************************************/
-	cBaseEnemy* GetArrayEnemy(){
+	cBaseEnemy* GetArrayEnemy() {
 		return *enemies;
 	}
 
@@ -279,48 +291,48 @@ public:
 		enemy[num].onactive = FALSE;
 
 		//敵の死亡フラグをTRUEにする
-		enemy[num].deathflag =TRUE;
+		enemy[num].deathflag = TRUE;
 
 		//敵の死亡数をカウントする
 		EnemyDeathCount++;
-		
+
 		//条件ごとのスコア加算処理
 		//攻撃中のボスギャラガを倒した場合
-		if (enemy[num].etype==2 && enemies[num]->GetEnemyAttackflg()==1) {
+		if (enemy[num].etype == 2 && enemies[num]->GetEnemyAttackflg() == 1) {
 			//スコアを400加算する
 			cScore::Instance()->AddScore(400);
-			scoreText.x=GetEnemyPosX(num);
+			scoreText.x = GetEnemyPosX(num);
 			scoreText.y = GetEnemyPosY(num);
 			scoreText.score = 400;
 			scoreText.onActive = 1;
-			scoreText.count =0;
-		}	
+			scoreText.count = 0;
+		}
 		//入場中のボスギャラガを倒した場合
 		else if (enemy[num].etype == 2 && enemy[num].moveflag < 10) {
 			//スコアを400加算する
 			cScore::Instance()->AddScore(400);
 			scoreText.x = GetEnemyPosX(num);
 			scoreText.y = GetEnemyPosY(num);
-			scoreText.score = 400000;
+			scoreText.score = 400;
 			scoreText.onActive = 1;
 			scoreText.count = 0;
 		}
 		/*
 		//プレイヤーエネミーを連れているボスギャラガを倒した場合
 		else if (enemy[num].type==2 && enemies[num]->GetEnemyAttackflg()=1 && 敵がプレイヤーエネミーを連れている) {
-		    //スコアを800加算する
-			cScore::Instance()->AddScore(800);
-			scoreText.x = GetEnemyPosX(num);
-			scoreText.y = GetEnemyPosY(num);
-			scoreText.score = 800;
-			scoreText.onActive = 1;
-			scoreText.count = 0;
+		//スコアを800加算する
+		cScore::Instance()->AddScore(800);
+		scoreText.x = GetEnemyPosX(num);
+		scoreText.y = GetEnemyPosY(num);
+		scoreText.score = 800;
+		scoreText.onActive = 1;
+		scoreText.count = 0;
 		}*/
 		else {  //それ以外
-			//スコアを100加算する
+				//スコアを100加算する
 			cScore::Instance()->AddScore(100);
 		}
-		
+
 	}
 
 
@@ -344,10 +356,10 @@ public:
 	int GetEnemyStay() {
 		return Stayflag;
 	}
-	
+
 	//InGameControllerで敵の攻撃動作を制御する関数
 	void SetEnemyAttackFlag(int flag) {
-		EnemyAttackFlag=flag;
+		EnemyAttackFlag = flag;
 	}
 
 	//InGameControllerで敵の抽選命令を制御する関数
@@ -356,7 +368,7 @@ public:
 	}
 
 	bool GetTractingFlg(int num) {
-	return enemies[num]->GetTractingFlg();
+		return enemies[num]->GetTractingFlg();
 	}
 
 };

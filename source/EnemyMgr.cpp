@@ -40,6 +40,8 @@ void cEnemyMgr::Init() {
 	SlidingFlag = 1;
 	SlidingCount = 120;
 
+	attackNum = 0;
+
 	//ScoreCount = 0;
 	enemyCount = 0;
 	memset(followEnemy, 0x00, sizeof(followEnemy));
@@ -283,9 +285,9 @@ void cEnemyMgr::Update() {
 			//1体目の敵をランダムに抽選し攻撃させる
 			if (enemy[randtmp].etype == 2) {
 				/*while (1) {
-					red1 = GetRand(20);
-					red2 = GetRand(20);
-					if (enemy[red1].etype == 1 && enemy[red2].etype == 1)break;
+				red1 = GetRand(20);
+				red2 = GetRand(20);
+				if (enemy[red1].etype == 1 && enemy[red2].etype == 1)break;
 				}
 				enemies[red1]->SetEnemyAttackflg();
 				enemies[red2]->SetEnemyAttackflg();
@@ -304,7 +306,7 @@ void cEnemyMgr::Update() {
 	}
 	if (Phaseflag == 2) {  //入場が終了し、攻撃フェーズに入った場合
 
-		//入場後の待機フラグoff
+						   //入場後の待機フラグoff
 		Stayflag = 0;
 
 		//敵の再抽選フラグon
@@ -340,9 +342,15 @@ void cEnemyMgr::Update() {
 				enemies[i]->TractorUpdate();
 			}
 
-			
+
 		}
-		
+
+		//ダミー的アップデート
+		if (dummyEnemy != NULL) {
+			dummyEnemy->Update();
+			dummyEnemy->Move();
+		}
+
 		//敵40体分の確認処理を行う
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 			//敵が死んでいるか、再抽選フラグがoffの場合は処理を飛ばす
@@ -358,52 +366,71 @@ void cEnemyMgr::Update() {
 			pEnemy->Update();
 		}
 		//再抽選
-			//再抽選フラグがTRUEになっているもしくは攻撃中の敵が殺された場合、敵の再抽選を行う
+		//再抽選フラグがTRUEになっているもしくは攻撃中の敵が殺された場合、敵の再抽選を行う
 		if (ReChoiceFlag == 1 && ChoiseOrderFlag == TRUE) {
 			int debug = 0;
+
+			if (dummyEnemy != NULL) {
+				delete dummyEnemy;
+				dummyEnemy = NULL;
+			}
+
+			//追従配列の初期化
+			enemyCount = 1;
+			memset(followEnemy, 0x00, sizeof(followEnemy));
+			memset(followEnemyV, 0x00, sizeof(followEnemyV));
+
+
 			while (1) {
 				//エラーボックスが表示されるまでのカウントを加算
 				debug++;
 
 				//敵1体分の再抽選を行う
-				int tmp = GetRand(39);
-				/*int tmp = 8;
-				enemyCount = 1;*/
-				//1体目の敵をランダムに抽選し攻撃させる
-				if (enemy[tmp].deathflag != TRUE && enemy[tmp].etype == 2 && enemies[tmp]->GetTractorfFlg() == false) {
+				attackNum = GetRand(39);
+				//int tmp = 8;
+				//enemyCount = 1;*/
+				//トラクタービームを撃たないボスギャラガが生きている場合、赤い敵の追従処理を行う
+				if (enemy[attackNum].deathflag != TRUE && enemy[attackNum].etype == 2 && enemies[attackNum]->GetTractorfFlg() == false) {
 					/*while (1) {
-						red1 = GetRand(20);
-						red2 = GetRand(20);
-						if (enemy[red1].etype == 1 && enemy[red2].etype == 1)break;
+					red1 = GetRand(20);
+					red2 = GetRand(20);
+					if (enemy[red1].etype == 1 && enemy[red2].etype == 1)break;
 					}
 					enemies[red1]->SetEnemyAttackflg();
 					enemies[red2]->SetEnemyAttackflg();
 					enemies[tmp]->SetEnemyAttackflg();
 					break;*/
-					followEnemy[0] = tmp;
-					Follow(tmp);
+					followEnemy[0] = attackNum;
+					dummyEnemy = (cBaseEnemy*) new cGreenEnemy(enemies[attackNum]->GetEnemyX(), enemies[attackNum]->GetEnemyY(), enemies[attackNum]->GetEnemyR(), 0, enemy[attackNum].speed, enemies[attackNum]->GetEnemyAngle(), enemy[attackNum].onactive, EnemyGraph);
+					if (dummyEnemy == NULL) {
+						ErrBox("えねみーまねーじゃー\nぬるぽってこわくね");
+						break;
+					}
+					dummyEnemy->SetEnemyAttackflg();
+					Follow(attackNum);
 					break;
 					/*
 					if (enemies[tmp]->GetTractorfFlg() == false) {
-						followEnemy[0] = tmp;
-						Follow(tmp);
-						break;
+					followEnemy[0] = tmp;
+					Follow(tmp);
+					break;
 					}
 					else {
-						//enemies[tmp]->SetEnemyAttackflg();
+					//enemies[tmp]->SetEnemyAttackflg();
 					}
 					*/
 				}
 				/*
 				else {
-					enemies[tmp]->SetEnemyAttackflg();
-					break;
+				enemies[attackNum]->SetEnemyAttackflg();
+				break;
 				}
 				*/
-				if (enemy[tmp].deathflag != TRUE) {  //抽選された敵が生きている場合は、攻撃動作を行い処理を抜ける
-					enemies[tmp]->SetEnemyAttackflg();
+				if (enemy[attackNum].deathflag != TRUE) {  //抽選された敵が生きている場合は、攻撃動作を行い処理を抜ける
+					enemies[attackNum]->SetEnemyAttackflg();
 					break;
 				}
+
 				if (debug == 1000) {  //デバッグカウントが1000になったら
 					ErrBox("えねみーまねーじゃー\n無限ループってこわくね");
 					break;
@@ -411,7 +438,7 @@ void cEnemyMgr::Update() {
 
 				int tmpcount = 0;  //敵の死亡数のカウント
 
-				//敵40体分の処理を行う
+								   //敵40体分の処理を行う
 				for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 					//敵が死んだ場合は、カウントを加算
 					if (enemy[i].deathflag == true)tmpcount++;
@@ -428,7 +455,7 @@ void cEnemyMgr::Update() {
 			}
 		}
 		else if (ReChoiceFlag == 1 && ChoiseOrderFlag == FALSE) {  //再抽選フラグonかつ、外部から再抽選を止められている場合
-			//待機中フラグon
+																   //待機中フラグon
 			Stayflag = 1;
 		}
 
@@ -446,21 +473,31 @@ void cEnemyMgr::Update() {
 		return;
 	}
 
-	if (enemies[followEnemy[0]]->GetEnemyAttackflg()== true /*&& enemies[0]->GetEnemyOnActive() == cBaseEnemy::YesActive*/
-//		&& enemies[0]->GetEnemyOnActive() != false
-		
+	if (enemies[followEnemy[0]]->GetEnemyAttackflg() == true /*&& enemies[0]->GetEnemyOnActive() == cBaseEnemy::YesActive*/
+															 //		&& enemies[0]->GetEnemyOnActive() != false
 		) {
-		for (int i = 1; i < enemyCount; i++) {
-			enemies[followEnemy[i]]->SetEnemyX(enemies[followEnemy[0]]->GetEnemyX() + followEnemyV[i].x);
-			enemies[followEnemy[i]]->SetEnemyY(enemies[followEnemy[0]]->GetEnemyY() + followEnemyV[i].y);
-			enemies[followEnemy[i]]->SetEnemyR(enemies[followEnemy[0]]->GetEnemyR());
+
+		/*if (enemies[followEnemy[0]]->GetEnemyOnActive() == cBaseEnemy::NoActive) {
+		enemies[followEnemy[0]]->Update();
+		}*/
+
+		for (int i = 0; i < enemyCount; i++) {
+			if (dummyEnemy == NULL)break;
+			enemies[followEnemy[i]]->SetEnemyX(dummyEnemy->GetEnemyX() + followEnemyV[i].x);
+			enemies[followEnemy[i]]->SetEnemyY(dummyEnemy->GetEnemyY() + followEnemyV[i].y);
+			enemies[followEnemy[i]]->SetEnemyR(dummyEnemy->GetEnemyR());
 		}
+	}
+
+	//デバッグコマンド5:赤を連れているボス敵が消滅する
+	if (Debug::Instance()->Get_Input(Key5) == 1) {
+		SetEnemyDeath(followEnemy[0]);
 	}
 
 	//デバッグコマンド6:青以外の敵が消滅する
 	if (Debug::Instance()->Get_Input(Key6) == 1) {
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-			if (enemy[i].etype != 0) {
+			if (enemy[i].etype == 0) {
 				SetEnemyDeath(i);
 			}
 		}
@@ -569,13 +606,11 @@ void cEnemyMgr::Sliding(sEnemy& enemy) {
 ******************************************************/
 void cEnemyMgr::Follow(int tmp) {
 
-
-
 	//ボスの周囲にいる赤敵を探す
 	//敵40体分の処理
 	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 
-		//敵の番号が生きている赤敵の者になるまで処理を飛ばす
+		//敵の番号が生きている赤敵の者になるまで処理を飛ばす 
 		if (enemy[i].etype != 1 || enemy[i].deathflag == TRUE)continue;
 
 		int x1 = enemy[tmp].target.x;  //ボスギャラガのx座標
@@ -584,10 +619,10 @@ void cEnemyMgr::Follow(int tmp) {
 		int x2 = enemy[i].target.x;  //赤敵のx座標
 		int y2 = enemy[i].target.y;  //赤敵のy座標
 
-		int r1 = 76;  //最長の半径
+		int r1 = 80;  //最長の半径
 		int r2 = 1;   //敵の当たり判定
 
-		//ボスギャラガの周囲に敵がいた場合
+					  //ボスギャラガの周囲に敵がいた場合
 		if ((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2) <= (r1 - r2)*(r1 - r2)) {
 			//敵の番号を保存
 			followEnemyV[enemyCount].x = x2 - x1;
@@ -603,17 +638,17 @@ void cEnemyMgr::Follow(int tmp) {
 	/*
 	//発見された敵の数に基づいて攻撃させる処理
 	if (enemyCount == 3) {  //敵の数が3体だった場合
-		//2体分の抽選をおこなう
-		for (int i = 0; i < 2; i++) {
-			//enemyCount = GetRand(2);
-			enemies[followEnemy[enemyCount]]->SetEnemyAttackflg();
-		}
+	//2体分の抽選をおこなう
+	for (int i = 0; i < 2; i++) {
+	//enemyCount = GetRand(2);
+	enemies[followEnemy[enemyCount]]->SetEnemyAttackflg();
+	}
 	}
 	else {  //敵の数が3体未満だった場合
-		for (enemyCount = 0; enemyCount < 2; enemyCount++) {
-			//2体分の赤敵を攻撃させる
-			enemies[followEnemy[enemyCount]]->SetEnemyAttackflg();
-		}
+	for (enemyCount = 0; enemyCount < 2; enemyCount++) {
+	//2体分の赤敵を攻撃させる
+	enemies[followEnemy[enemyCount]]->SetEnemyAttackflg();
+	}
 	}
 	*/
 	if (enemyCount > 3) enemyCount = 3;
@@ -650,10 +685,15 @@ void cEnemyMgr::Draw() {
 		cFlightText::Instance()->ScoreDraw(scoreText.x, scoreText.y, scoreText.score);
 		scoreText.count++;
 	}
-
 	/*
-	DrawFormatString(0, 120, GetColor(255, 255, 255), "enemy[0]:%lf", enemy[0].target.x);
-	DrawFormatString(0, 140, GetColor(255, 255, 255), "enemy[2]:%lf", enemy[2].target.x);
+	if (dummyEnemy != NULL) {
+	DrawFormatString(0, 120, GetColor(255, 255, 255), "dummyEnemy.x:%lf", dummyEnemy->GetEnemyX());
+	DrawFormatString(0, 140, GetColor(255, 255, 255), "dummyEnemy.y:%lf", dummyEnemy->GetEnemyY());
+	DrawFormatString(0, 160, GetColor(255, 255, 255), "dummyEnemy.angle:%lf", dummyEnemy->GetEnemyAngle());
+	DrawFormatString(0, 180, GetColor(255, 255, 255), "dummyEnemy.angle:%lf", enemies[8]->GetEnemyAngle());
+	DrawCircle(dummyEnemy->GetEnemyX(), dummyEnemy->GetEnemyY(), 10, GetColor(255, 0, 0), TRUE);
+	}
 	*/
+
 
 }
