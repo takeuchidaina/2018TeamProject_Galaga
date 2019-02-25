@@ -110,7 +110,7 @@ void cSceneMgr::Draw() {
 		//スタートメニュー
 //		DrawFormatString(0, 0, GetColor(255, 255, 255), "SceneMgr StartMenu");
 		//DrawFormatString(300, 400, GetColor(255, 255, 255), "Please press Space key");
-		cTitle::Instance()->Draw();
+//		cTitle::Instance()->Draw();
 //		test->Draw();
 		break;
 	case eInGame:

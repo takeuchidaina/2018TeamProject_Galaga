@@ -1,12 +1,14 @@
 #pragma once
-
 #ifndef _FPS_INCLUDE_
 #define _FPS_INCLUDE_
 
 #include <math.h>
 #include "DxLib.h"
 #include "Singleton.h"
-
+/************************************************************************
+FPS管理用クラス
+FPSの制御と表示を行う
+************************************************************************/
 class cFps : public cSingleton<cFps>{
 	cFps() {
 		mStartTime = 0;
@@ -36,10 +38,22 @@ public:
 		return true;
 	}
 
+	/*********************************
+	関数名：void Draw()
+	説明：画面の右上に現在のFPSを表示する
+	引数：無し
+	戻り値：無し
+	**********************************/
 	void Draw() {
 		DrawFormatString(1220, 0, GetColor(255, 255, 255), "%.1f", mFps);
 	}
 
+	/*********************************
+	関数名：void Wait()
+	説明：FPSをprivate内の static const int FPS の数値と同じにする
+	引数：無し
+	戻り値：無し
+	**********************************/
 	void Wait() {
 		int tookTime = GetNowCount() - mStartTime;	//かかった時間
 		int waitTime = mCount * 1000 / FPS - tookTime;	//待つべき時間
