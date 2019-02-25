@@ -90,11 +90,6 @@ public:
 	int GetTotalShot() {
 		return totalShot;
 	}
-
-	//Tractor—p
-	int GetTractorHit() {
-		return hitFlg;
-	}
 		
 
 

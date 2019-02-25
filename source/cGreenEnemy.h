@@ -18,8 +18,6 @@ private:
 	double tracotr;
 	bool hit;
 	cPlayerEnemy *traitPlayer;
-	//“c“‡’Ç‰Á
-	int endTractorFlg;
 public:
 	cGreenEnemy(double, double, double, int, double, double, int, int*);
 	virtual ~cGreenEnemy();
