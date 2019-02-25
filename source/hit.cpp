@@ -142,7 +142,7 @@ void cHit::PlayerShot_Enemy() {
 					cEnemyMgr::Instance()->DamageEnemyHp(i);
 					int E_hp = cEnemyMgr::Instance()->GetEnemyHP(i);
 					if (E_hp <= 0) {
-						cEnemyMgr::Instance()->SetEnemyDeath(i);
+  						cEnemyMgr::Instance()->SetEnemyDeath(i);
 						cEffectMgr::Instance()->Blowup(ENEMY, E_cx, E_cy);
 						if (E_tractingFlg == true) {
 							if (E_moveFlg == false) {
@@ -228,9 +228,11 @@ void cHit::PlayerShot_EnemyPlayer() {
 
 			if (len <= ((E_r + S_r)*(E_r + S_r))) {
 				//ErrBox("“–‚½‚Á‚½");
+				if (pEnemy != NULL) {
 				cEnemyMgr::Instance()->DeletePlayerEnemy();
 				pEnemy = NULL;
 				cEffectMgr::Instance()->Blowup(ENEMY, E_cx, E_cy);
+				}
 			}
 
 		}
