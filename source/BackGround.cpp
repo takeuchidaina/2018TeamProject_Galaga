@@ -58,6 +58,14 @@ void cBackGround::TractingUpdate() {
 
 }
 
+void cBackGround::PauseUpdate() {
+	
+	for (int i = 0;i < MAXSTAR; i++) {
+		starArray[i].y -= starArray[i].speed;
+	}
+
+}
+
 void cBackGround::Draw() {
 
 	for (int i = 0; i < MAXSTAR; i++) {
