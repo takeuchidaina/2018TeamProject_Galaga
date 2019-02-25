@@ -109,13 +109,13 @@ int cInGameController::ReviveSceneUpdate() {
 	//エフェクトを出す
 	//エフェクトが出終わったらREADY表示
 	//プレイヤーを再配置
-	
+
 	//全てのエネミーが移動が終わっているかを獲得
-	 static cPlayerEnemy *pEnemy = NULL;
-	 
+	static cPlayerEnemy *pEnemy = NULL;
+
 	 pEnemy = cEnemyMgr::Instance()->GetPlayerEnemyAdress();
-	 cShotMgr::Instance()->SetShotFlg(false);
-	 cEnemyMgr::Instance()->SetChoiseOrderFlag(false);
+	cShotMgr::Instance()->SetShotFlg(false);
+	cEnemyMgr::Instance()->SetChoiseOrderFlag(false);
 	if (cEnemyMgr::Instance()->GetEnemyStay() == 0) {
 		cEnemyMgr::Instance()->Update();
 	}
@@ -125,16 +125,16 @@ int cInGameController::ReviveSceneUpdate() {
 			pEnemy->ReviveUpdate();
 			//pEnemy->Move();
 		}
-		
-		count++;
-		if (count > 60) {
+
+
+		if (pEnemy == NULL) {
 			cShotMgr::Instance()->SetShotFlg(true);
 			cEnemyMgr::Instance()->SetChoiseOrderFlag(true);
-			if(pEnemy == NULL) cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
-			count = 0;
+			cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
+
 		}
 	}
-	
+
 	return 0;
 }
 

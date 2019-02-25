@@ -304,11 +304,6 @@ int cGreenEnemy::TractorUpdate() {
 			enemy.mainpos.pos.y = tmpplayer.pos.y - 160;
 			enemy.ang = 90 * M_PI / 180;
 			cShotMgr::Instance()->TractorShot(&enemy);
-			/*enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
-			enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);*/
-			/*if (enemy.tractorHitFlg == true) {
-				enemy.moveflg++;
-			}*/
 			break;
 		case 3:
 			enemy.mainpos.pos.x = tmpplayer.pos.x;
@@ -320,9 +315,7 @@ int cGreenEnemy::TractorUpdate() {
 			//トラクターの描画がおかしい
 			//そのため二回呼んでいた
 			//カウントを0にできればよいか
-		
-			if (cShotMgr::Instance()->TractorShot(&enemy) == 0) 
-		
+			cShotMgr::Instance()->TractorShot(&enemy);
 			
 				//if()enemy.moveflg++;
 			

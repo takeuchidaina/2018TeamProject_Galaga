@@ -43,7 +43,7 @@ private:
 	int hitFlg;
 	int tractorCnt;
 	int tmpCnt;
-	int tractorAnimation[23] = { 0,1,2,3,4,5,6,7,8,9,10,11,10,9,8,7,6,5,4,3,2,1,0 };
+	int tractorAnimation[30] = { 0,1,2,3,4,5,6,7,8,9,10,11,10,9,8,7,6,5,4,3,2,1,0 ,0,0,0,0,0,0,0};
 
 protected:
 
@@ -54,7 +54,6 @@ public:
 	int Break(int,int);    //’e‚ğÁ‚·ŠÖ”
 	int EnemyShot(double,double);
 	int TractorShot(sEnemy*);
-
 	//ShotFlg‚ÌŠÖ”(TRUE FALSE)
 	void SetShotFlg(int num) { ShotFlg = num; }
 
@@ -90,7 +89,13 @@ public:
 	int GetTotalShot() {
 		return totalShot;
 	}
-		
+	
+	//Ÿè‚É’Ç‰Á•ª@by‘½Šó
+	//tractorCnt‚Ì‰Šú‰»
+	void InitTractorCnt() {
+		tractorCnt = 0;
+		tmpCnt = 0;
+	}
 
 
 	/*

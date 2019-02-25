@@ -104,6 +104,9 @@ int cShotMgr::Update() {
 	return 0;
 }
 
+
+
+
 int cShotMgr::Draw() {
 	//デバッグ用
 	//DrawExtendGraph(20, 60, 400, 600, ShotGrHandle[3], TRUE);
@@ -114,7 +117,7 @@ int cShotMgr::Draw() {
 		player1Shot[i].Draw(PLAYER, ShotGrHandle);
 		player2Shot[i].Draw(PLAYER, ShotGrHandle);
 	}
-
+	
 #ifdef PLAYER_SHOT_DEBUG
 	DrawFormatString(20, 500, GetColor(255, 0, 255), "totalShot:%d", totalShot);
 	DrawFormatString(20, 525, GetColor(255, 0, 255), "pShot1:%d", player1Shot[0].Get_OnActive());
@@ -171,18 +174,22 @@ int cShotMgr::TractorShot(sEnemy* tmp) {
 	if (tmpCnt >= 20) {
 		tractorCnt++;
 		tmpCnt = 0;	
-		if (tractorCnt == 23) {//トラクターが終わるとき
+		if (tractorCnt >= 23) {//トラクターが終わるとき
 			if(hitFlg==TRUE){
 				cSE::Instance()->selectSE(capture);
 			}
-			else if(hitFlg==FALSE){
-				tmp->moveflg++;
-				cSE::Instance()->selectSE(mistake_12);
+			else if (hitFlg == FALSE) {
+				if (tmp->moveflg != 3) {
+					tmp->moveflg += 2;
+					cSE::Instance()->selectSE(mistake_12);
+				}
 			}
-			tractorOnActive = FALSE;
-			hitFlg = FALSE;
-			tractorCnt = 0;
-			return 1;
+			if (tractorCnt > 30) {
+				tractorOnActive = FALSE;
+				hitFlg = FALSE;
+				tractorCnt = 0;
+				return 1;
+			}
 		}
 	}
 	if (tractorAnimation[tractorCnt] > 8 && tractorAnimation[tractorCnt] < 13) {
@@ -193,6 +200,7 @@ int cShotMgr::TractorShot(sEnemy* tmp) {
 	if (tractorAnimation[tractorCnt] > 14 && tractorAnimation[tractorCnt] < 22 && hitFlg == TRUE) {
 		cSE::Instance()->selectSE(tractor_beam_capture);
 	}
+	
 	DrawExtendGraph((int)tmp->mainpos.pos.x - 96 / 2, (int)tmp->mainpos.pos.y + 48 /* * 3*/,
 		(int)tmp->mainpos.pos.x + 90 - 1, (int)tmp->mainpos.pos.y + 48 + 160 - 1,
 		tractorGrHandle[tractorAnimation[tractorCnt]], TRUE);

@@ -122,7 +122,8 @@ int cPlayerEnemy::Update() {
 		else {
 			enemy.mainpos.pos.x = tmpEnemy->mainpos.pos.x + 25;
 			enemy.mainpos.pos.y = tmpEnemy->mainpos.pos.y - 48;	
-			if (cInGameMgr::Instance()->GetSceneFlg() != 1)cInGameController::Instance()->OutToTractor();
+			if (cInGameMgr::Instance()->GetSceneFlg() != cInGameMgr::Instance()->eInGame ||
+				cInGameMgr::Instance()->GetSceneFlg() != cInGameMgr::Instance()->eRevival)cInGameController::Instance()->OutToTractor();
 			enemy.moveflg++;
 		}
 
@@ -149,7 +150,7 @@ int cPlayerEnemy::ReviveUpdate() {
 		enemy.vct.x = 0;
 		enemy.vct.y = 0;
 		rotecnt += 0.3;
-		if (rotecnt > 30)
+		if (rotecnt > 40)
 		{
 			rotecnt = 0;
 			playerGraphNum = 0;

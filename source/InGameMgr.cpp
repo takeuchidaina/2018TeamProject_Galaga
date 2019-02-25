@@ -140,11 +140,12 @@ void cInGameMgr::Update() {
 		//
 		break;
 	case eInGame://ゲーム画面[
+		cHit::Instance()->Update();
 		cPlayer::Instance()->Update();
 		cShotMgr::Instance()->Update();
 		cEnemyMgr::Instance()->Update();
 		//EnemyMgr.Update();
-		cHit::Instance()->Update();
+		
 		cScore::Instance()->Update();
 		cEffectMgr::Instance()->Update();
 		if (Debug::Instance()->Get_Input(Key0) == 1) {
@@ -164,6 +165,7 @@ void cInGameMgr::Update() {
 		//
 		break;
 	case eRevival://プレイヤー復活
+		//cHit::Instance()->Update();
 		//cEnemyMgr::Instance()->Update();
 		cInGameController::Instance()->ReviveSceneUpdate();
 		cEffectMgr::Instance()->Update();
@@ -176,7 +178,8 @@ void cInGameMgr::Update() {
 	case eTractor://きゃとられ中
 		cEnemyMgr::Instance()->Update();
 		//EnemyMgr.Update();
-		cHit::Instance()->Update();
+	//	cHit::Instance()->Update();
+		cShotMgr::Instance()->Update();
 		cEffectMgr::Instance()->Update();
 		//
 		break;
@@ -221,7 +224,7 @@ void cInGameMgr::Draw() {
 		cEffectMgr::Instance()->Draw();
 		cSaveLoad::Instance()->Draw();
 		//EnemyMgr.Draw();
-//		DrawFormatString(0, 20, GetColor(255, 255, 255), "eInGame");
+		DrawFormatString(0, 20, GetColor(255, 255, 255), "eInGame");
 		//
 		break;
 	case eDeath://プレイヤー死亡
