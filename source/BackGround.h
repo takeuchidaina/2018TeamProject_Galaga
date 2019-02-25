@@ -31,9 +31,15 @@ private:
 
 	void Init(int);			//‰Šú‰»ˆ—
 
+	int sceneFlg;
+	int eTractor;
+
 public:
 	void Update();			//ŒvZˆ—
 	void Draw();			//•`Êˆ—
+
+	void TractingUpdate();
+
 
 };
 #endif

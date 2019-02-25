@@ -30,7 +30,11 @@ typedef enum {
 }eDebugInput;
 
 
-
+/************************************************************************
+デバッグコマンド用クラス
+Update関数を呼び出さなければ使えないのでデバッグ中はUpdate()をWinMainに書く
+キーの　０－９　Ｆ１－Ｆ１２　を対応
+************************************************************************/
 class Debug : public cSingleton <Debug>{
 	Debug();
 	friend cSingleton<Debug>;
@@ -39,8 +43,14 @@ private:
 	cKeyboard tmpKey;
 
 public:
-//	virtual ~Debug();
+	//キー獲得状態の更新用
 	void Update();
+	/*********************************
+	関数名：int Get_Input(eDebugInput)
+	説明：デバッグ対応キーが押されているかを獲得する
+	引数：eDebugInput型 キーコード
+	戻り値：int型 押されているフレーム数
+	**********************************/
 	int Get_Input(eDebugInput);
 };
 
