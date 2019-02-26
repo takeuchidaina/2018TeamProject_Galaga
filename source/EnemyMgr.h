@@ -146,6 +146,8 @@ private:
 
 	int attackNum;  //UŒ‚‚·‚é“G‚Ì”Ô†
 
+	int frameCount;  //‚Ó‚ê[‚Ş‚©‚¤‚ñ‚Æ
+
 
 public:
 	//~cEnemyMgr();
@@ -225,6 +227,8 @@ public:
 		enemies[num]->DamageHp();
 	}
 
+
+	//€‚ñ‚¾“G‚Ì”‚ğ‚í‚½‚·
 	int GetEnemyDeathCount() {
 		return EnemyDeathCount;
 	}
