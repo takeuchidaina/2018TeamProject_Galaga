@@ -113,7 +113,16 @@ int cInGameController::ReviveSceneUpdate() {
 	//全てのエネミーが移動が終わっているかを獲得
 	static cPlayerEnemy *pEnemy = NULL;
 
-	 pEnemy = cEnemyMgr::Instance()->GetPlayerEnemyAdress();
+
+		pEnemy = cEnemyMgr::Instance()->GetPlayerEnemyAdress();
+		if(pEnemy == NULL)cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
+	 if (pEnemy != NULL && pEnemy->GetRemoveFlg() == 0)pEnemy->Rolling();
+
+
+	 if (cSE::Instance()->GetSeActive(rescue) == 0) {
+		 cSE::Instance()->selectSE(rescue);
+	 }
+
 	cShotMgr::Instance()->SetShotFlg(false);
 	cEnemyMgr::Instance()->SetChoiseOrderFlag(false);
 	if (cEnemyMgr::Instance()->GetEnemyStay() == 0) {
@@ -128,6 +137,7 @@ int cInGameController::ReviveSceneUpdate() {
 
 
 		if (pEnemy == NULL) {
+			cSE::Instance()->StopSound(rescue);
 			cShotMgr::Instance()->SetShotFlg(true);
 			cEnemyMgr::Instance()->SetChoiseOrderFlag(true);
 			cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);

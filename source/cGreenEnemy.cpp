@@ -282,7 +282,11 @@ int cGreenEnemy::TractorUpdate() {
 
 		case 0:
 			cShotMgr::Instance()->InitTractorCnt();
-			if (enemy.count == 0)enemy.ang = 180 * M_PI / 180;
+			if (enemy.count == 0) {
+				enemy.ang = 180 * M_PI / 180;
+			
+			}
+			if(enemy.count <2) cSE::Instance()->selectSE(alien_flying);
 			enemy.ang += tractormoveang[enemy.moveflg] * M_PI / 180;
 			if (tractorcountflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
@@ -507,8 +511,9 @@ int cGreenEnemy::Draw() {
 		if (enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * M_PI) / 180), enemy.graph[AnimationNum], TRUE, TRUE);
 		else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[AnimationNum], TRUE, TRUE);
 	}
-	DrawLine(450, 0, 450, 900, GetColor(255, 255, 255));
+
 #ifdef DEBUG
+	DrawLine(450, 0, 450, 900, GetColor(255, 255, 255));
 	//DrawFormatString(120, 855, GetColor(255, 255, 255), "%d", enemy.count);
 	//DrawFormatString(120, 835, GetColor(255, 255, 255), "onactive%d", enemy.mainpos.onActive);
 	//DrawFormatString(120, 870, GetColor(255, 255, 255), "%d", enemy.attackflg);
@@ -525,4 +530,4 @@ int cGreenEnemy::Draw() {
 
 
 	return 0;
-}
+	}

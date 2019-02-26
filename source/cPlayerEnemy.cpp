@@ -149,7 +149,6 @@ int cPlayerEnemy::ReviveUpdate() {
 		enemy.ang = 270 * M_PI / 180;
 		enemy.vct.x = 0;
 		enemy.vct.y = 0;
-		rotecnt += 0.3;
 		if (rotecnt > 40)
 		{
 			rotecnt = 0;

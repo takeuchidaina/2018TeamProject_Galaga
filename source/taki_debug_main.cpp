@@ -8,6 +8,7 @@ using namespace std;
 #include "cGreenEnemy.h"
 #include "DxLib.h"
 #include "Struct.h"
+#include "SE.h"
 int EnemyGraph[20];
  static int i = 0;
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -25,6 +26,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {//画面更新 & メッセージ処理 & 画面消去
 		count++;
+		if(cSE::Instance()->GetSeActive(rescue) == 0)	cSE::Instance()->selectSE(rescue);
+		
 			zako.SetEnemyAttackflg();
 			goei.SetEnemyAttackflg();
 			boss.SetEnemyAttackflg();
