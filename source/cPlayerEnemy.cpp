@@ -4,8 +4,6 @@ using namespace std;
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <memory.h>
-#include "cBaseEnemy.h"
-#include "cGreenEnemy.h"
 #include "cPlayerEnemy.h"
 #include "InGameMgr.h"
 #include "DxLib.h"
@@ -16,7 +14,8 @@ using namespace std;
 #include"cBaseEnemy.h"
 #include"EnemyMgr.h"
 #include "InGameMgr.h"
-#include "UI.h"
+#include "BackGround.h"
+
 
 
 cPlayerEnemy::cPlayerEnemy() {
@@ -68,6 +67,7 @@ int cPlayerEnemy::Update() {
 	{
 	case 0:
 		rotecnt += 0.3;
+		cBackGround::Instance()->TractingUpdate();
 		enemy.ang = atan2((tmpEnemy->mainpos.pos.y + 48) - enemy.mainpos.pos.y, tmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x);
 		if ((tmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x)*(tmpEnemy->mainpos.pos.x + 22 - enemy.mainpos.pos.x) +
 			((tmpEnemy->mainpos.pos.y + 48) - enemy.mainpos.pos.y)*((tmpEnemy->mainpos.pos.y + 48) - enemy.mainpos.pos.y) <=
@@ -195,16 +195,13 @@ int cPlayerEnemy::Draw() {
 	//else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[0], TRUE, TRUE);
 	*/
 
-	if (enemy.moveflg == 0 && reMoveFlg == 0) {
+	if (rotecnt != 0) {
 		DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, rotecnt, graph[playerGraphNum], TRUE);
 	}
 	else {
-	
-			DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, (enemy.ang + 90 * M_PI / 180)*enemy.dir, graph[playerGraphNum], TRUE);
-		
-	
-	
-		
+			//DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3, (enemy.ang + 90 * M_PI / 180)*enemy.dir, graph[playerGraphNum], TRUE);
+			if (enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3.0, (enemy.ang + (90 * M_PI) / 180), graph[playerGraphNum], TRUE, TRUE);
+			else DrawRotaGraph((int)enemy.mainpos.pos.x, (int)enemy.mainpos.pos.y, 3.0, -(enemy.ang + 90 * M_PI / 180), graph[playerGraphNum], TRUE, TRUE);
 	}
 #ifdef DEBUG
 	DrawFormatString(120, 885, GetColor(255, 255, 255), "%d", enemy.moveflg);

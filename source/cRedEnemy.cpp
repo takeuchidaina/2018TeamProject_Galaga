@@ -57,7 +57,7 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 
 	enemy.target.x = x;
 	enemy.target.y = y;
-	enemy.targetr = 1;
+	enemy.targetr = 3;
 	AnimationCnt = 0;
 	AnimationNum = 5;
 	enemy.hp = 1;
@@ -76,26 +76,26 @@ void cRedEnemy::Move() {
 	enemy.mainpos.cx = enemy.mainpos.pos.x + enemy.width / 2;
 	enemy.mainpos.cy = enemy.mainpos.pos.y + enemy.height / 2;
 
-	
-  if (enemy.mainpos.onActive == YesActive) {
-	  if (enemy.attackflg == TRUE) {
-		  if (enemy.moveflg != 8 && enemy.moveflg != 7) {
-			  enemy.vct.x = cos(enemy.ang)* enemy.dir;
-			  enemy.vct.y = sin(enemy.ang);
-			  enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
-			  enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
-		  }
-		  else if (enemy.moveflg == 7) {
-			  enemy.vct.x = cos(enemy.ang);
-			  enemy.vct.y = sin(enemy.ang);
-			  enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
-			  enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
-		  }
-		  else {
-			  enemy.vct.x = cos(enemy.ang)* enemy.dir;
-			  enemy.vct.y = sin(enemy.ang);
-		  }
-	  }
+
+	if (enemy.mainpos.onActive == YesActive) {
+		if (enemy.attackflg == TRUE) {
+			if (enemy.moveflg != 8 && enemy.moveflg != 7) {
+				enemy.vct.x = cos(enemy.ang)* enemy.dir;
+				enemy.vct.y = sin(enemy.ang);
+				enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
+				enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
+			}
+			else if (enemy.moveflg == 7) {
+				enemy.vct.x = cos(enemy.ang);
+				enemy.vct.y = sin(enemy.ang);
+				enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
+				enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
+			}
+			else {
+				enemy.vct.x = cos(enemy.ang)* enemy.dir;
+				enemy.vct.y = sin(enemy.ang);
+			}
+		}
 	}
 }
 
@@ -126,8 +126,16 @@ int cRedEnemy::Update() {
 		switch (enemy.moveflg)
 		{
 		case 0:
-			//if (CheckSoundFile() == 0)cSE::Instance()->selectSE(alien_flying);
-			if (enemy.count < 2)enemy.ang = 180 * M_PI / 180;
+			if (enemy.mainpos.pos.x <= 450) {
+				enemy.dir = 1;
+			}
+			else {
+				enemy.dir = -1;
+			}
+			if (enemy.count < 2) {
+				enemy.ang = 180 * M_PI / 180;
+				if (CheckSoundFile() == 0) cSE::Instance()->selectSE(alien_flying);
+			}
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
@@ -138,7 +146,6 @@ int cRedEnemy::Update() {
 		case 3:
 		case 4:
 		case 5:
-		case 8:
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
@@ -171,10 +178,20 @@ int cRedEnemy::Update() {
 			if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
 				(enemy.target.y - enemy.mainpos.pos.y)*(enemy.target.y - enemy.mainpos.pos.y) <=
 				(enemy.mainpos.r / 5 + enemy.targetr)*(enemy.mainpos.r / 5 + enemy.targetr)) {
-
-				enemy.moveflg++;
+				enemy.mainpos.pos.x = enemy.target.x;
+				enemy.mainpos.pos.y = enemy.target.y;
 				enemy.count = 0;
 				enemy.mainpos.onActive = SetPos;
+				enemy.moveflg++;
+			}
+			break;
+		case 8:
+			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+			enemy.mainpos.pos.x = enemy.target.x;
+			enemy.mainpos.pos.y = enemy.target.y;
+			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+				enemy.moveflg++;
+				enemy.count = 0;
 			}
 			break;
 		case 9:
@@ -182,11 +199,11 @@ int cRedEnemy::Update() {
 			enemy.count = 0;
 
 			enemy.ang = -90 * M_PI / 180;
-			if (enemy.mainpos.pos.x <= 430) {
-				enemy.dir = -1;
+			if (enemy.mainpos.pos.x <= 450) {
+				enemy.dir = 1;
 			}
 			else {
-				enemy.dir = 1;
+				enemy.dir = -1;
 			}
 			//敵座標を目的地に固定
 			enemy.mainpos.pos.x = enemy.target.x;
@@ -240,7 +257,7 @@ void cRedEnemy::EndlessUpdate() {
 		case 3:
 		case 4:
 		case 5:
-		//case 8:
+			//case 8:
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
@@ -267,16 +284,17 @@ void cRedEnemy::EndlessUpdate() {
 		case 7:
 			enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 			enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
-		/*	enemy.target.x = 400;
-			enemy.target.y = 80;*/
+			/*	enemy.target.x = 400;
+				enemy.target.y = 80;*/
 			enemy.ang = atan2(enemy.target.y - enemy.mainpos.pos.y, enemy.target.x - enemy.mainpos.pos.x);
 			if ((enemy.target.x - enemy.mainpos.pos.x)*(enemy.target.x - enemy.mainpos.pos.x) +
 				(enemy.target.y - enemy.mainpos.pos.y)*(enemy.target.y - enemy.mainpos.pos.y) <=
 				(enemy.mainpos.r / 5 + enemy.targetr)*(enemy.mainpos.r / 5 + enemy.targetr)) {
-
-				enemy.moveflg++;
+				enemy.mainpos.pos.x = enemy.target.x;
+				enemy.mainpos.pos.y = enemy.target.y;
 				enemy.count = 0;
 				enemy.mainpos.onActive = SetPos;
+				enemy.moveflg++;
 			}
 			break;
 		case 8:
@@ -284,11 +302,11 @@ void cRedEnemy::EndlessUpdate() {
 			enemy.count = 0;
 
 			enemy.ang = 30 * M_PI / 180;
-			if (enemy.mainpos.pos.x <= 430) {
-				enemy.dir = -1;
+			if (enemy.mainpos.pos.x <= 450) {
+				enemy.dir = 1;
 			}
 			else {
-				enemy.dir = 1;
+				enemy.dir = -1;
 			}
 			//敵座標を目的地に固定
 			enemy.mainpos.pos.x = enemy.target.x;

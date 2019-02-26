@@ -76,7 +76,6 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 	enemy.hp = 2;
 
 	LoadDivGraph("../resource/Image/Galaga_OBJ_effect.png", 15, 5, 3, 50, 82, tractor);
-
 	enemy.endlessFlg = false;
 	enemy.tractingEnemy = false;
 	enemy.tractorflg = false;
@@ -129,13 +128,7 @@ int cGreenEnemy::Update() {
 	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 	/*enemy.target.x = 380;
 	enemy.target.y = 80;*/
-	//cShotMgr::Instance()->EnemyShot(enemy.mainpos.pos.x, enemy.mainpos.pos.y);
-	/*enemy.target.x = 500;
-	enemy.target.y = 300;*/
 
-	/*if (enemy.tractorflg == true && traitPlayer != NULL && tractedFlg == true && enemy.moveflg == 0) {
-		return 0;
-	}*/
 
 	if (enemy.attackflg == true && enemy.tractorflg == false) {
 		enemy.count++;
@@ -144,18 +137,26 @@ int cGreenEnemy::Update() {
 			enemy.mainpos.onActive = YesActive;
 		}
 		/*	DrawFormatString(0, 0, GetColor(255, 255, 255), "%lf", enemy.target.x);
-			DrawFormatString(0, 50, GetColor(255, 255, 255), "%lf", enemy.target.y);
-			DrawFormatString(0, 100, GetColor(255, 255, 255), "%lf", enemy.mainpos.pos.x);
-			DrawFormatString(0, 125, GetColor(255, 255, 255), "%lf", enemy.mainpos.pos.y);
-			DrawFormatString(0, 150, GetColor(255, 255, 255), "%d", enemy.targetr);
-			DrawFormatString(0, 175, GetColor(255, 255, 255), "%lf", enemy.mainpos.r);
-
-			DrawFormatString(0, 200, GetColor(255, 255, 255), "%d", enemy.moveflg);*/
+				DrawFormatString(0, 50, GetColor(255, 255, 255), "%lf", enemy.target.y);
+				DrawFormatString(0, 100, GetColor(255, 255, 255), "%lf", enemy.mainpos.pos.x);
+				DrawFormatString(0, 125, GetColor(255, 255, 255), "%lf", enemy.mainpos.pos.y);
+				DrawFormatString(0, 150, GetColor(255, 255, 255), "%d", enemy.targetr);
+				DrawFormatString(0, 175, GetColor(255, 255, 255), "%lf", enemy.mainpos.r);
+				DrawFormatString(0, 225, GetColor(255, 255, 255), "%d", enemy.dir);
+				DrawFormatString(0, 200, GetColor(255, 255, 255), "%d", enemy.moveflg);*/
 		switch (enemy.moveflg)
 		{
 		case 0:
-			if (enemy.count < 2)enemy.ang = 180 * M_PI / 180;
-			//	if (CheckSoundFile() == 0) cSE::Instance()->selectSE(alien_flying);
+			if (enemy.mainpos.pos.x <= 450) {
+				enemy.dir = 1;
+			}
+			else {
+				enemy.dir = -1;
+			}
+			if (enemy.count < 2) {
+				enemy.ang = 180 * M_PI / 180;
+				if (CheckSoundFile() == 0) cSE::Instance()->selectSE(alien_flying);
+			}
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
@@ -174,7 +175,6 @@ int cGreenEnemy::Update() {
 
 		case 1:
 		case 5:
-		case 8:
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
@@ -216,13 +216,22 @@ int cGreenEnemy::Update() {
 				enemy.mainpos.onActive = ReadyStart;
 			}
 			break;
+		case 8:
+			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+			enemy.mainpos.pos.x = enemy.target.x;
+			enemy.mainpos.pos.y = enemy.target.y;
+			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+				enemy.moveflg++;
+				enemy.count = 0;
+			}
+			break;
 		case 9:
 			enemy.mainpos.pos.x = enemy.target.x;
 			enemy.mainpos.pos.y = enemy.target.y;
 			enemy.count = 0;
 
 			enemy.ang = -90 * M_PI / 180;
-			if (enemy.mainpos.pos.x <= 430) {
+			if (enemy.mainpos.pos.x <= 450) {
 				enemy.dir = 1;
 			}
 			else {
@@ -272,6 +281,7 @@ int cGreenEnemy::TractorUpdate() {
 		{
 
 		case 0:
+			cShotMgr::Instance()->InitTractorCnt();
 			if (enemy.count == 0)enemy.ang = 180 * M_PI / 180;
 			enemy.ang += tractormoveang[enemy.moveflg] * M_PI / 180;
 			if (tractorcountflg[enemy.moveflg] <= enemy.count) {
@@ -308,7 +318,7 @@ int cGreenEnemy::TractorUpdate() {
 		case 3:
 			enemy.mainpos.pos.x = tmpplayer.pos.x;
 			enemy.mainpos.pos.y = tmpplayer.pos.y - 160;
-			
+
 			enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 			enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 			//enemy.moveflg++;
@@ -316,9 +326,9 @@ int cGreenEnemy::TractorUpdate() {
 			//‚»‚Ì‚½‚ß“ñ‰ñŒÄ‚ñ‚Å‚¢‚½
 			//ƒJƒEƒ“ƒg‚ð0‚É‚Å‚«‚ê‚Î‚æ‚¢‚©
 			cShotMgr::Instance()->TractorShot(&enemy);
-			
-				//if()enemy.moveflg++;
-			
+
+			//if()enemy.moveflg++;
+
 			break;
 		case 4:
 
@@ -339,7 +349,7 @@ int cGreenEnemy::TractorUpdate() {
 		case 5:
 
 
-			if (enemy.mainpos.pos.x <= 430) {
+			if (enemy.mainpos.pos.x <= 450) {
 				enemy.dir = 1;
 			}
 			else {
@@ -460,7 +470,7 @@ void cGreenEnemy::EndlessUpdate() {
 			enemy.count = 0;
 
 			enemy.ang = 100 * M_PI / 180;
-			if (enemy.mainpos.pos.x <= 430) {
+			if (enemy.mainpos.pos.x <= 450) {
 				enemy.dir = 1;
 			}
 			else {
@@ -496,26 +506,8 @@ int cGreenEnemy::Draw() {
 	if (enemy.mainpos.onActive != NoActive) {
 		if (enemy.dir == RIGHT)DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, (enemy.ang + (90 * M_PI) / 180), enemy.graph[AnimationNum], TRUE, TRUE);
 		else DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[AnimationNum], TRUE, TRUE);
-		if (enemy.tractorflg == true && (enemy.moveflg == 2 || enemy.moveflg == 3)) {
-			//if (TractorCnt > 20) {
-			//	//cSE::Instance()->selectSE(tractor_beam);
-			//	TractorCnt = 0;
-			//	TractorNum++;
-			//	if (TractorNum > 22) {
-			//		if (enemy.tractorHitFlg == false) {
-			//			enemy.moveflg += 2;
-			//		}
-			//		TractorNum = 0;
-			//	}
-			//}
-			////DrawExtendGraph((int)enemy.mainpos.pos.x - 96 / 2, (int)enemy.mainpos.pos.y + enemy.height * 3, (int)enemy.mainpos.pos.x + 90 - 1, (int)enemy.mainpos.pos.y + enemy.height + 160 - 1, tractor[tractorAnimation[TractorNum]], TRUE);
-			//DrawFormatString(0, 800, GetColor(255, 255, 255), "%d", (int)enemy.mainpos.pos.x - 96 / 2, false);
-			//DrawFormatString(0, 900, GetColor(255, 255, 255), "%d", (int)enemy.mainpos.pos.x + 90 - 1, false);
-
-			//DrawLine((int)enemy.mainpos.pos.x - 96 / 2, 0, (int)enemy.mainpos.pos.x - 96 / 2, 900, GetColor(255, 255, 255), false);
-			//DrawLine((int)enemy.mainpos.pos.x + 90 - 1, 0, (int)enemy.mainpos.pos.x + 90 - 1, 900, GetColor(255, 255, 255), false);
-		}
 	}
+	DrawLine(450, 0, 450, 900, GetColor(255, 255, 255));
 #ifdef DEBUG
 	//DrawFormatString(120, 855, GetColor(255, 255, 255), "%d", enemy.count);
 	//DrawFormatString(120, 835, GetColor(255, 255, 255), "onactive%d", enemy.mainpos.onActive);

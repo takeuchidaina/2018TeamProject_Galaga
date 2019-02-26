@@ -159,6 +159,10 @@ public:
 		enemy.attackflg = true;
 	}
 
+	virtual	void SetAttackFalse() {
+		enemy.attackflg = false;
+	}
+
 	//ang
 	virtual	double GetEnemyAngle() {
 		return enemy.ang;
@@ -227,7 +231,7 @@ public:
 	virtual	void SetHp() { enemy.hp = 0; };
 
 	/*************************************************************************
-	関　数: void  SetEndlessFlg()
+	関　数: void  GetEndlessFlg()
 	説　明:敵の数が少なくなったら無限移動するためのflgを取得する
 	引　数: 無し
 	戻り値: bool型　enemy.endlessFlg
