@@ -18,7 +18,7 @@ typedef struct {
 	bool tractorflg;      //トラクターを行うかのフラグ
 	bool tractorHitFlg; //トラクターが当たったかの判定
 	bool tractingEnemy; //捕まえている敵の捕捉用flg
-
+	eType etype;
 	sPos vct;               // ベクトル用x y
 	sOBJPos mainpos;//メインのx y r onActive
 	sPos target;          //定位置
@@ -36,6 +36,7 @@ typedef struct {
 	double countflg[15];//移動のフェーズ切り替えのカウント
 	int hp;//敵の耐久力
 	bool endlessFlg;//敵の数が少ないときの無限移動用フラグ
+	int type;
 }sEnemy;
 
 class cBaseEnemy {
@@ -250,6 +251,10 @@ public:
 	*************************************************************************/
 	virtual void SetEndlessFlg(bool flg) {
 		enemy.endlessFlg = flg;
+	}
+
+	int GetEnemyType() {
+		return enemy.type;
 	}
 };
 

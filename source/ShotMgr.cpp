@@ -168,21 +168,29 @@ int cShotMgr::EnemyShot(double tmpEX, double tmpEY) {
 int cShotMgr::TractorShot(sEnemy* tmp) {
 	tractorOnActive = TRUE;
 	tmpCnt++;
-	if (tractorOnActive==TRUE&&tractorCnt == 1) {
-		cSE::Instance()->selectSE(tractor_beam);
+	if (tmp->tractingEnemy == false && tractorCnt < 23) {
+	if (cSE::Instance()->GetSeActive(tractor_beam) == 0)cSE::Instance()->selectSE(tractor_beam);
 	}
+	else if (hitFlg == TRUE && tractorCnt < 23) {
+		cSE::Instance()->StopSound(tractor_beam);
+		cSE::Instance()->selectSE(tractor_beam_capture);
+	}
+
 	if (tmpCnt >= 20) {
 		tractorCnt++;
 		tmpCnt = 0;	
 		if (tractorCnt >= 23) {//トラクターが終わるとき
-			if(hitFlg==TRUE){
-				cSE::Instance()->selectSE(capture);
+			if(tmp->tractingEnemy == true){
+				if (cSE::Instance()->GetSeActive(tractor_beam_capture) == 1)cSE::Instance()->StopSound(tractor_beam_capture);
+				if(cSE::Instance()->GetSeActive(capture) ==0)cSE::Instance()->selectSE(capture);
 			}
 			else if (hitFlg == FALSE) {
 				if (tmp->moveflg != 3) {
 					tmp->moveflg += 2;
-					cSE::Instance()->selectSE(mistake_12);
 				}
+				if (cSE::Instance()->GetSeActive(tractor_beam) == 1)cSE::Instance()->StopSound(tractor_beam);
+				if (cSE::Instance()->GetSeActive(mistake_12) == 0)cSE::Instance()->selectSE(mistake_12);
+					
 			}
 			if (tractorCnt > 30) {
 				tractorOnActive = FALSE;

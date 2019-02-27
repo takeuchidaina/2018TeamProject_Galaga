@@ -64,7 +64,7 @@ public:
 	関　数: int GetSeActive()
 	説　明:指定されたSEが再生されているか判断する関数
 	引　数: tamplate T (eSe型かeMUSIC型のどちらか)
-	戻り値: 0　再生していない　1　再生中 -1 エラー
+	戻り値: 0:再生していない　1:再生中  -1:エラー
 	備　考:再生されているか知りたいseの名前を引数に入れてください
 	*************************************************************************/
 	template <typename Type>
@@ -81,7 +81,7 @@ public:
 	*************************************************************************/
 	template <typename _Type>
 	void StopSound(_Type musicName) {
-		StopSoundMem(*(se + musicName));
+		StopSoundMem(se[musicName]);
 	}
 
 	//引数のseを再生する

@@ -115,7 +115,12 @@ int cInGameController::ReviveSceneUpdate() {
 
 
 		pEnemy = cEnemyMgr::Instance()->GetPlayerEnemyAdress();
-		if(pEnemy == NULL)cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
+		if (pEnemy == NULL) {
+			cSE::Instance()->StopSound(rescue);
+			cShotMgr::Instance()->SetShotFlg(true);
+			cEnemyMgr::Instance()->SetChoiseOrderFlag(true);
+			cInGameMgr::Instance()->ChangeScene(cInGameMgr::eInGame);
+		}
 	 if (pEnemy != NULL && pEnemy->GetRemoveFlg() == 0)pEnemy->Rolling();
 
 

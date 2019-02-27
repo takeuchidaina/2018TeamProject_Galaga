@@ -23,6 +23,8 @@ cRedEnemy::cRedEnemy(double x, double y, double r, int cnt, double spd, double a
 	enemy.ang = ang * M_PI / 180;
 	enemy.mainpos.onActive = flg;
 
+	enemy.type = eGoei;
+
 	enemy.moveflg = 0;
 
 	enemy.vct.x = 0;

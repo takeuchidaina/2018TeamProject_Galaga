@@ -1,7 +1,7 @@
 #include <DxLib.h>
 #include"hit.h"
 #include "WinBox.h"
-
+#include "struct.h"
 
 /* コンストラクタ */
 cHit::cHit() {
@@ -122,7 +122,7 @@ void cHit::PlayerShot_Enemy() {
 		E_r = cEnemyMgr::Instance()->GetEnemyPosR(i);
 		E_tractingFlg = cEnemyMgr::Instance()->GetTractingFlg(i);
 		E_moveFlg = cEnemyMgr::Instance()->GetEnemyStay();
-
+		E_type = cEnemyMgr::Instance()->GetEnemyType(i);
 		if (E_onActive == FALSE) continue;
 
 		for (int j = 0; j < PLAYERSHOTNUM; j++) {
@@ -138,9 +138,22 @@ void cHit::PlayerShot_Enemy() {
 				double len = (S_cx - E_cx)*(S_cx - E_cx) + (S_cy - E_cy)*(S_cy - E_cy);
 
 				if (len <= ((E_r + S_r)*(E_r + S_r))) {
-
+					
 					cEnemyMgr::Instance()->DamageEnemyHp(i);
 					int E_hp = cEnemyMgr::Instance()->GetEnemyHP(i);
+					switch (E_type)
+					{
+					case eZako:
+						cSE::Instance()->selectSE(zako_striken);
+						break;
+					case  eGoei:
+						cSE::Instance()->selectSE(goei_striken);
+						break;
+					case eBoss:
+						if (E_hp ==1)	cSE::Instance()->selectSE(boss_striken_2);
+						else	if(E_hp <1)cSE::Instance()->selectSE(boss_striken_1);
+					}
+
 					if (E_hp <= 0) {
 						cEnemyMgr::Instance()->SetEnemyDeath(i);
 						cEffectMgr::Instance()->Blowup(ENEMY, E_cx, E_cy);

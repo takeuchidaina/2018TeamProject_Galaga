@@ -25,7 +25,7 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 	enemy.ang = ang * M_PI / 180;
 	enemy.mainpos.onActive = flg;
 
-
+	enemy.type = eBoss;
 	enemy.height = 16;
 
 
@@ -84,6 +84,7 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 
 cGreenEnemy::~cGreenEnemy() {
 	cShotMgr::Instance()->InitTractorCnt();
+	if (cSE::Instance()->GetSeActive(tractor_beam) == 1)cSE::Instance()->StopSound(tractor_beam);
 	enemy.tractingEnemy = false;
 	enemy.tractorflg = false;
 	enemy.tractorHitFlg = false;

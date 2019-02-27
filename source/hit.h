@@ -73,7 +73,7 @@ private:
 	double S_onActive, S_cx, S_cy, S_r;		//弾
 	double E_onActive, E_cx, E_cy, E_r;		//敵
 	bool E_tractingFlg, E_moveFlg;			//敵用フラグ
-
+	int E_type;
 											// トラクタービーム用
 	cPlayerEnemy *TraitPlayer;	//敵プレイヤー
 	double player_x, player_y;	//プレイヤー座標

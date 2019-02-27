@@ -23,6 +23,8 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 	enemy.ang = ang * M_PI / 180;
 	enemy.mainpos.onActive = flg;
 
+	enemy.type = eZako;
+
 	enemy.moveflg = 0;
 
 	enemy.vct.x = 0;
