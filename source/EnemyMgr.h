@@ -375,5 +375,10 @@ public:
 		return enemies[num]->GetTractingFlg();
 	}
 
+	//se—p
+	int GetEnemyType(int num) {
+		return enemies[num]->GetEnemyType();
+	}
+
 };
 #endif // !_INGAME_MGR_INCLUDE_
