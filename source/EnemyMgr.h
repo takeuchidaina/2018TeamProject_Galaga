@@ -148,6 +148,8 @@ private:
 
 	int frameCount;  //ふれーむかうんと
 
+	int tractorCount;  //トラクターフラグがonの敵の数
+
 
 public:
 	//~cEnemyMgr();
@@ -233,6 +235,9 @@ public:
 		return EnemyDeathCount;
 	}
 
+	int GetTractorCount() {
+		return tractorCount;
+	}
 
 
 

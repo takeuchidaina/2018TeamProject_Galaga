@@ -496,6 +496,9 @@ void cEnemyMgr::Update() {
 		//敵の再抽選フラグon
 		ReChoiceFlag = 1;
 
+		//トラクターカウント
+		tractorCount = 0;
+
 		//敵40体分処理を行う
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 
@@ -523,6 +526,7 @@ void cEnemyMgr::Update() {
 			//トラクターフラグがtrueの場合、トラクタービームを出す
 			if (enemies[i]->GetTractorfFlg() == true) {
 				enemies[i]->TractorUpdate();
+				tractorCount++;
 			}
 		}//for文終了
 
@@ -578,7 +582,7 @@ void cEnemyMgr::Update() {
 
 				}//while文終了
 			}
-			else if (ChoiseOrderFlag == FALSE) {  //再抽選フラグonかつ、外部から再抽選を止められている場合
+			else if (ReChoiceFlag == 1 && ChoiseOrderFlag == FALSE) {  //再抽選フラグonかつ、外部から再抽選を止められている場合
 
 				//待機中フラグon
 				Stayflag = 1;
