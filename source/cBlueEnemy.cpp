@@ -23,6 +23,8 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 	enemy.ang = ang * M_PI / 180;
 	enemy.mainpos.onActive = flg;
 
+	enemy.type = eZako;
+
 	enemy.moveflg = 0;
 
 	enemy.vct.x = 0;
@@ -79,7 +81,7 @@ void cBlueEnemy::Move() {
 				enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
 				enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
 			}
-			else {
+			else if (enemy.moveflg == 7 || (enemy.endlessFlg == true && enemy.moveflg == 9)) {
 				enemy.vct.x = cos(enemy.ang);
 				enemy.vct.y = sin(enemy.ang);
 				enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
@@ -110,13 +112,17 @@ int cBlueEnemy::Update() {
 		{
 		case 0:
 			if (enemy.moveflg < 3) {
-				if (enemy.mainpos.pos.x <= 430) {
+				if (enemy.mainpos.pos.x <= 450) {
 					enemy.dir = 1;
 				}
 				else {
 					enemy.dir = -1;
 				}
-				//if (CheckSoundFile() == 0) cSE::Instance()->selectSE(alien_flying);
+
+				if(enemy.count < 2) {
+					if (CheckSoundFile() == 0) cSE::Instance()->selectSE(alien_flying);
+				}
+
 				if (enemy.count < 3)enemy.ang = 180 * M_PI / 180;
 				enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 				if (enemy.countflg[enemy.moveflg] <= enemy.count) {
@@ -170,7 +176,7 @@ int cBlueEnemy::Update() {
 			enemy.count = 0;
 			enemy.tractorflg = false;
 			enemy.ang = -90 * M_PI / 180;
-			if (enemy.mainpos.pos.x <= 430) {
+			if (enemy.mainpos.pos.x <= 450) {
 				enemy.dir = 1;
 			}
 			else {
@@ -194,7 +200,7 @@ void cBlueEnemy::EndlessUpdate() {
 	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 	if (enemy.count < 0)enemy.count = 0;
 	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = ReadyStart;
-	if (enemy.attackflg == 1 && enemy.mainpos.onActive != NoActive) {
+	if (enemy.attackflg == 1 && enemy.mainpos.onActive != NoActive && enemy.endlessFlg == true) {
 
 
 		/*enemy.target.x = 400;
@@ -209,7 +215,7 @@ void cBlueEnemy::EndlessUpdate() {
 		{
 		case 0:
 			if (enemy.moveflg < 3) {
-				if (enemy.mainpos.pos.x <= 430) {
+				if (enemy.mainpos.pos.x <= 450) {
 					enemy.dir = 1;
 				}
 				else {
@@ -285,7 +291,7 @@ void cBlueEnemy::EndlessUpdate() {
 			enemy.count = 0;
 			enemy.tractorflg = false;
 			enemy.ang = -90 * M_PI / 180;
-			if (enemy.mainpos.pos.x <= 430) {
+			if (enemy.mainpos.pos.x <= 450) {
 				enemy.dir = 1;
 			}
 			else {
@@ -295,7 +301,7 @@ void cBlueEnemy::EndlessUpdate() {
 			enemy.mainpos.pos.y = enemy.target.y;
 			enemy.attackflg = false;
 			enemy.mainpos.onActive = ReadyStart;
-			enemy.moveflg = 0;
+			enemy.moveflg = 1;
 			break;
 
 		}

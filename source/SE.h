@@ -58,6 +58,33 @@ private:
 protected:
 
 public:
+	//勝手に追加分 by タキ
+
+	/*************************************************************************
+	template <typename Type>
+	関　数: int GetSeActive(Type )
+	説　明:指定されたSEが再生されているか判断する関数
+	引　数: tamplate Type (eSe型かeMUSIC型のどちらか)
+	戻り値: 0:再生していない　1:再生中  -1:エラー
+	備　考:再生されているか知りたいseの名前を引数に入れてください
+	*************************************************************************/
+	template <typename Type>
+	int GetSeActive(Type musicName) {
+		return CheckSoundMem(se[musicName]);
+	}
+
+	/*************************************************************************
+		template <typename _Type>
+	関　数: void StopSound(_Type )
+	説　明:指定されたSEを停止させる関数
+	引　数: tamplate _Type (eSe型かeMUSIC型のどちらか)
+	戻り値:なし
+	備　考:止めたいSeの名前を入れてください
+	*************************************************************************/
+	template <typename _Type>
+	void StopSound(_Type musicName) {
+		StopSoundMem(se[musicName]);
+	}
 
 	//引数のseを再生する
 	void selectSE(int);

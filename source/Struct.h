@@ -18,7 +18,11 @@ typedef struct
 }sOBJPos;
 
 
-
+typedef enum {
+	eZako,
+	eGoei,
+	eBoss
+}eType;
 
 /*
 typedef struct
