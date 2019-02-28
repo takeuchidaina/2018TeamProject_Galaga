@@ -539,6 +539,12 @@ void cEnemyMgr::Update() {
 				}
 			}
 
+			//プレイヤーエネミーが存在している場合、動かす
+			if (pEnemy != NULL) {
+				pEnemy->Move();
+				pEnemy->Update();
+			}
+
 			//再抽選フラグがTRUEになっていて攻撃中の敵が殺された場合、敵の再抽選を行う
 			if (ReChoiceFlag == 1 && ChoiseOrderFlag == TRUE ) {
 				while (1) {
