@@ -133,8 +133,10 @@ void cInGameMgr::Update() {
 	}
 	switch (sceneflag) {
 	case eBefore://実際ゲームが始まる前のあれ
-				
-		cInGameController::Instance()->BeforeSceneUpdate();
+		if (cSE::Instance()->GetSeActive(gamestart) == 0) {
+			cInGameController::Instance()->BeforeSceneUpdate();
+		}
+		
 		cEffectMgr::Instance()->Update();
 		cSaveLoad::Instance()->Load();
 		//
@@ -211,8 +213,14 @@ void cInGameMgr::Update() {
 void cInGameMgr::Draw() {
 	switch (sceneflag) {
 	case eBefore://実際ゲームが始まる前のあれ
-		cInGameController::Instance()->BeforeSceneDraw();
-		cPlayer::Instance()->Draw();
+		if (cSE::Instance()->GetSeActive(gamestart) == 0) {
+			cInGameController::Instance()->BeforeSceneDraw();
+			cPlayer::Instance()->Draw();
+		}
+		else {
+		cTextChange::Instance()->DrawTextImage(370, 400, "START", eRed, eMag48);
+		}
+	
 		cSaveLoad::Instance()->Draw();
 //		DrawFormatString(0, 20, GetColor(255, 255, 255), "eBefore");
 		//
@@ -224,7 +232,7 @@ void cInGameMgr::Draw() {
 		cEffectMgr::Instance()->Draw();
 		cSaveLoad::Instance()->Draw();
 		//EnemyMgr.Draw();
-		DrawFormatString(0, 20, GetColor(255, 255, 255), "eInGame");
+		//DrawFormatString(0, 20, GetColor(255, 255, 255), "eInGame");
 		//
 		break;
 	case eDeath://プレイヤー死亡
@@ -241,7 +249,7 @@ void cInGameMgr::Draw() {
 		cEnemyMgr::Instance()->Draw();
 		//cShotMgr::Instance()->Draw();
 		cEffectMgr::Instance()->Draw();
-		DrawFormatString(0, 20, GetColor(255, 255, 255), "eRevival");
+		//DrawFormatString(0, 20, GetColor(255, 255, 255), "eRevival");
 		//
 		break;
 	case ePause://ポーズ画面

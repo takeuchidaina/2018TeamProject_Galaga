@@ -121,7 +121,7 @@ void cGreenEnemy::Move() {
 
 int cGreenEnemy::Update() {
 
-
+	if (cEnemyMgr::Instance()->GetPlayerEnemyAdress() == NULL)enemy.tractingEnemy = false;
 
 	if (enemy.count < 0)enemy.count = 0;
 	if (enemy.moveflg == 0 && enemy.count == 0) enemy.mainpos.onActive = ReadyStart;
@@ -285,9 +285,9 @@ int cGreenEnemy::TractorUpdate() {
 			cShotMgr::Instance()->InitTractorCnt();
 			if (enemy.count == 0) {
 				enemy.ang = 180 * M_PI / 180;
-			
+
 			}
-			if(enemy.count <2) cSE::Instance()->selectSE(alien_flying);
+			if (enemy.count < 2) cSE::Instance()->selectSE(alien_flying);
 			enemy.ang += tractormoveang[enemy.moveflg] * M_PI / 180;
 			if (tractorcountflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
@@ -331,12 +331,11 @@ int cGreenEnemy::TractorUpdate() {
 			//‚»‚Ì‚½‚ß“ñ‰ñŒÄ‚ñ‚Å‚¢‚½
 			//ƒJƒEƒ“ƒg‚ð0‚É‚Å‚«‚ê‚Î‚æ‚¢‚©
 			cShotMgr::Instance()->TractorShot(&enemy);
-
+			enemy.count = 0;
 			//if()enemy.moveflg++;
 
 			break;
 		case 4:
-
 			cShotMgr::Instance()->InitTractorCnt();
 			enemy.target.x = cEnemyMgr::Instance()->GetTargetX((cBaseEnemy *)this);
 			enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
@@ -353,7 +352,7 @@ int cGreenEnemy::TractorUpdate() {
 			break;
 		case 5:
 
-
+			if (cSE::Instance()->GetSeActive(capture) == 1)cSE::Instance()->StopSound(capture);
 			if (enemy.mainpos.pos.x <= 450) {
 				enemy.dir = 1;
 			}
@@ -531,4 +530,4 @@ int cGreenEnemy::Draw() {
 
 
 	return 0;
-	}
+}

@@ -97,7 +97,7 @@ int cPlayerEnemy::Update() {
 			cTextChange::Instance()->DrawTextImage(400, 400, "CAPTURE", eRed, eMag32);*/
 		}
 
-		if (enemy.count > 200) {
+		if (enemy.count > 275) {
 
 			enemy.count = 0;
 			enemy.moveflg++;
