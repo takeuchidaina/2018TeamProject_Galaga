@@ -146,6 +146,8 @@ private:
 
 	int attackNum;  //UŒ‚‚·‚é“G‚Ì”Ô†
 
+	int frameCount;  //‚Ó‚ê[‚Þ‚©‚¤‚ñ‚Æ
+
 
 public:
 	//~cEnemyMgr();
@@ -225,6 +227,8 @@ public:
 		enemies[num]->DamageHp();
 	}
 
+
+	//Ž€‚ñ‚¾“G‚Ì”‚ð‚í‚½‚·
 	int GetEnemyDeathCount() {
 		return EnemyDeathCount;
 	}
@@ -369,6 +373,11 @@ public:
 
 	bool GetTractingFlg(int num) {
 		return enemies[num]->GetTractingFlg();
+	}
+
+	//se—p
+	int GetEnemyType(int num) {
+		return enemies[num]->GetEnemyType();
 	}
 
 };

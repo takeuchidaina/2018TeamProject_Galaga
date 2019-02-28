@@ -42,6 +42,8 @@ void cEnemyMgr::Init() {
 
 	attackNum = 0;
 
+	frameCount = 120;
+
 	//ScoreCount = 0;
 	enemyCount = 0;
 	memset(followEnemy, 0x00, sizeof(followEnemy));
@@ -342,7 +344,6 @@ void cEnemyMgr::Update() {
 				enemies[i]->TractorUpdate();
 			}
 
-
 		}
 
 		//ダミー的アップデート
@@ -366,7 +367,7 @@ void cEnemyMgr::Update() {
 			pEnemy->Update();
 		}
 		//再抽選
-		//再抽選フラグがTRUEになっているもしくは攻撃中の敵が殺された場合、敵の再抽選を行う
+		//再抽選フラグがTRUEになっていて攻撃中の敵が殺された場合、敵の再抽選を行う
 		if (ReChoiceFlag == 1 && ChoiseOrderFlag == TRUE) {
 			int debug = 0;
 
@@ -382,6 +383,13 @@ void cEnemyMgr::Update() {
 
 
 			while (1) {
+
+				//敵が残り6体以下になったら、無限移動段階に切り替える
+				if (GetEnemyDeathCount() >= 35) {
+					Phaseflag = 3;
+					break;
+				}
+
 				//エラーボックスが表示されるまでのカウントを加算
 				debug++;
 
@@ -438,31 +446,151 @@ void cEnemyMgr::Update() {
 
 				int tmpcount = 0;  //敵の死亡数のカウント
 
-								   //敵40体分の処理を行う
+				//敵40体分の処理を行う
 				for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 					//敵が死んだ場合は、カウントを加算
 					if (enemy[i].deathflag == true)tmpcount++;
 				}
 
 				//敵が40体死んだら、次のステージに移動
-				if (tmpcount == sizeof(enemy) / sizeof*(enemy)) {
+				if (tmpcount == sizeof(enemy) / sizeof*(enemy) && pEnemy==NULL) {
 					cInGameController::Instance()->NextStage();
 					EndIt();
 					Init();
 					return;
 				}
+				/*
+				else {
+
+					cInGameController::Instance()->NextStage();
+					EndIt();
+					Init();
+					return;
+				}*/
 
 			}
 		}
 		else if (ReChoiceFlag == 1 && ChoiseOrderFlag == FALSE) {  //再抽選フラグonかつ、外部から再抽選を止められている場合
-																   //待機中フラグon
+			//待機中フラグon
 			Stayflag = 1;
 		}
-
 	}
 
+	//敵の無限移動
+	if (Phaseflag == 3) {
+
+		if(ChoiseOrderFlag==FALSE){
+			for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+				if (enemies[i]->GetEnemyOnActive()== cBaseEnemy::ReadyStart) {
+					enemies[i]->SetAttackFalse();
+				}
+			}
+		}
+
+		//待機中フラグ
+		Stayflag = 0;
+
+		//フレームカウント
+		frameCount++;
+
+		//敵の再抽選フラグon
+		ReChoiceFlag = 1;
+
+		//敵40体分処理を行う
+		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+
+			//敵の拡大処理
+			Scaling(enemy[i]);
+
+			//敵が攻撃中でない場合、敵の座標を待機位置に固定させる
+			if (enemies[i]->GetEnemyAttackflg() != 1) {
+
+				enemy[i].pos.x = enemy[i].target.x;
+				enemy[i].pos.y = enemy[i].target.y;
+
+				enemies[i]->SetEnemyX(enemy[i].pos.x);
+				enemies[i]->SetEnemyY(enemy[i].pos.y);
+			}
+
+			//敵が非表示もしくは攻撃中ではないときもしくは敵が死んでいるときは以下の処理を飛ばす
+			if (enemy[i].onactive != TRUE || enemies[i]->GetEnemyAttackflg() != 1 || enemy[i].deathflag == TRUE)continue;
+
+			//Enemyクラス側で各敵の動作処理
+			enemies[i]->SetEndlessFlg(true);
+			enemies[i]->EndlessUpdate();
+			enemies[i]->Move();
+
+			//トラクターフラグがtrueの場合、トラクタービームを出す
+			if (enemies[i]->GetTractorfFlg() == true) {
+				enemies[i]->TractorUpdate();
+			}
+		}//for文終了
+
+
+			//120フレーム未満ならやる
+			if (frameCount < 120) {
+				//敵40体分の確認処理を行う
+				for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+					//敵が死んでいるか、再抽選フラグがoffの場合は処理を飛ばす
+					if (enemy[i].onactive != TRUE || enemy[i].deathflag == TRUE)continue;
+
+					//再抽選フラグoff
+					ReChoiceFlag = 0;
+				}
+			}
+
+			//再抽選フラグがTRUEになっていて攻撃中の敵が殺された場合、敵の再抽選を行う
+			if (ReChoiceFlag == 1 && ChoiseOrderFlag == TRUE ) {
+				while (1) {
+
+					//敵の抽選
+					attackNum = GetRand(39);
+
+					//抽選された敵が生きている場合は、攻撃動作を行い処理を抜ける
+					if (enemy[attackNum].deathflag != TRUE) {  
+						enemies[attackNum]->SetEnemyAttackflg();
+						frameCount = 0;
+						break;
+					}
+
+					//敵の死亡数のカウント
+					int tmpcount = 0;  
+
+					//敵40体分の処理を行う
+					for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+						//敵が死んだ場合は、カウントを加算
+						if (enemy[i].deathflag == true)tmpcount++;
+					}
+
+					//敵が40体死んだら、次のステージに移動
+					if (tmpcount == sizeof(enemy) / sizeof*(enemy) && pEnemy == NULL) {
+						cInGameController::Instance()->NextStage();
+						EndIt();
+						Init();
+						return;
+					}
+
+				}//while文終了
+			}
+			else if (ChoiseOrderFlag == FALSE) {  //再抽選フラグonかつ、外部から再抽選を止められている場合
+
+				//待機中フラグon
+				Stayflag = 1;
+				
+				//attackflagがtrueの敵が一体でもいれば待機中フラグを切り替える
+				for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+					if (enemies[i]->GetEnemyAttackflg() == true && enemy[i].deathflag != TRUE) {
+						Stayflag = 0;
+					}
+				}
+
+			}
+
+	}//phase3処理終了
+
+	//敵のアニメーションカウント
 	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-		enemies[i]->AnimationCount();
+		enemies[i]->AnimationCount();	
 	}
 
 	if (EnemyDeathCount == GetMaxEnemy()) {
@@ -494,7 +622,7 @@ void cEnemyMgr::Update() {
 		SetEnemyDeath(followEnemy[0]);
 	}
 
-	//デバッグコマンド6:青以外の敵が消滅する
+	//デバッグコマンド6:青の敵が消滅する
 	if (Debug::Instance()->Get_Input(Key6) == 1) {
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 			if (enemy[i].etype == 0) {
@@ -685,15 +813,18 @@ void cEnemyMgr::Draw() {
 		cFlightText::Instance()->ScoreDraw(scoreText.x, scoreText.y, scoreText.score);
 		scoreText.count++;
 	}
-	/*
+
+	DrawFormatString(0, 180, GetColor(255, 255, 255), "GetEnemyDeathCount:%d", GetEnemyDeathCount());
+	DrawFormatString(0, 200, GetColor(255, 255, 255), "Phase:%d", Phaseflag);
+	DrawFormatString(0, 220, GetColor(255, 255, 255), "Stayflag:%d", Stayflag);
+	DrawFormatString(0, 240, GetColor(255, 255, 255), "ReChoiceFlag:%d", ReChoiceFlag);
+	DrawFormatString(0, 260, GetColor(255, 255, 255), "ChoiseOrderFlag:%d", ChoiseOrderFlag);
+
 	if (dummyEnemy != NULL) {
-	DrawFormatString(0, 120, GetColor(255, 255, 255), "dummyEnemy.x:%lf", dummyEnemy->GetEnemyX());
-	DrawFormatString(0, 140, GetColor(255, 255, 255), "dummyEnemy.y:%lf", dummyEnemy->GetEnemyY());
-	DrawFormatString(0, 160, GetColor(255, 255, 255), "dummyEnemy.angle:%lf", dummyEnemy->GetEnemyAngle());
-	DrawFormatString(0, 180, GetColor(255, 255, 255), "dummyEnemy.angle:%lf", enemies[8]->GetEnemyAngle());
+	//DrawFormatString(0, 120, GetColor(255, 255, 255), "dummyEnemy.x:%lf", dummyEnemy->GetEnemyX());
+	//DrawFormatString(0, 140, GetColor(255, 255, 255), "dummyEnemy.y:%lf", dummyEnemy->GetEnemyY());
+	//DrawFormatString(0, 160, GetColor(255, 255, 255), "dummyEnemy.angle:%lf", dummyEnemy->GetEnemyAngle());
 	DrawCircle(dummyEnemy->GetEnemyX(), dummyEnemy->GetEnemyY(), 10, GetColor(255, 0, 0), TRUE);
 	}
-	*/
-
 
 }
