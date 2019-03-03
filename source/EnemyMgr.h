@@ -239,6 +239,11 @@ public:
 		return tractorCount;
 	}
 
+	//hit‚É“G‚Ìattackflg‚ð•Ô‚·—p‚ÌŠÖ”
+	int GetEnemyAttackflag(int num) {
+		return enemies[num]->GetEnemyAttackflg();
+	}
+
 
 
 	/*****************************************************

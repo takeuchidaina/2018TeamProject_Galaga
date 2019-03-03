@@ -121,7 +121,7 @@ void cHit::PlayerShot_Enemy() {
 		E_cy = cEnemyMgr::Instance()->GetEnemyPosY(i);
 		E_r = cEnemyMgr::Instance()->GetEnemyPosR(i);
 		E_tractingFlg = cEnemyMgr::Instance()->GetTractingFlg(i);
-		E_moveFlg = cEnemyMgr::Instance()->GetEnemyStay();
+		E_moveFlg = cEnemyMgr::Instance()->GetEnemyAttackflag(i);
 		E_type = cEnemyMgr::Instance()->GetEnemyType(i);
 		if (E_onActive == FALSE) continue;
 
@@ -158,7 +158,7 @@ void cHit::PlayerShot_Enemy() {
   						cEnemyMgr::Instance()->SetEnemyDeath(i);
 						cEffectMgr::Instance()->Blowup(ENEMY, E_cx, E_cy);
 						if (E_tractingFlg == true) {
-							if (E_moveFlg == false) {
+							if (E_moveFlg == true) {
 								cInGameController::Instance()->InToRevive();
 							}
 							else {
