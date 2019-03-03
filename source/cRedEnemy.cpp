@@ -227,7 +227,7 @@ void cRedEnemy::EndlessUpdate() {
 	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 	/*enemy.target.x = 400;
 	enemy.target.y = 330;*/
-
+	static bool PlayerDeath = false;
 	int tmp = cInGameMgr::Instance()->GetSceneFlg();
 	int	 EnemyDeathCount = cEnemyMgr::Instance()->GetEnemyDeathCount();
 	if (enemy.count < 0)enemy.count = 0;
@@ -247,7 +247,10 @@ void cRedEnemy::EndlessUpdate() {
 		switch (enemy.moveflg)
 		{
 		case 0:
-			//if (CheckSoundFile() == 0)cSE::Instance()->selectSE(alien_flying);
+			if (enemy.count < 2) {
+				enemy.ang = 180 * M_PI / 180;
+				if (CheckSoundFile() == 0) cSE::Instance()->selectSE(alien_flying);
+			}
 			if (enemy.count < 2)enemy.ang = 180 * M_PI / 180;
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
@@ -296,27 +299,55 @@ void cRedEnemy::EndlessUpdate() {
 				enemy.mainpos.pos.y = enemy.target.y;
 				enemy.count = 0;
 				enemy.mainpos.onActive = SetPos;
-				enemy.moveflg++;
+				if (cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::Instance()->eDeath) {
+					PlayerDeath = true;
+					enemy.moveflg++;
+				}
+				else {
+					PlayerDeath = false;
+ 					enemy.moveflg += 2;
+				}
 			}
 			break;
 		case 8:
+			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+			enemy.mainpos.pos.x = enemy.target.x;
+			enemy.mainpos.pos.y = enemy.target.y;
+			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+				enemy.moveflg++;
+				enemy.count = 0;
+			}
+			break;
+		case 9:
 			enemy.tractorflg = false;
 			enemy.count = 0;
 
-			enemy.ang = 30 * M_PI / 180;
+
 			if (enemy.mainpos.pos.x <= 450) {
 				enemy.dir = 1;
 			}
 			else {
 				enemy.dir = -1;
 			}
+
 			//“GÀ•W‚ð–Ú“I’n‚ÉŒÅ’è
 			enemy.mainpos.pos.x = enemy.target.x;
 			enemy.mainpos.pos.y = enemy.target.y;
 
-			enemy.attackflg = true;
+			
 			enemy.mainpos.onActive = ReadyStart;
-			enemy.moveflg = 1;
+			if (PlayerDeath == false) {
+				enemy.ang = 30 * M_PI / 180;
+				enemy.attackflg = true;
+				enemy.moveflg = 1;
+			}
+			else {
+				enemy.ang = -90 * M_PI / 180;
+				enemy.attackflg = false;
+				PlayerDeath == false;
+				enemy.moveflg = 0;
+			}
+			
 			break;
 		}
 	}
