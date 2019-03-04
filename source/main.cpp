@@ -2,6 +2,7 @@
 #include "Interface.h"
 #include "SceneMgr.h"
 #include "Fps.h"
+#include "WinBox.h"
 #include "Debug.h"
 //#include "Resource.h"
 
@@ -16,6 +17,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//‰Šú‰»
 	//cSceneMgr SceneMgr;
 	//cInterface Interfase;
+	if (InterfaceYesNoBox() == IDYES)cInterface::Instance()->Set_InputType(InGamepad);
 
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {
 

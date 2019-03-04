@@ -13,4 +13,5 @@ ErrBox("Ç±Ç±Ç…ÉGÉâÅ[ì‡óe");
 */
 extern void ErrBox(const char*);
 extern void ReportBox(const char*);
+extern int InterfaceYesNoBox();
 #endif
