@@ -50,6 +50,7 @@ private:
 public:
 	void Update();
 	int Get_Input(eInput);
+	void Set_InputType(eInputType type) { inputType = type; }
 };
 
 #endif
