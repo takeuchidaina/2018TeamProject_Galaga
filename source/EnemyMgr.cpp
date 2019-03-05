@@ -388,7 +388,7 @@ void cEnemyMgr::Update() {
 			while (1) {
 
 				//“G‚ªŽc‚è6‘ÌˆÈ‰º‚É‚È‚Á‚½‚çA–³ŒÀˆÚ“®’iŠK‚ÉØ‚è‘Ö‚¦‚é
-				if (GetEnemyDeathCount() >= 39) {
+				if (GetEnemyDeathCount() >= 36) {
 					Phaseflag = 3;
 					break;
 				}
@@ -847,7 +847,7 @@ void cEnemyMgr::Draw() {
 		cFlightText::Instance()->ScoreDraw(scoreText.x, scoreText.y, scoreText.score);
 		scoreText.count++;
 	}
-
+	/*
 	DrawFormatString(0, 180, GetColor(255, 255, 255), "GetEnemyDeathCount:%d", GetEnemyDeathCount());
 	DrawFormatString(0, 200, GetColor(255, 255, 255), "Phase:%d", Phaseflag);
 	DrawFormatString(0, 220, GetColor(255, 255, 255), "Stayflag:%d", Stayflag);
@@ -861,5 +861,5 @@ void cEnemyMgr::Draw() {
 	//DrawFormatString(0, 160, GetColor(255, 255, 255), "dummyEnemy.angle:%lf", dummyEnemy->GetEnemyAngle());
 	DrawCircle(dummyEnemy->GetEnemyX(), dummyEnemy->GetEnemyY(), 10, GetColor(255, 0, 0), TRUE);
 	}
-
+	*/
 }
