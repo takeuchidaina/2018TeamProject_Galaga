@@ -42,7 +42,7 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 	enemy.moveang[7] = 2;
 	enemy.moveang[8] = 90;
 
-	enemy.moveang[10] = 4;
+	enemy.moveang[10] = 3;
 	memset(enemy.countflg, 0, sizeof(enemy.countflg));
 	enemy.countflg[0] = 40;
 	enemy.countflg[1] = 35;
@@ -54,7 +54,7 @@ cBlueEnemy::cBlueEnemy(double x, double y, double r, int cnt, double spd, double
 
 	enemy.countflg[7] = 100;
 
-	enemy.countflg[10] = 40;
+	enemy.countflg[10] = 60;
 
 	enemy.target.x = x;
 	enemy.target.y = y;
@@ -89,10 +89,6 @@ void cBlueEnemy::Move() {
 				enemy.vct.y = sin(enemy.ang);
 				enemy.mainpos.pos.x += enemy.vct.x*enemy.spd;
 				enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
-			}
-			else if(enemy.endlessFlg == true && enemy.moveflg == 10){
-				enemy.vct.x = cos(enemy.ang);
-				enemy.vct.y = sin(enemy.ang);
 			}
 		}
 	}
@@ -307,6 +303,7 @@ void cBlueEnemy::EndlessUpdate() {
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			enemy.mainpos.pos.x = enemy.target.x;
 			enemy.mainpos.pos.y = enemy.target.y;
+			enemy.ang *M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
 				enemy.count = 0;
