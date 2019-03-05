@@ -31,9 +31,9 @@ void cInterface::Update() {
 		buff[InRIGHT] = tmpPad.Joypad_Get(cJoypad::Right);
 		buff[InDOWN] = tmpPad.Joypad_Get(cJoypad::Down);
 		buff[InLEFT] = tmpPad.Joypad_Get(cJoypad::Left);
-		buff[InDECISION] = tmpPad.Joypad_Get(cJoypad::button1);
-		buff[InCANCEL] = tmpPad.Joypad_Get(cJoypad::button2);
-		buff[InSTRAT] = tmpPad.Joypad_Get(cJoypad::button3);
+		buff[InDECISION] = tmpPad.Joypad_Get(cJoypad::button2);
+		buff[InCANCEL] = tmpPad.Joypad_Get(cJoypad::button3);
+		buff[InSTRAT] = tmpPad.Joypad_Get(cJoypad::button1);
 		buff[InENTER] = tmpPad.Joypad_Get(cJoypad::button4);
 
 	}
