@@ -78,7 +78,7 @@ cGreenEnemy::cGreenEnemy(double x, double y, double r, int cnt, double spd, doub
 	LoadDivGraph("../resource/Image/Galaga_OBJ_effect.png", 15, 5, 3, 50, 82, tractor);
 	enemy.endlessFlg = false;
 	enemy.tractingEnemy = false;
-	enemy.tractorflg = true;
+	enemy.tractorflg = false;
 	enemy.tractorHitFlg = false;
 }
 
