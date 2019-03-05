@@ -150,6 +150,9 @@ private:
 
 	int tractorCount;  //トラクターフラグがonの敵の数
 
+	int revive;  //二機処理を行うか
+	int revivenum;  //キャトり中の敵の番号
+
 
 public:
 	//~cEnemyMgr();
@@ -331,9 +334,8 @@ public:
 			scoreText.onActive = 1;
 			scoreText.count = 0;
 		}
-		/*
 		//プレイヤーエネミーを連れているボスギャラガを倒した場合
-		else if (enemy[num].type==2 && enemies[num]->GetEnemyAttackflg()=1 && 敵がプレイヤーエネミーを連れている) {
+		else if (enemy[num].etype == 2 && enemies[num]->GetEnemyAttackflg()==1 && enemies[num]->GetTractingFlg()==true) {
 		//スコアを800加算する
 		cScore::Instance()->AddScore(800);
 		scoreText.x = GetEnemyPosX(num);
@@ -341,7 +343,7 @@ public:
 		scoreText.score = 800;
 		scoreText.onActive = 1;
 		scoreText.count = 0;
-		}*/
+		}
 		else {  //それ以外
 				//スコアを100加算する
 			cScore::Instance()->AddScore(100);
@@ -360,6 +362,7 @@ public:
 		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 			delete enemies[i];
 		}
+		if (pEnemy != NULL)DeletePlayerEnemy();
 	}
 
 

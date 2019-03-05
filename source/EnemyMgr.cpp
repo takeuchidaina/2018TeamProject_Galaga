@@ -44,6 +44,9 @@ void cEnemyMgr::Init() {
 
 	frameCount = 120;
 
+	revive = 0;
+	revivenum = 0;
+
 	//ScoreCount = 0;
 	enemyCount = 0;
 	memset(followEnemy, 0x00, sizeof(followEnemy));
@@ -385,7 +388,7 @@ void cEnemyMgr::Update() {
 			while (1) {
 
 				//敵が残り6体以下になったら、無限移動段階に切り替える
-				if (GetEnemyDeathCount() >= 35) {
+				if (GetEnemyDeathCount() >= 39) {
 					Phaseflag = 3;
 					break;
 				}
@@ -452,13 +455,15 @@ void cEnemyMgr::Update() {
 					if (enemy[i].deathflag == true)tmpcount++;
 				}
 
+				/*
 				//敵が40体死んだら、次のステージに移動
 				if (tmpcount == sizeof(enemy) / sizeof*(enemy) && pEnemy==NULL) {
 					cInGameController::Instance()->NextStage();
 					EndIt();
 					Init();
 					return;
-				}
+				}*/
+
 				/*
 				else {
 
@@ -519,8 +524,13 @@ void cEnemyMgr::Update() {
 			if (enemy[i].onactive != TRUE || enemies[i]->GetEnemyAttackflg() != 1 || enemy[i].deathflag == TRUE)continue;
 
 			//Enemyクラス側で各敵の動作処理
-			enemies[i]->SetEndlessFlg(true);
-			enemies[i]->EndlessUpdate();
+			if (enemies[i]->GetEndlessFlg() == false && enemies[i]->GetEnemyOnActive() != cBaseEnemy::YesActive) {
+				enemies[i]->Update();
+			}
+			else {
+				enemies[i]->SetEndlessFlg(true);
+				enemies[i]->EndlessUpdate();
+			}
 			enemies[i]->Move();
 
 			//トラクターフラグがtrueの場合、トラクタービームを出す
@@ -551,7 +561,12 @@ void cEnemyMgr::Update() {
 
 			//再抽選フラグがTRUEになっていて攻撃中の敵が殺された場合、敵の再抽選を行う
 			if (ReChoiceFlag == 1 && ChoiseOrderFlag == TRUE ) {
+
+				int debug = 0;
+
 				while (1) {
+
+					debug++;
 
 					//敵の抽選
 					attackNum = GetRand(39);
@@ -563,6 +578,8 @@ void cEnemyMgr::Update() {
 						break;
 					}
 
+					if (enemies[revivenum]->GetEnemyAttackflg() == true)revive = 1;
+
 					//敵の死亡数のカウント
 					int tmpcount = 0;  
 
@@ -570,11 +587,18 @@ void cEnemyMgr::Update() {
 					for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 						//敵が死んだ場合は、カウントを加算
 						if (enemy[i].deathflag == true)tmpcount++;
+						//最後の敵がトラクターだった場合
+						if (tmpcount == 39) {
+							if (enemies[i]->GetTractingFlg() == true)revivenum = i;
+						}
 					}
 
 					//敵が40体死んだら、次のステージに移動
-					if (tmpcount == sizeof(enemy) / sizeof*(enemy) && pEnemy == NULL) {
+					if (tmpcount == sizeof(enemy) / sizeof*(enemy)/* & & pEnemy == NULL*/) {
 						cInGameController::Instance()->NextStage();
+						if (revive == 1) {
+							cInGameController::Instance()->InToRevive();
+						}
 						EndIt();
 						Init();
 						return;
@@ -829,6 +853,7 @@ void cEnemyMgr::Draw() {
 	DrawFormatString(0, 220, GetColor(255, 255, 255), "Stayflag:%d", Stayflag);
 	DrawFormatString(0, 240, GetColor(255, 255, 255), "ReChoiceFlag:%d", ReChoiceFlag);
 	DrawFormatString(0, 260, GetColor(255, 255, 255), "ChoiseOrderFlag:%d", ChoiseOrderFlag);
+	DrawFormatString(0, 300, GetColor(255, 255, 255), "SceneFlag:%d", cInGameMgr::Instance()->GetSceneFlg());
 
 	if (dummyEnemy != NULL) {
 	//DrawFormatString(0, 120, GetColor(255, 255, 255), "dummyEnemy.x:%lf", dummyEnemy->GetEnemyX());
