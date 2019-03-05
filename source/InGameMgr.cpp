@@ -11,6 +11,7 @@
 #include "Debug.h"
 #include "EffectMgr.h"
 #include "SaveLoad.h"
+#include "BackGround.h"
 
 //コンストラクタ
 cInGameMgr::cInGameMgr() {
@@ -185,6 +186,7 @@ void cInGameMgr::Update() {
 		//
 		break;
 	case ePause://ポーズ画面
+		cBackGround::Instance()->PauseUpdate();
 		//
 		if (cInterface::Instance()->Get_Input(InSTRAT) == 1) {
 			if (sceneflag != ePause) {
