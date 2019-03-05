@@ -151,6 +151,7 @@ private:
 	int tractorCount;  //トラクターフラグがonの敵の数
 
 	int revive;  //二機処理を行うか
+	int oldRevive;
 	int revivenum;  //キャトり中の敵の番号
 
 
@@ -245,6 +246,10 @@ public:
 	//hitに敵のattackflgを返す用の関数
 	int GetEnemyAttackflag(int num) {
 		return enemies[num]->GetEnemyAttackflg();
+	}
+
+	int GetRevive() {
+		return revive;
 	}
 
 
