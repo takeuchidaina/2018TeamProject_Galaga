@@ -9,6 +9,7 @@
 #include "Struct.h"
 #include "InGameController.h"
 #include "Debug.h"
+#include "InGameMgr.h"
 
 //コンストラクタ
 cEnemyMgr::cEnemyMgr() {
@@ -45,6 +46,7 @@ void cEnemyMgr::Init() {
 	frameCount = 120;
 
 	revive = 0;
+	oldRevive = 0;
 	revivenum = 0;
 
 	//ScoreCount = 0;
@@ -559,6 +561,19 @@ void cEnemyMgr::Update() {
 				pEnemy->Update();
 			}
 
+			//最後の敵がトラクターだった場合
+			if (EnemyDeathCount == 39) {
+				for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+					if (enemies[i]->GetTractingFlg() == true)revivenum = i;
+				}
+			}
+
+			//とらくたー処理を行うための処理
+			if (enemies[revivenum]->GetEnemyAttackflg() == true) {
+				revive = 1;
+				//oldRevive = 1;
+			}
+
 			//再抽選フラグがTRUEになっていて攻撃中の敵が殺された場合、敵の再抽選を行う
 			if (ReChoiceFlag == 1 && ChoiseOrderFlag == TRUE ) {
 
@@ -578,7 +593,6 @@ void cEnemyMgr::Update() {
 						break;
 					}
 
-					if (enemies[revivenum]->GetEnemyAttackflg() == true)revive = 1;
 
 					//敵の死亡数のカウント
 					int tmpcount = 0;  
@@ -587,21 +601,23 @@ void cEnemyMgr::Update() {
 					for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 						//敵が死んだ場合は、カウントを加算
 						if (enemy[i].deathflag == true)tmpcount++;
-						//最後の敵がトラクターだった場合
-						if (tmpcount == 39) {
-							if (enemies[i]->GetTractingFlg() == true)revivenum = i;
-						}
 					}
-
+					
 					//敵が40体死んだら、次のステージに移動
-					if (tmpcount == sizeof(enemy) / sizeof*(enemy)/* & & pEnemy == NULL*/) {
-						cInGameController::Instance()->NextStage();
-						if (revive == 1) {
-							cInGameController::Instance()->InToRevive();
+					if (tmpcount == sizeof(enemy) / sizeof*(enemy) /* && pEnemy == NULL*/) {
+						if (pEnemy == NULL) {
+							cInGameController::Instance()->NextStage();
+							EndIt();
+							Init();
+							return;
 						}
-						EndIt();
-						Init();
-						return;
+						else {
+							//待機中フラグon
+							Stayflag = 1;
+							cInGameController::Instance()->InToRevive();
+							break;
+						}
+						
 					}
 
 				}//while文終了
@@ -628,11 +644,13 @@ void cEnemyMgr::Update() {
 	}
 
 	if (EnemyDeathCount == GetMaxEnemy()) {
-		//InGameControllerの全滅報告関数を呼び出す
-		cInGameController::Instance()->NextStage();
-		EndIt();
-		Init();
-		return;
+		if (pEnemy == NULL) {
+			//InGameControllerの全滅報告関数を呼び出す
+			cInGameController::Instance()->NextStage();
+			EndIt();
+			Init();
+			return;
+		}
 	}
 
 	if (enemies[followEnemy[0]]->GetEnemyAttackflg() == true /*&& enemies[0]->GetEnemyOnActive() == cBaseEnemy::YesActive*/
@@ -854,7 +872,10 @@ void cEnemyMgr::Draw() {
 	DrawFormatString(0, 240, GetColor(255, 255, 255), "ReChoiceFlag:%d", ReChoiceFlag);
 	DrawFormatString(0, 260, GetColor(255, 255, 255), "ChoiseOrderFlag:%d", ChoiseOrderFlag);
 	DrawFormatString(0, 300, GetColor(255, 255, 255), "SceneFlag:%d", cInGameMgr::Instance()->GetSceneFlg());
+	DrawFormatString(0, 320, GetColor(255, 255, 255), "revive:%d", revive);
+	*/
 
+	/*
 	if (dummyEnemy != NULL) {
 	//DrawFormatString(0, 120, GetColor(255, 255, 255), "dummyEnemy.x:%lf", dummyEnemy->GetEnemyX());
 	//DrawFormatString(0, 140, GetColor(255, 255, 255), "dummyEnemy.y:%lf", dummyEnemy->GetEnemyY());
