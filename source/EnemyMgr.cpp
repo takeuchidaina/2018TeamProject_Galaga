@@ -606,7 +606,9 @@ void cEnemyMgr::Update() {
 					//敵が40体死んだら、次のステージに移動
 					if (tmpcount == sizeof(enemy) / sizeof*(enemy) /* && pEnemy == NULL*/) {
 						if (pEnemy == NULL) {
-							cInGameController::Instance()->NextStage();
+							//cInGameController::Instance()->NextStage();
+							//強制敵にリザルトへ行くように変更　by髙城
+							cInGameMgr::Instance()->ChangeScene(cInGameMgr::eResult);
 							EndIt();
 							Init();
 							return;
