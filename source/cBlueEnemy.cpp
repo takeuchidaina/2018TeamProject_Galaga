@@ -356,7 +356,7 @@ int cBlueEnemy::Draw() {
 			DrawRotaGraph((int)enemy.mainpos.cx, (int)enemy.mainpos.cy, 3.0, -(enemy.ang + 90 * M_PI / 180), enemy.graph[AnimationCnt / 60 % 2], TRUE, TRUE);
 		}
 	}
-#ifndef DEBUG
+#ifdef DEBUG
 	DrawFormatString(0, 100, GetColor(255, 255, 255), "%d", AnimationCnt);
 	DrawFormatString(800, 825, GetColor(255, 255, 255), "%.2lf", enemy.target.x);
 	DrawFormatString(800, 840, GetColor(255, 255, 255), "%.2lf", enemy.target.y);
