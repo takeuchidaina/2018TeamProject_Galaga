@@ -183,6 +183,7 @@ int cInGameController::ResultUpdate() {
 		cEnemyMgr::Instance()->Init();
 		cPlayer::Instance()->Init();
 		cShotMgr::Instance()->Init();
+		cSE::Instance()->StopSound(music_nameentry_2nd_5th);
 	}
 	return 0;
 }

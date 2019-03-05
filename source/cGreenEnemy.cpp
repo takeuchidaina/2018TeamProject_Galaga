@@ -394,7 +394,7 @@ void cGreenEnemy::EndlessUpdate() {
 	enemy.target.y = cEnemyMgr::Instance()->GetTargetY((cBaseEnemy *)this);
 	/*enemy.target.x = 380;
 	enemy.target.y = 80;*/
-
+	static bool PlayerDeath = false;
 
 
 	if (enemy.attackflg == true && enemy.tractorflg == false && enemy.endlessFlg == true) {
@@ -407,8 +407,11 @@ void cGreenEnemy::EndlessUpdate() {
 		switch (enemy.moveflg)
 		{
 		case 0:
-			if (enemy.count < 2)enemy.ang = 180 * M_PI / 180;
-			//	if (CheckSoundFile() == 0) cSE::Instance()->selectSE(alien_flying);
+			if (enemy.count < 2) {
+				enemy.ang = 180 * M_PI / 180;
+				if (CheckSoundFile() == 0) cSE::Instance()->selectSE(alien_flying);
+				enemy.tractorflg = false;
+			}
 			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
 			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
 				enemy.moveflg++;
@@ -463,35 +466,65 @@ void cGreenEnemy::EndlessUpdate() {
 				//“GÀ•W‚ð–Ú“I’n‚ÉŒÅ’è
 				enemy.mainpos.pos.x = enemy.target.x;
 				enemy.mainpos.pos.y = enemy.target.y;
-				enemy.moveflg++;
+				enemy.mainpos.onActive = SetPos;
 				enemy.count = 0;
-				enemy.mainpos.onActive = ReadyStart;
+				if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+					if (cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::Instance()->eDeath) {
+						PlayerDeath = true;
+						enemy.moveflg++;
+					}
+					else {
+						PlayerDeath = false;
+						enemy.moveflg += 2;
+					}
+				}
 			}
 			break;
 		case 8:
+			enemy.ang += enemy.moveang[enemy.moveflg] * M_PI / 180;
+			enemy.mainpos.pos.x = enemy.target.x;
+			enemy.mainpos.pos.y = enemy.target.y;
+			if (enemy.countflg[enemy.moveflg] <= enemy.count) {
+				enemy.moveflg++;
+				enemy.count = 0;
+			}
+			break;
+
+		case 9:
 			enemy.mainpos.pos.x = enemy.target.x;
 			enemy.mainpos.pos.y = enemy.target.y;
 			enemy.count = 0;
 
-			enemy.ang = 100 * M_PI / 180;
 			if (enemy.mainpos.pos.x <= 450) {
 				enemy.dir = 1;
 			}
 			else {
 				enemy.dir = -1;
 			}
+
 			enemy.tractorHitFlg = false;
 			enemy.attackflg = false;
 			enemy.mainpos.onActive = ReadyStart;
 			enemy.tractorflg = false;//‚±‚±
-			enemy.moveflg = 1;
+
+			if (PlayerDeath == false) {
+				enemy.ang = 100 * M_PI / 180;
+				enemy.attackflg = true;
+				enemy.moveflg = 1;
+			}
+			else {
+				enemy.ang = -90 * M_PI / 180;
+				enemy.attackflg = false;
+				PlayerDeath == false;
+				enemy.moveflg = 0;
+			}
 			break;
 		}
 	}
 }
 
-
 int cGreenEnemy::Draw() {
+
 
 
 

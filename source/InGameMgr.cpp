@@ -189,6 +189,7 @@ void cInGameMgr::Update() {
 		//
 		break;
 	case eResult://ƒŠƒUƒ‹ƒg‰æ–Ê
+		if (cSE::Instance()->GetSeActive(music_nameentry_2nd_5th) == 0)cSE::Instance()->selectSE(music_nameentry_2nd_5th);
 		cInGameController::Instance()->ResultUpdate();
 		cSaveLoad::Instance()->Save();
 		//
