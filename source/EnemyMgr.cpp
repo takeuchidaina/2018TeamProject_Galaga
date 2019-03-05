@@ -25,8 +25,8 @@ void cEnemyMgr::Init() {
 	fileEndFlag = 0;
 	n = 0;
 	num = 0;
-	snprintf(StageFilePath, 255, "../resource/MAP/Stage_%d.csv", cInGameController::Instance()->GetNowStageNum());
-	//strcpy(StageFilePath, "../resource/MAP/Stage_2.csv");
+	//snprintf(StageFilePath, 255, "../resource/MAP/Stage_%d.csv", cInGameController::Instance()->GetNowStageNum());
+	strcpy(StageFilePath, "../resource/MAP/Stage_1.csv");
 	Phaseflag = 0;
 	onActiveCount = 0;
 	Stayflag = 0;
@@ -48,6 +48,8 @@ void cEnemyMgr::Init() {
 	revive = 0;
 	oldRevive = 0;
 	revivenum = 0;
+
+	randCount = 0;
 
 	//ScoreCount = 0;
 	enemyCount = 0;
@@ -400,6 +402,8 @@ void cEnemyMgr::Update() {
 
 				//敵1体分の再抽選を行う
 				attackNum = GetRand(39);
+				if (randCount % 3 == 0 && enemy[attackNum].etype != 2)continue;
+
 				//int tmp = 8;
 				//enemyCount = 1;*/
 				//トラクタービームを撃たないボスギャラガが生きている場合、赤い敵の追従処理を行う
@@ -475,7 +479,8 @@ void cEnemyMgr::Update() {
 					return;
 				}*/
 
-			}
+			}//while文終了
+			randCount++;
 		}
 		else if (ReChoiceFlag == 1 && ChoiseOrderFlag == FALSE) {  //再抽選フラグonかつ、外部から再抽選を止められている場合
 			//待機中フラグon
@@ -585,6 +590,7 @@ void cEnemyMgr::Update() {
 
 					//敵の抽選
 					attackNum = GetRand(39);
+					if (randCount % 3 == 0 && enemy[attackNum].etype != 2)continue;
 
 					//抽選された敵が生きている場合は、攻撃動作を行い処理を抜ける
 					if (enemy[attackNum].deathflag != TRUE) {  
@@ -606,9 +612,9 @@ void cEnemyMgr::Update() {
 					//敵が40体死んだら、次のステージに移動
 					if (tmpcount == sizeof(enemy) / sizeof*(enemy) /* && pEnemy == NULL*/) {
 						if (pEnemy == NULL) {
-							//cInGameController::Instance()->NextStage();
+							cInGameController::Instance()->NextStage();
 							//強制敵にリザルトへ行くように変更　by髙城
-							cInGameMgr::Instance()->ChangeScene(cInGameMgr::eResult);
+							//cInGameMgr::Instance()->ChangeScene(cInGameMgr::eResult);
 							EndIt();
 							Init();
 							return;
@@ -623,6 +629,7 @@ void cEnemyMgr::Update() {
 					}
 
 				}//while文終了
+				randCount++;
 			}
 			else if (ReChoiceFlag == 1 && ChoiseOrderFlag == FALSE) {  //再抽選フラグonかつ、外部から再抽選を止められている場合
 

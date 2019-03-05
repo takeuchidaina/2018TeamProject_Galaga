@@ -154,6 +154,7 @@ private:
 	int oldRevive;
 	int revivenum;  //ƒLƒƒƒg‚è’†‚Ì“G‚Ì”Ô†
 
+	int randCount; //’Š‘I‰ñ”
 
 public:
 	//~cEnemyMgr();
