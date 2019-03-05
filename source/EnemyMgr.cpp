@@ -669,45 +669,45 @@ void cEnemyMgr::Update() {
 		}
 	}
 
-	//デバッグコマンド5:赤を連れているボス敵が消滅する
-	if (Debug::Instance()->Get_Input(Key5) == 1) {
-		SetEnemyDeath(followEnemy[0]);
-	}
+	////デバッグコマンド5:赤を連れているボス敵が消滅する
+	//if (Debug::Instance()->Get_Input(Key5) == 1) {
+	//	SetEnemyDeath(followEnemy[0]);
+	//}
 
-	//デバッグコマンド6:青の敵が消滅する
-	if (Debug::Instance()->Get_Input(Key6) == 1) {
-		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-			if (enemy[i].etype == 0) {
-				SetEnemyDeath(i);
-			}
-		}
-	}
+	////デバッグコマンド6:青の敵が消滅する
+	//if (Debug::Instance()->Get_Input(Key6) == 1) {
+	//	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+	//		if (enemy[i].etype == 0) {
+	//			SetEnemyDeath(i);
+	//		}
+	//	}
+	//}
 
-	//デバッグコマンド7:赤以外の敵が消滅する
-	if (Debug::Instance()->Get_Input(Key7) == 1) {
-		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-			if (enemy[i].etype != 1) {
-				SetEnemyDeath(i);
-			}
-		}
-	}
+	////デバッグコマンド7:赤以外の敵が消滅する
+	//if (Debug::Instance()->Get_Input(Key7) == 1) {
+	//	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+	//		if (enemy[i].etype != 1) {
+	//			SetEnemyDeath(i);
+	//		}
+	//	}
+	//}
 
-	//デバッグコマンド8:ボスギャラガ以外の敵が消滅する
-	if (Debug::Instance()->Get_Input(Key8) == 1) {
-		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-			if (enemy[i].etype != 2) {
-				SetEnemyDeath(i);
-			}
-		}
-	}
+	////デバッグコマンド8:ボスギャラガ以外の敵が消滅する
+	//if (Debug::Instance()->Get_Input(Key8) == 1) {
+	//	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+	//		if (enemy[i].etype != 2) {
+	//			SetEnemyDeath(i);
+	//		}
+	//	}
+	//}
 
-	//デバッグコマンド9:敵が残り一体の状態になる
-	if (Debug::Instance()->Get_Input(Key9) == 1) {
-		for (int i = 1; i < sizeof(enemy) / sizeof*(enemy); i++) {
-			SetEnemyDeath(i);
-			Phaseflag = 2;
-		}
-	}
+	////デバッグコマンド9:敵が残り一体の状態になる
+	//if (Debug::Instance()->Get_Input(Key9) == 1) {
+	//	for (int i = 1; i < sizeof(enemy) / sizeof*(enemy); i++) {
+	//		SetEnemyDeath(i);
+	//		Phaseflag = 2;
+	//	}
+	//}
 
 	//フライトテキストが一定時間表示されたら、表示を消す
 	if (scoreText.count >= 60) {

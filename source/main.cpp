@@ -31,9 +31,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		cSceneMgr::Instance()->Update();
 		cSceneMgr::Instance()->Draw();
 
-		cFps::Instance()->Draw();
+		//cFps::Instance()->Draw();
 
-	//	cFps::Instance()->Wait();
+		cFps::Instance()->Wait();
 
 
 		//SceneMgr.Update();
