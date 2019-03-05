@@ -138,24 +138,24 @@ void cPlayer::Move()
 
 #ifndef PLAYER_BREAK_DEBUG
 	//キー
-	//if (Debug::Instance()->Get_Input(Key1) == 1)
-	//{
-	//	cPlayer::Double();		// 二機になる
-	//}
-	//else if (Debug::Instance()->Get_Input(Key2) == 1)
-	//{
-	//	cPlayer::Break(eDeath, eLeftMachine);	// 左が破壊
-	//}
-	//else if (Debug::Instance()->Get_Input(Key3) == 1)
-	//{
-	//	cPlayer::Break(eDeath, eRightMachine);	// 右が破壊
-	//}
+	if (Debug::Instance()->Get_Input(Key1) == 1)
+	{
+		cPlayer::Double();		// 二機になる
+	}
+	else if (Debug::Instance()->Get_Input(Key2) == 1)
+	{
+		cPlayer::Break(eDeath, eLeftMachine);	// 左が破壊
+	}
+	else if (Debug::Instance()->Get_Input(Key3) == 1)
+	{
+		cPlayer::Break(eDeath, eRightMachine);	// 右が破壊
+	}
 
 	////トラクタームーブ
-	//if (Debug::Instance()->Get_Input(Key4) >= 1)
-	//{
-	//	cPlayer::PlayerTractorMove();	//中央へ移動
-	//}
+	if (Debug::Instance()->Get_Input(Key4) >= 1)
+	{
+		cPlayer::PlayerTractorMove();	//中央へ移動
+	}
 #endif
 
 	//DEBUGに使用する場合はInterface.hのenumにDEBUG1,2,3と

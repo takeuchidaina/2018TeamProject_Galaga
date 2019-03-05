@@ -161,11 +161,11 @@ void cInGameMgr::Update() {
 		
 		cScore::Instance()->Update();
 		cEffectMgr::Instance()->Update();
-	/*	if (Debug::Instance()->Get_Input(Key0) == 1) {
+		if (Debug::Instance()->Get_Input(Key0) == 1) {
 			for (int i = 0; i < cEnemyMgr::Instance()->GetMaxEnemy(); i++) {
 				cEnemyMgr::Instance()->SetEnemyDeath(i);
 			}
-		}*/
+		}
 
 		//
 		break;
