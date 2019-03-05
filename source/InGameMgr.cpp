@@ -142,6 +142,16 @@ void cInGameMgr::Update() {
 		//
 		break;
 	case eInGame://ゲーム画面[
+		//グローバルキー受付（関数化予定
+		if (cInterface::Instance()->Get_Input(InSTRAT) == 1) {
+			if (sceneflag != ePause) {
+				cInGameMgr::ChangeScene(ePause);
+				Before_Sceneflag = sceneflag;
+			}
+			else {//ポーズなら
+				cInGameMgr::ChangeScene(Before_Sceneflag);
+			}
+		}
 		cHit::Instance()->Update();
 		cPlayer::Instance()->Update();
 		cShotMgr::Instance()->Update();
@@ -176,6 +186,15 @@ void cInGameMgr::Update() {
 		break;
 	case ePause://ポーズ画面
 		//
+		if (cInterface::Instance()->Get_Input(InSTRAT) == 1) {
+			if (sceneflag != ePause) {
+				cInGameMgr::ChangeScene(ePause);
+				Before_Sceneflag = sceneflag;
+			}
+			else {//ポーズなら
+				cInGameMgr::ChangeScene(Before_Sceneflag);
+			}
+		}
 		break;
 	case eTractor://きゃとられ中
 		cEnemyMgr::Instance()->Update();
@@ -198,16 +217,7 @@ void cInGameMgr::Update() {
 		//
 		break;
 	}
-	//グローバルキー受付（関数化予定
-	if (cInterface::Instance()->Get_Input(InSTRAT) == 1) {
-		if (sceneflag != ePause) {
-			cInGameMgr::ChangeScene(ePause);
-			Before_Sceneflag = sceneflag;
-		}
-		else {//ポーズなら
-			cInGameMgr::ChangeScene(Before_Sceneflag);
-		}
-	}
+	
 }
 
 //描写処理
