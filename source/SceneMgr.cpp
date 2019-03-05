@@ -85,6 +85,7 @@ void cSceneMgr::Update() {
 			cSE::Instance()->selectSE(gamestart);
 			ChangeScene(eInGame);
 		}
+		cBackGround::Instance()->PauseUpdate();
 //		test->Update();
 		break;
 	case eInGame:

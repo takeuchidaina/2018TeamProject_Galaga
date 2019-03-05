@@ -11,6 +11,7 @@
 #include "Debug.h"
 #include "EffectMgr.h"
 #include "SaveLoad.h"
+#include "BackGround.h"
 
 //コンストラクタ
 cInGameMgr::cInGameMgr() {
@@ -139,6 +140,7 @@ void cInGameMgr::Update() {
 		
 		cEffectMgr::Instance()->Update();
 		cSaveLoad::Instance()->Load();
+		cBackGround::Instance()->PauseUpdate();
 		//
 		break;
 	case eInGame://ゲーム画面[
@@ -175,6 +177,7 @@ void cInGameMgr::Update() {
 		//
 		break;
 	case ePause://ポーズ画面
+		cBackGround::Instance()->PauseUpdate();
 		//
 		break;
 	case eTractor://きゃとられ中
@@ -192,6 +195,7 @@ void cInGameMgr::Update() {
 		if (cSE::Instance()->GetSeActive(music_nameentry_2nd_5th) == 0)cSE::Instance()->selectSE(music_nameentry_2nd_5th);
 		cInGameController::Instance()->ResultUpdate();
 		cSaveLoad::Instance()->Save();
+		//cBackGround::Instance()->PauseUpdate();
 		//
 		break;
 	case eNextStage://次のステージへ
