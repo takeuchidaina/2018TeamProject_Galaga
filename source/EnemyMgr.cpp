@@ -405,14 +405,14 @@ void cEnemyMgr::Update() {
 
 				//3回に一回緑が攻撃されるようにする
 				int bossCount = 0;
-				
+
 				for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 					//ボスが死んでいる場合は、カウントを加算
 					if (enemy[i].deathflag == true && enemy[i].etype == 2)bossCount++;
 				}
 
 				//ボスが全滅してない間だけ処理を行うように修正
-				if (randCount % 3 == 0 && enemy[attackNum].etype != 2 && bossCount!=4)continue;
+				if (randCount % 3 == 0 && enemy[attackNum].etype != 2 && bossCount != 4)continue;
 
 
 				//int tmp = 8;
@@ -466,7 +466,7 @@ void cEnemyMgr::Update() {
 
 				int tmpcount = 0;  //敵の死亡数のカウント
 
-				//敵40体分の処理を行う
+								   //敵40体分の処理を行う
 				for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
 					//敵が死んだ場合は、カウントを加算
 					if (enemy[i].deathflag == true)tmpcount++;
@@ -475,26 +475,26 @@ void cEnemyMgr::Update() {
 				/*
 				//敵が40体死んだら、次のステージに移動
 				if (tmpcount == sizeof(enemy) / sizeof*(enemy) && pEnemy==NULL) {
-					cInGameController::Instance()->NextStage();
-					EndIt();
-					Init();
-					return;
+				cInGameController::Instance()->NextStage();
+				EndIt();
+				Init();
+				return;
 				}*/
 
 				/*
 				else {
 
-					cInGameController::Instance()->NextStage();
-					EndIt();
-					Init();
-					return;
+				cInGameController::Instance()->NextStage();
+				EndIt();
+				Init();
+				return;
 				}*/
 
 			}//while文終了
 			randCount++;
 		}
 		else if (ReChoiceFlag == 1 && ChoiseOrderFlag == FALSE) {  //再抽選フラグonかつ、外部から再抽選を止められている場合
-			//待機中フラグon
+																   //待機中フラグon
 			Stayflag = 1;
 		}
 	}
@@ -502,9 +502,9 @@ void cEnemyMgr::Update() {
 	//敵の無限移動
 	if (Phaseflag == 3) {
 
-		if(ChoiseOrderFlag==FALSE){
+		if (ChoiseOrderFlag == FALSE) {
 			for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-				if (enemies[i]->GetEnemyOnActive()== cBaseEnemy::ReadyStart) {
+				if (enemies[i]->GetEnemyOnActive() == cBaseEnemy::ReadyStart) {
 					enemies[i]->SetAttackFalse();
 				}
 			}
@@ -559,118 +559,119 @@ void cEnemyMgr::Update() {
 		}//for文終了
 
 
-			//120フレーム未満ならやる
-			if (frameCount < 120) {
-				//敵40体分の確認処理を行う
+		 //120フレーム未満ならやる
+		if (frameCount < 120) {
+			//敵40体分の確認処理を行う
+			for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+				//敵が死んでいるか、再抽選フラグがoffの場合は処理を飛ばす
+				if (enemy[i].onactive != TRUE || enemy[i].deathflag == TRUE)continue;
+
+				//再抽選フラグoff
+				ReChoiceFlag = 0;
+			}
+		}
+
+		//プレイヤーエネミーが存在している場合、動かす
+		if (pEnemy != NULL) {
+			pEnemy->Move();
+			pEnemy->Update();
+		}
+
+		//最後の敵がトラクターだった場合
+		if (EnemyDeathCount == 39) {
+			for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+				if (enemies[i]->GetTractingFlg() == true)revivenum = i;
+			}
+		}
+
+		//とらくたー処理を行うための処理
+		if (enemies[revivenum]->GetEnemyAttackflg() == true) {
+			revive = 1;
+			//oldRevive = 1;
+		}
+
+		//再抽選フラグがTRUEになっていて攻撃中の敵が殺された場合、敵の再抽選を行う
+		if (ReChoiceFlag == 1 && ChoiseOrderFlag == TRUE) {
+
+			int debug = 0;
+
+			while (1) {
+
+				debug++;
+
+				//敵1体分の再抽選を行う
+				attackNum = GetRand(39);
+
+				//3回に一回緑が攻撃されるようにする
+				int bossCount = 0;
+
 				for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-					//敵が死んでいるか、再抽選フラグがoffの場合は処理を飛ばす
-					if (enemy[i].onactive != TRUE || enemy[i].deathflag == TRUE)continue;
-
-					//再抽選フラグoff
-					ReChoiceFlag = 0;
+					//ボスが死んでいる場合は、カウントを加算
+					if (enemy[i].deathflag == true && enemy[i].etype == 2)bossCount++;
 				}
-			}
 
-			//プレイヤーエネミーが存在している場合、動かす
-			if (pEnemy != NULL) {
-				pEnemy->Move();
-				pEnemy->Update();
-			}
+				//ボスが全滅してない間だけ処理を行うように修正
+				if (randCount % 3 == 0 && enemy[attackNum].etype != 2 && bossCount != 4)continue;
 
-			//最後の敵がトラクターだった場合
-			if (EnemyDeathCount == 39) {
+
+				//抽選された敵が生きている場合は、攻撃動作を行い処理を抜ける
+				if (enemy[attackNum].deathflag != TRUE) {
+					enemies[attackNum]->SetEnemyAttackflg();
+					frameCount = 0;
+					break;
+				}
+
+
+				//敵の死亡数のカウント
+				int tmpcount = 0;
+
+				//敵40体分の処理を行う
 				for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-					if (enemies[i]->GetTractingFlg() == true)revivenum = i;
+					//敵が死んだ場合は、カウントを加算
+					if (enemy[i].deathflag == true)tmpcount++;
 				}
-			}
 
-			//とらくたー処理を行うための処理
-			if (enemies[revivenum]->GetEnemyAttackflg() == true) {
-				revive = 1;
-				//oldRevive = 1;
-			}
-
-			//再抽選フラグがTRUEになっていて攻撃中の敵が殺された場合、敵の再抽選を行う
-			if (ReChoiceFlag == 1 && ChoiseOrderFlag == TRUE ) {
-
-				int debug = 0;
-
-				while (1) {
-
-					debug++;
-
-					//敵1体分の再抽選を行う
-					attackNum = GetRand(39);
-
-					//3回に一回緑が攻撃されるようにする
-					int bossCount = 0;
-
-					for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-						//ボスが死んでいる場合は、カウントを加算
-						if (enemy[i].deathflag == true && enemy[i].etype == 2)bossCount++;
+				//敵が40体死んだら、次のステージに移動
+				if (tmpcount == sizeof(enemy) / sizeof*(enemy) /* && pEnemy == NULL*/) {
+					if (pEnemy == NULL) {
+						cInGameController::Instance()->NextStage();
+						//強制敵にリザルトへ行くように変更　by髙城
+						//cInGameMgr::Instance()->ChangeScene(cInGameMgr::eResult);
+						EndIt();
+						Init();
+						return;
 					}
-
-					//ボスが全滅してない間だけ処理を行うように修正
-					if (randCount % 3 == 0 && enemy[attackNum].etype != 2 && bossCount != 4)continue;
-
-					//抽選された敵が生きている場合は、攻撃動作を行い処理を抜ける
-					if (enemy[attackNum].deathflag != TRUE) {  
-						enemies[attackNum]->SetEnemyAttackflg();
-						frameCount = 0;
+					else {
+						//待機中フラグon
+						Stayflag = 1;
+						cInGameController::Instance()->InToRevive();
 						break;
 					}
 
-
-					//敵の死亡数のカウント
-					int tmpcount = 0;  
-
-					//敵40体分の処理を行う
-					for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-						//敵が死んだ場合は、カウントを加算
-						if (enemy[i].deathflag == true)tmpcount++;
-					}
-					
-					//敵が40体死んだら、次のステージに移動
-					if (tmpcount == sizeof(enemy) / sizeof*(enemy) /* && pEnemy == NULL*/) {
-						if (pEnemy == NULL) {
-							cInGameController::Instance()->NextStage();
-							//強制敵にリザルトへ行くように変更　by髙城
-							//cInGameMgr::Instance()->ChangeScene(cInGameMgr::eResult);
-							EndIt();
-							Init();
-							return;
-						}
-						else {
-							//待機中フラグon
-							Stayflag = 1;
-							cInGameController::Instance()->InToRevive();
-							break;
-						}
-						
-					}
-
-				}//while文終了
-				randCount++;
-			}
-			else if (ReChoiceFlag == 1 && ChoiseOrderFlag == FALSE) {  //再抽選フラグonかつ、外部から再抽選を止められている場合
-
-				//待機中フラグon
-				Stayflag = 1;
-				
-				//attackflagがtrueの敵が一体でもいれば待機中フラグを切り替える
-				for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-					if (enemies[i]->GetEnemyAttackflg() == true && enemy[i].deathflag != TRUE) {
-						Stayflag = 0;
-					}
 				}
 
+			}//while文終了
+			randCount++;
+		}
+		else if (ReChoiceFlag == 1 && ChoiseOrderFlag == FALSE) {  //再抽選フラグonかつ、外部から再抽選を止められている場合
+
+																   //待機中フラグon
+			Stayflag = 1;
+
+			//attackflagがtrueの敵が一体でもいれば待機中フラグを切り替える
+			for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+				if (enemies[i]->GetEnemyAttackflg() == true && enemy[i].deathflag != TRUE) {
+					Stayflag = 0;
+				}
 			}
+
+		}
 
 	}//phase3処理終了
 
-	//敵のアニメーションカウント
+	 //敵のアニメーションカウント
 	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-		enemies[i]->AnimationCount();	
+		enemies[i]->AnimationCount();
 	}
 
 	if (EnemyDeathCount == GetMaxEnemy()) {
@@ -699,45 +700,45 @@ void cEnemyMgr::Update() {
 		}
 	}
 
-	////デバッグコマンド5:赤を連れているボス敵が消滅する
-	//if (Debug::Instance()->Get_Input(Key5) == 1) {
-	//	SetEnemyDeath(followEnemy[0]);
-	//}
+	//デバッグコマンド5:赤を連れているボス敵が消滅する
+	if (Debug::Instance()->Get_Input(Key5) == 1) {
+		SetEnemyDeath(followEnemy[0]);
+	}
 
-	////デバッグコマンド6:青の敵が消滅する
-	//if (Debug::Instance()->Get_Input(Key6) == 1) {
-	//	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-	//		if (enemy[i].etype == 0) {
-	//			SetEnemyDeath(i);
-	//		}
-	//	}
-	//}
+	//デバッグコマンド6:青の敵が消滅する
+	if (Debug::Instance()->Get_Input(Key6) == 1) {
+		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+			if (enemy[i].etype == 0) {
+				SetEnemyDeath(i);
+			}
+		}
+	}
 
-	////デバッグコマンド7:赤以外の敵が消滅する
-	//if (Debug::Instance()->Get_Input(Key7) == 1) {
-	//	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-	//		if (enemy[i].etype != 1) {
-	//			SetEnemyDeath(i);
-	//		}
-	//	}
-	//}
+	//デバッグコマンド7:赤以外の敵が消滅する
+	if (Debug::Instance()->Get_Input(Key7) == 1) {
+		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+			if (enemy[i].etype != 1) {
+				SetEnemyDeath(i);
+			}
+		}
+	}
 
-	////デバッグコマンド8:ボスギャラガ以外の敵が消滅する
-	//if (Debug::Instance()->Get_Input(Key8) == 1) {
-	//	for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
-	//		if (enemy[i].etype != 2) {
-	//			SetEnemyDeath(i);
-	//		}
-	//	}
-	//}
+	//デバッグコマンド8:ボスギャラガ以外の敵が消滅する
+	if (Debug::Instance()->Get_Input(Key8) == 1) {
+		for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+			if (enemy[i].etype != 2) {
+				SetEnemyDeath(i);
+			}
+		}
+	}
 
-	////デバッグコマンド9:敵が残り一体の状態になる
-	//if (Debug::Instance()->Get_Input(Key9) == 1) {
-	//	for (int i = 1; i < sizeof(enemy) / sizeof*(enemy); i++) {
-	//		SetEnemyDeath(i);
-	//		Phaseflag = 2;
-	//	}
-	//}
+	//デバッグコマンド9:敵が残り一体の状態になる
+	if (Debug::Instance()->Get_Input(Key9) == 1) {
+		for (int i = 1; i < sizeof(enemy) / sizeof*(enemy); i++) {
+			SetEnemyDeath(i);
+			Phaseflag = 2;
+		}
+	}
 
 	//フライトテキストが一定時間表示されたら、表示を消す
 	if (scoreText.count >= 60) {
@@ -901,9 +902,9 @@ void cEnemyMgr::Draw() {
 	DrawFormatString(0, 220, GetColor(255, 255, 255), "Stayflag:%d", Stayflag);
 	DrawFormatString(0, 240, GetColor(255, 255, 255), "ReChoiceFlag:%d", ReChoiceFlag);
 	DrawFormatString(0, 260, GetColor(255, 255, 255), "ChoiseOrderFlag:%d", ChoiseOrderFlag);
-	DrawFormatString(0, 300, GetColor(255, 255, 255), "SceneFlag:%d", cInGameMgr::Instance()->GetSceneFlg());*/
-	//DrawFormatString(0, 320, GetColor(255, 255, 255), "bossCount:%d", bossCount);
-	
+	DrawFormatString(0, 300, GetColor(255, 255, 255), "SceneFlag:%d", cInGameMgr::Instance()->GetSceneFlg());
+	DrawFormatString(0, 320, GetColor(255, 255, 255), "revive:%d", revive);
+	*/
 
 	/*
 	if (dummyEnemy != NULL) {
