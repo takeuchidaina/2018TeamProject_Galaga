@@ -402,7 +402,18 @@ void cEnemyMgr::Update() {
 
 				//敵1体分の再抽選を行う
 				attackNum = GetRand(39);
-				if (randCount % 3 == 0 && enemy[attackNum].etype != 2)continue;
+
+				//3回に一回緑が攻撃されるようにする
+				int bossCount = 0;
+				
+				for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+					//ボスが死んでいる場合は、カウントを加算
+					if (enemy[i].deathflag == true && enemy[i].etype == 2)bossCount++;
+				}
+
+				//ボスが全滅してない間だけ処理を行うように修正
+				if (randCount % 3 == 0 && enemy[attackNum].etype != 2 && bossCount!=4)continue;
+
 
 				//int tmp = 8;
 				//enemyCount = 1;*/
@@ -588,9 +599,19 @@ void cEnemyMgr::Update() {
 
 					debug++;
 
-					//敵の抽選
+					//敵1体分の再抽選を行う
 					attackNum = GetRand(39);
-					if (randCount % 3 == 0 && enemy[attackNum].etype != 2)continue;
+
+					//3回に一回緑が攻撃されるようにする
+					int bossCount = 0;
+
+					for (int i = 0; i < sizeof(enemy) / sizeof*(enemy); i++) {
+						//ボスが死んでいる場合は、カウントを加算
+						if (enemy[i].deathflag == true && enemy[i].etype == 2)bossCount++;
+					}
+
+					//ボスが全滅してない間だけ処理を行うように修正
+					if (randCount % 3 == 0 && enemy[attackNum].etype != 2 && bossCount != 4)continue;
 
 					//抽選された敵が生きている場合は、攻撃動作を行い処理を抜ける
 					if (enemy[attackNum].deathflag != TRUE) {  
@@ -880,9 +901,9 @@ void cEnemyMgr::Draw() {
 	DrawFormatString(0, 220, GetColor(255, 255, 255), "Stayflag:%d", Stayflag);
 	DrawFormatString(0, 240, GetColor(255, 255, 255), "ReChoiceFlag:%d", ReChoiceFlag);
 	DrawFormatString(0, 260, GetColor(255, 255, 255), "ChoiseOrderFlag:%d", ChoiseOrderFlag);
-	DrawFormatString(0, 300, GetColor(255, 255, 255), "SceneFlag:%d", cInGameMgr::Instance()->GetSceneFlg());
-	DrawFormatString(0, 320, GetColor(255, 255, 255), "revive:%d", revive);
-	*/
+	DrawFormatString(0, 300, GetColor(255, 255, 255), "SceneFlag:%d", cInGameMgr::Instance()->GetSceneFlg());*/
+	//DrawFormatString(0, 320, GetColor(255, 255, 255), "bossCount:%d", bossCount);
+	
 
 	/*
 	if (dummyEnemy != NULL) {
