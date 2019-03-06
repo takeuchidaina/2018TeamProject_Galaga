@@ -31,7 +31,7 @@ int cInGameController::BeforeSceneUpdate() {
 
 int cInGameController::BeforeSceneDraw() {
 	//DrawFormatString(0, 40, GetColor(255, 255, 255), "%d", count);
-	if (count < 90 && count > 0) {
+	if (count < 120 && count > 0) {
 		char tmp[256];
 		snprintf(tmp, 255, "STAGE %d", nowStageNum);
 		cTextChange::Instance()->DrawTextImage(350, 400, tmp, eLBlue, eMag48);

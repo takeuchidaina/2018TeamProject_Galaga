@@ -19,8 +19,8 @@ class cFps : public cSingleton<cFps>{
 	int mStartTime;         //測定開始時刻
 	int mCount;             //カウンタ
 	float mFps;             //fps
-	static const int N = 90;//平均を取るサンプル数
-	static const int FPS = 90;	//設定したFPS
+	static const int N = 85;//平均を取るサンプル数
+	static const int FPS = 85;	//設定したFPS
 
 public:
 

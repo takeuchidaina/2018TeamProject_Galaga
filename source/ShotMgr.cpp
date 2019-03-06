@@ -39,6 +39,22 @@ void cShotMgr::Init() {
 	hitFlg = FALSE;
 }
 
+void cShotMgr::Init2() {
+	delete[] enemyShot;
+	delete[] player1Shot;
+	delete[] player2Shot;
+	enemyShot = new cShot[ENEMYSHOTNUM];
+	player1Shot = new cShot[PLAYERSHOTNUM];
+	player2Shot = new cShot[PLAYERSHOTNUM];
+	shotRate = 0;
+	ShotFlg = 1;
+
+	tractorCnt = 0;
+	tmpCnt = 0;
+	tractorOnActive = FALSE;
+	hitFlg = FALSE;
+}
+
 cShotMgr::~cShotMgr() {
 	delete[] enemyShot;
 	delete[] player1Shot;
@@ -192,7 +208,7 @@ int cShotMgr::TractorShot(sEnemy* tmp) {
 				if (cSE::Instance()->GetSeActive(mistake_12) == 0)cSE::Instance()->selectSE(mistake_12);
 					
 			}
-			if (tractorCnt > 30) {
+			if (tractorCnt > 29) {
 				tractorOnActive = FALSE;
 				hitFlg = FALSE;
 				tractorCnt = 0;

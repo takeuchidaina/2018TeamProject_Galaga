@@ -137,7 +137,7 @@ void cInGameMgr::Update() {
 		if (cSE::Instance()->GetSeActive(gamestart) == 0) {
 			cInGameController::Instance()->BeforeSceneUpdate();
 		}
-		
+		cShotMgr::Instance()->Init2();
 		cEffectMgr::Instance()->Update();
 		cSaveLoad::Instance()->Load();
 		//

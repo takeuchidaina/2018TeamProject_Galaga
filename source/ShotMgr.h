@@ -38,7 +38,7 @@ private:
 	int ShotFlg;
 
 	//ƒgƒ‰ƒNƒ^[ŠÖŒW
-	int tractorGrHandle[12];
+	int tractorGrHandle[15];
 	int tractorOnActive;
 	int hitFlg;
 	int tractorCnt;
@@ -51,6 +51,7 @@ public:
 	int Update();	//ŒvZˆ—
 	int Draw();		//•`Êˆ—
 	void Init();
+	void Init2();
 	int Break(int,int);    //’e‚ğÁ‚·ŠÖ”
 	int EnemyShot(double,double);
 	int TractorShot(sEnemy*);
