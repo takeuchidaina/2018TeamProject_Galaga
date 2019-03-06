@@ -469,7 +469,7 @@ void cGreenEnemy::EndlessUpdate() {
 				enemy.mainpos.onActive = SetPos;
 				enemy.count = 0;
 				if (enemy.countflg[enemy.moveflg] <= enemy.count) {
-					if (cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::Instance()->eDeath) {
+					if (cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::Instance()->eDeath || cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::Instance()->eRevival) {
 						PlayerDeath = true;
 						enemy.moveflg++;
 					}
@@ -515,7 +515,7 @@ void cGreenEnemy::EndlessUpdate() {
 			else {
 				enemy.ang = -90 * M_PI / 180;
 				enemy.attackflg = false;
-				PlayerDeath == false;
+				PlayerDeath = false;
 				enemy.moveflg = 0;
 			}
 			break;

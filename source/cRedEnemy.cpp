@@ -94,7 +94,7 @@ void cRedEnemy::Move() {
 				enemy.mainpos.pos.y += enemy.vct.y*enemy.spd;
 			}
 			else {
-				enemy.vct.x = cos(enemy.ang)* enemy.dir;
+				enemy.vct.x = cos(enemy.ang);
 				enemy.vct.y = sin(enemy.ang);
 			}
 		}
@@ -298,8 +298,7 @@ void cRedEnemy::EndlessUpdate() {
 				enemy.mainpos.pos.x = enemy.target.x;
 				enemy.mainpos.pos.y = enemy.target.y;
 				enemy.count = 0;
-				enemy.mainpos.onActive = SetPos;
-				if (cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::Instance()->eDeath) {
+				if (cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::Instance()->eDeath || cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::Instance()->eRevival) {
 					PlayerDeath = true;
 					enemy.moveflg++;
 				}
@@ -344,7 +343,7 @@ void cRedEnemy::EndlessUpdate() {
 			else {
 				enemy.ang = -90 * M_PI / 180;
 				enemy.attackflg = false;
-				PlayerDeath == false;
+				PlayerDeath = false;
 				enemy.moveflg = 0;
 			}
 			

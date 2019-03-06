@@ -287,7 +287,7 @@ void cBlueEnemy::EndlessUpdate() {
 				enemy.mainpos.pos.x = enemy.target.x;
 				enemy.mainpos.pos.y = enemy.target.y;
 				enemy.mainpos.onActive = SetPos;
-					if (cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::Instance()->eDeath) {
+				if (cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::Instance()->eDeath || cInGameMgr::Instance()->GetSceneFlg() == cInGameMgr::Instance()->eRevival) {
 						PlayerDeath = true;
 						enemy.count = 0;
 						enemy.moveflg++;
