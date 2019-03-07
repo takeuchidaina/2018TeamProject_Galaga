@@ -173,7 +173,7 @@ int cInGameController::TractorSceneDraw() {
 
 //ƒŠƒUƒ‹ƒg‰æ–Ê
 int cInGameController::ResultUpdate() {
-	if (cInterface::Instance()->Get_Input(InDECISION) == 1) {
+	if (cInterface::Instance()->Get_Input(InENTER) == 1) {
 		cInGameMgr::Instance()->ChangeScene(cInGameMgr::eBefore);
 		cSceneMgr::Instance()->ChangeScene(eStartMenu);
 		nowStageNum = 1;
