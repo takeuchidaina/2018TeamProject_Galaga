@@ -211,7 +211,7 @@ void cPlayer::Double()
 	int newMachine;		// 新しい機体
 
 	isDoubleFlg = TRUE;
-	playerHP--;
+	//playerHP--;
 	cUI::Instance()->UI_SetPlayerHP(playerHP);
 
 	//どの機体がアクティブ状態か判断
